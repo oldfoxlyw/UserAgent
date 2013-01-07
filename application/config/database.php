@@ -95,6 +95,22 @@ $db['fundsdb']['swap_pre'] = '';
 $db['fundsdb']['autoinit'] = TRUE;
 $db['fundsdb']['stricton'] = FALSE;
 
+$db['comdb']['hostname'] = 'localhost';
+$db['comdb']['username'] = 'useragent';
+$db['comdb']['password'] = 'carM2u6ZTJq5fJWM';
+$db['comdb']['database'] = 'agent_commercial_db';
+$db['comdb']['dbdriver'] = 'mysql';
+$db['comdb']['dbprefix'] = '';
+$db['comdb']['pconnect'] = FALSE;
+$db['comdb']['db_debug'] = TRUE;
+$db['comdb']['cache_on'] = FALSE;
+$db['comdb']['cachedir'] = '';
+$db['comdb']['char_set'] = 'utf8';
+$db['comdb']['dbcollat'] = 'utf8_general_ci';
+$db['comdb']['swap_pre'] = '';
+$db['comdb']['autoinit'] = TRUE;
+$db['comdb']['stricton'] = FALSE;
+
 $db['logdb']['hostname'] = 'localhost';
 $db['logdb']['username'] = 'useragent';
 $db['logdb']['password'] = 'carM2u6ZTJq5fJWM';
