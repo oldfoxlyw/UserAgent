@@ -8,19 +8,29 @@ class Payment extends CI_Controller {
 	public function __construct() {
 		parent::__construct();
 		$this->root_path = $this->config->item('root_path');
-		$this->load->model('websrv/order');
+		$this->load->model('websrv/tenpay_connector');
 		$this->load->model('logs');
 		$this->load->model('return_format');
 		$this->load->model('param_check');
 	}
 	
 	public function init($format = 'json') {
-		$productInfo = $this->input->post('productInfo', TRUE);
-		$productName = $this->input->post('productName', TRUE);
-		$totalFee = $this->input->post('totalFee', TRUE);
+		$accountId = $this->input->get_post('accountId', TRUE);
+		$productInfo = $this->input->get_post('productInfo', TRUE);
+		$productName = $this->input->get_post('productName', TRUE);
+		$totalFee = $this->input->get_post('totalFee', TRUE);
 		
-		if(!empty($productInfo) && !empty($productName) && !empty($totalFee)) {
-			
+		if(!empty($accountId) && !empty($productInfo) && !empty($productName) && !empty($totalFee)) {
+			$parameter = array(
+				'account_id'			=>	$accountId,
+				'item_name'			=>	$productName,
+				'item_info'				=>	$productInfo,
+				'recharge_amount'	=>	$totalFee,
+				'recharge_type'		=>	'TENPAY',
+				'recharge_status'	=>	'PROCESS',
+				'order_time'			=>	time()
+			);
+			$this->tenpay_connector->startPayment($parameter);
 		} else {
 			$jsonData = array(
 				'message'		=>	'PAYMENT_NO_PARAM'

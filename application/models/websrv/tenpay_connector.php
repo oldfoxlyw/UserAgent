@@ -11,14 +11,31 @@ class Tenpay_connector extends CI_Model {
 		parent::__construct();
 		$this->id = $this->config->item('tenpay_mhc_id');
 		$this->key = $this->config->item('tenpay_mhc_key');
-		$this->productdb = $this->load->database('comdb', true);
+		$this->comdb = $this->load->database('comdb', true);
 		
 		$this->load->helper('signature');
 	}
 	
 	public function startPayment($parameter)
 	{
-		$this->get('https://gw.tenpay.com/gateway/pay.htm', $parameter);
+// 		echo PHP_INT_MAX;
+// 		exit();
+		$this->comdb->insert($this->accountTable, $parameter);
+		$orderId = $this->comdb->insert_id();
+		
+		exit(strval($orderId));
+		$tenpayParam = array(
+			'body'			=>	$parameter['item_info'],
+			'subject'			=>	$parameter['item_name'],
+			'return_url'		=>	'http://42.121.82.226:8081/',
+			'notify_url'		=>	'http://localhost/UserAgent/websrv/payment/notifyCallback',
+			'partner'		=>	$this->id,
+			'out_trade_no'=>	strval($orderId),
+			'total_fee'		=>	$parameter['recharge_amount'],
+			'fee_type'		=>	1,
+			'spbill_create_ip'=>$this->input->ip_address()
+		);
+		$this->get('https://gw.tenpay.com/gateway/pay.htm', $tenpayParam);
 	}
 	
 	private function post($url, $parameter = null)
