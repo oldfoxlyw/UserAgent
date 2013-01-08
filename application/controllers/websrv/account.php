@@ -483,14 +483,10 @@ class Account extends CI_Controller {
 					$user = $this->web_account->get($guid);
 		            unset($user->account_secret_key);
 	            	$user->account_pass = $pass;
-	            	$nickName = substr($user->account_name, 0, 11);
-	            	$accountId = $this->_registerAccountId($name, $guid, $gameId, $server_id, $section_id, $nickName);
 	            	
 					$jsonData = Array(
 						'message'	=>	'ACCOUNT_DEMO_SUCCESS',
-						'user'		=>	$user,
-						'account_id'=>	$accountId,
-						'nick_name'	=>	$nickName
+						'user'		=>	$user
 					);
 					echo $this->return_format->format($jsonData, $format);
 					
@@ -551,14 +547,9 @@ class Account extends CI_Controller {
 	}
 	
 	public function modify($format = 'json') {
-		$accountId	=	$this->input->get_post('account_id', TRUE);
+		$accountId	=	$this->input->get_post('guid', TRUE);
 		$name		=	$this->input->get_post('account_name', TRUE);
 		$pass		=	$this->input->get_post('account_pass', TRUE);
-		$nickName	=	$this->input->get_post('nick_name', TRUE);
-		$accountEmail=	$this->input->get_post('account_email', TRUE);
-		$country	=	$this->input->get_post('account_country', TRUE);
-		$question	=	$this->input->get_post('account_question', TRUE);
-		$answer		=	$this->input->get_post('account_answer', TRUE);
 		$gameId		=	$this->input->get_post('game_id', TRUE);
 		
 		if(!empty($accountId) && $gameId!=FALSE) {
@@ -587,10 +578,9 @@ class Account extends CI_Controller {
 			 */
 			
 			//取得GUID
-			$this->load->model('game_account');
-			$gameAccount = $this->game_account->get($accountId);
-			if($gameAccount!=FALSE) {
-				$guid = $gameAccount->account_guid;
+			$webAccount = $this->web_account->get($accountId);
+			if($webAccount!=FALSE) {
+				$guid = $webAccount->GUID;
 			} else {
 				$jsonData = Array(
 					'message'	=>	'ACCOUNT_ERROR_NOT_EXIST'
@@ -612,46 +602,31 @@ class Account extends CI_Controller {
 			}
 			if(!empty($pass)) {
 				$this->load->helper('security');
-				$row['account_pass'] = strtoupper(do_hash(do_hash($pass, 'md5') . do_hash($pass), 'md5'));
-			}
-			if(!empty($accountEmail)) {
-				$row['account_email'] = $accountEmail;
-			}
-			if(!empty($country)) {
-				$row['account_country'] = $country;
-			}
-			if(!empty($question)) {
-				$row['account_pass_question'] = $question;
-			}
-			if(!empty($answer)) {
-				$row['account_pass_answer'] = $answer;
+				$row['account_pass'] = $this->web_account->encrypt_pass($pass);
 			}
 			
 			if(!empty($row)) {
 				if(!empty($name) || !empty($pass)) {
-					$account = $this->web_account->get($guid);
-					$name = empty($name) ? $account->account_name : $name;
+					$name = empty($name) ? $webAccount->account_name : $name;
 					$needEncrypt = false;
 					if(empty($pass)) {
-						$pass = $account->account_pass;
+						$pass = $webAccount->account_pass;
 					} else {
 						$needEncrypt = true;
 					}
-					if($account != FALSE) {
-						if(!$this->web_account->validate_duplicate($name, $pass, $gameId, $account->server_id, $account->server_section, $needEncrypt)) {
-							$jsonData = Array(
-								'message'	=>	'ACCOUNT_ERROR_DUPLICATE'
-							);
-							echo $this->return_format->format($jsonData, $format);
-							
-							$logParameter = array(
-								'log_action'	=>	'ACCOUNT_MODIFY_FAIL_DUPLICATE',
-								'account_guid'	=>	$guid,
-								'account_name'	=>	$name
-							);
-							$this->logs->write($logParameter);
-							exit();
-						}
+					if(!$this->web_account->validate_duplicate($name, $pass, $gameId, $account->server_id, $account->server_section, $needEncrypt)) {
+						$jsonData = Array(
+							'message'	=>	'ACCOUNT_ERROR_DUPLICATE'
+						);
+						echo $this->return_format->format($jsonData, $format);
+						
+						$logParameter = array(
+							'log_action'	=>	'ACCOUNT_MODIFY_FAIL_DUPLICATE',
+							'account_guid'	=>	$guid,
+							'account_name'	=>	$name
+						);
+						$this->logs->write($logParameter);
+						exit();
 					}
 				}
 				if($this->web_account->update($row, $guid)) {
@@ -679,36 +654,6 @@ class Account extends CI_Controller {
 					);
 					$this->logs->write($logParameter);
 				}
-			} elseif(!empty($nickName)) {
-				$parameter = array(
-					'nick_name'		=>	$nickName
-				);
-				if($this->game_account->update($parameter, $accountId)) {
-					$jsonData = Array(
-						'message'	=>	'ACCOUNT_MODIFY_SUCCESS'
-					);
-					echo $this->return_format->format($jsonData, $format);
-					
-					$logParameter = array(
-						'log_action'	=>	'ACCOUNT_MODIFY_SUCCESS',
-						'account_guid'	=>	$guid,
-						'account_name'	=>	$name
-					);
-					$this->logs->write($logParameter);
-				} else {
-					$jsonData = Array(
-						'message'	=>	'ACCOUNT_MODIFY_NICKNAME_FAIL'
-					);
-					echo $this->return_format->format($jsonData, $format);
-					
-					$logParameter = array(
-						'log_action'	=>	'ACCOUNT_MODIFY_NICKNAME_FAIL',
-						'account_guid'	=>	$guid,
-						'account_name'	=>	$name
-					);
-					$this->logs->write($logParameter);
-					exit();
-				}
 			} else {
 				$jsonData = Array(
 					'message'	=>	'ACCOUNT_MODIFY_NOTHING'
@@ -735,207 +680,6 @@ class Account extends CI_Controller {
 			);
 			$this->logs->write($logParameter);
 		}
-	}
-	
-	public function requestAccountId($format = 'json') {
-		$accountGuid	=	$this->input->get_post('account_guid', TRUE);
-		$nickName		=	$this->input->get_post('nick_name', TRUE);
-		$gameId			=	$this->input->get_post('game_id', TRUE);
-		$serverSection	=	$this->input->get_post('server_section', TRUE);
-		$serverId		=	$this->input->get_post('server_id', TRUE);
-		$autoCreate		=	$this->input->get_post('auto_create', TRUE);
-		
-		if($autoCreate === FALSE || ($autoCreate !== '0' && $autoCreate !== '1')) {
-			$autoCreate = true;
-		} else {
-			$autoCreate = $autoCreate=='1' ? true : false;
-		}
-		$nickName = $nickName===FALSE ? '' : $nickName;
-		
-		$this->load->model('game_account');
-		$this->load->model('game_product');
-		
-		if(!empty($accountGuid) &&
-		$gameId!==FALSE &&
-		$serverId!==FALSE &&
-		$serverSection!==FALSE) {
-			/*
-			 * 检测参数合法性
-			 */
-			$authToken	=	$this->authKey[$gameId]['auth_key'];
-			$check = array($accountGuid, $gameId, $serverSection, $serverId);
-			//$this->load->helper('security');
-			//exit(do_hash(implode('|||', $check) . '|||' . $authToken));
-			if(!$this->param_check->check($check, $authToken)) {
-				$jsonData = Array(
-					'message'	=>	'PARAM_INVALID'
-				);
-				echo $this->return_format->format($jsonData, $format);
-				$logParameter = array(
-					'log_action'	=>	'PARAM_INVALID',
-					'account_guid'	=>	$accountGuid,
-					'account_name'	=>	''
-				);
-				$this->logs->write($logParameter);
-				exit();
-			}
-			/*
-			 * 检查完毕
-			 */
-			
-			if($this->game_product->get($gameId) != false) {
-				$accountResult = $this->web_account->get($accountGuid);
-				if($accountResult != false) {
-					$parameter = array(
-						'account_guid'				=>	$accountGuid,
-						'game_id'					=>	$gameId,
-						'account_server_id'			=>	$serverId,
-						'account_server_section'	=>	$serverSection
-					);
-					$result = $this->game_account->getAllResult($parameter);
-					if($result != FALSE) {
-						$accountId = $result[0]->account_id;
-					} else {
-						if($autoCreate) {
-							$accountId = $this->_registerAccountId($accountResult->account_name, $accountGuid, $gameId, $serverId, $serverSection, $nickName);
-							if($accountId === FALSE) {
-								$jsonData = Array(
-									'message'	=>	'ACCOUNT_ERROR_NO_SECTION'
-								);
-								exit($this->return_format->format($jsonData, $format));
-							}
-						} else {
-							$jsonData = Array(
-								'message'	=>	'ACCOUNT_ERROR_NO_ID'
-							);
-							exit($this->return_format->format($jsonData, $format));
-							
-							$logParameter = array(
-								'log_action'	=>	'ACCOUNT_ERROR_NO_ID',
-								'account_guid'	=>	$accountGuid,
-								'account_name'	=>	''
-							);
-							$this->logs->write($logParameter);
-						}
-					}
-					$parameter = array(
-						'account_active'		=>	1,
-						'account_active_week'		=>	1,
-						'account_active_month'		=>	1
-					);
-					$this->game_account->update($parameter, $accountId);
-					
-					$jsonData = Array(
-						'message'	=>	'ACCOUNT_REQUEST_ID_SUCCESS',
-						'account_id'=>	$accountId,
-						'nick_name'	=>	$nickName
-					);
-					echo $this->return_format->format($jsonData, $format);
-					
-					$logParameter = array(
-						'log_action'	=>	'ACCOUNT_REQUEST_ID_SUCCESS',
-						'account_guid'	=>	$accountGuid,
-						'account_name'	=>	$accountId
-					);
-					$this->logs->write($logParameter);
-				} else {
-					$jsonData = Array(
-						'message'	=>	'ACCOUNT_ERROR_NO_GUID'
-					);
-					echo $this->return_format->format($jsonData, $format);
-					
-					$logParameter = array(
-						'log_action'	=>	'ACCOUNT_ERROR_NO_GUID',
-						'account_guid'	=>	$accountGuid,
-						'account_name'	=>	''
-					);
-					$this->logs->write($logParameter);
-				}
-			} else {
-				$jsonData = Array(
-					'message'	=>	'ACCOUNT_ERROR_NO_GAME'
-				);
-				echo $this->return_format->format($jsonData, $format);
-				
-				$logParameter = array(
-					'log_action'	=>	'ACCOUNT_ERROR_NO_GAME',
-					'account_guid'	=>	$accountGuid,
-					'account_name'	=>	''
-				);
-				$this->logs->write($logParameter);
-			}
-		} else {
-			$jsonData = Array(
-				'message'	=>	'ACCOUNT_ERROR_NO_PARAM'
-			);
-			echo $this->return_format->format($jsonData, $format);
-			
-			$logParameter = array(
-				'log_action'	=>	'ACCOUNT_ERROR_NO_PARAM',
-				'account_guid'	=>	'',
-				'account_name'	=>	''
-			);
-			$this->logs->write($logParameter);
-		}
-	}
-	
-	private function _registerAccountId($accountName, $accountGuid, $gameId, $serverId, $serverSection, $nickName = '') {
-		if(!empty($accountGuid) &&
-		$gameId!==FALSE &&
-		$serverId!==FALSE &&
-		$serverSection!==FALSE) {
-			$this->load->model('game_account');
-			$accountId = $this->_generateAccountId($gameId, $serverId, $serverSection);
-			if($accountId === false) {
-				return false;
-			}
-			$parameter = array(
-				'account_id'			=>	$accountId,
-				'account_name'		=>	$accountName,
-				'account_guid'			=>	$accountGuid,
-				'game_id'				=>	$gameId,
-				'account_server_id'		=>	$serverId,
-				'account_server_section'=>	$serverSection,
-				'nick_name'				=>	$nickName
-			);
-			$this->game_account->insert($parameter);
-			$this->load->model('websrv/account_added_game', 'account_game');
-			$gameAdded = $this->account_game->get($accountGuid, $gameId);
-			if($gameAdded===FALSE) {
-				$parameter = array(
-					'GUID'		=>	$accountGuid,
-					'game_id'	=>	$gameId
-				);
-				$this->account_game->insert($parameter);
-			}
-			return $accountId;
-		} else {
-			return false;
-		}
-	}
-	
-	private function _generateAccountId($gameId, $serverId, $serverSection) {
-		$this->load->model('websrv/account_count');
-		$parameter = array(
-			'game_id'				=>	$gameId,
-			'account_server_id'		=>	$serverId,
-			'account_server_section'=>	$serverSection
-		);
-		$nextAvailableId = $this->account_count->getNextAvailableId($parameter);
-		if($nextAvailableId < 0) {
-			return false;
-		}
-		/*
-		$code = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-		$accountId = substr($code, $gameId - 1, 1);
-		$accountId .= substr($code, $serverSection - 1, 1);
-		$accountId .= substr($code, $serverId - 1, 1);
-		*/
-		$accountId = $gameId . $serverSection . $serverId;
-		
-		$containCount = $this->config->item('contain_id_count');
-		$accountId .= sprintf('%0' . $containCount . 'd', $nextAvailableId);
-		return $accountId;
 	}
 }
 

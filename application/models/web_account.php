@@ -70,9 +70,7 @@ class Web_account extends CI_Model {
 			*/
 			
 			$parameter['pass'] = $this->encrypt_pass($parameter['pass']);
-			$guid = $this->guid->toString();
 			$insertArray = array(
-				'GUID'					=>	$guid,
 				'account_name'			=>	$parameter['name'],
 				'account_pass'			=>	$parameter['pass'],
 				'account_email'			=>	$parameter['email'],
@@ -87,7 +85,7 @@ class Web_account extends CI_Model {
 				'account_regtime'		=>	time()
 			);
 			if($this->accountdb->insert($this->accountTable, $insertArray)) {
-				return $guid;
+				return $this->accountdb->insert_id();
 			} else {
 				return false;
 			}
