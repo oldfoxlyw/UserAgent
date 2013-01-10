@@ -614,7 +614,7 @@ class Account extends CI_Controller {
 					} else {
 						$needEncrypt = true;
 					}
-					if(!$this->web_account->validate_duplicate($name, $pass, $gameId, $account->server_id, $account->server_section, $needEncrypt)) {
+					if(!$this->web_account->validate_duplicate($name, $pass, $gameId, $webAccount->server_id, $webAccount->server_section, $needEncrypt)) {
 						$jsonData = Array(
 							'message'	=>	'ACCOUNT_ERROR_DUPLICATE'
 						);
