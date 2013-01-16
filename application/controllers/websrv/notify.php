@@ -94,6 +94,7 @@ class Notify extends CI_Controller {
 	
 	public function buy($format = 'json') {
 		$accountId = $this->input->get_post('account_id', TRUE);
+		$nickName = $this->input->get_post('nick_name', TRUE);
 		$type = $this->input->get_post('type', TRUE);
 		$itemSpendId = $this->input->get_post('item_spend_id', TRUE);
 		$itemSpendName = urldecode($this->input->get_post('item_spend_name', TRUE));
@@ -152,7 +153,7 @@ class Notify extends CI_Controller {
 					$parameter = array(
 						'account_guid'			=>	$result->account_guid,
 						'account_name'			=>	$result->account_name,
-						'account_nickname'		=>	$result->nick_name,
+						'account_nickname'		=>	empty($nickName) ? $result->nick_name : $nickName,
 						'account_id'				=>	$accountId,
 						'game_id'					=>	$gameId,
 						'server_id'					=>	$serverId,
@@ -172,7 +173,7 @@ class Notify extends CI_Controller {
 					$parameter = array(
 						'log_account_id'				=>	$accountId,
 						'log_account_name'		=>	$result->account_name,
-						'log_account_nickname'	=>	$result->nick_name,
+						'log_account_nickname'	=>	empty($nickName) ? $result->nick_name : $nickName,
 						'log_type'						=>	$type,
 						'log_spend_item_id'		=>	$itemSpendId,
 						'log_spend_item_name'	=>	$itemSpendName,
@@ -196,7 +197,7 @@ class Notify extends CI_Controller {
 								$parameter = array(
 									'log_account_id'				=>	$accountId,
 									'log_account_name'		=>	$result->account_name,
-									'log_account_nickname'	=>	$result->nick_name,
+									'log_account_nickname'	=>	empty($nickName) ? $result->nick_name : $nickName,
 									'log_type'						=>	$type,
 									'log_spend_item_id'		=>	$spendIdArray[$i],
 									'log_spend_item_name'	=>	$spendNameArray[$i],
@@ -216,7 +217,7 @@ class Notify extends CI_Controller {
 						$parameter = array(
 							'log_account_id'				=>	$accountId,
 							'log_account_name'		=>	$result->account_name,
-							'log_account_nickname'	=>	$result->nick_name,
+							'log_account_nickname'	=>	empty($nickName) ? $result->nick_name : $nickName,
 							'log_type'						=>	$type,
 // 							'log_spend_item_id'		=>	$spendIdArray[$i],
 // 							'log_spend_item_name'	=>	$spendNameArray[$i],
@@ -236,12 +237,13 @@ class Notify extends CI_Controller {
 							'message'	=>	'BUY_ERROR_COUNT_NOT_MATCH'
 						);
 						echo $this->return_format->format($jsonData, $format);
+						exit();
 					}
 				} elseif (count($spendIdArray) == 1 && count($getIdArray) > 1) {
 					$parameter = array(
 						'log_account_id'				=>	$accountId,
 						'log_account_name'		=>	$result->account_name,
-						'log_account_nickname'	=>	$result->nick_name,
+						'log_account_nickname'	=>	empty($nickName) ? $result->nick_name : $nickName,
 						'log_type'						=>	$type,
 						'log_spend_item_id'		=>	$itemSpendId,
 						'log_spend_item_name'	=>	$itemSpendName,
@@ -264,7 +266,7 @@ class Notify extends CI_Controller {
 								$parameter = array(
 									'log_account_id'				=>	$accountId,
 									'log_account_name'		=>	$result->account_name,
-									'log_account_nickname'	=>	$result->nick_name,
+									'log_account_nickname'	=>	empty($nickName) ? $result->nick_name : $nickName,
 									'log_type'						=>	$type,
 	// 								'log_spend_item_id'		=>	$spendIdArray[$i],
 	// 								'log_spend_item_name'	=>	$spendNameArray[$i],
@@ -286,6 +288,7 @@ class Notify extends CI_Controller {
 							'message'	=>	'BUY_ERROR_COUNT_NOT_MATCH'
 						);
 						echo $this->return_format->format($jsonData, $format);
+						exit();
 					}
 				} else {
 					$spendNameArray = explode(',', $itemSpendName);
@@ -296,7 +299,7 @@ class Notify extends CI_Controller {
 								$parameter = array(
 										'log_account_id'				=>	$accountId,
 										'log_account_name'		=>	$result->account_name,
-										'log_account_nickname'	=>	$result->nick_name,
+										'log_account_nickname'	=>	empty($nickName) ? $result->nick_name : $nickName,
 										'log_type'						=>	$type,
 										'log_spend_item_id'		=>	$spendIdArray[$i],
 										'log_spend_item_name'	=>	$spendNameArray[$i],
@@ -318,6 +321,7 @@ class Notify extends CI_Controller {
 							'message'	=>	'BUY_ERROR_COUNT_NOT_MATCH'
 						);
 						echo $this->return_format->format($jsonData, $format);
+						exit();
 					}
 					$getNameArray = explode(',', $itemGetName);
 					$getCountArray = explode(',', $itemGetCount);
@@ -327,7 +331,7 @@ class Notify extends CI_Controller {
 								$parameter = array(
 									'log_account_id'				=>	$accountId,
 									'log_account_name'		=>	$result->account_name,
-									'log_account_nickname'	=>	$result->nick_name,
+									'log_account_nickname'	=>	empty($nickName) ? $result->nick_name : $nickName,
 									'log_type'						=>	$type,
 	// 								'log_spend_item_id'		=>	$spendIdArray[$i],
 	// 								'log_spend_item_name'	=>	$spendNameArray[$i],
@@ -349,13 +353,20 @@ class Notify extends CI_Controller {
 							'message'	=>	'BUY_ERROR_COUNT_NOT_MATCH'
 						);
 						echo $this->return_format->format($jsonData, $format);
+						exit();
 					}
 				}
+				$jsonData = Array(
+					'message'	=>	'BUY_NOTIFY_SUCCESS'
+				);
+				echo $this->return_format->format($jsonData, $format);
+				exit();
 			} else {
 				$jsonData = Array(
 					'message'	=>	'BUY_ERROR_NO_ACCOUNT_ID'
 				);
 				echo $this->return_format->format($jsonData, $format);
+				exit();
 			}
 		} else {
 			$jsonData = Array(
