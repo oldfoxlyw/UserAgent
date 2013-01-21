@@ -80,6 +80,7 @@ class Orders extends CI_Controller {
 							'message'	=>	'RECHARGE_ERROR_NO_ACCOUNT_ID'
 					);
 					echo $this->return_format->format($jsonData, $format);
+					exit();
 				}
 			} else {
 				$this->order->addCount($checkSum);
