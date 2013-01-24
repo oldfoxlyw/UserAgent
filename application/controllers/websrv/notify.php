@@ -3,7 +3,7 @@
 class Notify extends CI_Controller {
 	private $root_path = null;
 	private $authKey = null;
-	
+	const DARK_CRYSTAL_ID='9000004';
 	
 	public function __construct() {
 		parent::__construct();
@@ -170,6 +170,16 @@ class Notify extends CI_Controller {
 				$spendIdArray = explode(',', $itemSpendId);
 				$getIdArray = explode(',', $itemGetId);
 				if(count($spendIdArray) == count($getIdArray) && count($spendIdArray) == 1) {
+					if($spendIdArray[0]==DARK_CRYSTAL_ID)
+					{
+						$itemFee = intval($itemSpendCount) > 0 ? -intval($itemSpendCount) : intval($itemSpendCount);
+						$currentCash = intval($result->account_cash);
+						$currentCash += $itemFee;
+						$parameter = array(
+							'account_cash'	=>	$currentCash
+						);
+						$this->game_account->update($parameter, $accountId);
+					}
 					$parameter = array(
 						'log_account_id'				=>	$accountId,
 						'log_account_name'		=>	$result->account_name,
@@ -193,26 +203,34 @@ class Notify extends CI_Controller {
 					$spendCountArray = explode(',', $itemSpendCount);
 					if(count($spendIdArray)==count($spendNameArray) && count($spendIdArray)==count($spendCountArray)) {
 						for($i=0; $i<count($spendIdArray); $i++) {
-							if(intval($spendCountArray[$i]) > 0) {
+							if($spendIdArray[$i]==DARK_CRYSTAL_ID)
+							{
+								$itemFee = intval($spendCountArray[$i]) > 0 ? -intval($spendCountArray[$i]) : intval($spendCountArray[$i]);
+								$currentCash = intval($result->account_cash);
+								$currentCash += $itemFee;
 								$parameter = array(
-									'log_account_id'				=>	$accountId,
-									'log_account_name'		=>	$result->account_name,
-									'log_account_nickname'	=>	empty($nickName) ? $result->nick_name : $nickName,
-									'log_type'						=>	$type,
-									'log_spend_item_id'		=>	$spendIdArray[$i],
-									'log_spend_item_name'	=>	$spendNameArray[$i],
-									'log_spend_item_count'	=>	$spendCountArray[$i],
-									//'log_get_item_id'				=>	'',
-									//'log_get_item_name'		=>	'',
-									//'log_get_item_count'		=>	$itemGetCount,
-									'log_time'						=>	$time,
-									'log_local_time'				=>	date('Y-m-d H:i:s', $time),
-									'game_id'						=>	$gameId,
-									'server_section'				=>	$sectionId,
-									'server_id'						=>	$serverId
+									'account_cash'	=>	$currentCash
 								);
-								$this->log_mall->insert($parameter);
+								$this->game_account->update($parameter, $accountId);
 							}
+							$parameter = array(
+								'log_account_id'				=>	$accountId,
+								'log_account_name'		=>	$result->account_name,
+								'log_account_nickname'	=>	empty($nickName) ? $result->nick_name : $nickName,
+								'log_type'						=>	$type,
+								'log_spend_item_id'		=>	$spendIdArray[$i],
+								'log_spend_item_name'	=>	$spendNameArray[$i],
+								'log_spend_item_count'	=>	$spendCountArray[$i],
+								//'log_get_item_id'				=>	'',
+								//'log_get_item_name'		=>	'',
+								//'log_get_item_count'		=>	$itemGetCount,
+								'log_time'						=>	$time,
+								'log_local_time'				=>	date('Y-m-d H:i:s', $time),
+								'game_id'						=>	$gameId,
+								'server_section'				=>	$sectionId,
+								'server_id'						=>	$serverId
+							);
+							$this->log_mall->insert($parameter);
 						}
 						$parameter = array(
 							'log_account_id'				=>	$accountId,
@@ -240,6 +258,16 @@ class Notify extends CI_Controller {
 						exit();
 					}
 				} elseif (count($spendIdArray) == 1 && count($getIdArray) > 1) {
+					if($spendIdArray[0]==DARK_CRYSTAL_ID)
+					{
+						$itemFee = intval($itemSpendCount) > 0 ? -intval($itemSpendCount) : intval($itemSpendCount);
+						$currentCash = intval($result->account_cash);
+						$currentCash += $itemFee;
+						$parameter = array(
+							'account_cash'	=>	$currentCash
+						);
+						$this->game_account->update($parameter, $accountId);
+					}
 					$parameter = array(
 						'log_account_id'				=>	$accountId,
 						'log_account_name'		=>	$result->account_name,
@@ -262,26 +290,24 @@ class Notify extends CI_Controller {
 					$getCountArray = explode(',', $itemGetCount);
 					if(count($getIdArray)==count($getNameArray) && count($getIdArray)==count($getCountArray)) {
 						for($i=0; $i<count($getIdArray); $i++) {
-							if(intval($getCountArray[$i]) > 0) {
-								$parameter = array(
-									'log_account_id'				=>	$accountId,
-									'log_account_name'		=>	$result->account_name,
-									'log_account_nickname'	=>	empty($nickName) ? $result->nick_name : $nickName,
-									'log_type'						=>	$type,
-	// 								'log_spend_item_id'		=>	$spendIdArray[$i],
-	// 								'log_spend_item_name'	=>	$spendNameArray[$i],
-	// 								'log_spend_item_count'	=>	$spendCountArray[$i],
-									'log_get_item_id'				=>	$getIdArray[$i],
-									'log_get_item_name'		=>	$getNameArray[$i],
-									'log_get_item_count'		=>	$getCountArray[$i],
-									'log_time'						=>	$time,
-									'log_local_time'				=>	date('Y-m-d H:i:s', $time),
-									'game_id'						=>	$gameId,
-									'server_section'				=>	$sectionId,
-									'server_id'						=>	$serverId
-								);
-								$this->log_mall->insert($parameter);
-							}
+							$parameter = array(
+								'log_account_id'				=>	$accountId,
+								'log_account_name'		=>	$result->account_name,
+								'log_account_nickname'	=>	empty($nickName) ? $result->nick_name : $nickName,
+								'log_type'						=>	$type,
+// 								'log_spend_item_id'		=>	$spendIdArray[$i],
+// 								'log_spend_item_name'	=>	$spendNameArray[$i],
+// 								'log_spend_item_count'	=>	$spendCountArray[$i],
+								'log_get_item_id'				=>	$getIdArray[$i],
+								'log_get_item_name'		=>	$getNameArray[$i],
+								'log_get_item_count'		=>	$getCountArray[$i],
+								'log_time'						=>	$time,
+								'log_local_time'				=>	date('Y-m-d H:i:s', $time),
+								'game_id'						=>	$gameId,
+								'server_section'				=>	$sectionId,
+								'server_id'						=>	$serverId
+							);
+							$this->log_mall->insert($parameter);
 						}
 					} else {
 						$jsonData = Array(
@@ -295,6 +321,16 @@ class Notify extends CI_Controller {
 					$spendCountArray = explode(',', $itemSpendCount);
 					if(count($spendIdArray)==count($spendNameArray) && count($spendIdArray)==count($spendCountArray)) {
 						for($i=0; $i<count($spendIdArray); $i++) {
+							if($spendIdArray[$i]==DARK_CRYSTAL_ID)
+							{
+								$itemFee = intval($spendCountArray[$i]) > 0 ? -intval($spendCountArray[$i]) : intval($spendCountArray[$i]);
+								$currentCash = intval($result->account_cash);
+								$currentCash += $itemFee;
+								$parameter = array(
+									'account_cash'	=>	$currentCash
+								);
+								$this->game_account->update($parameter, $accountId);
+							}
 							if(intval($spendCountArray[$i]) > 0) {
 								$parameter = array(
 										'log_account_id'				=>	$accountId,
