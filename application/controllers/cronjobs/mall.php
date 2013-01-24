@@ -25,13 +25,13 @@ class Mall extends CI_Controller {
 		$serverResult = $this->server->getAllResult();
 		foreach($serverResult as $row) {
 			$this->logdb->select('`log_get_item_id`, `log_get_item_name`, SUM(`log_get_item_count`) AS `log_get_item_count`, SUM(`log_spend_item_count`) AS `log_spend_item_count`', FALSE);
-			$this->logdb->where('log_type', 'mall_props');
+			$this->logdb->where('log_type', 'shop_buy');
 			$this->logdb->where('log_time >', $lastTimeStart);
 			$this->logdb->where('log_time <=', $lastTimeEnd);
 			$this->logdb->where('game_id', $row->game_id);
 			$this->logdb->where('server_section', $row->account_server_section);
 			$this->logdb->where('server_id', $row->account_server_id);
-			$this->logdb->group_by('log_get_item_id');
+			$this->logdb->group_by('log_get_item_name');
 			$result = $this->logdb->get('log_mall')->result();
 			
 			foreach($result as $value) {
