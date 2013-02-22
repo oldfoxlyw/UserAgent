@@ -3,6 +3,7 @@ if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 class logs extends CI_Model {
 	private $accountTable = 'log_account';
+	private $paymentTable = 'log_payment';
 	private $logdb = null;
 	
 	public function __construct() {
@@ -37,6 +38,22 @@ class logs extends CI_Model {
 						'server_id'				=>	empty($parameter['server_id']) ? '' : $parameter['server_id']
 					);
 					$this->logdb->insert($this->accountTable, $row);
+					break;
+				case 'PAYMENT':
+					$row = array(
+						'log_GUID'				=>	$parameter['account_guid'],
+						'log_action'			=>	$logAction,
+						'log_uri'					=>	$uri,
+						'log_method'			=>	$relativeMethod,
+						'log_parameter'		=>	$relativeParameter,
+						'log_time'				=>	$currentTime,
+						'log_time_local'		=>	$currentTimeLocal,
+						'log_ip'					=>	$this->input->ip_address(),
+						'game_id'				=>	empty($parameter['game_id']) ? '' : $parameter['game_id'],
+						'section_id'				=>	empty($parameter['section_id']) ? '' : $parameter['section_id'],
+						'server_id'				=>	empty($parameter['server_id']) ? '' : $parameter['server_id']
+					);
+					$this->logdb->insert($this->paymentTable, $row);
 					break;
 			}
 		}

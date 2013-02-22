@@ -16,7 +16,7 @@ date_default_timezone_set('PRC');
 |
 */
 $config['base_url']	= '';
-$config['root_path'] = '/UserAgent/';
+$config['root_path'] = '/UserAgent_newproject/';
 
 /*
 |--------------------------------------------------------------------------

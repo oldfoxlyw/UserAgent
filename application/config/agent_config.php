@@ -8,7 +8,7 @@ $config['contain_id_count'] = 6;
 /*
  * 游戏区域设定, Z表示测试区
  */
-$config['game_section_id'] = 'A';
+$config['game_section_id'] = 'Z';
 
 /*
  * 战网ID
@@ -96,6 +96,16 @@ $config['forbidden_words'] = array(
 		'中央军委',
 		'中华人民共和国',
 );
+
+/*
+ * 财付通商户ID
+ */
+$config['tenpay_mhc_id'] = '1900000113';
+
+/*
+ * 财付通商户密钥
+ */
+$config['tenpay_mhc_key'] = 'e82573dc7e6136ba414f2e2affbe39fa';
 
 /* End of file agent_config.php */
 /* Location: ./application/config/agent_config.php */

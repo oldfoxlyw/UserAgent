@@ -1,17 +1,17 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 $config['game_server_list'] = array(
-	'A'	=>	array(
-		'game_name'		=>	'DarkEmpire',
-		'auth_key'		=>	'bbc904d185bb824e5ae5eebf5cc831cf49f44b2b',
+	'B'	=>	array(
+		'game_name'		=>	'zsonline',
+		'auth_key'		=>	'467022354ac09e8dd2233acbbde1db7fa9j8ekk7',
 		'section'		=>	array(
 			'Z'			=>	array(
 				'section_name'	=>	'测试区',
 				'server'		=>	array(
 					'Z'				=>	array(
-						'server_name'		=>	'测试服务器',
-						'server_ip'			=>	'66.148.112.175',
-						'server_max_player'	=>	10000,
-						'account_count'		=>	2,
+						'server_name'		=>	'测试服',
+						'server_ip'		=>	'192.168.2.230',
+						'server_max_player'	=>	100000,
+						'account_count'		=>	0,
 						'server_language'	=>	'CN',
 						'server_recommend'	=>	1
 					)
