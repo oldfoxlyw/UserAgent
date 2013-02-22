@@ -17,41 +17,11 @@ class Account extends CI_Controller {
 	public function login($format = 'json') {
 		$accountName  = $this->input->get_post('account_name', TRUE);
 		$accountPass  = $this->input->get_post('account_pass', TRUE);
-		$gameId		=	$this->input->get_post('game_id', TRUE);
-		$section_id	=	$this->input->get_post('server_section', TRUE);
-		$server_id	=	$this->input->get_post('server_id', TRUE);
 		$redirect	= $this->input->get_post('redirect', TRUE);
 		
-		if(!empty($accountName) && !empty($accountPass) &&
-		$gameId!==FALSE &&
-		//$server_id!==FALSE &&
-		$section_id!==FALSE) {
-			/*
-			 * 检测参数合法性
-			 */
-/*
-			$authToken	=	$this->authKey[$gameId]['auth_key'];
-			$check = array($accountName, $accountPass, $gameId, $section_id, $server_id);
-			//$this->load->helper('security');
-			//exit(do_hash(implode('|||', $check) . '|||' . $authToken));
-			if(!$this->param_check->check($check, $authToken)) {
-				$jsonData = Array(
-					'message'	=>	'PARAM_INVALID'
-				);
-				echo $this->return_format->format($jsonData, $format);
-				$logParameter = array(
-					'log_action'	=>	'PARAM_INVALID',
-					'account_guid'	=>	'',
-					'account_name'	=>	$accountName
-				);
-				$this->logs->write($logParameter);
-				exit();
-			}*/
-			/*
-			 * 检查完毕
-			 */
+		if(!empty($accountName) && !empty($accountPass)) {
 			
-			$user = $this->web_account->validate($accountName, $accountPass, $gameId, $server_id, $section_id);
+			$user = $this->web_account->validate($accountName, $accountPass);
 			if($user != FALSE) {
             	unset($user->account_pass);
             	unset($user->account_secret_key);
@@ -85,10 +55,7 @@ class Account extends CI_Controller {
 					$logParameter = array(
 						'log_action'	=>	'ACCOUNT_LOGIN_SUCCESS',
 						'account_guid'	=>	$user->GUID,
-						'account_name'	=>	$user->account_name,
-						'game_id'			=>	$gameId,
-						'section_id'			=>	$section_id,
-						'server_id'			=>	$server_id
+						'account_name'	=>	$user->account_name
 					);
 					$this->logs->write($logParameter);
 	            }
@@ -101,10 +68,7 @@ class Account extends CI_Controller {
 				$logParameter = array(
 					'log_action'	=>	'ACCOUNT_LOGIN_FAIL',
 					'account_guid'	=>	'',
-					'account_name'	=>	$accountName,
-					'game_id'			=>	$gameId,
-					'section_id'			=>	$section_id,
-					'server_id'			=>	$server_id
+					'account_name'	=>	$accountName
 				);
 				$this->logs->write($logParameter);
 			}
@@ -127,9 +91,6 @@ class Account extends CI_Controller {
 		$name		=	$this->input->get_post('account_name', TRUE);
 		$pass		=	$this->input->get_post('account_pass', TRUE);
 		$accountEmail=	$this->input->get_post('account_email', TRUE);
-		$gameId		=	$this->input->get_post('game_id', TRUE);
-		$section_id	=	$this->input->get_post('server_section', TRUE);
-		$server_id	=	$this->input->get_post('server_id', TRUE);
 		$country	=	$this->input->get_post('account_country', TRUE);
 		$question	=	$this->input->get_post('account_question', TRUE);
 		$answer		=	$this->input->get_post('account_answer', TRUE);
@@ -140,34 +101,7 @@ class Account extends CI_Controller {
 		$question = $question===FALSE ? '' : $question;
 		$answer = $answer===FALSE ? '' : $answer;
 		
-		if(!empty($name) && !empty($pass) &&
-		$gameId!==FALSE &&
-		$server_id!==FALSE &&
-		$section_id!==FALSE) {
-			/*
-			 * 检测参数合法性
-			 */
-/*
-			$authToken	=	$this->authKey[$gameId]['auth_key'];
-			$check = array($name, $pass, $gameId, $section_id, $server_id);
-			//$this->load->helper('security');
-			//exit(do_hash(implode('|||', $check) . '|||' . $authToken));
-			if(!$this->param_check->check($check, $authToken)) {
-				$jsonData = Array(
-					'message'	=>	'PARAM_INVALID'
-				);
-				echo $this->return_format->format($jsonData, $format);
-				$logParameter = array(
-					'log_action'	=>	'PARAM_INVALID',
-					'account_guid'	=>	'',
-					'account_name'	=>	$name
-				);
-				$this->logs->write($logParameter);
-				exit();
-			}*/
-			/*
-			 * 检查完毕
-			 */
+		if(!empty($name) && !empty($pass)) {
 			$forbiddenWords = $this->config->item('forbidden_words');
 			if(in_array($name, $forbiddenWords)) {
 				$jsonData = Array(
@@ -177,25 +111,19 @@ class Account extends CI_Controller {
 				$logParameter = array(
 					'log_action'	=>	'ACCOUNT_REGISTER_FAIL_FORBIDDEN',
 					'account_guid'	=>	'',
-					'account_name'	=>	$name,
-					'game_id'			=>	$gameId,
-					'section_id'			=>	$section_id,
-					'server_id'			=>	$server_id
+					'account_name'	=>	$name
 				);
 				$this->logs->write($logParameter);
 			}
 
-			if($this->web_account->validate_duplicate($name, $pass, $gameId, $server_id, $section_id)) {
+			if($this->web_account->validate_duplicate($name, $pass)) {
 				$parameter = array(
 					'name'		=>	$name,
 					'pass'		=>	$pass,
 					'email'		=>	$accountEmail,
 					'country'	=>	$country,
 					'question'	=>	$question,
-					'answer'	=>	$answer,
-					'game_id'	=>	$gameId,
-					'server_id'	=>	$server_id,
-					'server_section'=>	$section_id
+					'answer'	=>	$answer
 				);
 				$guid = $this->web_account->register($parameter);
 				if(!empty($guid)) {
@@ -214,10 +142,7 @@ class Account extends CI_Controller {
 						$logParameter = array(
 							'log_action'	=>	'ACCOUNT_REGISTER_SUCCESS',
 							'account_guid'	=>	$user->GUID,
-							'account_name'	=>	$user->account_name,
-							'game_id'			=>	$gameId,
-							'section_id'			=>	$section_id,
-							'server_id'			=>	$server_id
+							'account_name'	=>	$user->account_name
 						);
 						$this->logs->write($logParameter);
 					}
@@ -230,10 +155,7 @@ class Account extends CI_Controller {
 					$logParameter = array(
 						'log_action'	=>	'ACCOUNT_REGISTER_FAIL',
 						'account_guid'	=>	'',
-						'account_name'	=>	$name,
-						'game_id'			=>	$gameId,
-						'section_id'			=>	$section_id,
-						'server_id'			=>	$server_id
+						'account_name'	=>	$name
 					);
 					$this->logs->write($logParameter);
 				}
@@ -246,10 +168,7 @@ class Account extends CI_Controller {
 				$logParameter = array(
 					'log_action'	=>	'ACCOUNT_REGISTER_FAIL_DUPLICATE',
 					'account_guid'	=>	'',
-					'account_name'	=>	$name,
-					'game_id'			=>	$gameId,
-					'section_id'			=>	$section_id,
-					'server_id'			=>	$server_id
+					'account_name'	=>	$name
 				);
 				$this->logs->write($logParameter);
 			}
@@ -271,16 +190,10 @@ class Account extends CI_Controller {
 	public function check_duplicated($format = 'json') {
 		$name		=	$this->input->get_post('account_name', TRUE);
 		$pass		=	$this->input->get_post('account_pass', TRUE);
-		$gameId		=	$this->input->get_post('game_id', TRUE);
-		$section_id	=	$this->input->get_post('server_section', TRUE);
-		$server_id	=	$this->input->get_post('server_id', TRUE);
 
-		if(!empty($name) && !empty($pass) &&
-				$gameId!==FALSE &&
-				$server_id!==FALSE &&
-				$section_id!==FALSE) {
+		if(!empty($name) && !empty($pass)) {
 
-			if($this->web_account->validate_duplicate($name, $pass, $gameId, $server_id, $section_id)) {
+			if($this->web_account->validate_duplicate($name, $pass)) {
 				$jsonData = Array(
 					'message'	=>	'ACCOUNT_CHECK_SUCCESS'
 				);
@@ -303,48 +216,18 @@ class Account extends CI_Controller {
 		$accountName  = $this->input->get_post('account_name', TRUE);
 		$originPassword	=	$this->input->get_post('origin_pass', TRUE);
 		$newPassword	=	$this->input->get_post('new_pass', TRUE);
-		$gameId		=	$this->input->get_post('game_id', TRUE);
-		$section_id	=	$this->input->get_post('server_section', TRUE);
-		$server_id	=	$this->input->get_post('server_id', TRUE);
 		
-		if(!empty($accountName) && !empty($originPassword) && !empty($newPassword) && !empty($gameId) && !empty($section_id)) {
-			/*
-			 * 检测参数合法性
-			 */
-			$check = array($accountName, $originPassword, $newPassword, $gameId, $section_id, $server_id);
-			//$this->load->helper('security');
-			//exit(do_hash(implode('|||', $check) . '|||' . $this->authToken));
-/*
-			if(!$this->param_check->check($check, $this->authToken)) {
-				$jsonData = Array(
-					'message'	=>	'PARAM_INVALID'
-				);
-				echo $this->return_format->format($jsonData, $format);
-				$logParameter = array(
-					'log_action'	=>	'PARAM_INVALID',
-					'account_guid'	=>	'',
-					'account_name'	=>	$accountName
-				);
-				$this->logs->write($logParameter);
-				exit();
-			}
-*/
-			/*
-			 * 检查完毕
-			 */
+		if(!empty($accountName) && !empty($originPassword) && !empty($newPassword)) {
 			$userPass = $this->web_account->encrypt_pass($originPassword);
 			$parameter = array(
 				'account_name'		=>	$accountName,
-				'account_pass'		=>	$userPass,
-				'game_id'		=>	$gameId,
-				'server_section'		=>	$section_id,
-				'server_id'		=>	$server_id
+				'account_pass'		=>	$userPass
 			);
 			$result = $this->web_account->getAllResult($parameter);
 			if($result[0] != FALSE) {
 				$guid = $result[0]->GUID;
 				if($result[0]->account_pass == $userPass) {
-					if($this->web_account->validate_duplicate($result[0]->account_name, $newPassword, $result[0]->game_id, $result[0]->server_id, $result[0]->server_section)) {
+					if($this->web_account->validate_duplicate($result[0]->account_name, $newPassword)) {
 						$newPass = $this->web_account->encrypt_pass($newPassword);
 						$parameter = array(
 							'account_pass'	=>	$newPass
@@ -408,9 +291,6 @@ class Account extends CI_Controller {
 	}
 	
 	public function demo($format = 'json') {
-		$gameId		=	$this->input->get_post('game_id', TRUE);
-		//$section_id	=	$this->input->get_post('server_section', TRUE);
-		//$server_id	=	$this->input->get_post('server_id', TRUE);
 		$accountType	=	$this->input->get_post('account_type', TRUE);
 			
 		$this->load->library('guid');
@@ -418,70 +298,13 @@ class Account extends CI_Controller {
 		$guid = do_hash($this->guid->toString(), 'md5');
 		$name = 'Guest' . $guid;
 		$pass = do_hash($guid, 'md5');
-		
-		//if($section_id === FALSE) {
-			//$section_id = $this->config->item('game_section_id');
-		//}
-		//if($server_id === FALSE) {
-			$this->load->model('websrv/server', 'server');
-			$parameter = array(
-				'game_id'				=>	$gameId,
-				'server_recommend'		=>	'1'
-			);
-			if(!empty($accountType)) {
-				$parameter['server_mode'] = 'partner';
-			}
-			$result = $this->server->getAllResult($parameter);
-			if($result!=FALSE) {
-				$section_id = $result[0]->account_server_section;
-				$server_id = $result[0]->account_server_id;
-			} else {
-				$parameter = array(
-					'game_id'				=>	$gameId,
-					'order_by'				=>	'account_count'
-				);
-				$result = $this->server->getAllResult($parameter);
-				$section_id = $result[0]->account_server_section;
-				$server_id = $result[0]->account_server_id;
-			}
-		//}
 			
-		if(!empty($name) && !empty($pass) &&
-		$gameId!==FALSE &&
-		!empty($server_id) &&
-		!empty($section_id)) {
-			/*
-			 * 检测参数合法性
-			 */
-			$authToken	=	$this->authKey[$gameId]['auth_key'];
-			$check = array($gameId);
-			//$this->load->helper('security');
-			//exit(do_hash(implode('|||', $check) . '|||' . $authToken));
-/*
-			if(!$this->param_check->check($check, $authToken)) {
-				$jsonData = Array(
-					'message'	=>	'PARAM_INVALID'
-				);
-				echo $this->return_format->format($jsonData, $format);
-				$logParameter = array(
-					'log_action'	=>	'PARAM_INVALID',
-					'account_guid'	=>	'',
-					'account_name'	=>	$name
-				);
-				$this->logs->write($logParameter);
-				exit();
-			}*/
-			/*
-			 * 检查完毕
-			 */
-			if($this->web_account->validate_duplicate($name, $pass, $gameId, $server_id, $section_id)) {
+		if(!empty($name) && !empty($pass)) {
+			if($this->web_account->validate_duplicate($name, $pass)) {
 				$parameter = array(
 					'name'		=>	$name,
 					'pass'		=>	$pass,
-					'email'		=>	'',
-					'game_id'	=>	$gameId,
-					'server_id'	=>	$server_id,
-					'server_section'=>	$section_id
+					'email'		=>	''
 				);
 				$guid = $this->web_account->register($parameter);
 				if(!empty($guid)) {
@@ -498,10 +321,7 @@ class Account extends CI_Controller {
 					$logParameter = array(
 						'log_action'	=>	'ACCOUNT_DEMO_SUCCESS',
 						'account_guid'	=>	$user->GUID,
-						'account_name'	=>	$user->account_name,
-						'game_id'			=>	$gameId,
-						'section_id'			=>	$section_id,
-						'server_id'			=>	$server_id
+						'account_name'	=>	$user->account_name
 					);
 					$this->logs->write($logParameter);
 				} else {
@@ -513,10 +333,7 @@ class Account extends CI_Controller {
 					$logParameter = array(
 						'log_action'	=>	'ACCOUNT_DEMO_FAIL',
 						'account_guid'	=>	'',
-						'account_name'	=>	$name,
-						'game_id'			=>	$gameId,
-						'section_id'			=>	$section_id,
-						'server_id'			=>	$server_id
+						'account_name'	=>	$name
 					);
 					$this->logs->write($logParameter);
 				}
@@ -529,10 +346,7 @@ class Account extends CI_Controller {
 				$logParameter = array(
 					'log_action'	=>	'ACCOUNT_DEMO_FAIL_DUPLICATE',
 					'account_guid'	=>	'',
-					'account_name'	=>	$name,
-					'game_id'			=>	$gameId,
-					'section_id'			=>	$section_id,
-					'server_id'			=>	$server_id
+					'account_name'	=>	$name
 				);
 				$this->logs->write($logParameter);
 			}
@@ -555,34 +369,8 @@ class Account extends CI_Controller {
 		$accountId	=	$this->input->get_post('guid', TRUE);
 		$name		=	$this->input->get_post('account_name', TRUE);
 		$pass		=	$this->input->get_post('account_pass', TRUE);
-		$gameId		=	$this->input->get_post('game_id', TRUE);
 		
-		if(!empty($accountId) && $gameId!=FALSE) {
-			/*
-			 * 检测参数合法性
-			 */
-			$authToken	=	$this->authKey[$gameId]['auth_key'];
-			$check = array($accountId, $gameId);
-			//$this->load->helper('security');
-			//exit(do_hash(implode('|||', $check) . '|||' . $authToken));
-/*
-			if(!$this->param_check->check($check, $authToken)) {
-				$jsonData = Array(
-					'message'	=>	'PARAM_INVALID'
-				);
-				echo $this->return_format->format($jsonData, $format);
-				$logParameter = array(
-					'log_action'	=>	'PARAM_INVALID',
-					'account_guid'	=>	'',
-					'account_name'	=>	$name
-				);
-				$this->logs->write($logParameter);
-				exit();
-			}*/
-			/*
-			 * 检查完毕
-			 */
-			
+		if(!empty($accountId)) {
 			//取得GUID
 			$webAccount = $this->web_account->get($accountId);
 			if($webAccount!=FALSE) {
@@ -620,7 +408,7 @@ class Account extends CI_Controller {
 					} else {
 						$needEncrypt = true;
 					}
-					if(!$this->web_account->validate_duplicate($name, $pass, $gameId, $webAccount->server_id, $webAccount->server_section, $needEncrypt)) {
+					if(!$this->web_account->validate_duplicate($name, $pass, $needEncrypt)) {
 						$jsonData = Array(
 							'message'	=>	'ACCOUNT_ERROR_DUPLICATE'
 						);
@@ -693,7 +481,7 @@ class Account extends CI_Controller {
 		$gameId		=	$this->input->get_post('game_id', TRUE);
 		$sectionId		=	$this->input->get_post('server_section', TRUE);
 		$serverId		=	$this->input->get_post('server_id', TRUE);
-		$guid 			=	$this->input->post('guid', TRUE);
+		$guid 			=	$this->input->get_post('guid', TRUE);
 	
 		if(!empty($gameId) && !empty($guid))
 		{
@@ -721,7 +509,7 @@ class Account extends CI_Controller {
 			 * 检查完毕
 			*/
 				
-			$result = $this->account->get($guid);
+			$result = $this->web_account->get($guid);
 			if(!empty($result))
 			{
 				$jsonData = Array(

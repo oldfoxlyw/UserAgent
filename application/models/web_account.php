@@ -12,7 +12,7 @@ class Web_account extends CI_Model {
 		$this->load->library('Guid');
 	}
 	
-	public function validate($userName, $userPass, $gameId, $serverId, $sectionId) {
+	public function validate($userName, $userPass) {
 		if(!empty($userName) && !empty($userPass) &&
 		$gameId!==FALSE &&
 		$serverId!==FALSE &&
@@ -21,9 +21,6 @@ class Web_account extends CI_Model {
 			$userPass = $this->encrypt_pass($userPass);
 			$this->accountdb->where('account_name', trim($userName));
 			$this->accountdb->where('account_pass', $userPass);
-			$this->accountdb->where('game_id', $gameId);
-			$this->accountdb->where('server_id', $serverId);
-			$this->accountdb->where('server_section', $sectionId);
 			$query = $this->accountdb->get($this->accountTable);
 			if($query->num_rows() > 0) {
 				return $query->row();
@@ -35,16 +32,13 @@ class Web_account extends CI_Model {
 		}
 	}
 	
-	public function validate_duplicate($userName, $userPass, $gameId, $serverId, $sectionId, $useEncrypt = true) {
+	public function validate_duplicate($userName, $userPass, $useEncrypt = true) {
 		$this->load->helper('security');
 		$this->accountdb->where('account_name', trim($userName));
 		if($useEncrypt) {
 			$userPass = $this->encrypt_pass($userPass);
 		}
 		$this->accountdb->where('account_pass', $userPass);
-		$this->accountdb->where('game_id', $gameId);
-		$this->accountdb->where('server_id', $serverId);
-		$this->accountdb->where('server_section', $sectionId);
 		$query = $this->accountdb->get($this->accountTable);
 		//exit($this->accountdb->last_query());
 		if($query->num_rows() > 0) {
