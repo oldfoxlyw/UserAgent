@@ -29,6 +29,7 @@ class Account extends CI_Controller {
 			/*
 			 * 检测参数合法性
 			 */
+			/*
 			$authToken	=	$this->authKey[$gameId]['auth_key'];
 			$check = array($accountName, $accountPass, $gameId, $section_id, $server_id);
 			//$this->load->helper('security');
@@ -46,6 +47,7 @@ class Account extends CI_Controller {
 				$this->logs->write($logParameter);
 				exit();
 			}
+			*/
 			/*
 			 * 检查完毕
 			 */
@@ -146,6 +148,7 @@ class Account extends CI_Controller {
 			/*
 			 * 检测参数合法性
 			 */
+			/*
 			$authToken	=	$this->authKey[$gameId]['auth_key'];
 			$check = array($name, $pass, $gameId, $section_id, $server_id);
 			//$this->load->helper('security');
@@ -163,6 +166,7 @@ class Account extends CI_Controller {
 				$this->logs->write($logParameter);
 				exit();
 			}
+			*/
 			/*
 			 * 检查完毕
 			 */
@@ -309,6 +313,7 @@ class Account extends CI_Controller {
 			/*
 			 * 检测参数合法性
 			 */
+			/*
 			$check = array($accountName, $originPassword, $newPassword, $gameId, $section_id, $server_id);
 			//$this->load->helper('security');
 			//exit(do_hash(implode('|||', $check) . '|||' . $this->authToken));
@@ -325,6 +330,7 @@ class Account extends CI_Controller {
 				$this->logs->write($logParameter);
 				exit();
 			}
+			*/
 			/*
 			 * 检查完毕
 			 */
@@ -449,6 +455,7 @@ class Account extends CI_Controller {
 			/*
 			 * 检测参数合法性
 			 */
+			/*
 			$authToken	=	$this->authKey[$gameId]['auth_key'];
 			$check = array($gameId);
 			//$this->load->helper('security');
@@ -466,6 +473,7 @@ class Account extends CI_Controller {
 				$this->logs->write($logParameter);
 				exit();
 			}
+			*/
 			/*
 			 * 检查完毕
 			 */
@@ -565,6 +573,7 @@ class Account extends CI_Controller {
 			/*
 			 * 检测参数合法性
 			 */
+			/*
 			$authToken	=	$this->authKey[$gameId]['auth_key'];
 			$check = array($accountId, $gameId);
 			//$this->load->helper('security');
@@ -582,6 +591,7 @@ class Account extends CI_Controller {
 				$this->logs->write($logParameter);
 				exit();
 			}
+			*/
 			/*
 			 * 检查完毕
 			 */
@@ -762,6 +772,7 @@ class Account extends CI_Controller {
 			/*
 			 * 检测参数合法性
 			 */
+			/*
 			$authToken	=	$this->authKey[$gameId]['auth_key'];
 			$check = array($accountGuid, $gameId, $serverSection, $serverId);
 			//$this->load->helper('security');
@@ -779,6 +790,7 @@ class Account extends CI_Controller {
 				$this->logs->write($logParameter);
 				exit();
 			}
+			*/
 			/*
 			 * 检查完毕
 			 */
@@ -936,6 +948,57 @@ class Account extends CI_Controller {
 		$containCount = $this->config->item('contain_id_count');
 		$accountId .= sprintf('%0' . $containCount . 'd', $nextAvailableId);
 		return $accountId;
+	}
+	
+	public function checkGuid($format = 'json')
+	{
+		$gameId		=	$this->input->get_post('game_id', TRUE);
+		$guid 			=	$this->input->post('guid', TRUE);
+	
+		if(!empty($gameId) && !empty($guid))
+		{
+			/*
+			 * 检测参数合法性
+			*/
+			$authToken	=	$this->authKey[$gameId]['auth_key'];
+			$check = array($gameId, $guid);
+			//$this->load->helper('security');
+			//exit(do_hash(implode('|||', $check) . '|||' . $authToken));
+			if(!$this->param_check->check($check, $authToken)) {
+				$jsonData = Array(
+						'message'	=>	'PARAM_INVALID'
+				);
+				echo $this->return_format->format($jsonData, $format);
+				$logParameter = array(
+						'log_action'	=>	'PARAM_INVALID',
+						'account_guid'	=>	'',
+						'account_name'	=>	''
+				);
+				$this->logs->write($logParameter);
+				exit();
+			}
+			/*
+			 * 检查完毕
+			*/
+				
+			$result = $this->account->get($guid);
+			if(!empty($result))
+			{
+				$jsonData = Array(
+						'message'	=>	'ACCOUNT_GUID_OK',
+						'user'		=>	$result
+				);
+				exit($this->return_format->format($jsonData, $format));
+			}
+			else
+			{
+				$jsonData = Array(
+						'message'	=>	'ACCOUNT_GUID_ERROR',
+						'user'		=>	null
+				);
+				exit($this->return_format->format($jsonData, $format));
+			}
+		}
 	}
 }
 
