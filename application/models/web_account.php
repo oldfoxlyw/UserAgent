@@ -12,18 +12,12 @@ class Web_account extends CI_Model {
 		$this->load->library('Guid');
 	}
 	
-	public function validate($userName, $userPass, $gameId, $serverId, $sectionId) {
-		if(!empty($userName) && !empty($userPass) &&
-		$gameId!==FALSE &&
-		$serverId!==FALSE &&
-		$sectionId!==FALSE) {
+	public function validate($userName, $userPass) {
+		if(!empty($userName) && !empty($userPass)) {
 			$this->load->helper('security');
 			$userPass = $this->encrypt_pass($userPass);
 			$this->accountdb->where('account_name', trim($userName));
 			$this->accountdb->where('account_pass', $userPass);
-			$this->accountdb->where('game_id', $gameId);
-			$this->accountdb->where('server_id', $serverId);
-			$this->accountdb->where('server_section', $sectionId);
 			$query = $this->accountdb->get($this->accountTable);
 			if($query->num_rows() > 0) {
 				return $query->row();
@@ -35,16 +29,13 @@ class Web_account extends CI_Model {
 		}
 	}
 	
-	public function validate_duplicate($userName, $userPass, $gameId, $serverId, $sectionId, $useEncrypt = true) {
+	public function validate_duplicate($userName, $userPass, $useEncrypt = true) {
 		$this->load->helper('security');
 		$this->accountdb->where('account_name', trim($userName));
 		if($useEncrypt) {
 			$userPass = $this->encrypt_pass($userPass);
 		}
 		$this->accountdb->where('account_pass', $userPass);
-		$this->accountdb->where('game_id', $gameId);
-		$this->accountdb->where('server_id', $serverId);
-		$this->accountdb->where('server_section', $sectionId);
 		$query = $this->accountdb->get($this->accountTable);
 		if($query->num_rows() > 0) {
 			return false;
@@ -70,9 +61,7 @@ class Web_account extends CI_Model {
 			*/
 			
 			$parameter['pass'] = $this->encrypt_pass($parameter['pass']);
-			$guid = $this->guid->toString();
 			$insertArray = array(
-				'GUID'					=>	$guid,
 				'account_name'			=>	$parameter['name'],
 				'account_pass'			=>	$parameter['pass'],
 				'account_email'			=>	$parameter['email'],
@@ -81,13 +70,10 @@ class Web_account extends CI_Model {
 				'account_lastname'		=>	$parameter['lastname'],
 				'account_pass_question'	=>	$parameter['question'],
 				'account_pass_answer'	=>	$parameter['answer'],
-				'game_id'				=>	$parameter['game_id'],
-				'server_id'				=>	$parameter['server_id'],
-				'server_section'		=>	$parameter['server_section'],
 				'account_regtime'		=>	time()
 			);
 			if($this->accountdb->insert($this->accountTable, $insertArray)) {
-				return $guid;
+				return $this->accountdb->insert_id();
 			} else {
 				return false;
 			}
