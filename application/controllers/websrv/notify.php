@@ -108,12 +108,6 @@ class Notify extends CI_Controller {
 		$isMall = $this->input->get_post('is_mall', TRUE);
 		
 		$isMall = $isMall === FALSE ? 0 : intval($isMall);
-
-		$parameter = array(
-				'text'		=>	json_encode($_POST)
-		);
-		$db=$this->load->database('fundsdb', true);
-		$db->insert('check_funds', $parameter);
 		
 		if(!empty($accountId) && !empty($type) && !empty($itemSpendId) &&
 		!empty($itemGetId) && $gameId!==FALSE && $serverId!==FALSE &&
