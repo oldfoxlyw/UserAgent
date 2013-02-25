@@ -15,8 +15,9 @@ class Account extends CI_Controller {
 	}
 	
 	public function login($format = 'json') {
-		$accountName  = $this->input->get_post('account_name', TRUE);
-		$accountPass  = $this->input->get_post('account_pass', TRUE);
+		$requestData = json_decode(file_get_contents("php://input"));
+		$accountName  = $requestData->account_name;
+		$accountPass  = $requestData->account_pass;
 		$redirect	= $this->input->get_post('redirect', TRUE);
 		
 		if(!empty($accountName) && !empty($accountPass)) {
@@ -88,12 +89,14 @@ class Account extends CI_Controller {
 	}
 	
 	public function register($format = 'json') {
-		$name		=	$this->input->get_post('account_name', TRUE);
-		$pass		=	$this->input->get_post('account_pass', TRUE);
-		$accountEmail=	$this->input->get_post('account_email', TRUE);
-		$country	=	$this->input->get_post('account_country', TRUE);
-		$question	=	$this->input->get_post('account_question', TRUE);
-		$answer		=	$this->input->get_post('account_answer', TRUE);
+		$requestData = json_decode(file_get_contents("php://input"));
+		$name  = $requestData->account_name;
+		$pass  = $requestData->account_pass;
+		$accountEmail  = $requestData->account_email;
+		$country  = $requestData->account_country;
+		$question  = $requestData->account_question;
+		$answer  = $requestData->account_answer;
+		
 		$redirect	=	$this->input->get_post('redirect', TRUE);
 		
 		$accountEmail = $accountEmail===FALSE ? '' : $accountEmail;
@@ -188,8 +191,9 @@ class Account extends CI_Controller {
 	}
 	
 	public function check_duplicated($format = 'json') {
-		$name		=	$this->input->get_post('account_name', TRUE);
-		$pass		=	$this->input->get_post('account_pass', TRUE);
+		$requestData = json_decode(file_get_contents("php://input"));
+		$name  = $requestData->account_name;
+		$pass  = $requestData->account_pass;
 
 		if(!empty($name) && !empty($pass)) {
 
@@ -213,9 +217,10 @@ class Account extends CI_Controller {
 	}
 	
 	public function change_password($format = 'json') {
-		$accountName  = $this->input->get_post('account_name', TRUE);
-		$originPassword	=	$this->input->get_post('origin_pass', TRUE);
-		$newPassword	=	$this->input->get_post('new_pass', TRUE);
+		$requestData = json_decode(file_get_contents("php://input"));
+		$accountName  = $requestData->account_name;
+		$originPassword  = $requestData->origin_pass;
+		$newPassword  = $requestData->new_pass;
 		
 		if(!empty($accountName) && !empty($originPassword) && !empty($newPassword)) {
 			$userPass = $this->web_account->encrypt_pass($originPassword);
@@ -291,7 +296,8 @@ class Account extends CI_Controller {
 	}
 	
 	public function demo($format = 'json') {
-		$accountType	=	$this->input->get_post('account_type', TRUE);
+		$requestData = json_decode(file_get_contents("php://input"));
+		$accountType  = $requestData->account_type;
 			
 		$this->load->library('guid');
 		$this->load->helper('security');
@@ -366,9 +372,10 @@ class Account extends CI_Controller {
 	}
 	
 	public function modify($format = 'json') {
-		$accountId	=	$this->input->get_post('guid', TRUE);
-		$name		=	$this->input->get_post('account_name', TRUE);
-		$pass		=	$this->input->get_post('account_pass', TRUE);
+		$requestData = json_decode(file_get_contents("php://input"));
+		$accountId  = $requestData->guid;
+		$name  = $requestData->account_name;
+		$pass  = $requestData->account_pass;
 		
 		if(!empty($accountId)) {
 			//取得GUID
