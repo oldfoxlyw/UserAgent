@@ -520,7 +520,7 @@ class Account extends CI_Controller {
 			if(!empty($result))
 			{
 				$jsonData = Array(
-						'message'	=>	'ACCOUNT_GUID_OK',
+						'message'	=>	'ACCOUNT_GUID_SUCCESS',
 						'user'		=>	$result
 				);
 				exit($this->return_format->format($jsonData, $format));
