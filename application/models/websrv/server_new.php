@@ -2,7 +2,7 @@
 if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 class Server extends CI_Model {
-	private $accountTable = 'server_list';
+	private $accountTable = 'server_list_new';
 	private $accountView = 'server_list_view';
 	private $productdb = null;
 	
