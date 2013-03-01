@@ -22,6 +22,9 @@ class Server extends CI_Model {
 			if(!empty($parameter['account_server_id'])) {
 				$this->productdb->where('account_server_id', $parameter['account_server_id']);
 			}
+			if(!empty($parameter['version'])) {
+				$this->productdb->where('version', $parameter['version']);
+			}
 		}
 		return $this->productdb->count_all_results($this->accountTable);
 	}
@@ -45,6 +48,9 @@ class Server extends CI_Model {
 			}
 			if(!empty($parameter['server_mode']) && $parameter['server_mode']!='debug') {
 				$this->productdb->where('server_mode', $parameter['server_mode']);
+			}
+			if(!empty($parameter['version'])) {
+				$this->productdb->where('version', $parameter['version']);
 			}
 			if(!empty($parameter['order_by'])) {
 				$this->productdb->order_by($parameter['order_by'], 'desc');

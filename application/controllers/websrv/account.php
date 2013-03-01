@@ -408,6 +408,7 @@ class Account extends CI_Controller {
 		//$section_id	=	$this->input->get_post('server_section', TRUE);
 		//$server_id	=	$this->input->get_post('server_id', TRUE);
 		$accountType	=	$this->input->get_post('account_type', TRUE);
+		$version = $this->input->get_post('version', TRUE);
 			
 		$this->load->library('guid');
 		$this->load->helper('security');
@@ -422,6 +423,7 @@ class Account extends CI_Controller {
 			$this->load->model('websrv/server', 'server');
 			$parameter = array(
 				'game_id'				=>	$gameId,
+				'version'				=>	$version,
 				'server_recommend'		=>	'1'
 			);
 			if(!empty($accountType)) {
