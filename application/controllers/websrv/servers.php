@@ -121,7 +121,7 @@ class Servers extends CI_Controller {
 	
 		if(!empty($gameId)) {
 			//不使用缓存
-			$this->load->model('websrv/server_new', 'server_new');
+			$this->load->model('websrv/server', 'server_new');
 			$parameter = array(
 					'use_cache_style'			=>	true,
 					'game_id'					=>	$gameId,
