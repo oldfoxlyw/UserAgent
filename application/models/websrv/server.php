@@ -52,6 +52,9 @@ class Server extends CI_Model {
 			if(!empty($parameter['version'])) {
 				$this->productdb->where('version', $parameter['version']);
 			}
+			if(!empty($parameter['partner'])) {
+				$this->productdb->where('partner', $parameter['partner']);
+			}
 			if(!empty($parameter['order_by'])) {
 				$this->productdb->order_by($parameter['order_by'], 'desc');
 			}

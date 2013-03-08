@@ -427,7 +427,7 @@ class Account extends CI_Controller {
 				'server_recommend'		=>	'1'
 			);
 			if(!empty($accountType)) {
-				$parameter['server_mode'] = 'partner';
+				$parameter['partner'] = $accountType;
 			}
 			$result = $this->server->getAllResult($parameter);
 			if($result!=FALSE) {
