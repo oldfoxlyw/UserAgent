@@ -102,6 +102,7 @@ class Servers extends CI_Controller {
 		$sectionId	=	$this->input->get_post('server_section', TRUE);
 		$mode		=	$this->input->get_post('mode', TRUE);
 		$lang		=	$this->input->get_post('language', TRUE);
+		$partner	=	$this->input->get_post('partner', TRUE);
 	
 		$authKey	=	$this->config->item('game_auth_key');
 		$authToken	=	$authKey[$gameId]['auth_key'];
@@ -131,6 +132,7 @@ class Servers extends CI_Controller {
 					'use_cache_style'			=>	true,
 					'game_id'					=>	$gameId,
 					'server_mode'			=>	$mode,
+					'partner'					=>	$partner,
 					'order_by'					=>	'server_sort'
 					//'account_server_section'	=>	$sectionId
 			);
