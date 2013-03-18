@@ -318,6 +318,8 @@ class Overview extends CI_Controller {
 
 	public function update_from_ruby() {
 		$gameId = $this->input->get_post('game_id', TRUE);
+		$sectionId = $this->input->get_post('server_section', TRUE);
+		$serverId = $this->input->get_post('server_id', TRUE);
 		$date = $this->input->get_post('date', TRUE);
 		$serverName = $this->input->get_post('server_name', TRUE);
 		$regCount = $this->input->get_post('registery', TRUE);
@@ -329,7 +331,7 @@ class Overview extends CI_Controller {
 		$format = 'json';
 
 		$this->load->model('return_format');
-		if(!empty($gameId) && !empty($serverName) && is_numeric($regCount) && is_numeric($modifyCount) && is_numeric($loginCount) && is_numeric($ordersCount) && is_numeric($ordersSum)) {
+		if(!empty($gameId) && !empty($serverName) && is_numeric($regCount) && is_numeric($modifyCount) && is_numeric($loginCount)) {
 			/*
 			 * 检测参数合法性
 			*/
@@ -338,7 +340,7 @@ class Overview extends CI_Controller {
 			$this->load->model('websrv/update_ruby', 'ruby');
 			
 			$authToken	=	$authKey[$gameId]['auth_key'];
-			$check = array($gameId, $date, $serverName, $regCount, $modifyCount, $loginCount, $ordersCount, $ordersSum);
+			$check = array($gameId, $serverName, $regCount, $modifyCount, $loginCount);
 			//$this->load->helper('security');
 			//exit(do_hash(implode('|||', $check) . '|||' . $authToken));
 			if(!$this->param_check->check($check, $authToken)) {
@@ -358,9 +360,12 @@ class Overview extends CI_Controller {
 			
 			$parameter = array(
 				'log_date'			=>	$date,
+				'game_id'			=>	$gameId,
+				'server_section'	=>	$sectionId,
+				'server_id'			=>	$serverId,
 				'server_name'		=>	$serverName,
 				'reg_account'		=>	$regCount,
-				'modify_account'	=>$modifyCount,
+				'modify_account'=>	$modifyCount,
 				'login_account'	=>	$loginCount,
 				'orders_num'		=>	$ordersCount,
 				'orders_sum'		=>	$ordersSum,
