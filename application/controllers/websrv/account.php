@@ -26,6 +26,7 @@ class Account extends CI_Controller {
 			if($user != FALSE) {
             	unset($user->account_pass);
             	unset($user->account_secret_key);
+            	$user->guid_code = md5(sha1($user->GUID));
 				if($user->account_status == '0') {
 					$jsonData = Array(
 						'errors'	=>	'ACCOUNT_VALIDATE_FAIL_FREEZED',
