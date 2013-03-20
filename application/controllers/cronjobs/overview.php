@@ -35,6 +35,7 @@ class Overview extends CI_Controller {
 			$this->fundsdb->where('game_id', $row->game_id);
 			$this->fundsdb->where('server_id', $row->account_server_id);
 			$this->fundsdb->where('server_section', $row->account_server_section);
+			$this->fundsdb->where('funds_type', 1);
 			$checkResult = $this->fundsdb->get('funds_checkinout')->row();
 			$checkinCount = intval($checkResult->funds_amount);
 
