@@ -39,10 +39,23 @@ class Overview extends CI_Controller {
 			$checkinCount = intval($checkResult->funds_amount);
 			
 			$query = $this->logcachedb->query("select * from `log_daily_statistics` where (`log_date`='{$date}' or `log_date`='{$preDate}') and `game_id`='{$row->game_id}' and `server_section`='{$row->account_server_section}' and `server_id`='{$row->account_server_id}'");
-			exit($this->logcachedb->last_query());
 			$result = $query->result();
-			var_dump($result);
-			exit();
+			if($result[0]->log_date == $preDate)
+			{
+				$newReg = intval($result[1]->reg_account) - intval($result[0]->reg_account);
+			}
+			else
+			{
+				$newReg = intval($result[0]->reg_account) - intval($result[1]->reg_account);
+			}
+
+			$this->logcachedb->where('log_date', $date);
+			$this->logcachedb->where('game_id', $row->game_id);
+			$this->logcachedb->where('server_id', $row->account_server_id);
+			$this->logcachedb->where('server_section', $row->account_server_section);
+			$this->logcachedb->update('log_daily_statistics', array(
+				'reg_new_account'	=>	$newReg
+			));
 		}
 	}
 	
