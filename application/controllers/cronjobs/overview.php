@@ -21,52 +21,11 @@ class Overview extends CI_Controller {
 		$lastTimeStart = strtotime($currentDate . ' 00:00:00') - 86400;
 		$lastTimeEnd = strtotime($currentDate . ' 23:59:59') - 86400;
 		$date = date('Y-m-d', $lastTimeStart);
+		$preDate = date('Y-m-d', $lastTimeStart - 86400);
 		
 		$this->load->model('websrv/server');
 		$serverResult = $this->server->getAllResult();
 		foreach($serverResult as $row) {
-			//注册数
-			$this->logdb->where('log_action', 'ACCOUNT_REGISTER_SUCCESS');
-			$this->logdb->where('log_time >', $lastTimeStart);
-			$this->logdb->where('log_time <=', $lastTimeEnd);
-			$this->logdb->where('game_id', $row->game_id);
-			$this->logdb->where('section_id', $row->account_server_section);
-			$this->logdb->where('server_id', $row->account_server_id);
-			$registerCount = $this->logdb->count_all_results('log_account');
-			
-			//登录数
-			$this->logdb->where('log_action', 'ACCOUNT_LOGIN_SUCCESS');
-			$this->logdb->where('log_time >', $lastTimeStart);
-			$this->logdb->where('log_time <=', $lastTimeEnd);
-			$this->logdb->where('game_id', $row->game_id);
-			$this->logdb->where('section_id', $row->account_server_section);
-			$this->logdb->where('server_id', $row->account_server_id);
-			$loginCount = $this->logdb->count_all_results('log_account');
-
-			$this->accountdb->where('game_id', $row->game_id);
-			$this->accountdb->where('account_server_id', $row->account_server_id);
-			$this->accountdb->where('account_server_section', $row->account_server_section);
-			$this->accountdb->where('account_active <>', 0);
-			$activeCount = $this->accountdb->count_all_results('game_account');
-			
-			//付费人数
-			$this->fundsdb->where('funds_flow_dir', 'CHECK_IN');
-			$this->fundsdb->where('funds_time >', $lastTimeStart);
-			$this->fundsdb->where('funds_time <=', $lastTimeEnd);
-			$this->fundsdb->where('game_id', $row->game_id);
-			$this->fundsdb->where('server_id', $row->account_server_id);
-			$this->fundsdb->where('server_section', $row->account_server_section);
-			$this->fundsdb->group_by('account_guid');
-			$payCount = $this->fundsdb->count_all_results('funds_checkinout');
-			
-			//付费次数
-			$this->fundsdb->where('funds_flow_dir', 'CHECK_IN');
-			$this->fundsdb->where('funds_time >', $lastTimeStart);
-			$this->fundsdb->where('funds_time <=', $lastTimeEnd);
-			$this->fundsdb->where('game_id', $row->game_id);
-			$this->fundsdb->where('server_id', $row->account_server_id);
-			$this->fundsdb->where('server_section', $row->account_server_section);
-			$paymentCount = $this->fundsdb->count_all_results('funds_checkinout');
 			
 			//总充值金额
 			$this->fundsdb->select_sum('funds_amount');
@@ -79,43 +38,10 @@ class Overview extends CI_Controller {
 			$checkResult = $this->fundsdb->get('funds_checkinout')->row();
 			$checkinCount = intval($checkResult->funds_amount);
 			
-			//总充值游戏币
-			$this->fundsdb->select_sum('funds_item_amount');
-			$this->fundsdb->where('funds_flow_dir', 'CHECK_IN');
-			$this->fundsdb->where('funds_time >', $lastTimeStart);
-			$this->fundsdb->where('funds_time <=', $lastTimeEnd);
-			$this->fundsdb->where('game_id', $row->game_id);
-			$this->fundsdb->where('server_id', $row->account_server_id);
-			$this->fundsdb->where('server_section', $row->account_server_section);
-			$checkResult = $this->fundsdb->get('funds_checkinout')->row();
-			$checkinItemCount = intval($checkResult->funds_item_amount);
-			
-			//总消费金额
-			$this->fundsdb->select_sum('funds_item_amount');
-			$this->fundsdb->where('funds_flow_dir', 'CHECK_OUT');
-			$this->fundsdb->where('funds_time >', $lastTimeStart);
-			$this->fundsdb->where('funds_time <=', $lastTimeEnd);
-			$this->fundsdb->where('game_id', $row->game_id);
-			$this->fundsdb->where('server_id', $row->account_server_id);
-			$this->fundsdb->where('server_section', $row->account_server_section);
-			$checkResult = $this->fundsdb->get('funds_checkinout')->row();
-			$checkoutCount = intval($checkResult->funds_item_amount);
-			
-			$parameter = array(
-				'log_date'						=>	$date,
-				'log_register_count'		=>	$registerCount,
-				'log_login_count'			=>	$loginCount,
-				'log_active_count'			=>	$activeCount,
-				'log_pay_count'				=>	$payCount,
-				'log_payment_count'		=>	$paymentCount,
-				'log_checkin_count'			=>	$checkinCount,
-				'log_item_count'				=>	$checkinItemCount,
-				'log_checkout_count'		=>	$checkoutCount,
-				'game_id'						=>	$row->game_id,
-				'section_id'						=>	$row->account_server_section,
-				'server_id'						=>	$row->account_server_id
-			);
-			$this->logcachedb->insert('log_overview', $parameter);
+			$query = $this->logcachedb->query("select * from `log_daily_statistics` where (`log_date`='{$date}' or `log_date`='{$preDate}') and `game_id`='{$row->game_id}' and `server_section`='{$row->account_server_section}' and `server_id`='{$row->account_server_id}'");
+			$result = $query->result();
+			var_dump($result);
+			exit();
 		}
 	}
 	
