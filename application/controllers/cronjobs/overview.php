@@ -30,31 +30,38 @@ class Overview extends CI_Controller {
 			//总充值金额
 			$this->fundsdb->select_sum('funds_amount');
 			$this->fundsdb->where('funds_flow_dir', 'CHECK_IN');
-			$this->fundsdb->where('funds_time >', $lastTimeStart);
-			$this->fundsdb->where('funds_time <=', $lastTimeEnd);
+			// $this->fundsdb->where('funds_time >', $lastTimeStart);
+			// $this->fundsdb->where('funds_time <=', $lastTimeEnd);
 			$this->fundsdb->where('game_id', $row->game_id);
 			$this->fundsdb->where('server_id', $row->account_server_id);
 			$this->fundsdb->where('server_section', $row->account_server_section);
 			$checkResult = $this->fundsdb->get('funds_checkinout')->row();
 			$checkinCount = intval($checkResult->funds_amount);
-			
+
 			$query = $this->logcachedb->query("select * from `log_daily_statistics` where (`log_date`='{$date}' or `log_date`='{$preDate}') and `game_id`='{$row->game_id}' and `server_section`='{$row->account_server_section}' and `server_id`='{$row->account_server_id}'");
 			$result = $query->result();
+			$totalAccount = 0;
 			if($result[0]->log_date == $preDate)
 			{
 				$newReg = intval($result[1]->reg_account) - intval($result[0]->reg_account);
+				$totalAccount = intval($result[1]->reg_account);
 			}
 			else
 			{
 				$newReg = intval($result[0]->reg_account) - intval($result[1]->reg_account);
+				$totalAccount = intval($result[0]->reg_account);
 			}
+			
+			$arpu = number_format($checkinCount / $totalAccount, 2);
 
 			$this->logcachedb->where('log_date', $date);
 			$this->logcachedb->where('game_id', $row->game_id);
 			$this->logcachedb->where('server_id', $row->account_server_id);
 			$this->logcachedb->where('server_section', $row->account_server_section);
 			$this->logcachedb->update('log_daily_statistics', array(
-				'reg_new_account'	=>	$newReg
+				'reg_new_account'	=>	$newReg,
+				'orders_sum'		=>	$checkinCount,
+				'arpu'				=>	$arpu,
 			));
 		}
 	}
