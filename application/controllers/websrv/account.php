@@ -137,6 +137,7 @@ class Account extends CI_Controller {
 						$user = $this->web_account->get($guid);
 		            	unset($user->account_pass);
 		            	unset($user->account_secret_key);
+            			$user->guid_code = md5(sha1($user->GUID));
 						$jsonData = Array(
 							'message'	=>	'ACCOUNT_REGISTER_SUCCESS',
 							'user'		=>	$user
@@ -318,6 +319,7 @@ class Account extends CI_Controller {
 					$user = $this->web_account->get($guid);
 		            unset($user->account_secret_key);
 	            	$user->account_pass = $pass;
+            		$user->guid_code = md5(sha1($user->GUID));
 	            	
 					$jsonData = Array(
 						'message'	=>	'ACCOUNT_DEMO_SUCCESS',
@@ -518,6 +520,7 @@ class Account extends CI_Controller {
 			*/
 				
 			$result = $this->web_account->get($guid);
+            $result->guid_code = md5(sha1($result->GUID));
 			if(!empty($result))
 			{
 				$jsonData = Array(
