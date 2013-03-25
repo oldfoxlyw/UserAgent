@@ -113,6 +113,9 @@ class Servers extends CI_Controller {
 		if($mode===FALSE || empty($mode)) {
 			$mode = 'normal';
 		}
+		if($partner===FALSE || empty($partner)) {
+			$partner = 'empty';
+		}
 	
 		switch($lang) {
 			case 'CN':
