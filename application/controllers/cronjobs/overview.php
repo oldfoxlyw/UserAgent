@@ -96,6 +96,10 @@ class Overview extends CI_Controller {
 
 			//次日留存
 			$secondSurvive = floatval(number_format(($loginAccount - $newReg) / $lastNewReg)) * 100;
+			if($row->game_id=='A' && $row->account_server_id=='Z' && $row->account_server_section=='A')
+			{
+				exit("floatval(number_format(({$loginAccount} - {$newReg}) / {$lastNewReg})) * 100");
+			}
 
 			$this->logcachedb->where('log_date', $date);
 			$this->logcachedb->where('game_id', $row->game_id);
