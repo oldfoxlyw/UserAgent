@@ -38,6 +38,7 @@ class Overview extends CI_Controller {
 			$this->fundsdb->where('funds_type', 1);
 			$checkResult = $this->fundsdb->get('funds_checkinout')->row();
 			$checkinCount = intval($checkResult->funds_amount);
+			echo '123';
 			exit($this->fundsdb->last_query());
 
 			//当天总充值金额
