@@ -101,15 +101,15 @@ class Overview extends CI_Controller {
 			$this->logcachedb->where('game_id', $row->game_id);
 			$this->logcachedb->where('server_id', $row->account_server_id);
 			$this->logcachedb->where('server_section', $row->account_server_section);
-			// $this->logcachedb->update('log_daily_statistics', array(
-			// 	'reg_new_account'	=>	$newReg,
-			// 	'orders_current_sum'=>	$checkinCurrentCount,
-			// 	'orders_sum'		=>	$checkinCount,
-			// 	'arpu'				=>	$arpu,
-			// 	'recharge_account'	=>	$rechargeAccount,
-			// 	'order_count'		=>	$orderCount,
-			// 	'second_survive'	=>	$secondSurvive
-			// ));
+			$this->logcachedb->update('log_daily_statistics', array(
+				'reg_new_account'	=>	$newReg,
+				'orders_current_sum'=>	$checkinCurrentCount,
+				'orders_sum'		=>	$checkinCount,
+				'arpu'				=>	$arpu,
+				'recharge_account'	=>	$rechargeAccount,
+				'order_count'		=>	$orderCount,
+				'second_survive'	=>	$secondSurvive
+			));
 		}
 	}
 	
