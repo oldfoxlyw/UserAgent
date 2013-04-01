@@ -303,7 +303,7 @@ class Overview extends CI_Controller {
 			*/
 			
 			if(empty($date)) {
-				$date = date('Y-m-d');
+				$date = date('Y-m-d', time() - 86400);
 			}
 			
 			$parameter = array(
