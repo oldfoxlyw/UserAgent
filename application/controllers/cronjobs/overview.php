@@ -92,11 +92,8 @@ class Overview extends CI_Controller {
 				$lastNewReg = intval($result[1]->reg_new_account);
 			}
 			//ARPU
-			$arpu = intval(number_format($checkinCurrentCount / $loginAccount, 2)) * 100;
+			$arpu = floatval(number_format($checkinCurrentCount / $loginAccount, 2)) * 100;
 			if($row->game_id=='A' && $row->account_server_id=='Z' && $row->account_server_section=='A')
-			{
-				exit("intval(number_format({$checkinCurrentCount} / {$loginAccount}, 2)) * 100");
-			}
 
 			//次日留存
 			$secondSurvive = intval(number_format(($loginAccount - $newReg) / $lastNewReg)) * 100;
