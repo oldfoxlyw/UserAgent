@@ -95,7 +95,7 @@ class Overview extends CI_Controller {
 			$arpu = floatval(number_format($checkinCurrentCount / $loginAccount, 2)) * 100;
 
 			//次日留存
-			$secondSurvive = floatval(number_format(($loginAccount - $newReg) / $lastNewReg)) * 100;
+			$secondSurvive = floatval(number_format(($loginAccount - $newReg) / $lastNewReg, 2)) * 100;
 
 			$this->logcachedb->where('log_date', $date);
 			$this->logcachedb->where('game_id', $row->game_id);
