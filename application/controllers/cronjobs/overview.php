@@ -39,6 +39,41 @@ class Overview extends CI_Controller {
 			$checkResult = $this->fundsdb->get('funds_checkinout')->row();
 			$checkinCount = intval($checkResult->funds_amount);
 
+			//当天总充值金额
+			$this->fundsdb->select_sum('funds_amount');
+			$this->fundsdb->where('funds_flow_dir', 'CHECK_IN');
+			$this->fundsdb->where('funds_time >', $lastTimeStart);
+			$this->fundsdb->where('funds_time <=', $lastTimeEnd);
+			$this->fundsdb->where('game_id', $row->game_id);
+			$this->fundsdb->where('server_id', $row->account_server_id);
+			$this->fundsdb->where('server_section', $row->account_server_section);
+			$this->fundsdb->where('funds_type', 1);
+			$checkResult = $this->fundsdb->get('funds_checkinout')->row();
+			$checkinCurrentCount = intval($checkResult->funds_amount);
+
+			//当天充值人数
+			$this->fundsdb->where('funds_flow_dir', 'CHECK_IN');
+			$this->fundsdb->where('funds_time >', $lastTimeStart);
+			$this->fundsdb->where('funds_time <=', $lastTimeEnd);
+			$this->fundsdb->where('game_id', $row->game_id);
+			$this->fundsdb->where('server_id', $row->account_server_id);
+			$this->fundsdb->where('server_section', $row->account_server_section);
+			$this->fundsdb->where('funds_type', 1);
+			$this->fundsdb->group_by('account_id');
+			$checkResult = $this->fundsdb->get('funds_checkinout');
+			$rechargeAccount = intval($checkResult->num_rows());
+
+			//当天订单数
+			$this->fundsdb->where('funds_flow_dir', 'CHECK_IN');
+			$this->fundsdb->where('funds_time >', $lastTimeStart);
+			$this->fundsdb->where('funds_time <=', $lastTimeEnd);
+			$this->fundsdb->where('game_id', $row->game_id);
+			$this->fundsdb->where('server_id', $row->account_server_id);
+			$this->fundsdb->where('server_section', $row->account_server_section);
+			$this->fundsdb->where('funds_type', 1);
+			$checkResult = $this->fundsdb->get('funds_checkinout');
+			$orderCount = intval($checkResult->num_rows());
+
 			$query = $this->logcachedb->query("select * from `log_daily_statistics` where (`log_date`='{$date}' or `log_date`='{$preDate}') and `game_id`='{$row->game_id}' and `server_section`='{$row->account_server_section}' and `server_id`='{$row->account_server_id}'");
 			$result = $query->result();
 			$totalAccount = 0;
@@ -46,14 +81,21 @@ class Overview extends CI_Controller {
 			{
 				$newReg = intval($result[1]->reg_account) - intval($result[0]->reg_account);
 				$totalAccount = intval($result[1]->reg_account);
+				$loginAccount = intval($result[1]->login_account);
+				$lastNewReg = intval($result[0]->reg_new_account);
 			}
 			else
 			{
 				$newReg = intval($result[0]->reg_account) - intval($result[1]->reg_account);
 				$totalAccount = intval($result[0]->reg_account);
+				$loginAccount = intval($result[0]->login_account);
+				$lastNewReg = intval($result[1]->reg_new_account);
 			}
-			
-			$arpu = number_format($checkinCount / $totalAccount, 2);
+			//ARPU
+			$arpu = intval(number_format($checkinCurrentCount / $loginAccount, 2)) * 100;
+
+			//次日留存
+			$secondSurvive = intval(number_format(($loginAccount - $newReg) / $lastNewReg)) * 100;
 
 			$this->logcachedb->where('log_date', $date);
 			$this->logcachedb->where('game_id', $row->game_id);
@@ -61,8 +103,12 @@ class Overview extends CI_Controller {
 			$this->logcachedb->where('server_section', $row->account_server_section);
 			$this->logcachedb->update('log_daily_statistics', array(
 				'reg_new_account'	=>	$newReg,
+				'orders_current_sum'=>	$checkinCurrentCount,
 				'orders_sum'		=>	$checkinCount,
 				'arpu'				=>	$arpu,
+				'recharge_account'	=>	$rechargeAccount,
+				'order_count'		=>	$orderCount,
+				'second_survive'	=>	$secondSurvive
 			));
 		}
 	}
