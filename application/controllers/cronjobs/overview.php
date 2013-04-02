@@ -333,6 +333,7 @@ class Overview extends CI_Controller {
 			$this->load->model('param_check');
 			$this->load->model('websrv/update_ruby', 'ruby');
 			
+			/*
 			$authToken	=	$authKey[$gameId]['auth_key'];
 			$check = array($gameId, $serverName, $regCount, $modifyCount, $loginCount);
 			//$this->load->helper('security');
@@ -344,6 +345,7 @@ class Overview extends CI_Controller {
 				echo $this->return_format->format($jsonData, $format);
 				exit();
 			}
+			*/
 			/*
 			 * 检查完毕
 			*/
