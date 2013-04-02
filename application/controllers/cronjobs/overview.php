@@ -319,7 +319,6 @@ class Overview extends CI_Controller {
 		$regCount = $this->input->get_post('registery', TRUE);
 		$modifyCount = $this->input->get_post('modification', TRUE);
 		$loginCount = $this->input->get_post('login', TRUE);
-		$ordersCount = $this->input->get_post('orders_num', TRUE);
 		$ordersSum = $this->input->get_post('orders_sum', TRUE);
 		$key = $this->input->get_post('key', TRUE);
 		$format = 'json';
@@ -333,7 +332,6 @@ class Overview extends CI_Controller {
 			$this->load->model('param_check');
 			$this->load->model('websrv/update_ruby', 'ruby');
 			
-			/*
 			$authToken	=	$authKey[$gameId]['auth_key'];
 			$check = array($gameId, $serverName, $regCount, $modifyCount, $loginCount);
 			//$this->load->helper('security');
@@ -345,7 +343,6 @@ class Overview extends CI_Controller {
 				echo $this->return_format->format($jsonData, $format);
 				exit();
 			}
-			*/
 			/*
 			 * 检查完毕
 			*/
@@ -363,7 +360,6 @@ class Overview extends CI_Controller {
 				'reg_account'		=>	$regCount,
 				'modify_account'=>	$modifyCount,
 				'login_account'	=>	$loginCount,
-				'orders_num'		=>	$ordersCount,
 				'orders_sum'		=>	$ordersSum,
 				'partner_key'		=>	empty($key) ? '' : $key
 			);
