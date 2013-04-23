@@ -24,7 +24,7 @@ class Orders extends CI_Controller {
 		$playerId = $this->input->get_post('player_id', TRUE);
 		$checkSum = $this->input->get_post('checksum', TRUE);
 		
-		if(!empty($accountId) && !empty($gameId) && !empty($sectionId) && !empty($serverId) && !empty($playerId) && !empty($checkSum) && is_numeric($fundsAmount) && is_numeric($itemCount)) {
+		if(!empty($gameId) && !empty($sectionId) && !empty($serverId) && !empty($playerId) && !empty($checkSum) && is_numeric($fundsAmount) && is_numeric($itemCount)) {
 			$result = $this->order->get($checkSum);
 			if($result==FALSE)
 			{
@@ -41,16 +41,16 @@ class Orders extends CI_Controller {
 					'message'		=>	'ORDERS_ADDED'
 				);
 				
-				$this->load->model('game_account');
-				$result = $this->game_account->get($accountId);
+				$this->load->model('web_account');
+				$result = $this->web_account->get($playerId);
 				if($result != FALSE) {
 					$itemCount = intval($itemCount) < 0 ? -intval($itemCount) : intval($itemCount);
-					$currentCash = intval($result->account_cash);
+					$currentCash = intval($result->account_point);
 					$currentCash += $itemCount;
 					$parameter = array(
-							'account_cash'	=>	$currentCash
+							'account_point'	=>	$currentCash
 					);
-					$this->game_account->update($parameter, $accountId);
+					$this->web_account->update($parameter, $playerId);
 				
 					$time = time();
 					
