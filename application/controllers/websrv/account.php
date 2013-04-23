@@ -18,11 +18,12 @@ class Account extends CI_Controller {
 		$requestData = json_decode(file_get_contents("php://input"));
 		$accountName  = $requestData->account_name;
 		$accountPass  = $requestData->account_pass;
+		$serverId = $requestData->server_id;
 		$redirect	= $this->input->get_post('redirect', TRUE);
 		
-		if(!empty($accountName) && !empty($accountPass)) {
+		if(!empty($accountName) && !empty($accountPass) && !empty($serverId)) {
 			
-			$user = $this->web_account->validate($accountName, $accountPass);
+			$user = $this->web_account->validate($accountName, $accountPass, $serverId);
 			if($user != FALSE) {
             	unset($user->account_pass);
             	unset($user->account_secret_key);
@@ -97,6 +98,7 @@ class Account extends CI_Controller {
 		$country  = $requestData->account_country;
 		$question  = $requestData->account_question;
 		$answer  = $requestData->account_answer;
+		$serverId = $requestData->server_id;
 		
 		$redirect	=	$this->input->get_post('redirect', TRUE);
 		
@@ -105,7 +107,7 @@ class Account extends CI_Controller {
 		$question = $question===FALSE ? '' : $question;
 		$answer = $answer===FALSE ? '' : $answer;
 		
-		if(!empty($name) && !empty($pass)) {
+		if(!empty($name) && !empty($pass) && !empty($serverId)) {
 			$forbiddenWords = $this->config->item('forbidden_words');
 			if(in_array($name, $forbiddenWords)) {
 				$jsonData = Array(
