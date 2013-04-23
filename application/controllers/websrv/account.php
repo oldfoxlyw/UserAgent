@@ -15,19 +15,16 @@ class Account extends CI_Controller {
 	}
 	
 	public function login($format = 'json') {
-		$requestData = json_decode(file_get_contents("php://input"));
-		$accountName  = $requestData->account_name;
-		$accountPass  = $requestData->account_pass;
-		$serverId = $requestData->server_id;
-		$redirect	= $this->input->get_post('redirect', TRUE);
+		$accountName  = $this->input->get_post('account_name', TRUE);
+		$accountPass  = $this->input->get_post('account_pass', TRUE);
+		$server_id	=	$this->input->get_post('server_id', TRUE);
 		
-		if(!empty($accountName) && !empty($accountPass) && !empty($serverId)) {
-			
-			$user = $this->web_account->validate($accountName, $accountPass, $serverId);
+		if(!empty($accountName) && !empty($accountPass) && !empty($server_id))
+		{
+			$user = $this->web_account->validate($accountName, $accountPass, $server_id);
 			if($user != FALSE) {
             	unset($user->account_pass);
             	unset($user->account_secret_key);
-            	$user->guid_code = md5(sha1($user->GUID));
 				if($user->account_status == '0') {
 					$jsonData = Array(
 						'errors'	=>	'ACCOUNT_VALIDATE_FAIL_FREEZED',
@@ -41,27 +38,24 @@ class Account extends CI_Controller {
 					);
 					exit($this->return_format->format($jsonData, $format));
 				}
-	            
-	            if(!empty($redirect)) {
-	            	redirect($redirect);
-	            } else {
-	            	$db = $this->web_account->db();
-	            	$time = time();
-	            	$sql = "update `web_account` set `account_lastlogin`={$user->account_currentlogin}, `account_currentlogin`={$time}, `account_activity`=`account_activity`+1 where `GUID`='{$user->GUID}'";
-	            	$db->query($sql);
-					$jsonData = Array(
-						'message'	=>	'ACCOUNT_VALIDATE_SUCCESS',
-						'user'		=>	$user
-					);
-					echo $this->return_format->format($jsonData, $format);
-					
-					$logParameter = array(
-						'log_action'	=>	'ACCOUNT_LOGIN_SUCCESS',
-						'account_guid'	=>	$user->GUID,
-						'account_name'	=>	$user->account_name
-					);
-					$this->logs->write($logParameter);
-	            }
+
+				$db = $this->web_account->db();
+				$time = time();
+				$sql = "update `web_account` set `account_lastlogin`={$user->account_currentlogin}, `account_currentlogin`={$time}, `account_activity`=`account_activity`+1 where `GUID`='{$user->GUID}'";
+				$db->query($sql);
+				$jsonData = Array(
+					'message'	=>	'ACCOUNT_VALIDATE_SUCCESS',
+					'user'		=>	$user
+				);
+				echo $this->return_format->format($jsonData, $format);
+				
+				$logParameter = array(
+					'log_action'	=>	'ACCOUNT_LOGIN_SUCCESS',
+					'account_guid'	=>	$user->GUID,
+					'account_name'	=>	$user->account_name,
+					'server_id'		=>	$server_id
+				);
+				$this->logs->write($logParameter);
 			} else {
 				$jsonData = Array(
 					'errors'	=>	'ACCOUNT_VALIDATE_FAIL'
@@ -71,7 +65,8 @@ class Account extends CI_Controller {
 				$logParameter = array(
 					'log_action'	=>	'ACCOUNT_LOGIN_FAIL',
 					'account_guid'	=>	'',
-					'account_name'	=>	$accountName
+					'account_name'	=>	$accountName,
+					'server_id'		=>	$server_id
 				);
 				$this->logs->write($logParameter);
 			}
@@ -90,16 +85,15 @@ class Account extends CI_Controller {
 		}
 	}
 	
-	public function register($format = 'json') {
-		$requestData = json_decode(file_get_contents("php://input"));
-		$name  = $requestData->account_name;
-		$pass  = $requestData->account_pass;
-		$accountEmail  = $requestData->account_email;
-		$country  = $requestData->account_country;
-		$question  = $requestData->account_question;
-		$answer  = $requestData->account_answer;
-		$serverId = $requestData->server_id;
-		
+	public function register($format = 'json')
+	{
+		$name		=	$this->input->get_post('account_name', TRUE);
+		$pass		=	$this->input->get_post('account_pass', TRUE);
+		$accountEmail=	$this->input->get_post('account_email', TRUE);
+		$server_id	=	$this->input->get_post('server_id', TRUE);
+		$country	=	$this->input->get_post('account_country', TRUE);
+		$question	=	$this->input->get_post('account_question', TRUE);
+		$answer		=	$this->input->get_post('account_answer', TRUE);
 		$redirect	=	$this->input->get_post('redirect', TRUE);
 		
 		$accountEmail = $accountEmail===FALSE ? '' : $accountEmail;
@@ -107,9 +101,11 @@ class Account extends CI_Controller {
 		$question = $question===FALSE ? '' : $question;
 		$answer = $answer===FALSE ? '' : $answer;
 		
-		if(!empty($name) && !empty($pass) && !empty($serverId)) {
+		if(!empty($name) && !empty($pass) && !empty($server_id))
+		{
 			$forbiddenWords = $this->config->item('forbidden_words');
-			if(in_array($name, $forbiddenWords)) {
+			if(in_array($name, $forbiddenWords))
+			{
 				$jsonData = Array(
 					'errors'	=>	'ACCOUNT_REGISTER_FAIL'
 				);
@@ -117,19 +113,21 @@ class Account extends CI_Controller {
 				$logParameter = array(
 					'log_action'	=>	'ACCOUNT_REGISTER_FAIL_FORBIDDEN',
 					'account_guid'	=>	'',
-					'account_name'	=>	$name
+					'account_name'	=>	$name,
+					'server_id'		=>	$server_id
 				);
 				$this->logs->write($logParameter);
 			}
 
-			if($this->web_account->validate_duplicate($name, $pass)) {
+			if($this->web_account->validate_duplicate($name, $pass, $server_id)) {
 				$parameter = array(
 					'name'		=>	$name,
 					'pass'		=>	$pass,
 					'email'		=>	$accountEmail,
 					'country'	=>	$country,
 					'question'	=>	$question,
-					'answer'	=>	$answer
+					'answer'	=>	$answer,
+					'server_id'	=>	$server_id
 				);
 				$guid = $this->web_account->register($parameter);
 				if(!empty($guid)) {
@@ -149,7 +147,8 @@ class Account extends CI_Controller {
 						$logParameter = array(
 							'log_action'	=>	'ACCOUNT_REGISTER_SUCCESS',
 							'account_guid'	=>	$user->GUID,
-							'account_name'	=>	$user->account_name
+							'account_name'	=>	$user->account_name,
+							'server_id'		=>	$server_id
 						);
 						$this->logs->write($logParameter);
 					}
@@ -162,7 +161,8 @@ class Account extends CI_Controller {
 					$logParameter = array(
 						'log_action'	=>	'ACCOUNT_REGISTER_FAIL',
 						'account_guid'	=>	'',
-						'account_name'	=>	$name
+						'account_name'	=>	$name,
+						'server_id'		=>	$server_id
 					);
 					$this->logs->write($logParameter);
 				}
@@ -175,7 +175,8 @@ class Account extends CI_Controller {
 				$logParameter = array(
 					'log_action'	=>	'ACCOUNT_REGISTER_FAIL_DUPLICATE',
 					'account_guid'	=>	'',
-					'account_name'	=>	$name
+					'account_name'	=>	$name,
+					'server_id'		=>	$server_id
 				);
 				$this->logs->write($logParameter);
 			}
@@ -195,13 +196,13 @@ class Account extends CI_Controller {
 	}
 	
 	public function check_duplicated($format = 'json') {
-		$requestData = json_decode(file_get_contents("php://input"));
-		$name  = $requestData->account_name;
-		$pass  = $requestData->account_pass;
+		$name		=	$this->input->get_post('account_name', TRUE);
+		$pass		=	$this->input->get_post('account_pass', TRUE);
+		$server_id	=	$this->input->get_post('server_id', TRUE);
 
-		if(!empty($name) && !empty($pass)) {
+		if(!empty($name) && !empty($pass) && !empty($server_id)) {
 
-			if($this->web_account->validate_duplicate($name, $pass)) {
+			if($this->web_account->validate_duplicate($name, $pass, $server_id)) {
 				$jsonData = Array(
 					'message'	=>	'ACCOUNT_CHECK_SUCCESS'
 				);
@@ -221,22 +222,24 @@ class Account extends CI_Controller {
 	}
 	
 	public function change_password($format = 'json') {
-		$requestData = json_decode(file_get_contents("php://input"));
-		$accountName  = $requestData->account_name;
-		$originPassword  = $requestData->origin_pass;
-		$newPassword  = $requestData->new_pass;
+		$accountName  = $this->input->get_post('account_name', TRUE);
+		$originPassword	=	$this->input->get_post('origin_pass', TRUE);
+		$newPassword	=	$this->input->get_post('new_pass', TRUE);
+		$server_id	=	$this->input->get_post('server_id', TRUE);
 		
-		if(!empty($accountName) && !empty($originPassword) && !empty($newPassword)) {
+		if(!empty($accountName) && !empty($originPassword) && !empty($newPassword) && !empty($server_id))
+		{
 			$userPass = $this->web_account->encrypt_pass($originPassword);
 			$parameter = array(
 				'account_name'		=>	$accountName,
-				'account_pass'		=>	$userPass
+				'account_pass'		=>	$userPass,
+				'server_id'			=>	$server_id
 			);
 			$result = $this->web_account->getAllResult($parameter);
 			if($result[0] != FALSE) {
 				$guid = $result[0]->GUID;
 				if($result[0]->account_pass == $userPass) {
-					if($this->web_account->validate_duplicate($result[0]->account_name, $newPassword)) {
+					if($this->web_account->validate_duplicate($result[0]->account_name, $newPassword, $result[0]->server_id)) {
 						$newPass = $this->web_account->encrypt_pass($newPassword);
 						$parameter = array(
 							'account_pass'	=>	$newPass
@@ -250,7 +253,8 @@ class Account extends CI_Controller {
 							$logParameter = array(
 								'log_action'	=>	'ACCOUNT_PASSWORD_CHANGE_SUCCESS',
 								'account_guid'	=>	$guid,
-								'account_name'	=>	$result[0]->account_name
+								'account_name'	=>	$result[0]->account_name,
+								'server_id'		=>	$server_id
 							);
 							$this->logs->write($logParameter);
 						} else {
@@ -262,7 +266,8 @@ class Account extends CI_Controller {
 							$logParameter = array(
 								'log_action'	=>	'ACCOUNT_PASSWORD_CHANGE_FAIL',
 								'account_guid'	=>	$guid,
-								'account_name'	=>	$result[0]->account_name
+								'account_name'	=>	$result[0]->account_name,
+								'server_id'		=>	$server_id
 							);
 							$this->logs->write($logParameter);
 						}
@@ -300,21 +305,49 @@ class Account extends CI_Controller {
 	}
 	
 	public function demo($format = 'json') {
-		$requestData = json_decode(file_get_contents("php://input"));
-		$accountType  = $requestData->account_type;
+		$partner = $this->input->get_post('partner', TRUE);
+
+		if(empty($partner))
+		{
+			$partner = 'empty';
+		}
 			
 		$this->load->library('guid');
 		$this->load->helper('security');
 		$guid = do_hash($this->guid->toString(), 'md5');
 		$name = 'Guest' . $guid;
 		$pass = do_hash($guid, 'md5');
+		
+		//if($section_id === FALSE) {
+			//$section_id = $this->config->item('game_section_id');
+		//}
+		//if($server_id === FALSE) {
+			$this->load->model('websrv/server', 'server');
+			$parameter = array(
+				'partner'				=>	$partner
+				'server_recommend'		=>	'1'
+			);
+			$result = $this->server->getAllResult($parameter);
+			if($result!=FALSE) {
+				$server_id = $result[0]->account_server_id;
+			} else {
+				$parameter = array(
+					'partner'				=>	$partner
+					'order_by'				=>	'server_sort'
+				);
+				$result = $this->server->getAllResult($parameter);
+				$server_id = $result[0]->account_server_id;
+			}
+		//}
 			
-		if(!empty($name) && !empty($pass)) {
-			if($this->web_account->validate_duplicate($name, $pass)) {
+		if(!empty($name) && !empty($pass) && !empty($server_id))
+		{
+			if($this->web_account->validate_duplicate($name, $pass, $server_id)) {
 				$parameter = array(
 					'name'		=>	$name,
 					'pass'		=>	$pass,
-					'email'		=>	''
+					'email'		=>	'',
+					'server_id'	=>	$server_id
 				);
 				$guid = $this->web_account->register($parameter);
 				if(!empty($guid)) {
@@ -325,14 +358,15 @@ class Account extends CI_Controller {
 	            	
 					$jsonData = Array(
 						'message'	=>	'ACCOUNT_DEMO_SUCCESS',
-						'user'		=>	$user
+						'user'		=>	$user,
 					);
 					echo $this->return_format->format($jsonData, $format);
 					
 					$logParameter = array(
 						'log_action'	=>	'ACCOUNT_DEMO_SUCCESS',
 						'account_guid'	=>	$user->GUID,
-						'account_name'	=>	$user->account_name
+						'account_name'	=>	$user->account_name,
+						'server_id'		=>	$server_id
 					);
 					$this->logs->write($logParameter);
 				} else {
@@ -344,7 +378,8 @@ class Account extends CI_Controller {
 					$logParameter = array(
 						'log_action'	=>	'ACCOUNT_DEMO_FAIL',
 						'account_guid'	=>	'',
-						'account_name'	=>	$name
+						'account_name'	=>	$name,
+						'server_id'		=>	$server_id
 					);
 					$this->logs->write($logParameter);
 				}
@@ -357,7 +392,8 @@ class Account extends CI_Controller {
 				$logParameter = array(
 					'log_action'	=>	'ACCOUNT_DEMO_FAIL_DUPLICATE',
 					'account_guid'	=>	'',
-					'account_name'	=>	$name
+					'account_name'	=>	$name,
+					'server_id'		=>	$server_id
 				);
 				$this->logs->write($logParameter);
 			}
@@ -377,12 +413,14 @@ class Account extends CI_Controller {
 	}
 	
 	public function modify($format = 'json') {
-		$requestData = json_decode(file_get_contents("php://input"));
-		$accountId  = $requestData->guid;
-		$name  = $requestData->account_name;
-		$pass  = $requestData->account_pass;
+		$accountId	=	$this->input->get_post('account_id', TRUE);
+		$name		=	$this->input->get_post('account_name', TRUE);
+		$pass		=	$this->input->get_post('account_pass', TRUE);
+		$nickName	=	$this->input->get_post('nick_name', TRUE);
+		$accountEmail=	$this->input->get_post('account_email', TRUE);
 		
-		if(!empty($accountId)) {
+		if(!empty($accountId))
+		{
 			//取得GUID
 			$webAccount = $this->web_account->get($accountId);
 			if($webAccount!=FALSE) {
@@ -490,36 +528,11 @@ class Account extends CI_Controller {
 	
 	public function checkGuid($format = 'json')
 	{
-		$gameId		=	$this->input->get_post('game_id', TRUE);
-		$sectionId		=	$this->input->get_post('server_section', TRUE);
 		$serverId		=	$this->input->get_post('server_id', TRUE);
 		$guid 			=	$this->input->get_post('guid', TRUE);
 	
-		if(!empty($gameId) && !empty($guid))
+		if(!empty($guid))
 		{
-			/*
-			 * 检测参数合法性
-			*/
-			$authToken	=	$this->authKey[$gameId]['auth_key'];
-			$check = array($guid, $gameId, $sectionId, $serverId);
-			//$this->load->helper('security');
-			//exit(do_hash(implode('|||', $check) . '|||' . $authToken));
-			if(!$this->param_check->check($check, $authToken)) {
-				$jsonData = Array(
-						'message'	=>	'PARAM_INVALID'
-				);
-				echo $this->return_format->format($jsonData, $format);
-				$logParameter = array(
-						'log_action'	=>	'PARAM_INVALID',
-						'account_guid'	=>	'',
-						'account_name'	=>	''
-				);
-				$this->logs->write($logParameter);
-				exit();
-			}
-			/*
-			 * 检查完毕
-			*/
 				
 			$result = $this->web_account->get($guid);
             $result->guid_code = md5(sha1($result->GUID));
