@@ -56,9 +56,9 @@ class Orders extends CI_Controller {
 					
 					$this->load->model('funds');
 					$parameter = array(
-							'account_guid'				=>	$result->account_guid,
+							'account_guid'				=>	$result->GUID,
 							'account_name'				=>	$result->account_name,
-							'account_nickname'			=>	$result->nick_name,
+							'account_nickname'			=>	$result->account_nickname,
 							'account_id'				=>	$accountId,
 							// 'game_id'					=>	$gameId,
 							// 'server_id'					=>	$serverId,
