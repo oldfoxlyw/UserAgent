@@ -26,14 +26,12 @@ class Orders extends CI_Controller {
 		
 		if(!empty($accountId) && !empty($gameId) && !empty($sectionId) && !empty($serverId) && !empty($playerId) && !empty($checkSum) && is_numeric($fundsAmount) && is_numeric($itemCount)) {
 			$result = $this->order->get($checkSum);
-			//var_dump($result);
-			//exit();
 			if($result==FALSE)
 			{
 				$parameter = array(
 					'player_id'		=>	$playerId,
 					'game_id'		=>	$gameId,
-					'section_id'		=>	$sectionId,
+					'section_id'	=>	$sectionId,
 					'server_id'		=>	$serverId,
 					'checksum'		=>	$checkSum
 				);
@@ -43,7 +41,6 @@ class Orders extends CI_Controller {
 					'message'		=>	'ORDERS_ADDED'
 				);
 				
-
 				$this->load->model('game_account');
 				$result = $this->game_account->get($accountId);
 				if($result != FALSE) {
@@ -56,23 +53,23 @@ class Orders extends CI_Controller {
 					$this->game_account->update($parameter, $accountId);
 				
 					$time = time();
-				
+					
 					$this->load->model('funds');
 					$parameter = array(
 							'account_guid'				=>	$result->account_guid,
 							'account_name'				=>	$result->account_name,
 							'account_nickname'			=>	$result->nick_name,
-							'account_id'					=>	$accountId,
-							'game_id'						=>	$gameId,
-							'server_id'						=>	$serverId,
-							'server_section'				=>	$sectionId,
-							'funds_flow_dir'				=>	'CHECK_IN',
+							'account_id'				=>	$accountId,
+							// 'game_id'					=>	$gameId,
+							// 'server_id'					=>	$serverId,
+							// 'server_section'			=>	$sectionId,
+							'funds_flow_dir'			=>	'CHECK_IN',
 							'funds_amount'				=>	$fundsAmount,
-							'funds_item_amount'		=>	$itemCount,
+							'funds_item_amount'			=>	$itemCount,
 							'funds_item_current'		=>	$currentCash,
-							'funds_time'					=>	$time,
+							'funds_time'				=>	$time,
 							'funds_time_local'			=>	date('Y-m-d H:i:s', $time),
-							'funds_type'					=>	1
+							'funds_type'				=>	1
 					);
 					$this->funds->insert($parameter);
 				} else {
