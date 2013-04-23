@@ -58,7 +58,7 @@ class Orders extends CI_Controller {
 					$parameter = array(
 							'account_guid'				=>	$result->GUID,
 							'account_name'				=>	$result->account_name,
-							'account_nickname'			=>	$result->account_nickname,
+							'account_nickname'			=>	empty($result->account_nickname) ? '' : $result->account_nickname,
 							'account_id'				=>	$accountId,
 							// 'game_id'					=>	$gameId,
 							// 'server_id'					=>	$serverId,
