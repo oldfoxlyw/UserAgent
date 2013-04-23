@@ -94,7 +94,6 @@ class Account extends CI_Controller {
 		$country	=	$this->input->get_post('account_country', TRUE);
 		$question	=	$this->input->get_post('account_question', TRUE);
 		$answer		=	$this->input->get_post('account_answer', TRUE);
-		$redirect	=	$this->input->get_post('redirect', TRUE);
 		
 		$accountEmail = $accountEmail===FALSE ? '' : $accountEmail;
 		$country = $country===FALSE ? '' : $country;
@@ -131,27 +130,23 @@ class Account extends CI_Controller {
 				);
 				$guid = $this->web_account->register($parameter);
 				if(!empty($guid)) {
-					if(!empty($redirect)) {
-						redirect($redirect);
-					} else {
-						$user = $this->web_account->get($guid);
-		            	unset($user->account_pass);
-		            	unset($user->account_secret_key);
-            			$user->guid_code = md5(sha1($user->GUID));
-						$jsonData = Array(
-							'message'	=>	'ACCOUNT_REGISTER_SUCCESS',
-							'user'		=>	$user
-						);
-						echo $this->return_format->format($jsonData, $format);
-						
-						$logParameter = array(
-							'log_action'	=>	'ACCOUNT_REGISTER_SUCCESS',
-							'account_guid'	=>	$user->GUID,
-							'account_name'	=>	$user->account_name,
-							'server_id'		=>	$server_id
-						);
-						$this->logs->write($logParameter);
-					}
+					$user = $this->web_account->get($guid);
+	            	unset($user->account_pass);
+	            	unset($user->account_secret_key);
+        			$user->guid_code = md5(sha1($user->GUID));
+					$jsonData = Array(
+						'message'	=>	'ACCOUNT_REGISTER_SUCCESS',
+						'user'		=>	$user
+					);
+					echo $this->return_format->format($jsonData, $format);
+					
+					$logParameter = array(
+						'log_action'	=>	'ACCOUNT_REGISTER_SUCCESS',
+						'account_guid'	=>	$user->GUID,
+						'account_name'	=>	$user->account_name,
+						'server_id'		=>	$server_id
+					);
+					$this->logs->write($logParameter);
 				} else {
 					$jsonData = Array(
 						'errors'	=>	'ACCOUNT_REGISTER_FAIL'
