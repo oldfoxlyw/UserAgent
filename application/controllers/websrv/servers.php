@@ -10,22 +10,6 @@ class Servers extends CI_Controller {
 		$this->load->model('return_format');
 		$this->load->model('websrv/status', 'status');
 	}
-	
-	public function testserver()
-	{
-		$result = $this->status->read();
-		var_dump($result);
-		exit();
-		if($status->server_status != '1')
-		{
-			$jsonData = array(
-				'message'	=>	'SERVER_CLOSED',
-				'text'		=>	$status->message
-			);
-			echo $this->return_format->format($jsonData, $format);
-			exit();
-		}
-	}
 
 	public function server_list($format = 'json') {
 		$gameId		=	$this->input->get_post('game_id', TRUE);
@@ -36,16 +20,16 @@ class Servers extends CI_Controller {
 		$authKey	=	$this->config->item('game_auth_key');
 		$authToken	=	$authKey[$gameId]['auth_key'];
 
-		// $status = $this->status->read();
-		// if($status->server_status != '1')
-		// {
-		// 	$jsonData = array(
-		// 		'message'	=>	'SERVER_CLOSED',
-		// 		'text'		=>	$status->message
-		// 	);
-		// 	echo $this->return_format->format($jsonData, $format);
-		// 	exit();
-		// }
+		$status = $this->status->read();
+		if($status->server_status != '1')
+		{
+			$jsonData = array(
+				'message'	=>	'SERVER_CLOSED',
+				'text'		=>	$status->message
+			);
+			echo $this->return_format->format($jsonData, $format);
+			exit();
+		}
 		
 		if($sectionId===FALSE || empty($sectionId)) {
 			$sectionId	=	$this->config->item('game_section_id');
