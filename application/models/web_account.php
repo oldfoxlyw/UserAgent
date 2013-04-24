@@ -12,15 +12,13 @@ class Web_account extends CI_Model {
 		$this->load->library('Guid');
 	}
 	
-	public function validate($userName, $userPass) {
-		if(!empty($userName) && !empty($userPass) &&
-		$gameId!==FALSE &&
-		$serverId!==FALSE &&
-		$sectionId!==FALSE) {
+	public function validate($userName, $userPass, $serverId) {
+		if(!empty($userName) && !empty($userPass) && !empty($serverId)) {
 			$this->load->helper('security');
 			$userPass = $this->encrypt_pass($userPass);
 			$this->accountdb->where('account_name', trim($userName));
 			$this->accountdb->where('account_pass', $userPass);
+			$this->accountdb->where('server_id', $serverId);
 			$query = $this->accountdb->get($this->accountTable);
 			if($query->num_rows() > 0) {
 				return $query->row();
@@ -32,15 +30,15 @@ class Web_account extends CI_Model {
 		}
 	}
 	
-	public function validate_duplicate($userName, $userPass, $useEncrypt = true) {
+	public function validate_duplicate($userName, $userPass, $serverId, $useEncrypt = true) {
 		$this->load->helper('security');
 		$this->accountdb->where('account_name', trim($userName));
 		if($useEncrypt) {
 			$userPass = $this->encrypt_pass($userPass);
 		}
 		$this->accountdb->where('account_pass', $userPass);
+		$this->accountdb->where('server_id', $serverId);
 		$query = $this->accountdb->get($this->accountTable);
-		//exit($this->accountdb->last_query());
 		if($query->num_rows() > 0) {
 			return false;
 		} else {
@@ -57,17 +55,11 @@ class Web_account extends CI_Model {
 		if(!empty($parameter['name']) &&
 		!empty($parameter['pass'])) {
 			$this->load->helper('security');
-			/*
-			$this->load->library('encrypt');
-			$encrypt_key = $this->web_product->get_encrypt_key($pid);
-			$encrypt_key = do_hash(do_hash($encrypt_key, 'md5') . $encrypt_key, 'md5');
-			$secret_key = $this->encrypt->encode($parameter['pass'], $encrypt_key);
-			*/
-			
 			$parameter['pass'] = $this->encrypt_pass($parameter['pass']);
 			$insertArray = array(
 				'account_name'			=>	$parameter['name'],
 				'account_pass'			=>	$parameter['pass'],
+				'server_id'				=>	$parameter['server_id'],
 				'account_email'			=>	$parameter['email'],
 				'account_country'		=>	$parameter['country'],
 				'account_firstname'		=>	$parameter['firstname'],
@@ -105,14 +97,8 @@ class Web_account extends CI_Model {
 			$this->accountdb->where('account_name', $parameter['account_name']);
 			$this->accountdb->where('account_pass', $parameter['account_pass']);
 		}
-		if(!empty($parameter['game_id'])) {
-			$this->accountdb->where('game_id', $parameter['game_id']);
-		}
 		if(!empty($parameter['server_id'])) {
 			$this->accountdb->where('server_id', $parameter['server_id']);
-		}
-		if(!empty($parameter['server_section'])) {
-			$this->accountdb->where('server_section', $parameter['server_section']);
 		}
 		$query = $this->accountdb->get($this->accountTable);
 		if($query->num_rows() > 0) {

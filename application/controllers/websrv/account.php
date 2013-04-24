@@ -15,9 +15,9 @@ class Account extends CI_Controller {
 	}
 	
 	public function login($format = 'json') {
-		$accountName  = $this->input->get_post('account_name', TRUE);
-		$accountPass  = $this->input->get_post('account_pass', TRUE);
-		$server_id	=	$this->input->get_post('server_id', TRUE);
+		$accountName	=	$this->input->get_post('account_name', TRUE);
+		$accountPass	=	$this->input->get_post('account_pass', TRUE);
+		$server_id		=	$this->input->get_post('server_id', TRUE);
 		
 		if(!empty($accountName) && !empty($accountPass) && !empty($server_id))
 		{
@@ -313,27 +313,22 @@ class Account extends CI_Controller {
 		$name = 'Guest' . $guid;
 		$pass = do_hash($guid, 'md5');
 		
-		//if($section_id === FALSE) {
-			//$section_id = $this->config->item('game_section_id');
-		//}
-		//if($server_id === FALSE) {
-			$this->load->model('websrv/server', 'server');
+		$this->load->model('websrv/server', 'server');
+		$parameter = array(
+			'partner'				=>	$partner
+			'server_recommend'		=>	'1'
+		);
+		$result = $this->server->getAllResult($parameter);
+		if($result!=FALSE) {
+			$server_id = $result[0]->account_server_id;
+		} else {
 			$parameter = array(
 				'partner'				=>	$partner
-				'server_recommend'		=>	'1'
+				'order_by'				=>	'server_sort'
 			);
 			$result = $this->server->getAllResult($parameter);
-			if($result!=FALSE) {
-				$server_id = $result[0]->account_server_id;
-			} else {
-				$parameter = array(
-					'partner'				=>	$partner
-					'order_by'				=>	'server_sort'
-				);
-				$result = $this->server->getAllResult($parameter);
-				$server_id = $result[0]->account_server_id;
-			}
-		//}
+			$server_id = $result[0]->account_server_id;
+		}
 			
 		if(!empty($name) && !empty($pass) && !empty($server_id))
 		{
