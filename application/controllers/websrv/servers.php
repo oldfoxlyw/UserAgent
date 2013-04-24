@@ -11,6 +11,22 @@ class Servers extends CI_Controller {
 		$this->load->model('websrv/status');
 	}
 	
+	public function testserver()
+	{
+		$status = $this->status->read();
+		var_dump($status);
+		exit();
+		if($status->server_status != '1')
+		{
+			$jsonData = array(
+				'message'	=>	'SERVER_CLOSED',
+				'text'		=>	$status->message
+			);
+			echo $this->return_format->format($jsonData, $format);
+			exit();
+		}
+	}
+
 	public function server_list($format = 'json') {
 		$gameId		=	$this->input->get_post('game_id', TRUE);
 		$sectionId	=	$this->input->get_post('server_section', TRUE);
