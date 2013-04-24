@@ -12,15 +12,15 @@ class Status extends CI_Model {
 
 	public function read()
 	{
-		$result = $this->productdb->get($this->accountTable);
-		if($result !== FALSE)
-		{
-			return $result[0];
-		}
-		else
-		{
-			return FALSE;
-		}
+		// $result = $this->productdb->get($this->accountTable);
+		// if($result !== FALSE)
+		// {
+		// 	return $result[0];
+		// }
+		// else
+		// {
+		// 	return FALSE;
+		// }
 	}
 }
 ?>
