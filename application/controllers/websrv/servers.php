@@ -8,13 +8,13 @@ class Servers extends CI_Controller {
 		$this->root_path = $this->config->item('root_path');
 		$this->load->model('logs');
 		$this->load->model('return_format');
-		$this->load->model('websrv/status');
+		$this->load->model('websrv/status', 'status');
 	}
 	
 	public function testserver()
 	{
-		$status = $this->status->read();
-		var_dump($status);
+		$result = $this->status->read();
+		var_dump($result);
 		exit();
 		if($status->server_status != '1')
 		{
