@@ -46,6 +46,9 @@ class Server extends CI_Model {
 			if(!empty($parameter['server_mode']) && $parameter['server_mode']!='debug') {
 				$this->productdb->where('server_mode', $parameter['server_mode']);
 			}
+			if(!empty($parameter['partner'])) {
+				$this->productdb->where('partner', $parameter['partner']);
+			}
 			if(!empty($parameter['order_by'])) {
 				$this->productdb->order_by($parameter['order_by'], 'desc');
 			}

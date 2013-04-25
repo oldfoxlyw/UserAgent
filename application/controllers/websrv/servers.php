@@ -12,13 +12,9 @@ class Servers extends CI_Controller {
 	}
 
 	public function server_list($format = 'json') {
-		$gameId		=	$this->input->get_post('game_id', TRUE);
-		$sectionId	=	$this->input->get_post('server_section', TRUE);
+		$partner	=	$this->input->get_post('partner', TRUE);
 		$mode		=	$this->input->get_post('mode', TRUE);
 		$lang		=	$this->input->get_post('language', TRUE);
-		
-		$authKey	=	$this->config->item('game_auth_key');
-		$authToken	=	$authKey[$gameId]['auth_key'];
 
 		// $status = $this->status->read();
 		// if($status->server_status != '1')
@@ -31,9 +27,10 @@ class Servers extends CI_Controller {
 		// 	exit();
 		// }
 		
-		if($sectionId===FALSE || empty($sectionId)) {
-			$sectionId	=	$this->config->item('game_section_id');
+		if($partner===FALSE || empty($partner)) {
+			$partner = '';
 		}
+		
 		if($mode===FALSE || empty($mode)) {
 			$mode = 'normal';
 		}
@@ -48,60 +45,31 @@ class Servers extends CI_Controller {
 			default:
 				$lang = 'zh-cn';
 		}
-		
-		if(!empty($gameId)) {
-			if($this->config->item('game_server_cache')) {
-				//使用缓存
-				$cache = $this->config->item('game_server_list');
-				if(empty($cache[$gameId]['section'][$sectionId])) {
-					
-				}
-				$result = array();
-				foreach($cache[$gameId]['section'][$sectionId]['server'] as $key => $value) {
-					$row = array(
-						'account_server_id'	=>	$key,
-						'server_name'		=>	$value['server_name'],
-						'server_ip'			=>	$value['server_ip'] . ':' . $value['server_port'],
-						'server_max_player'	=>	$value['server_max_player'],
-						'account_count'		=>	$value['account_count'],
-						'server_language'	=>	$value['server_language'],
-						'server_recommend'	=>	$value['server_recommend']
-					);
-					array_push($result, $row);
-				}
-			} else {
-				//不使用缓存
-				$this->load->model('websrv/server', 'server');
-				$parameter = array(
-					'use_cache_style'			=>	true,
-					'game_id'					=>	$gameId,
-					'server_mode'			=>	$mode,
-					'order_by'					=>	'server_sort'
-					//'account_server_section'	=>	$sectionId
-				);
-				$result = $this->server->getAllResult($parameter);
+
+		//不使用缓存
+		$this->load->model('websrv/server', 'server');
+		$parameter = array(
+			'use_cache_style'			=>	true,
+			'server_mode'				=>	$mode,
+			'order_by'					=>	'server_sort'
+		);
+		$result = $this->server->getAllResult($parameter);
+
+		$this->lang->load('server_list', $lang);
+		$this->load->helper('language');
+		foreach($result as $value) {
+			$serverName = lang('server_list_' . $value->server_name);
+			if(!empty($serverName)) {
+				$value->server_name = $serverName;
 			}
-			$this->lang->load('server_list', $lang);
-			$this->load->helper('language');
-			foreach($result as $value) {
-				$serverName = lang('server_list_' . $value->server_name);
-				if(!empty($serverName)) {
-					$value->server_name = $serverName;
-				}
-				$value->server_language = lang('server_list_language_' . $value->server_language);
-			}
-			
-			$jsonData = Array(
-				'message'	=>	'SERVER_LIST_SUCCESS',
-				'server'	=>	$result
-			);
-			echo $this->return_format->format($jsonData, $format);
-		} else {
-			$jsonData = Array(
-				'message'	=>	'SERVER_ERROR_NO_PARAM'
-			);
-			echo $this->return_format->format($jsonData, $format);
+			$value->server_language = lang('server_list_language_' . $value->server_language);
 		}
+		
+		$jsonData = Array(
+			'message'	=>	'SERVER_LIST_SUCCESS',
+			'server'	=>	$result
+		);
+		echo $this->return_format->format($jsonData, $format);
 	}
 }
 ?>

@@ -91,7 +91,6 @@ class Account extends CI_Controller {
 		$pass		=	$this->input->get_post('account_pass', TRUE);
 		$accountEmail=	$this->input->get_post('account_email', TRUE);
 		$server_id	=	$this->input->get_post('server_id', TRUE);
-		$country	=	$this->input->get_post('account_country', TRUE);
 		$question	=	$this->input->get_post('account_question', TRUE);
 		$answer		=	$this->input->get_post('account_answer', TRUE);
 		
@@ -123,7 +122,6 @@ class Account extends CI_Controller {
 					'name'		=>	$name,
 					'pass'		=>	$pass,
 					'email'		=>	$accountEmail,
-					'country'	=>	$country,
 					'question'	=>	$question,
 					'answer'	=>	$answer,
 					'server_id'	=>	$server_id
@@ -403,7 +401,7 @@ class Account extends CI_Controller {
 	}
 	
 	public function modify($format = 'json') {
-		$accountId	=	$this->input->get_post('account_id', TRUE);
+		$accountId	=	$this->input->get_post('guid', TRUE);
 		$name		=	$this->input->get_post('account_name', TRUE);
 		$pass		=	$this->input->get_post('account_pass', TRUE);
 		$nickName	=	$this->input->get_post('nick_name', TRUE);
