@@ -332,7 +332,7 @@ class Account extends CI_Controller {
 		
 		$this->load->model('websrv/server', 'server');
 		$parameter = array(
-			'partner'				=>	$partner
+			'partner'				=>	$partner,
 			'server_recommend'		=>	'1'
 		);
 		$result = $this->server->getAllResult($parameter);
@@ -340,7 +340,7 @@ class Account extends CI_Controller {
 			$server_id = $result[0]->account_server_id;
 		} else {
 			$parameter = array(
-				'partner'				=>	$partner
+				'partner'				=>	$partner,
 				'order_by'				=>	'server_sort'
 			);
 			$result = $this->server->getAllResult($parameter);
