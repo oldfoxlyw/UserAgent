@@ -61,9 +61,6 @@ class Web_account2 extends CI_Model {
 				'account_pass'			=>	$parameter['pass'],
 				'server_id'				=>	$parameter['server_id'],
 				'account_email'			=>	$parameter['email'],
-				'account_country'		=>	$parameter['country'],
-				'account_firstname'		=>	$parameter['firstname'],
-				'account_lastname'		=>	$parameter['lastname'],
 				'account_pass_question'	=>	$parameter['question'],
 				'account_pass_answer'	=>	$parameter['answer'],
 				'account_regtime'		=>	time()
