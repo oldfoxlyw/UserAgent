@@ -15,7 +15,6 @@ class Account2 extends CI_Controller {
 	}
 	
 	public function login($format = 'json') {
-		exit();
 		$accountName	=	$this->input->get_post('account_name', TRUE);
 		$accountPass	=	$this->input->get_post('account_pass', TRUE);
 		$server_id		=	$this->input->get_post('server_id', TRUE);
@@ -192,6 +191,124 @@ class Account2 extends CI_Controller {
 			
 			$logParameter = array(
 				'log_action'	=>	'ACCOUNT_REGISTER_ERROR_NO_PARAM',
+				'account_guid'	=>	'',
+				'account_name'	=>	''
+			);
+			$this->logs->write($logParameter);
+		}
+	}
+	
+	public function check_duplicated($format = 'json') {
+		$name		=	$this->input->get_post('account_name', TRUE);
+		$pass		=	$this->input->get_post('account_pass', TRUE);
+		$server_id	=	$this->input->get_post('server_id', TRUE);
+
+		if(!empty($name) && !empty($pass) && !empty($server_id)) {
+
+			if($this->web_account2->validate_duplicate($name, $pass, $server_id)) {
+				$jsonData = Array(
+					'success'	=>	true,
+					'message'	=>	'ACCOUNT_CHECK_SUCCESS'
+				);
+				echo $this->return_format->format($jsonData, $format);
+			} else {
+				$jsonData = Array(
+					'success'	=>	false,
+					'errors'	=>	'ACCOUNT_ERROR_DUPLICATE'
+				);
+				echo $this->return_format->format($jsonData, $format);
+			}
+		} else {
+			$jsonData = Array(
+				'success'	=>	false,
+				'errors'	=>	'ACCOUNT_ERROR_NO_PARAM'
+			);
+			echo $this->return_format->format($jsonData, $format);
+		}
+	}
+	
+	public function change_password($format = 'json') {
+		$accountName  = $this->input->get_post('account_name', TRUE);
+		$originPassword	=	$this->input->get_post('origin_pass', TRUE);
+		$newPassword	=	$this->input->get_post('new_pass', TRUE);
+		$server_id	=	$this->input->get_post('server_id', TRUE);
+		
+		if(!empty($accountName) && !empty($originPassword) && !empty($newPassword) && !empty($server_id))
+		{
+			$userPass = $this->web_account2->encrypt_pass($originPassword);
+			$parameter = array(
+				'account_name'		=>	$accountName,
+				'account_pass'		=>	$userPass,
+				'server_id'			=>	$server_id
+			);
+			$result = $this->web_account2->getAllResult($parameter);
+			if($result[0] != FALSE) {
+				$guid = $result[0]->GUID;
+				if($result[0]->account_pass == $userPass) {
+					if($this->web_account2->validate_duplicate($result[0]->account_name, $newPassword, $result[0]->server_id)) {
+						$newPass = $this->web_account2->encrypt_pass($newPassword);
+						$parameter = array(
+							'account_pass'	=>	$newPass
+						);
+						if($this->web_account2->update($parameter, $guid)) {
+							$jsonData = Array(
+								'success'	=>	true,
+								'message'	=>	'ACCOUNT_PASSWORD_CHANGE_SUCCESS'
+							);
+							echo $this->return_format->format($jsonData, $format);
+			
+							$logParameter = array(
+								'log_action'	=>	'ACCOUNT_PASSWORD_CHANGE_SUCCESS',
+								'account_guid'	=>	$guid,
+								'account_name'	=>	$result[0]->account_name,
+								'server_id'		=>	$server_id
+							);
+							$this->logs->write($logParameter);
+						} else {
+							$jsonData = Array(
+								'success'	=>	false,
+								'errors'	=>	'ACCOUNT_PASSWORD_CHANGE_FAIL'
+							);
+							echo $this->return_format->format($jsonData, $format);
+			
+							$logParameter = array(
+								'log_action'	=>	'ACCOUNT_PASSWORD_CHANGE_FAIL',
+								'account_guid'	=>	$guid,
+								'account_name'	=>	$result[0]->account_name,
+								'server_id'		=>	$server_id
+							);
+							$this->logs->write($logParameter);
+						}
+					} else {
+						$jsonData = Array(
+							'success'	=>	false,
+							'errors'	=>	'ACCOUNT_ERROR_DUPLICATE'
+						);
+						echo $this->return_format->format($jsonData, $format);
+					}
+				} else {
+					$jsonData = Array(
+						'success'	=>	false,
+						'errors'	=>	'ACCOUNT_ERROR_PASSWORD'
+					);
+					echo $this->return_format->format($jsonData, $format);
+				}
+			} else {
+				$jsonData = Array(
+					'success'	=>	false,
+					'errors'	=>	'ACCOUNT_ERROR_NO_GUID'
+				);
+				echo $this->return_format->format($jsonData, $format);
+			}
+		} else {
+			$jsonData = Array(
+				'success'	=>	false,
+				'errors'	=>	'ACCOUNT_ERROR_NO_PARAM'
+			);
+			echo $this->return_format->format($jsonData, $format);
+			
+			$logParameter = array(
+				'log_action'	=>	'ACCOUNT_PASSWORD_ERROR_NO_PARAM',
 				'account_guid'	=>	'',
 				'account_name'	=>	''
 			);
