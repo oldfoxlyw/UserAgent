@@ -27,12 +27,14 @@ class Account extends CI_Controller {
             	unset($user->account_secret_key);
 				if($user->account_status == '0') {
 					$jsonData = Array(
+						'success'	=>	false,
 						'errors'	=>	'ACCOUNT_VALIDATE_FAIL_FREEZED',
 						'user'		=>	$user
 					);
 					exit($this->return_format->format($jsonData, $format));
 				} elseif ($user->account_status == '-1') {
 					$jsonData = Array(
+						'success'	=>	false,
 						'errors'	=>	'ACCOUNT_VALIDATE_FAIL_BANNED',
 						'user'		=>	$user
 					);
@@ -44,6 +46,7 @@ class Account extends CI_Controller {
 				$sql = "update `web_account` set `account_lastlogin`={$user->account_currentlogin}, `account_currentlogin`={$time}, `account_activity`=`account_activity`+1 where `GUID`='{$user->GUID}'";
 				$db->query($sql);
 				$jsonData = Array(
+					'success'	=>	true,
 					'message'	=>	'ACCOUNT_VALIDATE_SUCCESS',
 					'user'		=>	$user
 				);
@@ -58,6 +61,7 @@ class Account extends CI_Controller {
 				$this->logs->write($logParameter);
 			} else {
 				$jsonData = Array(
+					'success'	=>	false,
 					'errors'	=>	'ACCOUNT_VALIDATE_FAIL'
 				);
 				echo $this->return_format->format($jsonData, $format);
@@ -72,6 +76,7 @@ class Account extends CI_Controller {
 			}
 		} else {
 			$jsonData = Array(
+				'success'	=>	false,
 				'errors'	=>	'ACCOUNT_ERROR_NO_PARAM'
 			);
 			echo $this->return_format->format($jsonData, $format);
@@ -105,6 +110,7 @@ class Account extends CI_Controller {
 			if(in_array($name, $forbiddenWords))
 			{
 				$jsonData = Array(
+					'success'	=>	false,
 					'errors'	=>	'ACCOUNT_REGISTER_FAIL'
 				);
 				echo $this->return_format->format($jsonData, $format);
@@ -133,6 +139,7 @@ class Account extends CI_Controller {
 	            	unset($user->account_secret_key);
         			$user->guid_code = md5(sha1($user->GUID));
 					$jsonData = Array(
+						'success'	=>	true,
 						'message'	=>	'ACCOUNT_REGISTER_SUCCESS',
 						'user'		=>	$user
 					);
@@ -147,6 +154,7 @@ class Account extends CI_Controller {
 					$this->logs->write($logParameter);
 				} else {
 					$jsonData = Array(
+						'success'	=>	false,
 						'errors'	=>	'ACCOUNT_REGISTER_FAIL'
 					);
 					echo $this->return_format->format($jsonData, $format);
@@ -161,6 +169,7 @@ class Account extends CI_Controller {
 				}
 			} else {
 				$jsonData = Array(
+					'success'	=>	false,
 					'errors'	=>	'ACCOUNT_ERROR_DUPLICATE'
 				);
 				echo $this->return_format->format($jsonData, $format);
@@ -175,6 +184,7 @@ class Account extends CI_Controller {
 			}
 		} else {
 			$jsonData = Array(
+				'success'	=>	false,
 				'errors'	=>	'ACCOUNT_ERROR_NO_PARAM'
 			);
 			echo $this->return_format->format($jsonData, $format);
@@ -197,17 +207,20 @@ class Account extends CI_Controller {
 
 			if($this->web_account->validate_duplicate($name, $pass, $server_id)) {
 				$jsonData = Array(
+					'success'	=>	true,
 					'message'	=>	'ACCOUNT_CHECK_SUCCESS'
 				);
 				echo $this->return_format->format($jsonData, $format);
 			} else {
 				$jsonData = Array(
+					'success'	=>	false,
 					'errors'	=>	'ACCOUNT_ERROR_DUPLICATE'
 				);
 				echo $this->return_format->format($jsonData, $format);
 			}
 		} else {
 			$jsonData = Array(
+				'success'	=>	false,
 				'errors'	=>	'ACCOUNT_ERROR_NO_PARAM'
 			);
 			echo $this->return_format->format($jsonData, $format);
@@ -239,6 +252,7 @@ class Account extends CI_Controller {
 						);
 						if($this->web_account->update($parameter, $guid)) {
 							$jsonData = Array(
+								'success'	=>	true,
 								'message'	=>	'ACCOUNT_PASSWORD_CHANGE_SUCCESS'
 							);
 							echo $this->return_format->format($jsonData, $format);
@@ -252,6 +266,7 @@ class Account extends CI_Controller {
 							$this->logs->write($logParameter);
 						} else {
 							$jsonData = Array(
+								'success'	=>	false,
 								'errors'	=>	'ACCOUNT_PASSWORD_CHANGE_FAIL'
 							);
 							echo $this->return_format->format($jsonData, $format);
@@ -266,24 +281,28 @@ class Account extends CI_Controller {
 						}
 					} else {
 						$jsonData = Array(
+							'success'	=>	false,
 							'errors'	=>	'ACCOUNT_ERROR_DUPLICATE'
 						);
 						echo $this->return_format->format($jsonData, $format);
 					}
 				} else {
 					$jsonData = Array(
+						'success'	=>	false,
 						'errors'	=>	'ACCOUNT_ERROR_PASSWORD'
 					);
 					echo $this->return_format->format($jsonData, $format);
 				}
 			} else {
 				$jsonData = Array(
+					'success'	=>	false,
 					'errors'	=>	'ACCOUNT_ERROR_NO_GUID'
 				);
 				echo $this->return_format->format($jsonData, $format);
 			}
 		} else {
 			$jsonData = Array(
+				'success'	=>	false,
 				'errors'	=>	'ACCOUNT_ERROR_NO_PARAM'
 			);
 			echo $this->return_format->format($jsonData, $format);
@@ -345,6 +364,7 @@ class Account extends CI_Controller {
             		$user->guid_code = md5(sha1($user->GUID));
 	            	
 					$jsonData = Array(
+						'success'	=>	true,
 						'message'	=>	'ACCOUNT_DEMO_SUCCESS',
 						'user'		=>	$user,
 					);
@@ -359,6 +379,7 @@ class Account extends CI_Controller {
 					$this->logs->write($logParameter);
 				} else {
 					$jsonData = Array(
+						'success'	=>	false,
 						'errors'	=>	'ACCOUNT_DEMO_FAIL'
 					);
 					echo $this->return_format->format($jsonData, $format);
@@ -373,6 +394,7 @@ class Account extends CI_Controller {
 				}
 			} else {
 				$jsonData = Array(
+					'success'	=>	false,
 					'errors'	=>	'ACCOUNT_ERROR_DUPLICATE'
 				);
 				echo $this->return_format->format($jsonData, $format);
@@ -387,6 +409,7 @@ class Account extends CI_Controller {
 			}
 		} else {
 			$jsonData = Array(
+				'success'	=>	false,
 				'errors'	=>	'ACCOUNT_ERROR_NO_PARAM'
 			);
 			echo $this->return_format->format($jsonData, $format);
@@ -415,6 +438,7 @@ class Account extends CI_Controller {
 				$guid = $webAccount->GUID;
 			} else {
 				$jsonData = Array(
+					'success'	=>	false,
 					'errors'	=>	'ACCOUNT_ERROR_NOT_EXIST'
 				);
 				echo $this->return_format->format($jsonData, $format);
@@ -448,6 +472,7 @@ class Account extends CI_Controller {
 					}
 					if(!$this->web_account->validate_duplicate($name, $pass, $needEncrypt)) {
 						$jsonData = Array(
+							'success'	=>	false,
 							'errors'	=>	'ACCOUNT_ERROR_DUPLICATE'
 						);
 						echo $this->return_format->format($jsonData, $format);
@@ -463,6 +488,7 @@ class Account extends CI_Controller {
 				}
 				if($this->web_account->update($row, $guid)) {
 					$jsonData = Array(
+						'success'	=>	true,
 						'message'	=>	'ACCOUNT_MODIFY_SUCCESS'
 					);
 					echo $this->return_format->format($jsonData, $format);
@@ -475,6 +501,7 @@ class Account extends CI_Controller {
 					$this->logs->write($logParameter);
 				} else {
 					$jsonData = Array(
+						'success'	=>	false,
 						'errors'	=>	'ACCOUNT_MODIFY_FAIL'
 					);
 					echo $this->return_format->format($jsonData, $format);
@@ -488,6 +515,7 @@ class Account extends CI_Controller {
 				}
 			} else {
 				$jsonData = Array(
+					'success'	=>	false,
 					'errors'	=>	'ACCOUNT_MODIFY_NOTHING'
 				);
 				echo $this->return_format->format($jsonData, $format);
@@ -501,6 +529,7 @@ class Account extends CI_Controller {
 			}
 		} else {
 			$jsonData = Array(
+				'success'	=>	false,
 				'errors'	=>	'ACCOUNT_MODIFY_ERROR_NO_PARAM'
 			);
 			echo $this->return_format->format($jsonData, $format);
@@ -527,6 +556,7 @@ class Account extends CI_Controller {
 			if(!empty($result))
 			{
 				$jsonData = Array(
+						'success'	=>	true,
 						'message'	=>	'ACCOUNT_GUID_SUCCESS',
 						'user'		=>	$result
 				);
@@ -535,6 +565,7 @@ class Account extends CI_Controller {
 			else
 			{
 				$jsonData = Array(
+						'success'	=>	false,
 						'message'	=>	'ACCOUNT_GUID_ERROR',
 						'user'		=>	null
 				);
