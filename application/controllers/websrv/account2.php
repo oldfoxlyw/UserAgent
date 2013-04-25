@@ -7,7 +7,7 @@ class Account2 extends CI_Controller {
 	public function __construct() {
 		parent::__construct();
 		$this->root_path = $this->config->item('root_path');
-		$this->load->model('web_account2', 'web_account');
+		$this->load->model('web_account2');
 		$this->load->model('logs');
 		$this->load->model('return_format');
 		$this->load->model('param_check');
@@ -22,7 +22,7 @@ class Account2 extends CI_Controller {
 		
 		if(!empty($accountName) && !empty($accountPass) && !empty($server_id))
 		{
-			$user = $this->web_account->validate($accountName, $accountPass, $server_id);
+			$user = $this->web_account2->validate($accountName, $accountPass, $server_id);
 			if($user != FALSE) {
             	unset($user->account_pass);
             	unset($user->account_secret_key);
@@ -42,9 +42,9 @@ class Account2 extends CI_Controller {
 					exit($this->return_format->format($jsonData, $format));
 				}
 
-				$db = $this->web_account->db();
+				$db = $this->web_account2->db();
 				$time = time();
-				$sql = "update `web_account` set `account_lastlogin`={$user->account_currentlogin}, `account_currentlogin`={$time}, `account_activity`=`account_activity`+1 where `GUID`='{$user->GUID}'";
+				$sql = "update `web_account2` set `account_lastlogin`={$user->account_currentlogin}, `account_currentlogin`={$time}, `account_activity`=`account_activity`+1 where `GUID`='{$user->GUID}'";
 				$db->query($sql);
 				$jsonData = Array(
 					'success'	=>	true,
@@ -124,7 +124,7 @@ class Account2 extends CI_Controller {
 				$this->logs->write($logParameter);
 			}
 
-			if($this->web_account->validate_duplicate($name, $pass, $server_id)) {
+			if($this->web_account2->validate_duplicate($name, $pass, $server_id)) {
 				$parameter = array(
 					'name'		=>	$name,
 					'pass'		=>	$pass,
@@ -133,9 +133,9 @@ class Account2 extends CI_Controller {
 					'answer'	=>	$answer,
 					'server_id'	=>	$server_id
 				);
-				$guid = $this->web_account->register($parameter);
+				$guid = $this->web_account2->register($parameter);
 				if(!empty($guid)) {
-					$user = $this->web_account->get($guid);
+					$user = $this->web_account2->get($guid);
 	            	unset($user->account_pass);
 	            	unset($user->account_secret_key);
         			$user->guid_code = md5(sha1($user->GUID));
@@ -206,7 +206,7 @@ class Account2 extends CI_Controller {
 
 		if(!empty($name) && !empty($pass) && !empty($server_id)) {
 
-			if($this->web_account->validate_duplicate($name, $pass, $server_id)) {
+			if($this->web_account2->validate_duplicate($name, $pass, $server_id)) {
 				$jsonData = Array(
 					'success'	=>	true,
 					'message'	=>	'ACCOUNT_CHECK_SUCCESS'
@@ -236,22 +236,22 @@ class Account2 extends CI_Controller {
 		
 		if(!empty($accountName) && !empty($originPassword) && !empty($newPassword) && !empty($server_id))
 		{
-			$userPass = $this->web_account->encrypt_pass($originPassword);
+			$userPass = $this->web_account2->encrypt_pass($originPassword);
 			$parameter = array(
 				'account_name'		=>	$accountName,
 				'account_pass'		=>	$userPass,
 				'server_id'			=>	$server_id
 			);
-			$result = $this->web_account->getAllResult($parameter);
+			$result = $this->web_account2->getAllResult($parameter);
 			if($result[0] != FALSE) {
 				$guid = $result[0]->GUID;
 				if($result[0]->account_pass == $userPass) {
-					if($this->web_account->validate_duplicate($result[0]->account_name, $newPassword, $result[0]->server_id)) {
-						$newPass = $this->web_account->encrypt_pass($newPassword);
+					if($this->web_account2->validate_duplicate($result[0]->account_name, $newPassword, $result[0]->server_id)) {
+						$newPass = $this->web_account2->encrypt_pass($newPassword);
 						$parameter = array(
 							'account_pass'	=>	$newPass
 						);
-						if($this->web_account->update($parameter, $guid)) {
+						if($this->web_account2->update($parameter, $guid)) {
 							$jsonData = Array(
 								'success'	=>	true,
 								'message'	=>	'ACCOUNT_PASSWORD_CHANGE_SUCCESS'
@@ -350,16 +350,16 @@ class Account2 extends CI_Controller {
 			
 		if(!empty($name) && !empty($pass) && !empty($server_id))
 		{
-			if($this->web_account->validate_duplicate($name, $pass, $server_id)) {
+			if($this->web_account2->validate_duplicate($name, $pass, $server_id)) {
 				$parameter = array(
 					'name'		=>	$name,
 					'pass'		=>	$pass,
 					'email'		=>	'',
 					'server_id'	=>	$server_id
 				);
-				$guid = $this->web_account->register($parameter);
+				$guid = $this->web_account2->register($parameter);
 				if(!empty($guid)) {
-					$user = $this->web_account->get($guid);
+					$user = $this->web_account2->get($guid);
 		            unset($user->account_secret_key);
 	            	$user->account_pass = $pass;
             		$user->guid_code = md5(sha1($user->GUID));
@@ -434,7 +434,7 @@ class Account2 extends CI_Controller {
 		if(!empty($accountId))
 		{
 			//取得GUID
-			$webAccount = $this->web_account->get($accountId);
+			$webAccount = $this->web_account2->get($accountId);
 			if($webAccount!=FALSE) {
 				$guid = $webAccount->GUID;
 			} else {
@@ -459,7 +459,7 @@ class Account2 extends CI_Controller {
 			}
 			if(!empty($pass)) {
 				$this->load->helper('security');
-				$row['account_pass'] = $this->web_account->encrypt_pass($pass);
+				$row['account_pass'] = $this->web_account2->encrypt_pass($pass);
 			}
 			
 			if(!empty($row)) {
@@ -471,7 +471,7 @@ class Account2 extends CI_Controller {
 					} else {
 						$needEncrypt = true;
 					}
-					if(!$this->web_account->validate_duplicate($name, $pass, $needEncrypt)) {
+					if(!$this->web_account2->validate_duplicate($name, $pass, $needEncrypt)) {
 						$jsonData = Array(
 							'success'	=>	false,
 							'errors'	=>	'ACCOUNT_ERROR_DUPLICATE'
@@ -487,7 +487,7 @@ class Account2 extends CI_Controller {
 						exit();
 					}
 				}
-				if($this->web_account->update($row, $guid)) {
+				if($this->web_account2->update($row, $guid)) {
 					$jsonData = Array(
 						'success'	=>	true,
 						'message'	=>	'ACCOUNT_MODIFY_SUCCESS'
@@ -552,7 +552,7 @@ class Account2 extends CI_Controller {
 		if(!empty($guid))
 		{
 				
-			$result = $this->web_account->get($guid);
+			$result = $this->web_account2->get($guid);
             $result->guid_code = md5(sha1($result->GUID));
 			if(!empty($result))
 			{
