@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Account2 extends CI_Controller {
+class Account_bak extends CI_Controller {
 	private $root_path = null;
 	private $authKey = null;
 	
