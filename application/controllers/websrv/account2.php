@@ -7,7 +7,7 @@ class Account2 extends CI_Controller {
 	public function __construct() {
 		parent::__construct();
 		$this->root_path = $this->config->item('root_path');
-		$this->load->model('web_account');
+		$this->load->model('web_account2', 'web_account');
 		$this->load->model('logs');
 		$this->load->model('return_format');
 		$this->load->model('param_check');
