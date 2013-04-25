@@ -15,6 +15,7 @@ class Account2 extends CI_Controller {
 	}
 	
 	public function login($format = 'json') {
+		exit();
 		$accountName	=	$this->input->get_post('account_name', TRUE);
 		$accountPass	=	$this->input->get_post('account_pass', TRUE);
 		$server_id		=	$this->input->get_post('server_id', TRUE);
