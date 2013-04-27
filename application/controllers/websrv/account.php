@@ -545,7 +545,6 @@ class Account extends CI_Controller {
 	
 	public function checkGuid($format = 'json')
 	{
-		$serverId		=	$this->input->get_post('server_id', TRUE);
 		$guid 			=	$this->input->get_post('guid', TRUE);
 	
 		if(!empty($guid))
