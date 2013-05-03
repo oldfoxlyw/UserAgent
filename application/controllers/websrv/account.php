@@ -23,8 +23,8 @@ class Account extends CI_Controller {
 		{
 			$user = $this->web_account->validate($accountName, $accountPass, $server_id);
 			if($user != FALSE) {
-            	unset($user->account_pass);
-            	unset($user->account_secret_key);
+				unset($user->account_pass);
+				unset($user->account_secret_key);
 				if($user->account_status == '0') {
 					$jsonData = Array(
 						'success'	=>	false,
@@ -135,9 +135,9 @@ class Account extends CI_Controller {
 				$guid = $this->web_account->register($parameter);
 				if(!empty($guid)) {
 					$user = $this->web_account->get($guid);
-	            	unset($user->account_pass);
-	            	unset($user->account_secret_key);
-        			$user->guid_code = md5(sha1($user->GUID));
+					unset($user->account_pass);
+					unset($user->account_secret_key);
+					$user->guid_code = md5(sha1($user->GUID));
 					$jsonData = Array(
 						'success'	=>	true,
 						'message'	=>	'ACCOUNT_REGISTER_SUCCESS',
@@ -359,10 +359,10 @@ class Account extends CI_Controller {
 				$guid = $this->web_account->register($parameter);
 				if(!empty($guid)) {
 					$user = $this->web_account->get($guid);
-		            unset($user->account_secret_key);
-	            	$user->account_pass = $pass;
-            		$user->guid_code = md5(sha1($user->GUID));
-	            	
+					unset($user->account_secret_key);
+					$user->account_pass = $pass;
+					$user->guid_code = md5(sha1($user->GUID));
+
 					$jsonData = Array(
 						'success'	=>	true,
 						'message'	=>	'ACCOUNT_DEMO_SUCCESS',
@@ -551,7 +551,7 @@ class Account extends CI_Controller {
 		{
 				
 			$result = $this->web_account->get($guid);
-            $result->guid_code = md5(sha1($result->GUID));
+			$result->guid_code = md5(sha1($result->GUID));
 			if(!empty($result))
 			{
 				$jsonData = Array(
