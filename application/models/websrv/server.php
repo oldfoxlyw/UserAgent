@@ -29,7 +29,7 @@ class Server extends CI_Model {
 	public function getAllResult($parameter = null) {
 		if($parameter != null) {
 			if($parameter['use_cache_style'] == true) {
-				$this->productdb->select("account_server_id, server_name, CONCAT(`server_ip`, ':', `server_port`) as `server_ip`, CONCAT(`server_message_ip`, ':', `server_message_port`) as `server_message_ip`, `server_game_ip`, `server_game_port`, `team_server`, `team_server_port`, server_max_player, account_count, server_language, server_recommend", FALSE);
+				$this->productdb->select("account_server_id, server_name, CONCAT(`server_ip`, ':', `server_port`) as `server_ip`, CONCAT(`server_message_ip`, ':', `server_message_port`) as `server_message_ip`, `server_game_ip`, `server_game_port`, `team_server`, `team_server_port`, server_max_player, account_count, server_language, server_recommend, server_status", FALSE);
 			}
 			if(!empty($parameter['game_id'])) {
 				$this->productdb->where('game_id', $parameter['game_id']);
