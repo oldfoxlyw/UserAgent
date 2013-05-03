@@ -346,8 +346,6 @@ class Account extends CI_Controller {
 			$result = $this->server->getAllResult($parameter);
 			$server_id = $result[0]->account_server_id;
 		}
-		var_dump($result);
-		exit();
 		if(!empty($name) && !empty($pass) && !empty($server_id))
 		{
 			if($this->web_account->validate_duplicate($name, $pass, $server_id)) {
