@@ -327,8 +327,8 @@ class Account extends CI_Controller {
 		$this->load->library('guid');
 		$this->load->helper('security');
 		$guid = do_hash($this->guid->toString(), 'md5');
-		$name = 'Guest' . $guid;
-		$pass = do_hash($guid, 'md5');
+		$name = 'Guest' . substr($guid, 0, 6);
+		$pass = substr(do_hash($this->guid->newGuid()->toString(), 'md5'), 0, 8);
 		
 		$this->load->model('websrv/server', 'server');
 		$parameter = array(
