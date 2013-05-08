@@ -40,6 +40,16 @@ class Servers extends CI_Controller {
 			default:
 				$lang = 'zh-cn';
 		}
+
+		if($lang == 'english')
+		{
+			$jsonData = Array(
+				'message'	=>	'SERVER_LIST_SUCCESS',
+				'server'	=>	array()
+			);
+			echo $this->return_format->format($jsonData, $format);
+			exit();
+		}
 		
 		if(!empty($gameId)) {
 			if($this->config->item('game_server_cache')) {
@@ -67,7 +77,7 @@ class Servers extends CI_Controller {
 				$parameter = array(
 					'use_cache_style'			=>	true,
 					'game_id'					=>	$gameId,
-					'server_mode'			=>	$mode,
+					'server_mode'				=>	$mode,
 					'partner'					=>	$partner,
 					'order_by'					=>	'server_sort'
 					//'account_server_section'	=>	$sectionId
