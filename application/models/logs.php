@@ -27,7 +27,9 @@ class logs extends CI_Model {
 				'log_ip'				=>	$requestIp,
 				'server_id'				=>	empty($parameter['server_id']) ? '' : $parameter['server_id']
 			);
-			$this->logdb->insert($this->accountTable, $row);
+			var_dump($row);
+			exit();
+			//$this->logdb->insert($this->accountTable, $row);
 			break;
 		}
 	}

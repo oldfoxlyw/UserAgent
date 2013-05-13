@@ -375,7 +375,7 @@ class Account extends CI_Controller {
 						'account_name'	=>	$user->account_name,
 						'server_id'		=>	$server_id
 					);
-					//$this->logs->write($logParameter);
+					$this->logs->write($logParameter);
 				} else {
 					$jsonData = Array(
 						'success'	=>	false,
