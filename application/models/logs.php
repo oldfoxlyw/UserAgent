@@ -15,6 +15,7 @@ class logs extends CI_Model {
 		if(!empty($parameter) && !empty($parameter['log_action'])) {
 			$uri					=	$this->input->server('REQUEST_URI');
 			$relativeMethod			=	$this->input->server('REQUEST_METHOD');
+			$requestIp				=	$this->input->ip_address();
 			$relativeParameter		=	json_encode($_REQUEST);
 			$currentTime			=	time();
 			$currentTimeLocal		=	date("Y-m-d H:i:s", $currentTime);
@@ -25,6 +26,7 @@ class logs extends CI_Model {
 				'log_action'			=>	$logAction,
 				'log_parameter'			=>	$relativeParameter,
 				'log_time_local'		=>	$currentTimeLocal,
+				'log_ip'				=>	$requestIp,
 				'server_id'				=>	empty($parameter['server_id']) ? '' : $parameter['server_id']
 			);
 			$this->logdb->insert($this->accountTable, $row);
