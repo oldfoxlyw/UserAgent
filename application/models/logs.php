@@ -28,8 +28,8 @@ class logs extends CI_Model {
 				'server_id'				=>	empty($parameter['server_id']) ? '' : $parameter['server_id']
 			);
 			var_dump($row);
-			exit();
-			//$this->logdb->insert($this->accountTable, $row);
+			//exit();
+			$this->logdb->insert($this->accountTable, $row);
 			break;
 		}
 	}
