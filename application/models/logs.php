@@ -18,44 +18,17 @@ class logs extends CI_Model {
 			$relativeParameter		=	json_encode($_REQUEST);
 			$currentTime			=	time();
 			$currentTimeLocal		=	date("Y-m-d H:i:s", $currentTime);
-			
-			$logAction = $parameter['log_action'];
-			$logActionArg = explode('_', $logAction);
-			switch($logActionArg[0]) {
-				case 'ACCOUNT':
-					$row = array(
-						'log_GUID'				=>	$parameter['account_guid'],
-						'log_account_name'		=>	$parameter['account_name'],
-						'log_account_email'		=>	'',
-						'log_action'			=>	$logAction,
-						'log_uri'				=>	$uri,
-						'log_method'			=>	$relativeMethod,
-						'log_parameter'			=>	$relativeParameter,
-						'log_time'				=>	$currentTime,
-						'log_time_local'		=>	$currentTimeLocal,
-						'game_id'				=>	empty($parameter['game_id']) ? '' : $parameter['game_id'],
-						'section_id'				=>	empty($parameter['section_id']) ? '' : $parameter['section_id'],
-						'server_id'				=>	empty($parameter['server_id']) ? '' : $parameter['server_id']
-					);
-					$this->logdb->insert($this->accountTable, $row);
-					break;
-				case 'PAYMENT':
-					$row = array(
-						'log_GUID'				=>	$parameter['account_guid'],
-						'log_action'			=>	$logAction,
-						'log_uri'					=>	$uri,
-						'log_method'			=>	$relativeMethod,
-						'log_parameter'		=>	$relativeParameter,
-						'log_time'				=>	$currentTime,
-						'log_time_local'		=>	$currentTimeLocal,
-						'log_ip'					=>	$this->input->ip_address(),
-						'game_id'				=>	empty($parameter['game_id']) ? '' : $parameter['game_id'],
-						'section_id'				=>	empty($parameter['section_id']) ? '' : $parameter['section_id'],
-						'server_id'				=>	empty($parameter['server_id']) ? '' : $parameter['server_id']
-					);
-					$this->logdb->insert($this->paymentTable, $row);
-					break;
-			}
+			$log_action				=	$parameter['log_action'];
+			$row = array(
+				'log_GUID'				=>	$parameter['account_guid'],
+				'log_account_name'		=>	$parameter['account_name'],
+				'log_action'			=>	$logAction,
+				'log_parameter'			=>	$relativeParameter,
+				'log_time_local'		=>	$currentTimeLocal,
+				'server_id'				=>	empty($parameter['server_id']) ? '' : $parameter['server_id']
+			);
+			$this->logdb->insert($this->accountTable, $row);
+			break;
 		}
 	}
 }
