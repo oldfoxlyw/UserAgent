@@ -101,8 +101,6 @@ class Overview extends CI_Controller {
 			
 			$parameter = array(
 				'log_date'					=>	$date,
-				'game_id'					=>	$row->game_id,
-				'server_section'			=>	$row->account_server_section,
 				'server_id'					=>	$row->account_server_id,
 				'server_name'				=>	$row->server_name,
 				'reg_account'				=>	$registerCount,
@@ -116,7 +114,7 @@ class Overview extends CI_Controller {
 				'order_count'				=>	$ordersCount,
 				'second_survive'			=>	$secondSurvive
 			);
-			$this->logcachedb->insert('log_overview', $parameter);
+			$this->logcachedb->insert('log_daily_statistics', $parameter);
 		}
 	}
 
