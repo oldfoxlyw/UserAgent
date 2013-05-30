@@ -30,11 +30,9 @@ class Overview extends CI_Controller {
 			$registerCount = $this->accountdb->count_all_results('web_account');
 
 			//新注册数
-			$this->logcachedb->where('log_date', $preDate);
-			$this->logcachedb->where('game_id', $row->game_id);
-			$this->logcachedb->where('server_section', $row->account_server_section);
-			$this->logcachedb->where('server_id', $row->account_server_id);
-			$result = $this->logcachedb->get('log_daily_statistics')->row();
+			$this->logdb->where('log_date', $preDate);
+			$this->logdb->where('server_id', $row->account_server_id);
+			$result = $this->logdb->get('log_daily_statistics')->row();
 			$lastRegCount = $result->reg_account;
 			$lastNewReg = $result->reg_new_account;
 			$regNewCount = $registerCount - $lastRegCount;

@@ -16,14 +16,12 @@ class logs extends CI_Model {
 			$relativeMethod			=	$this->input->server('REQUEST_METHOD');
 			$requestIp				=	$this->input->ip_address();
 			$relativeParameter		=	json_encode($_REQUEST);
-			$currentTime			=	time();
-			$currentTimeLocal		=	date("Y-m-d H:i:s", $currentTime);
 			$row = array(
 				'log_GUID'				=>	$parameter['account_guid'],
 				'log_account_name'		=>	$parameter['account_name'],
 				'log_action'			=>	$parameter['log_action'],
 				'log_parameter'			=>	$relativeParameter,
-				'log_time_local'		=>	$currentTimeLocal,
+				'log_time'		=>	time(),
 				'log_ip'				=>	$requestIp,
 				'server_id'				=>	empty($parameter['server_id']) ? '' : $parameter['server_id']
 			);
