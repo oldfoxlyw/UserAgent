@@ -28,14 +28,19 @@ class Overview extends CI_Controller {
 		foreach($serverResult as $row) {
 			//总注册数
 			$registerCount = $this->accountdb->count_all_results('web_account');
-
+			
+			//昨日新注册数
+			$this->logcachedb->where('log_date', $preDate);
+			$this->logcachedb->where('server_id', $row->account_server_id);
+			$lastResult = $this->logcachedb->get('log_daily_statistics')->row();
+			$lastNewReg = intval($lastResult->reg_new_account);
+			
 			//新注册数
-			$this->logdb->where('log_date', $preDate);
+			$this->logdb->where('log_time >=', $lastTimeStart);
+			$this->logdb->where('log_time <=', $lastTimeEnd);
+			$this->logdb->where('log_action', 'ACCOUNT_REGISTER_SUCCESS');
 			$this->logdb->where('server_id', $row->account_server_id);
-			$result = $this->logdb->get('log_daily_statistics')->row();
-			$lastRegCount = $result->reg_account;
-			$lastNewReg = $result->reg_new_account;
-			$regNewCount = $registerCount - $lastRegCount;
+			$regNewCount = $this->logdb->count_all_results('log_daily_statistics');
 			
 			//总改名用户数
 			$this->accountdb->where('account_status', 1);
@@ -45,8 +50,6 @@ class Overview extends CI_Controller {
 			$this->logdb->where('log_action', 'ACCOUNT_LOGIN_SUCCESS');
 			$this->logdb->where('log_time >', $lastTimeStart);
 			$this->logdb->where('log_time <=', $lastTimeEnd);
-			$this->logdb->where('game_id', $row->game_id);
-			$this->logdb->where('section_id', $row->account_server_section);
 			$this->logdb->where('server_id', $row->account_server_id);
 			$this->logdb->group_by('log_GUID');
 			$loginCount = $this->logdb->count_all_results('log_account');
