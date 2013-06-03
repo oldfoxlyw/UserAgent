@@ -353,7 +353,8 @@ class Account extends CI_Controller {
 					'name'		=>	$name,
 					'pass'		=>	$pass,
 					'email'		=>	'',
-					'server_id'	=>	$server_id
+					'server_id'	=>	$server_id,
+					'status'	=>	0
 				);
 				$guid = $this->web_account->register($parameter);
 				if(!empty($guid)) {
