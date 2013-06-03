@@ -44,6 +44,7 @@ class Overview extends CI_Controller {
 			$regNewCount = $this->logdb->count_all_results('log_account');
 			
 			//总改名用户数
+			$this->accountdb->where('server_id', $row->account_server_id);
 			$this->accountdb->where('account_status', 1);
 			$modifyCount = $this->accountdb->count_all_results('web_account');
 
