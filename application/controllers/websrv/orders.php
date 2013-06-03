@@ -61,7 +61,7 @@ class Orders extends CI_Controller {
 							'account_nickname'			=>	empty($result->account_nickname) ? '' : $result->account_nickname,
 							'account_id'				=>	$accountId,
 							// 'game_id'					=>	$gameId,
-							// 'server_id'					=>	$serverId,
+							'server_id'					=>	$serverId,
 							// 'server_section'			=>	$sectionId,
 							'funds_flow_dir'			=>	'CHECK_IN',
 							'funds_amount'				=>	$fundsAmount,

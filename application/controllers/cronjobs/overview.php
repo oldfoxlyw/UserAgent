@@ -27,6 +27,7 @@ class Overview extends CI_Controller {
 		$serverResult = $this->server->getAllResult();
 		foreach($serverResult as $row) {
 			//总注册数
+			$this->accountdb->where('server_id', $row->account_server_id);
 			$registerCount = $this->accountdb->count_all_results('web_account');
 			
 			//昨日新注册数
@@ -61,9 +62,7 @@ class Overview extends CI_Controller {
 			$this->fundsdb->where('funds_flow_dir', 'CHECK_IN');
 			$this->fundsdb->where('funds_time >', $lastTimeStart);
 			$this->fundsdb->where('funds_time <=', $lastTimeEnd);
-			$this->fundsdb->where('game_id', $row->game_id);
 			$this->fundsdb->where('server_id', $row->account_server_id);
-			$this->fundsdb->where('server_section', $row->account_server_section);
 			$ordersCount = $this->fundsdb->count_all_results('funds_checkinout');
 
 			//当天订单总额
@@ -71,18 +70,14 @@ class Overview extends CI_Controller {
 			$this->fundsdb->where('funds_flow_dir', 'CHECK_IN');
 			$this->fundsdb->where('funds_time >', $lastTimeStart);
 			$this->fundsdb->where('funds_time <=', $lastTimeEnd);
-			$this->fundsdb->where('game_id', $row->game_id);
 			$this->fundsdb->where('server_id', $row->account_server_id);
-			$this->fundsdb->where('server_section', $row->account_server_section);
 			$checkResult = $this->fundsdb->get('funds_checkinout')->row();
 			$ordersCurrentSum = intval($checkResult->funds_amount);
 
 			//订单总额
 			$this->fundsdb->select_sum('funds_amount');
 			$this->fundsdb->where('funds_flow_dir', 'CHECK_IN');
-			$this->fundsdb->where('game_id', $row->game_id);
 			$this->fundsdb->where('server_id', $row->account_server_id);
-			$this->fundsdb->where('server_section', $row->account_server_section);
 			$checkResult = $this->fundsdb->get('funds_checkinout')->row();
 			$ordersSum = intval($checkResult->funds_amount);
 			
@@ -90,9 +85,7 @@ class Overview extends CI_Controller {
 			$this->fundsdb->where('funds_flow_dir', 'CHECK_IN');
 			$this->fundsdb->where('funds_time >', $lastTimeStart);
 			$this->fundsdb->where('funds_time <=', $lastTimeEnd);
-			$this->fundsdb->where('game_id', $row->game_id);
 			$this->fundsdb->where('server_id', $row->account_server_id);
-			$this->fundsdb->where('server_section', $row->account_server_section);
 			$this->fundsdb->group_by('account_guid');
 			$rechargeAccount = $this->fundsdb->count_all_results('funds_checkinout');
 
