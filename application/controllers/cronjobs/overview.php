@@ -40,6 +40,7 @@ class Overview extends CI_Controller {
 			$this->logdb->where('log_time >=', $lastTimeStart);
 			$this->logdb->where('log_time <=', $lastTimeEnd);
 			$this->logdb->where('log_action', 'ACCOUNT_REGISTER_SUCCESS');
+			$this->logdb->or_where('log_action', 'ACCOUNT_DEMO_SUCCESS');
 			$this->logdb->where('server_id', $row->account_server_id);
 			$regNewCount = $this->logdb->count_all_results('log_account');
 			
@@ -98,13 +99,13 @@ class Overview extends CI_Controller {
 				'server_id'					=>	$row->account_server_id,
 				'server_name'				=>	$row->server_name,
 				'reg_account'				=>	$registerCount,
-				'reg_new_account'		=>	$regNewCount,
-				'modify_account'		=>	$modifyCount,
-				'login_account'			=>	$loginCount,
-				'orders_current_sum'	=>	$ordersCurrentSum,
+				'reg_new_account'			=>	$regNewCount,
+				'modify_account'			=>	$modifyCount,
+				'login_account'				=>	$loginCount,
+				'orders_current_sum'		=>	$ordersCurrentSum,
 				'orders_sum'				=>	$ordersSum,
 				'arpu'						=>	$arpu,
-				'recharge_account'		=>	$rechargeAccount,
+				'recharge_account'			=>	$rechargeAccount,
 				'order_count'				=>	$ordersCount,
 				'second_survive'			=>	$secondSurvive
 			);
