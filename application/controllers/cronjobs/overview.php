@@ -37,7 +37,7 @@ class Overview extends CI_Controller {
 			$lastNewReg = intval($lastResult->reg_new_account);
 			
 			//新注册数
-			$where = "`server_id` = {$row->account_server_id} and `log_time` >= {$lastTimeStart} and `log_time` <= {$lastTimeEnd} and (`log_action` = 'ACCOUNT_REGISTER_SUCCESS' or `log_action` = 'ACCOUNT_DEMO_SUCCESS')";
+			$where = "`server_id` = '{$row->account_server_id}' and `log_time` >= {$lastTimeStart} and `log_time` <= {$lastTimeEnd} and (`log_action` = 'ACCOUNT_REGISTER_SUCCESS' or `log_action` = 'ACCOUNT_DEMO_SUCCESS')";
 			$this->logdb->where($where);
 			$regNewCount = $this->logdb->count_all_results('log_account');
 			
