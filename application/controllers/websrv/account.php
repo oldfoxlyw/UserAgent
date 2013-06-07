@@ -25,14 +25,7 @@ class Account extends CI_Controller {
 			if($user != FALSE) {
 				unset($user->account_pass);
 				unset($user->account_secret_key);
-				if($user->account_status == '0') {
-					$jsonData = Array(
-						'success'	=>	false,
-						'errors'	=>	'ACCOUNT_VALIDATE_FAIL_FREEZED',
-						'user'		=>	$user
-					);
-					exit($this->return_format->format($jsonData, $format));
-				} elseif ($user->account_status == '-1') {
+				if ($user->account_status == '-1') {
 					$jsonData = Array(
 						'success'	=>	false,
 						'errors'	=>	'ACCOUNT_VALIDATE_FAIL_BANNED',
