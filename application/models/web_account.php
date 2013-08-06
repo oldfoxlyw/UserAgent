@@ -57,6 +57,7 @@ class Web_account extends CI_Model {
 			$this->load->helper('security');
 			$parameter['pass'] = $this->encrypt_pass($parameter['pass']);
 			$parameter['status'] = ($parameter['status'] == 0 || $parameter['status'] == 1) ? $parameter['status'] : 1;
+			$time = time();
 			$insertArray = array(
 				'account_name'			=>	$parameter['name'],
 				'account_pass'			=>	$parameter['pass'],
@@ -64,7 +65,8 @@ class Web_account extends CI_Model {
 				'account_email'			=>	$parameter['email'],
 				'account_pass_question'	=>	$parameter['question'],
 				'account_pass_answer'	=>	$parameter['answer'],
-				'account_regtime'		=>	time(),
+				'account_regtime'		=>	$time,
+				'account_lastlogin'	=>	$time,
 				'account_status'		=>	$parameter['status']
 			);
 			if($this->accountdb->insert($this->accountTable, $insertArray)) {

@@ -36,7 +36,7 @@ class Account extends CI_Controller {
 
 				$db = $this->web_account->db();
 				$time = time();
-				$sql = "update `web_account` set `account_lastlogin`={$user->account_currentlogin}, `account_currentlogin`={$time}, `account_activity`=`account_activity`+1 where `GUID`='{$user->GUID}'";
+				$sql = "update `web_account` set `account_lastlogin`={$time}, `account_activity`=`account_activity`+1 where `GUID`='{$user->GUID}'";
 				$db->query($sql);
 				$jsonData = Array(
 					'success'	=>	true,
