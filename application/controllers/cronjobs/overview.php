@@ -53,6 +53,17 @@ class Overview extends CI_Controller {
 			$this->logdb->where('server_id', $row->account_server_id);
 			$this->logdb->group_by('log_GUID');
 			$loginCount = $this->logdb->count_all_results('log_account');
+			
+			//活跃玩家数(三天以内登录过游戏的人数)
+			$threeDaysAgoStart = $lastTimeStart - 3 * 86400;
+			$this->accountdb->where('account_lastlogin >=', $threeDaysAgoStart);
+			$this->accountdb->where('account_lastlogin <=', $lastTimeEnd);
+			$activeCount = $this->accountdb->count_all_results('web_account');
+			
+			//流失玩家数(超过一周没有登录的玩家数)
+			$weekAgoStart = $lastTimeStart - 7 * 86400;
+			$this->accountdb->where('account_lastlogin <=', $lastTimeStart);
+			$flowoverCount = $this->accountdb->count_all_results('web_account');
 
 			//次日留存
 			$secondSurvive = floatval(number_format(($loginCount - $regNewCount) / $lastNewReg, 2)) * 100;
@@ -92,17 +103,19 @@ class Overview extends CI_Controller {
 			$arpu = floatval(number_format($ordersCurrentSum / $loginCount, 2)) * 100;
 			
 			$parameter = array(
-				'log_date'					=>	$date,
-				'server_id'					=>	$row->account_server_id,
+				'log_date'						=>	$date,
+				'server_id'						=>	$row->account_server_id,
 				'server_name'				=>	$row->server_name,
 				'reg_account'				=>	$registerCount,
 				'reg_new_account'			=>	$regNewCount,
 				'modify_account'			=>	$modifyCount,
 				'login_account'				=>	$loginCount,
+				'active_account'			=>	$activeCount,
+				'flowover_account'		=>	$flowoverCount,
 				'orders_current_sum'		=>	$ordersCurrentSum,
-				'orders_sum'				=>	$ordersSum,
-				'arpu'						=>	$arpu,
-				'recharge_account'			=>	$rechargeAccount,
+				'orders_sum'					=>	$ordersSum,
+				'arpu'							=>	$arpu,
+				'recharge_account'		=>	$rechargeAccount,
 				'order_count'				=>	$ordersCount,
 				'second_survive'			=>	$secondSurvive
 			);
