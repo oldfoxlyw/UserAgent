@@ -59,15 +59,15 @@ class Web_account extends CI_Model {
 			$parameter['status'] = ($parameter['status'] == 0 || $parameter['status'] == 1) ? $parameter['status'] : 1;
 			$time = time();
 			$insertArray = array(
-				'account_name'			=>	$parameter['name'],
-				'account_pass'			=>	$parameter['pass'],
-				'server_id'				=>	$parameter['server_id'],
-				'account_email'			=>	$parameter['email'],
+				'account_name'					=>	$parameter['name'],
+				'account_pass'					=>	$parameter['pass'],
+				'server_id'							=>	$parameter['server_id'],
+				'account_email'					=>	$parameter['email'],
 				'account_pass_question'	=>	$parameter['question'],
-				'account_pass_answer'	=>	$parameter['answer'],
-				'account_regtime'		=>	$time,
-				'account_lastlogin'	=>	$time,
-				'account_status'		=>	$parameter['status']
+				'account_pass_answer'		=>	$parameter['answer'],
+				'account_regtime'				=>	$time,
+				'account_lastlogin'			=>	$time,
+				'account_status'				=>	$parameter['status']
 			);
 			if($this->accountdb->insert($this->accountTable, $insertArray)) {
 				return $this->accountdb->insert_id();
