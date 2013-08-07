@@ -70,6 +70,8 @@ class Overview extends CI_Controller {
 			$this->accountdb->where('account_lastlogin <=', $weekAgoStart);
 			$this->accountdb->where('server_id', $row->account_server_id);
 			$flowoverResult = $this->accountdb->get('web_account');
+			var_dump($flowoverResult);
+			exit();
 			foreach($flowoverResult as $flowover)
 			{
 				$this->logcachedb->insert('log_flowover_cache', array('guid'=>$flowover->GUID));
