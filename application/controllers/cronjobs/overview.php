@@ -91,6 +91,7 @@ class Overview extends CI_Controller {
 			$this->accountdb->where('server_id', $row->account_server_id);
 			$query = $this->accountdb->get('web_account');
 			$flowoverResult = $query->result();
+			exit(strval(count($flowoverResult)));
 			foreach($flowoverResult as $flowover)
 			{
 				$this->logcachedb->insert('log_flowover_cache', array('guid'=>$flowover->GUID));
