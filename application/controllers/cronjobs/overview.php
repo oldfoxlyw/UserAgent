@@ -79,7 +79,7 @@ class Overview extends CI_Controller {
 				$this->accountdb->where_in('GUID', $flowoverCacheResult);
 				$reflowCount = $this->accountdb->count_all_results('web_account');
 			}
-			$this->logcachedb->truncate('log_flowover_cache');
+// 			$this->logcachedb->truncate('log_flowover_cache');
 			
 			//流失玩家数(超过一周没有登录的玩家数)
 			$weekAgoStart = $lastTimeStart - 7 * 86400;
@@ -87,14 +87,14 @@ class Overview extends CI_Controller {
 			$this->accountdb->where('server_id', $row->account_server_id);
 			$flowoverCount = $this->accountdb->count_all_results('web_account');
 			//流失玩家放入临时表
-// 			$this->accountdb->where('account_lastlogin <=', $weekAgoStart);
-// 			$this->accountdb->where('server_id', $row->account_server_id);
-// 			$query = $this->accountdb->get('web_account');
-// 			$flowoverResult = $query->result();
-// 			foreach($flowoverResult as $flowover)
-// 			{
-// 				$this->logcachedb->insert('log_flowover_cache', array('guid'=>$flowover->GUID));
-// 			}
+			$this->accountdb->where('account_lastlogin <=', $weekAgoStart);
+			$this->accountdb->where('server_id', $row->account_server_id);
+			$query = $this->accountdb->get('web_account');
+			$flowoverResult = $query->result();
+			foreach($flowoverResult as $flowover)
+			{
+				$this->logcachedb->insert('log_flowover_cache', array('guid'=>$flowover->GUID));
+			}
 
 			//次日留存
 			$secondSurvive = floatval(number_format(($loginCount - $regNewCount) / $lastNewReg, 2)) * 100;
