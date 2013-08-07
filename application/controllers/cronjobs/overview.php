@@ -25,7 +25,8 @@ class Overview extends CI_Controller {
 		
 		$this->load->model('websrv/server');
 		$serverResult = $this->server->getAllResult();
-		foreach($serverResult as $row) {
+		foreach($serverResult as $row)
+		{
 			//总注册数
 			$this->accountdb->where('server_id', $row->account_server_id);
 			$registerCount = $this->accountdb->count_all_results('web_account');
@@ -62,6 +63,7 @@ class Overview extends CI_Controller {
 			$activeCount = $this->accountdb->count_all_results('web_account');
 			
 			//回流玩家数(超过一周没有登录但最近有登录的玩家数)
+			$this->logcachedb->where('server_id', $row->account_server_id);
 			$query = $this->logcachedb->get('log_flowover_cache');
 			$guidArray = $query->result();
 			$flowoverCacheResult = array();
@@ -79,7 +81,7 @@ class Overview extends CI_Controller {
 				$this->accountdb->where_in('GUID', $flowoverCacheResult);
 				$reflowCount = $this->accountdb->count_all_results('web_account');
 			}
-// 			$this->logcachedb->truncate('log_flowover_cache');
+			$this->logcachedb->delete('log_flowover_cache', array('server_id'=>$row->account_server_id));
 			
 			//流失玩家数(超过一周没有登录的玩家数)
 			$weekAgoStart = $lastTimeStart - 7 * 86400;
@@ -91,10 +93,9 @@ class Overview extends CI_Controller {
 			$this->accountdb->where('server_id', $row->account_server_id);
 			$query = $this->accountdb->get('web_account');
 			$flowoverResult = $query->result();
-			echo strval(count($flowoverResult));
 			foreach($flowoverResult as $flowover)
 			{
-				$this->logcachedb->insert('log_flowover_cache', array('guid'=>$flowover->GUID));
+				$this->logcachedb->insert('log_flowover_cache', array('guid'=>$flowover->GUID, 'server_id'=>$row->account_server_id));
 			}
 
 			//次日留存

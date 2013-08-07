@@ -205,7 +205,8 @@ DROP TABLE IF EXISTS `agent1_log_db`.`log_flowover_cache` ;
 
 CREATE  TABLE IF NOT EXISTS `agent1_log_db`.`log_flowover_cache` (
   `guid` BIGINT NOT NULL ,
-  PRIMARY KEY (`guid`) )
+  `server_id` CHAR(8) NOT NULL ,
+  PRIMARY KEY (`guid`, `server_id`) )
 ENGINE = InnoDB;
 
 USE `agent1_log_db_201203` ;
