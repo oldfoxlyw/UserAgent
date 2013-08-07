@@ -58,11 +58,13 @@ class Overview extends CI_Controller {
 			$threeDaysAgoStart = $lastTimeStart - 3 * 86400;
 			$this->accountdb->where('account_lastlogin >=', $threeDaysAgoStart);
 			$this->accountdb->where('account_lastlogin <=', $lastTimeEnd);
+			$this->accountdb->where('server_id', $row->account_server_id);
 			$activeCount = $this->accountdb->count_all_results('web_account');
 			
 			//流失玩家数(超过一周没有登录的玩家数)
 			$weekAgoStart = $lastTimeStart - 7 * 86400;
 			$this->accountdb->where('account_lastlogin <=', $lastTimeStart);
+			$this->accountdb->where('server_id', $row->account_server_id);
 			$flowoverCount = $this->accountdb->count_all_results('web_account');
 
 			//次日留存
