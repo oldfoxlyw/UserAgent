@@ -47,7 +47,7 @@
 $active_group = 'accountdb';
 $active_record = TRUE;
 
-$db['accountdb']['hostname'] = 'localhost';
+$db['accountdb']['hostname'] = '127.0.0.1';
 $db['accountdb']['username'] = 'useragent';
 $db['accountdb']['password'] = 'carM2u6ZTJq5fJWM';
 $db['accountdb']['database'] = 'agent1_account_db';
@@ -63,7 +63,7 @@ $db['accountdb']['swap_pre'] = '';
 $db['accountdb']['autoinit'] = TRUE;
 $db['accountdb']['stricton'] = FALSE;
 
-$db['productdb']['hostname'] = 'localhost';
+$db['productdb']['hostname'] = '127.0.0.1';
 $db['productdb']['username'] = 'useragent';
 $db['productdb']['password'] = 'carM2u6ZTJq5fJWM';
 $db['productdb']['database'] = 'agent1_product_db';
@@ -79,7 +79,7 @@ $db['productdb']['swap_pre'] = '';
 $db['productdb']['autoinit'] = TRUE;
 $db['productdb']['stricton'] = FALSE;
 
-$db['fundsdb']['hostname'] = 'localhost';
+$db['fundsdb']['hostname'] = '127.0.0.1';
 $db['fundsdb']['username'] = 'useragent';
 $db['fundsdb']['password'] = 'carM2u6ZTJq5fJWM';
 $db['fundsdb']['database'] = 'agent1_funds_flow_db';
@@ -95,7 +95,7 @@ $db['fundsdb']['swap_pre'] = '';
 $db['fundsdb']['autoinit'] = TRUE;
 $db['fundsdb']['stricton'] = FALSE;
 
-$db['logdb']['hostname'] = 'localhost';
+$db['logdb']['hostname'] = '127.0.0.1';
 $db['logdb']['username'] = 'useragent';
 $db['logdb']['password'] = 'carM2u6ZTJq5fJWM';
 $db['logdb']['database'] = 'agent1_log_db_201203';
@@ -111,7 +111,7 @@ $db['logdb']['swap_pre'] = '';
 $db['logdb']['autoinit'] = TRUE;
 $db['logdb']['stricton'] = FALSE;
 
-$db['log_cachedb']['hostname'] = 'localhost';
+$db['log_cachedb']['hostname'] = '127.0.0.1';
 $db['log_cachedb']['username'] = 'useragent';
 $db['log_cachedb']['password'] = 'carM2u6ZTJq5fJWM';
 $db['log_cachedb']['database'] = 'agent1_log_db';
