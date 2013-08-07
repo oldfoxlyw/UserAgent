@@ -196,6 +196,17 @@ ENGINE = MyISAM
 AUTO_INCREMENT = 101
 DEFAULT CHARACTER SET = utf8;
 
+
+-- -----------------------------------------------------
+-- Table `agent1_log_db`.`log_flowover_cache`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `agent1_log_db`.`log_flowover_cache` ;
+
+CREATE  TABLE IF NOT EXISTS `agent1_log_db`.`log_flowover_cache` (
+  `guid` BIGINT NOT NULL ,
+  PRIMARY KEY (`guid`) )
+ENGINE = InnoDB;
+
 USE `agent1_log_db_201203` ;
 
 -- -----------------------------------------------------
