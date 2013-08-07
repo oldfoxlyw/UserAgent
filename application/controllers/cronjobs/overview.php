@@ -151,7 +151,7 @@ class Overview extends CI_Controller {
 				'order_count'				=>	$ordersCount,
 				'second_survive'			=>	$secondSurvive
 			);
-			$this->logcachedb->insert('log_daily_statistics', $parameter);
+			//$this->logcachedb->insert('log_daily_statistics', $parameter);
 		}
 	}
 }
