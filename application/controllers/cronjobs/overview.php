@@ -91,7 +91,6 @@ class Overview extends CI_Controller {
 			$this->accountdb->where('server_id', $row->account_server_id);
 			$query = $this->accountdb->get('web_account');
 			$flowoverResult = $query->result();
-			exit(strval(count($flowoverResult)));
 			foreach($flowoverResult as $flowover)
 			{
 				$this->logcachedb->insert('log_flowover_cache', array('guid'=>$flowover->GUID));
@@ -153,75 +152,6 @@ class Overview extends CI_Controller {
 				'second_survive'			=>	$secondSurvive
 			);
 			$this->logcachedb->insert('log_daily_statistics', $parameter);
-		}
-	}
-
-	public function update_from_ruby() {
-		$gameId = $this->input->get_post('game_id', TRUE);
-		$date = $this->input->get_post('date', TRUE);
-		$serverName = $this->input->get_post('server_name', TRUE);
-		$regCount = $this->input->get_post('registery', TRUE);
-		$modifyCount = $this->input->get_post('modification', TRUE);
-		$loginCount = $this->input->get_post('login', TRUE);
-		$ordersCount = $this->input->get_post('orders_num', TRUE);
-		$ordersSum = $this->input->get_post('orders_sum', TRUE);
-		$key = $this->input->get_post('key', TRUE);
-		$format = 'json';
-
-		$this->load->model('return_format');
-		if(!empty($gameId) && !empty($serverName) && is_numeric($regCount) && is_numeric($modifyCount) && is_numeric($loginCount) && is_numeric($ordersCount) && is_numeric($ordersSum)) {
-			/*
-			 * 检测参数合法性
-			*/
-			$authKey = $this->config->item('game_auth_key');
-			$this->load->model('param_check');
-			$this->load->model('websrv/update_ruby', 'ruby');
-			
-			$authToken	=	$authKey[$gameId]['auth_key'];
-			$check = array($gameId, $date, $serverName, $regCount, $modifyCount, $loginCount, $ordersCount, $ordersSum);
-			//$this->load->helper('security');
-			//exit(do_hash(implode('|||', $check) . '|||' . $authToken));
-			if(!$this->param_check->check($check, $authToken)) {
-				$jsonData = Array(
-					'message'	=>	'PARAM_INVALID'
-				);
-				echo $this->return_format->format($jsonData, $format);
-				exit();
-			}
-			/*
-			 * 检查完毕
-			*/
-			
-			if(empty($date)) {
-				$date = date('Y-m-d');
-			}
-			
-			$parameter = array(
-				'log_date'			=>	$date,
-				'server_name'		=>	$serverName,
-				'reg_account'		=>	$regCount,
-				'modify_account'	=>$modifyCount,
-				'login_account'	=>	$loginCount,
-				'orders_num'		=>	$ordersCount,
-				'orders_sum'		=>	$ordersSum,
-				'partner_key'		=>	empty($key) ? '' : $key
-			);
-			if($this->ruby->insert($parameter)) {
-				$jsonData = Array(
-					'message'	=>	'UPDATE_SUCCESS'
-				);
-				echo $this->return_format->format($jsonData, $format);
-			} else {
-				$jsonData = Array(
-					'message'	=>	'UPDATE_FAIL'
-				);
-				echo $this->return_format->format($jsonData, $format);
-			}
-		} else {
-			$jsonData = Array(
-				'message'	=>	'NO_PARAM'
-			);
-			echo $this->return_format->format($jsonData, $format);
 		}
 	}
 }
