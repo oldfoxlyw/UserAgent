@@ -72,7 +72,7 @@ class Overview extends CI_Controller {
 			$flowoverResult = $this->accountdb->get('web_account');
 			foreach($flowoverResult as $flowover)
 			{
-				$this->logcachedb->insert(array('guid'=>$flowover->GUID), 'log_flowover_cache');
+				$this->logcachedb->insert('log_flowover_cache', array('guid'=>$flowover->GUID));
 			}
 
 			//次日留存
