@@ -182,6 +182,7 @@ CREATE  TABLE IF NOT EXISTS `agent1_log_db`.`log_daily_statistics` (
   `login_account` INT(11) NOT NULL ,
   `active_account` INT(11) NOT NULL DEFAULT '0' COMMENT '活跃用户，三天内登陆过游戏的人数' ,
   `flowover_account` INT(11) NOT NULL DEFAULT '0' COMMENT '流失用户，超过一周没有登录游戏的人数' ,
+  `reflow_account` INT NOT NULL DEFAULT 0 ,
   `orders_current_sum` INT(11) NOT NULL COMMENT '当天订单总额' ,
   `orders_num` INT(11) NOT NULL ,
   `orders_sum` INT(11) NOT NULL ,

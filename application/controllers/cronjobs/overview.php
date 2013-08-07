@@ -61,6 +61,21 @@ class Overview extends CI_Controller {
 			$this->accountdb->where('server_id', $row->account_server_id);
 			$activeCount = $this->accountdb->count_all_results('web_account');
 			
+			//回流玩家数(超过一周没有登录但最近有登录的玩家数)
+			$guidArray = $this->logcachedb->get('log_flowover_cache')->result();
+			$reflowCount = 0;
+			if(!empty($guidArray))
+			{
+				$guidArray = array_values($guidArray);
+				$threeDaysAgoStart = $lastTimeStart - 3 * 86400;
+				$this->accountdb->where('account_lastlogin >=', $threeDaysAgoStart);
+				$this->accountdb->where('account_lastlogin <=', $lastTimeEnd);
+				$this->accountdb->where('server_id', $row->account_server_id);
+				$this->accountdb->where_in('GUID', $guidArray);
+				$reflowCount = $this->accountdb->count_all_results('web_account');
+			}
+			$this->logcachedb->truncate('log_flowover_cache');
+			
 			//流失玩家数(超过一周没有登录的玩家数)
 			$weekAgoStart = $lastTimeStart - 7 * 86400;
 			$this->accountdb->where('account_lastlogin <=', $weekAgoStart);
@@ -122,6 +137,7 @@ class Overview extends CI_Controller {
 				'login_account'				=>	$loginCount,
 				'active_account'			=>	$activeCount,
 				'flowover_account'		=>	$flowoverCount,
+				'reflow_account'			=>	$reflowCount,
 				'orders_current_sum'		=>	$ordersCurrentSum,
 				'orders_sum'					=>	$ordersSum,
 				'arpu'							=>	$arpu,
