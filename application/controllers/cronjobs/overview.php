@@ -63,15 +63,19 @@ class Overview extends CI_Controller {
 			
 			//回流玩家数(超过一周没有登录但最近有登录的玩家数)
 			$guidArray = $this->logcachedb->get('log_flowover_cache')->result();
+			$flowoverCacheResult = array();
+			foreach($guidArray as $guid)
+			{
+				array_push($flowoverCacheResult, $guid->guid);
+			}
 			$reflowCount = 0;
 			if(!empty($guidArray))
 			{
-				$guidArray = array_values($guidArray);
 				$threeDaysAgoStart = $lastTimeStart - 3 * 86400;
 				$this->accountdb->where('account_lastlogin >=', $threeDaysAgoStart);
 				$this->accountdb->where('account_lastlogin <=', $lastTimeEnd);
 				$this->accountdb->where('server_id', $row->account_server_id);
-				$this->accountdb->where_in('GUID', $guidArray);
+				$this->accountdb->where_in('GUID', $flowoverCacheResult);
 				$reflowCount = $this->accountdb->count_all_results('web_account');
 			}
 			$this->logcachedb->truncate('log_flowover_cache');
