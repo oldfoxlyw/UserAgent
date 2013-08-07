@@ -91,10 +91,11 @@ class Overview extends CI_Controller {
 			$this->accountdb->where('server_id', $row->account_server_id);
 			$query = $this->accountdb->get('web_account');
 			$flowoverResult = $query->result();
-			foreach($flowoverResult as $flowover)
-			{
-				$this->logcachedb->insert('log_flowover_cache', array('guid'=>$flowover->GUID));
-			}
+			exit(strval(count($flowoverResult)));
+// 			foreach($flowoverResult as $flowover)
+// 			{
+// 				$this->logcachedb->insert('log_flowover_cache', array('guid'=>$flowover->GUID));
+// 			}
 
 			//次日留存
 			$secondSurvive = floatval(number_format(($loginCount - $regNewCount) / $lastNewReg, 2)) * 100;
@@ -151,7 +152,7 @@ class Overview extends CI_Controller {
 				'order_count'				=>	$ordersCount,
 				'second_survive'			=>	$secondSurvive
 			);
-			//$this->logcachedb->insert('log_daily_statistics', $parameter);
+			$this->logcachedb->insert('log_daily_statistics', $parameter);
 		}
 	}
 }
