@@ -101,12 +101,11 @@ class Account extends CI_Controller {
 		}
 		else
 		{
-			$logParameter = array(
-				'errors'	=>	'ACCOUNT_ENTER_ERROR_NO_PARAM',
-				'account_guid'	=>	'',
-				'account_name'	=>	''
+			$jsonData = Array(
+				'success'	=>	false,
+				'errors'	=>	'ACCOUNT_ENTER_ERROR_NO_PARAM'
 			);
-			$this->logs->write($logParameter);
+			echo $this->return_format->format($jsonData, $format);
 		}
 	}
 	
