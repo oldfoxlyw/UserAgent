@@ -83,6 +83,33 @@ class Account extends CI_Controller {
 		}
 	}
 	
+	public function enter($format = 'json')
+	{
+		$guid = $this->input->get_post('guid', TRUE);
+		$job = $this->input->get_post('job', TRUE);
+		$level = $this->input->get_post('level', TRUE);
+		$mission = $this->input->get_post('mission', TRUE);
+		
+		if(!empty($guid) && !empty($job) && !empty($level) && !empty($mission))
+		{
+			$parameter = array(
+				'account_job'			=>	$job,
+				'account_level'			=>	$level,
+				'account_mission'		=>	$mission
+			);
+			$this->web_account->update($parameter, $guid);
+		}
+		else
+		{
+			$logParameter = array(
+				'errors'	=>	'ACCOUNT_ENTER_ERROR_NO_PARAM',
+				'account_guid'	=>	'',
+				'account_name'	=>	''
+			);
+			$this->logs->write($logParameter);
+		}
+	}
+	
 	public function register($format = 'json')
 	{
 		$name		=	$this->input->get_post('account_name', TRUE);

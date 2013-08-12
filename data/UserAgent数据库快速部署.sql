@@ -82,6 +82,9 @@ CREATE  TABLE IF NOT EXISTS `agent1_account_db`.`web_account` (
   `account_currentip` CHAR(16) NULL DEFAULT NULL ,
   `account_status` TINYINT(4) NOT NULL DEFAULT '1' COMMENT '1=正常 0=试玩 -1=封停' ,
   `account_activity` INT(11) NOT NULL DEFAULT '0' ,
+  `account_job` CHAR(16) NULL ,
+  `account_level` INT NOT NULL DEFAULT 0 ,
+  `account_mission` INT NOT NULL DEFAULT 0 ,
   `partner_key` CHAR(8) NOT NULL ,
   PRIMARY KEY (`GUID`) ,
   INDEX `account_name` (`account_name` ASC, `account_pass` ASC, `server_id` ASC) )
