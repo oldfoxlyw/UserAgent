@@ -161,7 +161,7 @@ class Overview extends CI_Controller {
 			);
 // 			$this->logcachedb->insert('log_daily_statistics', $parameter);
 
-			$this->flowover_detail_statistics($row->acocunt_server_id);
+			$this->flowover_detail_statistics($row->account_server_id);
 		}
 	}
 	
