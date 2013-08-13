@@ -390,6 +390,7 @@ DROP TABLE IF EXISTS `agent1_product_db`.`game_announcement` ;
 
 CREATE  TABLE IF NOT EXISTS `agent1_product_db`.`game_announcement` (
   `id` INT NOT NULL AUTO_INCREMENT ,
+  `summary` TEXT NOT NULL ,
   `content` TEXT NOT NULL ,
   `post_time` INT NOT NULL ,
   PRIMARY KEY (`id`) )
