@@ -84,7 +84,7 @@ CREATE  TABLE IF NOT EXISTS `agent1_account_db`.`web_account` (
   `account_activity` INT(11) NOT NULL DEFAULT '0' ,
   `account_job` CHAR(16) NULL ,
   `account_level` INT NOT NULL DEFAULT 0 ,
-  `account_mission` INT NOT NULL DEFAULT 0 ,
+  `account_mission` BIGINT NOT NULL DEFAULT 0 ,
   `partner_key` CHAR(8) NOT NULL ,
   PRIMARY KEY (`GUID`) ,
   INDEX `account_name` (`account_name` ASC, `account_pass` ASC, `server_id` ASC) )
@@ -381,6 +381,19 @@ CREATE  TABLE IF NOT EXISTS `agent1_product_db`.`server_status` (
   `redirectUrl` TEXT NOT NULL )
 ENGINE = MyISAM
 DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `agent1_product_db`.`game_announcement`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `agent1_product_db`.`game_announcement` ;
+
+CREATE  TABLE IF NOT EXISTS `agent1_product_db`.`game_announcement` (
+  `id` INT NOT NULL AUTO_INCREMENT ,
+  `content` TEXT NOT NULL ,
+  `post_time` INT NOT NULL ,
+  PRIMARY KEY (`id`) )
+ENGINE = InnoDB;
 
 USE `agent1_web_db` ;
 
