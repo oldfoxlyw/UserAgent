@@ -209,7 +209,25 @@ DROP TABLE IF EXISTS `agent1_log_db`.`log_flowover_cache` ;
 CREATE  TABLE IF NOT EXISTS `agent1_log_db`.`log_flowover_cache` (
   `guid` BIGINT NOT NULL ,
   `server_id` CHAR(8) NOT NULL ,
+  `account_job` CHAR(16) NOT NULL ,
+  `account_level` INT NOT NULL ,
+  `account_mission` BIGINT NOT NULL ,
   PRIMARY KEY (`guid`, `server_id`) )
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `agent1_log_db`.`log_flowover_detail`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `agent1_log_db`.`log_flowover_detail` ;
+
+CREATE  TABLE IF NOT EXISTS `agent1_log_db`.`log_flowover_detail` (
+  `date` DATE NOT NULL ,
+  `server_id` CHAR(8) NOT NULL ,
+  `job` TEXT NOT NULL ,
+  `level` TEXT NOT NULL ,
+  `mission` TEXT NOT NULL ,
+  PRIMARY KEY (`date`, `server_id`) )
 ENGINE = InnoDB;
 
 USE `agent1_log_db_201203` ;

@@ -95,7 +95,13 @@ class Overview extends CI_Controller {
 			$flowoverResult = $query->result();
 			foreach($flowoverResult as $flowover)
 			{
-				$this->logcachedb->insert('log_flowover_cache', array('guid'=>$flowover->GUID, 'server_id'=>$row->account_server_id));
+				$this->logcachedb->insert('log_flowover_cache', array(
+					'guid'					=>	$flowover->GUID,
+					'server_id'				=>	$row->account_server_id,
+					'account_job'		=>	$row->account_job,
+					'account_level'		=>	$row->account_level,
+					'account_mission'	=>	$row->account_mission
+				));
 			}
 
 			//次日留存
@@ -154,7 +160,17 @@ class Overview extends CI_Controller {
 				'second_survive'			=>	$secondSurvive
 			);
 			$this->logcachedb->insert('log_daily_statistics', $parameter);
+
+			$this->flowover_detail_statistics($row->acocunt_server_id);
 		}
+	}
+	
+	private function flowover_detail_statistics($server_id)
+	{
+		$this->logcachedb->where('server_id', $server_id);
+		$this->logcachedb->group_by('account_job');
+		$countResult = $this->logcachedb->count_all_results('log_flowover_cache');
+		exit($this->logcachedb->last_query());
 	}
 }
 ?>
