@@ -14,8 +14,16 @@ class Announcement extends CI_Model {
 		return $this->productdb->count_all_results($this->accountTable);
 	}
 	
-	public function getAllResult($parameter = null) {
-		$result = $this->productdb->get($this->accountTable);
+	public function getAllResult($parameter = null, $limit = 0) {
+		$this->productdb->order_by('post_time', 'desc');
+		if(!empty($limit))
+		{
+			$result = $this->productdb->get($this->accountTable, $limit);
+		}
+		else
+		{
+			$result = $this->productdb->get($this->accountTable);
+		}
 		if($result->num_rows() > 0)
 		{
 			return $result->result();
