@@ -67,6 +67,7 @@ class Servers extends CI_Controller {
 		
 		$this->load->model('websrv/announcement');
 		$announce = $this->announcement->getAllResult();
+		$announce = empty($announce) ? '' : $announce;
 		
 		$jsonData = Array(
 			'message'			=>	'SERVER_LIST_SUCCESS',
