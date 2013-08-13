@@ -168,7 +168,7 @@ class Overview extends CI_Controller {
 	private function flowover_detail_statistics($server_id)
 	{
 		$sql = "SELECT `account_job`, COUNT(*) AS `numrows` FROM `log_flowover_cache` WHERE `server_id` = '{$server_id}' GROUP BY `account_job`";
-		$countResult = $this->logcachedb->query($sql);
+		$countResult = $this->logcachedb->query($sql)->result();
 		echo $this->logcachedb->last_query();
 		echo '<br>';
 		var_dump($countResult);
