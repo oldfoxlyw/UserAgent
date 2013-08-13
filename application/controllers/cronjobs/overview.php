@@ -98,9 +98,9 @@ class Overview extends CI_Controller {
 				$this->logcachedb->insert('log_flowover_cache', array(
 					'guid'					=>	$flowover->GUID,
 					'server_id'				=>	$row->account_server_id,
-					'account_job'		=>	empty($row->account_job) ? '' : $row->account_job,
-					'account_level'		=>	empty($row->account_level) ? 0 : $row->account_level,
-					'account_mission'	=>	empty($row->account_mission) ? 0 : $row->account_mission
+					'account_job'		=>	empty($flowover->account_job) ? '' : $flowover->account_job,
+					'account_level'		=>	empty($flowover->account_level) ? 0 : $flowover->account_level,
+					'account_mission'	=>	empty($flowover->account_mission) ? 0 : $flowover->account_mission
 				));
 			}
 
