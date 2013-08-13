@@ -65,7 +65,7 @@ class Servers extends CI_Controller {
 			$value->server_language = lang('server_list_language_' . $value->server_language);
 		}
 		
-		$this->load->model('websrv/anncouncement');
+		$this->load->model('websrv/announcement');
 		$announce = $this->announcement->getAllResult();
 		
 		$jsonData = Array(
