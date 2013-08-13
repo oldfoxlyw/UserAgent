@@ -82,7 +82,7 @@ CREATE  TABLE IF NOT EXISTS `agent1_account_db`.`web_account` (
   `account_currentip` CHAR(16) NULL DEFAULT NULL ,
   `account_status` TINYINT(4) NOT NULL DEFAULT '1' COMMENT '1=正常 0=试玩 -1=封停' ,
   `account_activity` INT(11) NOT NULL DEFAULT '0' ,
-  `account_job` CHAR(16) NULL ,
+  `account_job` CHAR(16) NULL DEFAULT '' ,
   `account_level` INT NOT NULL DEFAULT 0 ,
   `account_mission` BIGINT NOT NULL DEFAULT 0 ,
   `partner_key` CHAR(8) NOT NULL ,
@@ -382,6 +382,7 @@ CREATE  TABLE IF NOT EXISTS `agent1_product_db`.`server_list` (
   `server_mode` ENUM('debug','normal','partner') NOT NULL DEFAULT 'normal' ,
   `partner` CHAR(16) NOT NULL ,
   `server_status` INT(11) NOT NULL DEFAULT '1' COMMENT '0=关闭；1=正常；2=繁忙；3=拥挤' ,
+  `server_new` INT(11) NOT NULL DEFAULT 1 COMMENT '1=新服；0=旧服' ,
   PRIMARY KEY (`game_id`, `account_server_section`, `account_server_id`) ,
   INDEX `server_recommend` USING BTREE (`server_recommend` ASC) )
 ENGINE = MyISAM
