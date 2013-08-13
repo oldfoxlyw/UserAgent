@@ -170,7 +170,7 @@ class Overview extends CI_Controller {
 		$this->logcachedb->select('account_job');
 		$this->logcachedb->where('server_id', $server_id);
 		$this->logcachedb->group_by('account_job');
-		$countResult = $this->logcachedb->count_all_results('log_flowover_cache');
+		$countResult = $this->logcachedb->count_all('log_flowover_cache');
 		echo $this->logcachedb->last_query();
 		echo '<br>';
 		var_dump($countResult);
