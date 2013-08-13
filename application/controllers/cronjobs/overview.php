@@ -167,12 +167,14 @@ class Overview extends CI_Controller {
 	
 	private function flowover_detail_statistics($server_id)
 	{
+		$this->logcachedb->select('account_job');
 		$this->logcachedb->where('server_id', $server_id);
 		$this->logcachedb->group_by('account_job');
 		$countResult = $this->logcachedb->count_all_results('log_flowover_cache');
 		echo $this->logcachedb->last_query();
 		echo '<br>';
 		var_dump($countResult);
+		echo '<br>';
 	}
 }
 ?>
