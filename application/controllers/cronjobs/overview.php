@@ -161,18 +161,47 @@ class Overview extends CI_Controller {
 			);
 // 			$this->logcachedb->insert('log_daily_statistics', $parameter);
 
-			$this->flowover_detail_statistics($row->account_server_id);
+			$this->flowover_detail_statistics($date, $row->account_server_id);
 		}
 	}
 	
-	private function flowover_detail_statistics($server_id)
+	private function flowover_detail_statistics($date, $server_id)
 	{
 		$sql = "SELECT `account_job`, COUNT(*) AS `numrows` FROM `log_flowover_cache` WHERE `server_id` = '{$server_id}' GROUP BY `account_job`";
 		$countResult = $this->logcachedb->query($sql)->result();
-		echo $this->logcachedb->last_query();
-		echo '<br>';
-		var_dump($countResult);
-		echo '<br>';
+		$jobArray = array();
+		foreach($countResult as $row)
+		{
+			array_push($jobArray, $row->account_job. ':' . $row->numrows);
+		}
+		$jobResult = implode(',', $jobArray);
+
+		$sql = "SELECT `account_level`, COUNT(*) AS `numrows` FROM `log_flowover_cache` WHERE `server_id` = '{$server_id}' GROUP BY `account_level`";
+		$countResult = $this->logcachedb->query($sql)->result();
+		$levelArray = array();
+		foreach($countResult as $row)
+		{
+			array_push($levelArray, $row->account_level. ':' . $row->numrows);
+		}
+		$levelResult = implode(',', $levelArray);
+
+		$sql = "SELECT `account_mission`, COUNT(*) AS `numrows` FROM `log_flowover_cache` WHERE `server_id` = '{$server_id}' GROUP BY `account_mission`";
+		$countResult = $this->logcachedb->query($sql)->result();
+		$missionArray = array();
+		foreach($countResult as $row)
+		{
+			array_push($missionArray, $row->account_mission. ':' . $row->numrows);
+		}
+		$missionResult = implode(',', $missionArray);
+		
+		$parameter = array(
+			'date'				=>	$date,
+			'server_id'			=>	$server_id,
+			'job'					=>	$jobResult,
+			'level'				=>	$levelResult,
+			'mission'			=>	$missionResult
+		);
+		$this->logcachedb->insert('log_flowover_detail', $parameter);
 	}
 }
 ?>
