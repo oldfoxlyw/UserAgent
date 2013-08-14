@@ -98,6 +98,12 @@ class Account extends CI_Controller {
 				'account_mission'		=>	$mission
 			);
 			$this->web_account->update($parameter, $guid);
+
+			$jsonData = Array(
+					'success'	=>	true,
+					'message'	=>	'ACCOUNT_ENTER_SUCCESS'
+			);
+			echo $this->return_format->format($jsonData, $format);
 		}
 		else
 		{
