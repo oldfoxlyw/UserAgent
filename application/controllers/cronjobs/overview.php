@@ -34,8 +34,16 @@ class Overview extends CI_Controller {
 			//昨日新注册数
 			$this->logcachedb->where('log_date', $preDate);
 			$this->logcachedb->where('server_id', $row->account_server_id);
-			$lastResult = $this->logcachedb->get('log_daily_statistics')->row();
-			$lastNewReg = intval($lastResult->reg_new_account);
+			$lastResult = $this->logcachedb->get('log_daily_statistics');
+			if(!empty($lastResult))
+			{
+				$lastResult = $lastResult->row();
+				$lastNewReg = intval($lastResult->reg_new_account);
+			}
+			else
+			{
+				$lastNewReg = 0;
+			}
 			
 			//新注册数
 			$where = "`server_id` = '{$row->account_server_id}' and `log_time` >= {$lastTimeStart} and `log_time` <= {$lastTimeEnd} and (`log_action` = 'ACCOUNT_REGISTER_SUCCESS' or `log_action` = 'ACCOUNT_DEMO_SUCCESS')";
@@ -46,6 +54,23 @@ class Overview extends CI_Controller {
 			$this->accountdb->where('server_id', $row->account_server_id);
 			$this->accountdb->where('account_status', 1);
 			$modifyCount = $this->accountdb->count_all_results('web_account');
+			
+			//昨日改名用户数
+			$this->logcachedb->where('log_date', $preDate);
+			$this->logcachedb->where('server_id', $row->account_server_id);
+			$lastResult = $this->logcachedb->get('log_daily_statistics');
+			if(!empty($lastResult))
+			{
+				$lastResult = $lastResult->row();
+				$lastModifyAccount = intval($lastResult->modify_account);
+			}
+			else
+			{
+				$lastModifyAccount = 0;
+			}
+			
+			//新改名用户数
+			$modifyNewCount = $modifyCount - $lastModifyAccount;
 
 			//当天活跃玩家数(登录数)
 			$this->logdb->where('log_action', 'ACCOUNT_LOGIN_SUCCESS');
@@ -148,6 +173,7 @@ class Overview extends CI_Controller {
 				'reg_account'				=>	$registerCount,
 				'reg_new_account'			=>	$regNewCount,
 				'modify_account'			=>	$modifyCount,
+				'modify_new_account'	=>	$modifyNewCount,
 				'login_account'				=>	$loginCount,
 				'active_account'			=>	$activeCount,
 				'flowover_account'		=>	$flowoverCount,
