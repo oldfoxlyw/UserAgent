@@ -2,33 +2,41 @@
 
 class Request_online_count extends CI_Controller
 {
+	private $logcachedb = null;
 
 	public function __construct()
 	{
 		parent::__construct ();
+		$this->logcachedb = $this->load->database('log_cachedb', true);
 	}
 	
 	public function send()
 	{
-// 		$this->load->model('websrv/server');
-// 		$serverResult = $this->server->getAllResult();
-// 		foreach($serverResult as $row)
-// 		{
-// 			$url = 'http://' . $row->server_ip . ':' . $row->server_port;
-// 			$count = $this->get($url . '/get_online_count');
-// 			echo $count . '<br>';
-// 		}
-		$return = $this->get('http://192.168.2.230:8090/get_online_count');
-		echo $return;
+		$this->load->model('websrv/server');
+		$serverResult = $this->server->getAllResult();
+		foreach($serverResult as $row)
+		{
+			$url = 'http://' . $row->server_ip . ':' . $row->server_port;
+			$count = $this->get($url . '/get_online_count');
+			
+			$json = json_decode($count);
+			if(!empty($json))
+			{
+				$time = time();
+				$this->logcachedb->insert('log_online_count', array(
+					'server_id'				=>	$row->account_server_id,
+					'log_date'				=>	date('Y-m-d', $time),
+					'log_hour'				=>	date('H', $time),
+					'log_count'			=>	$json->online_count
+				));
+			}
+		}
 	}
 	
 	private function get($controller, $parameter = null) {
 		if(!empty($controller)) {
 			$postPath = $controller;
-			echo $postPath . '<br>';
-	
 			$ch = curl_init();
-			
 			if(!empty($parameter))
 			{
 				$param = '?' . $this->getQueryString($parameter);

@@ -231,6 +231,20 @@ CREATE  TABLE IF NOT EXISTS `agent1_log_db`.`log_flowover_detail` (
   PRIMARY KEY (`date`, `server_id`) )
 ENGINE = InnoDB;
 
+
+-- -----------------------------------------------------
+-- Table `agent1_log_db`.`log_online_count`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `agent1_log_db`.`log_online_count` ;
+
+CREATE  TABLE IF NOT EXISTS `agent1_log_db`.`log_online_count` (
+  `server_id` CHAR(8) NOT NULL ,
+  `log_date` DATE NOT NULL ,
+  `log_hour` INT NOT NULL DEFAULT 0 ,
+  `log_count` INT NOT NULL DEFAULT 0 ,
+  PRIMARY KEY (`server_id`) )
+ENGINE = InnoDB;
+
 USE `agent1_log_db_201203` ;
 
 -- -----------------------------------------------------
