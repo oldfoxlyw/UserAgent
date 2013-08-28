@@ -16,7 +16,7 @@ class Request_online_count extends CI_Controller
 		{
 			$url = 'http://' . $row->server_ip . ':' . $row->server_port;
 			$count = $this->get($url . '/get_online_count');
-// 			echo $count . '<br>';
+			echo $count . '<br>';
 		}
 	}
 	
@@ -24,22 +24,19 @@ class Request_online_count extends CI_Controller
 		if(!empty($controller)) {
 			$postPath = $controller;
 			echo $postPath . '<br>';
-			return false;
 	
 			$ch = curl_init();
-			curl_setopt($ch, CURLOPT_URL, $postPath . '?' . $this->getQueryString($parameter));
-			$ip = $this->input->ip_address();
-			$header = array(
-				'CLIENT-IP:' . $ip,
-				'X-FORWARDED-FOR:' . $ip,
-			);
-			curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+			
+			if(!empty($parameter))
+			{
+				$param = '?' . $this->getQueryString($parameter);
+			}
+			curl_setopt($ch, CURLOPT_URL, $postPath . $param);
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 			curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
 			curl_setopt($ch, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']);
 	
 			$monfd = curl_exec($ch);
-	
 			curl_close($ch);
 	
 			return $monfd;
