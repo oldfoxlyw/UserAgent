@@ -15,7 +15,7 @@ class Request_online_count extends CI_Controller
 		foreach($serverResult as $row)
 		{
 			$url = 'http://' . $row->server_ip . ':' . $row->server_port;
-			$count = $this->get('get_online_count');
+			$count = $this->get($url . '/get_online_count');
 			echo $count . '<br>';
 		}
 	}
