@@ -10,14 +10,16 @@ class Request_online_count extends CI_Controller
 	
 	public function send()
 	{
-		$this->load->model('websrv/server');
-		$serverResult = $this->server->getAllResult();
-		foreach($serverResult as $row)
-		{
-			$url = 'http://' . $row->server_ip . ':' . $row->server_port;
-			$count = $this->get($url . '/get_online_count');
-			echo $count . '<br>';
-		}
+// 		$this->load->model('websrv/server');
+// 		$serverResult = $this->server->getAllResult();
+// 		foreach($serverResult as $row)
+// 		{
+// 			$url = 'http://' . $row->server_ip . ':' . $row->server_port;
+// 			$count = $this->get($url . '/get_online_count');
+// 			echo $count . '<br>';
+// 		}
+		$return = $this->get('http://192.168.2.230:8090/get_online_count');
+		echo $return;
 	}
 	
 	private function get($controller, $parameter = null) {
