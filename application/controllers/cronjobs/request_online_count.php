@@ -16,13 +16,15 @@ class Request_online_count extends CI_Controller
 		{
 			$url = 'http://' . $row->server_ip . ':' . $row->server_port;
 			$count = $this->get($url . '/get_online_count');
-			echo $count . '<br>';
+// 			echo $count . '<br>';
 		}
 	}
 	
 	private function get($controller, $parameter = null) {
 		if(!empty($controller)) {
 			$postPath = $controller;
+			echo $postPath . '<br>';
+			return false;
 	
 			$ch = curl_init();
 			curl_setopt($ch, CURLOPT_URL, $postPath . '?' . $this->getQueryString($parameter));
