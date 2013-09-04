@@ -242,7 +242,7 @@ CREATE  TABLE IF NOT EXISTS `agent1_log_db`.`log_online_count` (
   `log_date` DATE NOT NULL ,
   `log_hour` INT NOT NULL DEFAULT 0 ,
   `log_count` INT NOT NULL DEFAULT 0 ,
-  PRIMARY KEY (`server_id`) )
+  PRIMARY KEY (`server_id`, `log_date`, `log_hour`) )
 ENGINE = InnoDB;
 
 USE `agent1_log_db_201203` ;
@@ -272,64 +272,26 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `agent1_log_db_201203`.`log_mall`
+-- Table `agent1_log_db_201203`.`log_consume`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `agent1_log_db_201203`.`log_mall` ;
+DROP TABLE IF EXISTS `agent1_log_db_201203`.`log_consume` ;
 
-CREATE  TABLE IF NOT EXISTS `agent1_log_db_201203`.`log_mall` (
+CREATE  TABLE IF NOT EXISTS `agent1_log_db_201203`.`log_consume` (
   `log_id` INT(11) NOT NULL AUTO_INCREMENT ,
-  `log_account_id` CHAR(16) NOT NULL ,
-  `log_account_name` CHAR(64) NOT NULL ,
-  `log_account_nickname` CHAR(64) NOT NULL ,
-  `log_type` ENUM('building_upgrade','skill_upgrade','construct_tower','exchange_resource','accelerate','output','mall_props','vehicles_strengthen','vehicles_repair','vehicles_resurrection','legion_battle','shop_buy') NOT NULL ,
-  `log_spend_item_id` CHAR(32) NOT NULL ,
-  `log_spend_item_name` CHAR(16) NOT NULL ,
-  `log_spend_item_count` INT(11) NOT NULL ,
-  `log_get_item_id` CHAR(32) NOT NULL ,
-  `log_get_item_name` CHAR(16) NOT NULL ,
-  `log_get_item_count` INT(11) NOT NULL ,
+  `player_id` BIGINT NOT NULL ,
+  `role_id` BIGINT NOT NULL ,
+  `action_name` CHAR(64) NOT NULL ,
+  `current_special_gold` INT(11) NOT NULL ,
+  `spend_special_gold` INT(11) NOT NULL ,
+  `item_name` CHAR(64) NOT NULL ,
+  `item_info` TEXT NOT NULL ,
+  `description` TEXT NOT NULL ,
   `log_time` INT(11) NOT NULL ,
-  `log_local_time` DATETIME NOT NULL ,
-  `game_id` CHAR(5) NOT NULL ,
-  `server_section` CHAR(5) NOT NULL ,
   `server_id` CHAR(5) NOT NULL ,
   PRIMARY KEY (`log_id`) ,
-  INDEX `log_item_id` (`log_spend_item_id` ASC) ,
-  INDEX `log_time` (`log_time` ASC) ,
-  INDEX `log_account_id` (`log_account_id` ASC) ,
-  INDEX `game_id` (`game_id` ASC, `server_section` ASC, `server_id` ASC) ,
-  INDEX `log_get_item_id` (`log_get_item_id` ASC) ,
-  INDEX `log_type` (`log_type` ASC) )
-ENGINE = MyISAM
-DEFAULT CHARACTER SET = utf8;
-
-
--- -----------------------------------------------------
--- Table `agent1_log_db_201203`.`log_payment`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `agent1_log_db_201203`.`log_payment` ;
-
-CREATE  TABLE IF NOT EXISTS `agent1_log_db_201203`.`log_payment` (
-  `log_id` INT(11) NOT NULL AUTO_INCREMENT ,
-  `log_GUID` BIGINT(20) NOT NULL ,
-  `log_action` CHAR(64) NOT NULL ,
-  `log_uri` CHAR(128) NOT NULL ,
-  `log_method` CHAR(10) NULL DEFAULT NULL ,
-  `log_parameter` TEXT NULL DEFAULT NULL ,
-  `log_time` INT(11) NOT NULL DEFAULT '0' ,
-  `log_time_local` DATETIME NOT NULL ,
-  `log_ip` CHAR(24) NOT NULL ,
-  `game_id` CHAR(5) NOT NULL ,
-  `section_id` CHAR(5) NOT NULL ,
-  `server_id` CHAR(5) NOT NULL ,
-  `platform` ENUM('iphone','ipad','web') NOT NULL DEFAULT 'iphone' ,
-  PRIMARY KEY (`log_id`) ,
-  INDEX `log_GUID` USING BTREE (`log_GUID` ASC) ,
-  INDEX `log_time` USING BTREE (`log_time` ASC) ,
-  INDEX `log_action` USING BTREE (`log_action` ASC) ,
-  INDEX `game_id` (`game_id` ASC, `section_id` ASC, `server_id` ASC) ,
-  INDEX `platform` (`platform` ASC) ,
-  INDEX `log_ip` (`log_ip` ASC) )
+  INDEX `player_id` (`player_id` ASC) ,
+  INDEX `item_name` (`item_name` ASC) ,
+  INDEX `server_id` (`server_id` ASC) )
 ENGINE = MyISAM
 DEFAULT CHARACTER SET = utf8;
 

@@ -1,5 +1,9 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
+/** 每小时执行一次
+ * @author johnny
+ *
+ */
 class Request_online_count extends CI_Controller
 {
 	private $logcachedb = null;

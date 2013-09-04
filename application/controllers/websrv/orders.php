@@ -92,5 +92,20 @@ class Orders extends CI_Controller {
 		}
 		echo $this->return_format->format($jsonData, $format);
 	}
+	
+	public function consume($format = 'json')
+	{
+		$playerId = $this->input->get_post('player_id', TRUE);
+		$roleId = $this->input->get_post('role_id', TRUE);
+		$actionName = $this->input->get_post('action_name', TRUE);
+		$currentSpecialGold = $this->input->get_post('current_special_gold', TRUE);
+		$spendSpecialGold = $this->input->get_post('spend_special_gold', TRUE);
+		$itemName = $this->input->get_post('item_name', TRUE);
+		$itemInfo = $this->input->get_post('item_info', TRUE);
+		$description = $this->input->get_post('description', TRUE);
+		$serverId = $this->input->get_post('server_id', TRUE);
+		
+		$logTime = time();
+	}
 }
 ?>
