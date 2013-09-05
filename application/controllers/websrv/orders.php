@@ -58,18 +58,16 @@ class Orders extends CI_Controller {
 					$parameter = array(
 							'account_guid'				=>	$result->GUID,
 							'account_name'				=>	$result->account_name,
-							'account_nickname'			=>	empty($result->account_nickname) ? '' : $result->account_nickname,
-							'account_id'				=>	$accountId,
-							// 'game_id'					=>	$gameId,
-							'server_id'					=>	$serverId,
-							// 'server_section'			=>	$sectionId,
+							'account_nickname'		=>	empty($result->account_nickname) ? '' : $result->account_nickname,
+							'account_id'					=>	$accountId,
+							'server_id'						=>	$serverId,
 							'funds_flow_dir'			=>	'CHECK_IN',
-							'funds_amount'				=>	$fundsAmount,
-							'funds_item_amount'			=>	$itemCount,
+							'funds_amount'			=>	$fundsAmount,
+							'funds_item_amount'	=>	$itemCount,
 							'funds_item_current'		=>	$currentCash,
-							'funds_time'				=>	$time,
+							'funds_time'					=>	$time,
 							'funds_time_local'			=>	date('Y-m-d H:i:s', $time),
-							'funds_type'				=>	1
+							'funds_type'					=>	1
 					);
 					$this->funds->insert($parameter);
 				} else {
@@ -106,6 +104,63 @@ class Orders extends CI_Controller {
 		$serverId = $this->input->get_post('server_id', TRUE);
 		
 		$logTime = time();
+		
+		if(!empty($playerId) && !empty($roleId) && is_numeric($currentSpecialGold) && is_numeric($spendSpecialGold) && !empty($serverId))
+		{
+			$this->load->model('websrv/consume');
+			$this->load->model('web_account');
+			$this->load->model('funds');
+		
+			$actionName = empty($actionName) ? '' : $actionName;
+			$itemName = empty($itemName) ? '' : $itemName;
+			$itemInfo = empty($itemInfo) ? '' : $itemInfo;
+			$description = empty($description) ? '' : $description;
+			
+			$account = $this->web_account->get($playerId);
+			
+			$parameter = array(
+				'account_point'		=>	$currentSpecialGold
+			);
+			$this->web_account->update($parameter, $playerId);
+			
+			$parameter = array(
+				'player_id'						=>	$playerId,
+				'role_id'						=>	$roleId,
+				'action_name'				=>	$actionName,
+				'current_special_gold'	=>	$currentSpecialGold,
+				'spend_special_gold'		=>	$spendSpecialGold,
+				'item_name'					=>	$itemName,
+				'item_info'					=>	$itemInfo,
+				'description'					=>	$description,
+				'log_time'						=>	$logTime,
+				'server_id'						=>	$serverId
+			);
+			$this->consume->insert($parameter);
+			
+			$parameter = array(
+				'account_guid'				=>	$playerId,
+				'account_name'				=>	$account->account_name,
+				'account_id'					=>	$roleId,
+				'server_id'						=>	$serverId,
+				'funds_flow_dir'			=>	'CHECK_OUT',
+				'funds_item_amount'	=>	$spendSpecialGold,
+				'funds_item_current'		=>	$currentSpecialGold,
+				'funds_time'					=>	$logTime,
+				'funds_time_local'			=>	date('Y-m-d H:i:s', $logTime),
+				'funds_type'					=>	1
+			);
+			$this->funds->insert($parameter);
+			$jsonData = Array(
+					'message'	=>	'CONSUME_COMPLETE'
+			);
+		}
+		else
+		{
+			$jsonData = Array(
+					'message'	=>	'CONSUME_NO_PARAM'
+			);
+		}
+		echo $this->return_format->format($jsonData, $format);
 	}
 }
 ?>
