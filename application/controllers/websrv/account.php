@@ -156,7 +156,7 @@ class Account extends CI_Controller {
 					'question'	=>	$question,
 					'answer'	=>	$answer,
 					'server_id'	=>	$server_id,
-					'status'	=>	1
+					'status'		=>	1
 				);
 				$guid = $this->web_account->register($parameter);
 				if(!empty($guid)) {

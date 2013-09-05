@@ -131,8 +131,6 @@ class Orders extends CI_Controller {
 					'current_special_gold'	=>	$currentSpecialGold,
 					'spend_special_gold'		=>	$spendSpecialGold,
 					'item_name'					=>	$itemName,
-					'item_info'					=>	$itemInfo,
-					'description'					=>	$description,
 					'log_time'						=>	$logTime,
 					'server_id'						=>	$serverId
 				);
@@ -144,7 +142,7 @@ class Orders extends CI_Controller {
 					'account_id'					=>	$roleId,
 					'server_id'						=>	$serverId,
 					'funds_flow_dir'			=>	'CHECK_OUT',
-					'funds_item_amount'	=>	$spendSpecialGold,
+					'funds_item_amount'	=>	-intval($spendSpecialGold),
 					'funds_item_current'		=>	$currentSpecialGold,
 					'funds_time'					=>	$logTime,
 					'funds_time_local'			=>	date('Y-m-d H:i:s', $logTime),
@@ -152,12 +150,14 @@ class Orders extends CI_Controller {
 				);
 				$this->funds->insert($parameter);
 				$jsonData = Array(
+						'success'	=>	true,
 						'message'	=>	'CONSUME_COMPLETE'
 				);
 			}
 			else
 			{
 				$jsonData = Array(
+						'success'	=>	false,
 						'message'	=>	'CONSUME_ERROR_ACCOUNT_NOT_EXIST'
 				);
 			}
@@ -165,6 +165,7 @@ class Orders extends CI_Controller {
 		else
 		{
 			$jsonData = Array(
+					'success'	=>	false,
 					'message'	=>	'CONSUME_NO_PARAM'
 			);
 		}
