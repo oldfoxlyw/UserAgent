@@ -117,42 +117,50 @@ class Orders extends CI_Controller {
 			$description = empty($description) ? '' : $description;
 			
 			$account = $this->web_account->get($playerId);
-			
-			$parameter = array(
-				'account_point'		=>	$currentSpecialGold
-			);
-			$this->web_account->update($parameter, $playerId);
-			
-			$parameter = array(
-				'player_id'						=>	$playerId,
-				'role_id'						=>	$roleId,
-				'action_name'				=>	$actionName,
-				'current_special_gold'	=>	$currentSpecialGold,
-				'spend_special_gold'		=>	$spendSpecialGold,
-				'item_name'					=>	$itemName,
-				'item_info'					=>	$itemInfo,
-				'description'					=>	$description,
-				'log_time'						=>	$logTime,
-				'server_id'						=>	$serverId
-			);
-			$this->consume->insert($parameter);
-			
-			$parameter = array(
-				'account_guid'				=>	$playerId,
-				'account_name'				=>	$account->account_name,
-				'account_id'					=>	$roleId,
-				'server_id'						=>	$serverId,
-				'funds_flow_dir'			=>	'CHECK_OUT',
-				'funds_item_amount'	=>	$spendSpecialGold,
-				'funds_item_current'		=>	$currentSpecialGold,
-				'funds_time'					=>	$logTime,
-				'funds_time_local'			=>	date('Y-m-d H:i:s', $logTime),
-				'funds_type'					=>	1
-			);
-			$this->funds->insert($parameter);
-			$jsonData = Array(
-					'message'	=>	'CONSUME_COMPLETE'
-			);
+			if($account !== FALSE)
+			{
+				$parameter = array(
+					'account_point'		=>	$currentSpecialGold
+				);
+				$this->web_account->update($parameter, $playerId);
+				
+				$parameter = array(
+					'player_id'						=>	$playerId,
+					'role_id'						=>	$roleId,
+					'action_name'				=>	$actionName,
+					'current_special_gold'	=>	$currentSpecialGold,
+					'spend_special_gold'		=>	$spendSpecialGold,
+					'item_name'					=>	$itemName,
+					'item_info'					=>	$itemInfo,
+					'description'					=>	$description,
+					'log_time'						=>	$logTime,
+					'server_id'						=>	$serverId
+				);
+				$this->consume->insert($parameter);
+				
+				$parameter = array(
+					'account_guid'				=>	$playerId,
+					'account_name'				=>	$account->account_name,
+					'account_id'					=>	$roleId,
+					'server_id'						=>	$serverId,
+					'funds_flow_dir'			=>	'CHECK_OUT',
+					'funds_item_amount'	=>	$spendSpecialGold,
+					'funds_item_current'		=>	$currentSpecialGold,
+					'funds_time'					=>	$logTime,
+					'funds_time_local'			=>	date('Y-m-d H:i:s', $logTime),
+					'funds_type'					=>	1
+				);
+				$this->funds->insert($parameter);
+				$jsonData = Array(
+						'message'	=>	'CONSUME_COMPLETE'
+				);
+			}
+			else
+			{
+				$jsonData = Array(
+						'message'	=>	'CONSUME_ERROR_ACCOUNT_NOT_EXIST'
+				);
+			}
 		}
 		else
 		{
