@@ -475,7 +475,8 @@ CREATE  TABLE IF NOT EXISTS `agent1_web_db`.`scc_user` (
   `permission_name` CHAR(16) NOT NULL ,
   `user_founder` TINYINT(1) NOT NULL DEFAULT '0' ,
   `user_freezed` TINYINT(4) NOT NULL DEFAULT '0' ,
-  `additional_permission` TEXT NULL DEFAULT NULL ,
+  `additional_permission` TEXT NOT NULL ,
+  `user_fromwhere` CHAR(32) NOT NULL ,
   PRIMARY KEY (`GUID`) )
 ENGINE = MyISAM
 DEFAULT CHARACTER SET = utf8;
@@ -555,6 +556,6 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `agent1_web_db`;
-INSERT INTO `agent1_web_db`.`scc_user` (`GUID`, `user_name`, `user_pass`, `user_permission`, `permission_name`, `user_founder`, `user_freezed`, `additional_permission`) VALUES ('D2EF3D9D-2022-B1B1-C211-88CAEDFAAB8E', 'johnnyeven', 'b40714d351a35e8f0d2f15ee977da4a9f5a7e2cd', 999, '超级管理员', 1, 0, NULL);
+INSERT INTO `agent1_web_db`.`scc_user` (`GUID`, `user_name`, `user_pass`, `user_permission`, `permission_name`, `user_founder`, `user_freezed`, `additional_permission`, `user_fromwhere`) VALUES ('D2EF3D9D-2022-B1B1-C211-88CAEDFAAB8E', 'johnnyeven', 'b40714d351a35e8f0d2f15ee977da4a9f5a7e2cd', 999, '超级管理员', 1, 0, NULL, NULL);
 
 COMMIT;
