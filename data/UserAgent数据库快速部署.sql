@@ -85,7 +85,7 @@ CREATE  TABLE IF NOT EXISTS `agent1_account_db`.`web_account` (
   `account_job` CHAR(16) NULL DEFAULT '' ,
   `account_level` INT NOT NULL DEFAULT 0 ,
   `account_mission` BIGINT NOT NULL DEFAULT 0 ,
-  `partner_key` CHAR(8) NOT NULL ,
+  `partner_key` CHAR(16) NOT NULL DEFAULT 'default' ,
   PRIMARY KEY (`GUID`) ,
   INDEX `account_name` (`account_name` ASC, `account_pass` ASC, `server_id` ASC) )
 ENGINE = MyISAM
@@ -136,6 +136,7 @@ CREATE  TABLE IF NOT EXISTS `agent1_funds_flow_db`.`funds_checkinout` (
   `funds_time` INT(11) NOT NULL ,
   `funds_time_local` DATETIME NOT NULL ,
   `funds_type` INT(11) NOT NULL DEFAULT '1' COMMENT '1=游戏内充值 0=GM手动调整' ,
+  `partner_key` CHAR(16) NOT NULL DEFAULT 'default' ,
   PRIMARY KEY (`funds_id`) ,
   INDEX `account_guid` (`account_name` ASC) ,
   INDEX `account_id` (`account_id` ASC) ,
@@ -194,7 +195,7 @@ CREATE  TABLE IF NOT EXISTS `agent1_log_db`.`log_daily_statistics` (
   `recharge_account` INT(11) NOT NULL COMMENT '当天充值人数' ,
   `order_count` INT(11) NOT NULL COMMENT '订单数' ,
   `second_survive` INT(11) NOT NULL COMMENT '次日留存' ,
-  `partner_key` CHAR(16) NOT NULL ,
+  `partner_key` CHAR(16) NOT NULL DEFAULT 'default' ,
   PRIMARY KEY (`id`) ,
   UNIQUE INDEX `log_date` (`log_date` ASC, `server_id` ASC) )
 ENGINE = MyISAM
@@ -213,6 +214,7 @@ CREATE  TABLE IF NOT EXISTS `agent1_log_db`.`log_flowover_cache` (
   `account_job` CHAR(16) NOT NULL ,
   `account_level` INT NOT NULL ,
   `account_mission` BIGINT NOT NULL ,
+  `partner_key` CHAR(16) NOT NULL DEFAULT 'default' ,
   PRIMARY KEY (`guid`, `server_id`) )
 ENGINE = InnoDB;
 
@@ -228,6 +230,7 @@ CREATE  TABLE IF NOT EXISTS `agent1_log_db`.`log_flowover_detail` (
   `job` TEXT NOT NULL ,
   `level` TEXT NOT NULL ,
   `mission` TEXT NOT NULL ,
+  `partner_key` CHAR(16) NOT NULL DEFAULT 'default' ,
   PRIMARY KEY (`date`, `server_id`) )
 ENGINE = InnoDB;
 
@@ -261,6 +264,7 @@ CREATE  TABLE IF NOT EXISTS `agent1_log_db_201203`.`log_account` (
   `log_time` INT(11) NOT NULL ,
   `log_ip` CHAR(24) NOT NULL ,
   `server_id` CHAR(5) NOT NULL ,
+  `partner_key` CHAR(16) NOT NULL DEFAULT 'default' ,
   PRIMARY KEY (`log_id`) ,
   INDEX `log_GUID` USING BTREE (`log_GUID` ASC) ,
   INDEX `log_account_name` USING BTREE (`log_account_name` ASC) ,
@@ -288,6 +292,7 @@ CREATE  TABLE IF NOT EXISTS `agent1_log_db_201203`.`log_consume` (
   `description` TEXT NOT NULL ,
   `log_time` INT(11) NOT NULL ,
   `server_id` CHAR(5) NOT NULL ,
+  `partner_key` CHAR(16) NOT NULL DEFAULT 'default' ,
   PRIMARY KEY (`log_id`) ,
   INDEX `player_id` (`player_id` ASC) ,
   INDEX `item_name` (`item_name` ASC) ,
@@ -356,7 +361,7 @@ CREATE  TABLE IF NOT EXISTS `agent1_product_db`.`server_list` (
   `server_language` CHAR(16) NULL DEFAULT NULL ,
   `server_sort` INT(11) NOT NULL DEFAULT '0' ,
   `server_recommend` TINYINT(1) NOT NULL DEFAULT '0' ,
-  `server_mode` ENUM('debug','normal','partner') NOT NULL DEFAULT 'normal' ,
+  `server_mode` ENUM('debug','normal','partner','hidden') NOT NULL DEFAULT 'normal' ,
   `partner` CHAR(16) NOT NULL ,
   `server_status` INT(11) NOT NULL DEFAULT '1' COMMENT '0=关闭；1=正常；2=繁忙；3=拥挤' ,
   `server_new` INT(11) NOT NULL DEFAULT 1 COMMENT '1=新服；0=旧服' ,
@@ -476,10 +481,21 @@ CREATE  TABLE IF NOT EXISTS `agent1_web_db`.`scc_user` (
   `user_founder` TINYINT(1) NOT NULL DEFAULT '0' ,
   `user_freezed` TINYINT(4) NOT NULL DEFAULT '0' ,
   `additional_permission` TEXT NOT NULL ,
-  `user_fromwhere` CHAR(32) NOT NULL ,
+  `user_fromwhere` CHAR(16) NOT NULL DEFAULT 'default' ,
   PRIMARY KEY (`GUID`) )
 ENGINE = MyISAM
 DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `agent1_web_db`.`scc_partner`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `agent1_web_db`.`scc_partner` ;
+
+CREATE  TABLE IF NOT EXISTS `agent1_web_db`.`scc_partner` (
+  `partner_key` CHAR(16) NOT NULL ,
+  PRIMARY KEY (`partner_key`) )
+ENGINE = InnoDB;
 
 USE `agent1_account_db` ;
 USE `agent1_adminlog_db` ;
@@ -510,7 +526,7 @@ CREATE TABLE IF NOT EXISTS `agent1_web_db`.`scc_auto_template` (`template_id` IN
 -- -----------------------------------------------------
 -- Placeholder table for view `agent1_web_db`.`scc_user_permission`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `agent1_web_db`.`scc_user_permission` (`GUID` INT, `user_name` INT, `user_pass` INT, `user_permission` INT, `user_founder` INT, `user_freezed` INT, `additional_permission` INT, `permission_id` INT, `permission_name` INT, `permission_list` INT);
+CREATE TABLE IF NOT EXISTS `agent1_web_db`.`scc_user_permission` (`GUID` INT, `user_name` INT, `user_pass` INT, `user_permission` INT, `user_founder` INT, `user_freezed` INT, `additional_permission` INT, `user_fromwhere` INT, `permission_id` INT, `permission_name` INT, `permission_list` INT);
 
 -- -----------------------------------------------------
 -- View `agent1_web_db`.`scc_auto_template`
@@ -526,7 +542,7 @@ CREATE  OR REPLACE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY D
 DROP VIEW IF EXISTS `agent1_web_db`.`scc_user_permission` ;
 DROP TABLE IF EXISTS `agent1_web_db`.`scc_user_permission`;
 USE `agent1_web_db`;
-CREATE  OR REPLACE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `agent1_web_db`.`scc_user_permission` AS select `a`.`GUID` AS `GUID`,`a`.`user_name` AS `user_name`,`a`.`user_pass` AS `user_pass`,`a`.`user_permission` AS `user_permission`,`a`.`user_founder` AS `user_founder`,`a`.`user_freezed` AS `user_freezed`,`a`.`additional_permission` AS `additional_permission`,`b`.`permission_id` AS `permission_id`,`b`.`permission_name` AS `permission_name`,`b`.`permission_list` AS `permission_list` from (`agent1_web_db`.`scc_user` `a` join `agent1_web_db`.`scc_permission` `b`) where (`a`.`user_permission` = `b`.`permission_id`);
+CREATE  OR REPLACE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `agent1_web_db`.`scc_user_permission` AS select `a`.`GUID` AS `GUID`,`a`.`user_name` AS `user_name`,`a`.`user_pass` AS `user_pass`,`a`.`user_permission` AS `user_permission`,`a`.`user_founder` AS `user_founder`,`a`.`user_freezed` AS `user_freezed`,`a`.`additional_permission` AS `additional_permission`,`a`.`user_fromwhere` AS `user_fromwhere`,`b`.`permission_id` AS `permission_id`,`b`.`permission_name` AS `permission_name`,`b`.`permission_list` AS `permission_list` from (`agent1_web_db`.`scc_user` `a` join `agent1_web_db`.`scc_permission` `b`) where (`a`.`user_permission` = `b`.`permission_id`);
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
@@ -556,6 +572,6 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `agent1_web_db`;
-INSERT INTO `agent1_web_db`.`scc_user` (`GUID`, `user_name`, `user_pass`, `user_permission`, `permission_name`, `user_founder`, `user_freezed`, `additional_permission`, `user_fromwhere`) VALUES ('D2EF3D9D-2022-B1B1-C211-88CAEDFAAB8E', 'johnnyeven', 'b40714d351a35e8f0d2f15ee977da4a9f5a7e2cd', 999, '超级管理员', 1, 0, NULL, NULL);
+INSERT INTO `agent1_web_db`.`scc_user` (`GUID`, `user_name`, `user_pass`, `user_permission`, `permission_name`, `user_founder`, `user_freezed`, `additional_permission`, `user_fromwhere`) VALUES ('D2EF3D9D-2022-B1B1-C211-88CAEDFAAB8E', 'johnnyeven', 'b40714d351a35e8f0d2f15ee977da4a9f5a7e2cd', 999, '超级管理员', 1, 0, '', 'default');
 
 COMMIT;

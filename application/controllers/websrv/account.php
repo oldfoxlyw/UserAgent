@@ -569,6 +569,16 @@ class Account extends CI_Controller {
 		}
 	}
 	
+	public function clear($format = 'json')
+	{
+		$serverId = $this->input->get_post('server_id', TRUE);
+		
+		if(!empty($serverId))
+		{
+			
+		}
+	}
+	
 	public function checkGuid($format = 'json')
 	{
 		$guid 			=	$this->input->get_post('guid', TRUE);
