@@ -16,6 +16,17 @@ class Overview extends CI_Controller {
 	}
 	
 	public function statistics() {
+		$this->load->model('websrv/server');
+		$serverResult = $this->server->getAllResult();
+		
+		$this->load->model('websrv/mpartner');
+		$partnerResult = $this->mpartner->getAllResult();
+		
+		$this->process($serverResult, $partnerResult);
+	}
+	
+	private function process($serverResult, $partnerResult = null)
+	{
 		$currentTimeStamp = time();
 		$currentDate = date('Y-m-d', $currentTimeStamp);
 		$lastTimeStart = strtotime($currentDate . ' 00:00:00') - 86400;
@@ -23,177 +34,196 @@ class Overview extends CI_Controller {
 		$date = date('Y-m-d', $lastTimeStart);
 		$preDate = date('Y-m-d', $lastTimeStart - 86400);
 		
-		$this->load->model('websrv/server');
-		$serverResult = $this->server->getAllResult();
 		foreach($serverResult as $row)
 		{
-			//总注册数
-			$this->accountdb->where('server_id', $row->account_server_id);
-			$registerCount = $this->accountdb->count_all_results('web_account');
-			
-			//昨日新注册数
-			$this->logcachedb->where('log_date', $preDate);
-			$this->logcachedb->where('server_id', $row->account_server_id);
-			$lastResult = $this->logcachedb->get('log_daily_statistics');
-			if(!empty($lastResult))
+			foreach($partnerResult as $partner)
 			{
-				$lastResult = $lastResult->row();
-				$lastNewReg = intval($lastResult->reg_new_account);
-			}
-			else
-			{
-				$lastNewReg = 0;
-			}
-			
-			//新注册数
-			$where = "`server_id` = '{$row->account_server_id}' and `log_time` >= {$lastTimeStart} and `log_time` <= {$lastTimeEnd} and (`log_action` = 'ACCOUNT_REGISTER_SUCCESS' or `log_action` = 'ACCOUNT_DEMO_SUCCESS')";
-			$this->logdb->where($where);
-			$regNewCount = $this->logdb->count_all_results('log_account');
-			
-			//总改名用户数
-			$this->accountdb->where('server_id', $row->account_server_id);
-			$this->accountdb->where('account_status', 1);
-			$modifyCount = $this->accountdb->count_all_results('web_account');
-			
-			//昨日改名用户数
-			$this->logcachedb->where('log_date', $preDate);
-			$this->logcachedb->where('server_id', $row->account_server_id);
-			$lastResult = $this->logcachedb->get('log_daily_statistics');
-			if(!empty($lastResult))
-			{
-				$lastResult = $lastResult->row();
-				$lastModifyAccount = intval($lastResult->modify_account);
-			}
-			else
-			{
-				$lastModifyAccount = 0;
-			}
-			
-			//新改名用户数
-			$modifyNewCount = $modifyCount - $lastModifyAccount;
-
-			//当天活跃玩家数(登录数)
-			$this->logdb->where('log_action', 'ACCOUNT_LOGIN_SUCCESS');
-			$this->logdb->where('log_time >', $lastTimeStart);
-			$this->logdb->where('log_time <=', $lastTimeEnd);
-			$this->logdb->where('server_id', $row->account_server_id);
-			$this->logdb->group_by('log_GUID');
-			$loginCount = $this->logdb->count_all_results('log_account');
-			
-			//活跃玩家数(三天以内登录过游戏的人数)
-			$threeDaysAgoStart = $lastTimeStart - 3 * 86400;
-			$this->accountdb->where('account_lastlogin >=', $threeDaysAgoStart);
-			$this->accountdb->where('account_lastlogin <=', $lastTimeEnd);
-			$this->accountdb->where('server_id', $row->account_server_id);
-			$activeCount = $this->accountdb->count_all_results('web_account');
-			
-			//回流玩家数(超过一周没有登录但最近有登录的玩家数)
-			$this->logcachedb->where('server_id', $row->account_server_id);
-			$query = $this->logcachedb->get('log_flowover_cache');
-			$guidArray = $query->result();
-			$flowoverCacheResult = array();
-			foreach($guidArray as $guid)
-			{
-				array_push($flowoverCacheResult, $guid->guid);
-			}
-			$reflowCount = 0;
-			if(!empty($guidArray))
-			{
+				$partnerKey = $partner->partner_key;
+				
+				//总注册数
+				$this->accountdb->where('server_id', $row->account_server_id);
+				$this->accountdb->where('partner_key', $partnerKey);
+				$registerCount = $this->accountdb->count_all_results('web_account');
+				
+				//昨日新注册数
+				$this->logcachedb->where('log_date', $preDate);
+				$this->logcachedb->where('server_id', $row->account_server_id);
+				$this->logcachedb->where('partner_key', $partnerKey);
+				$lastResult = $this->logcachedb->get('log_daily_statistics');
+				if(!empty($lastResult))
+				{
+					$lastResult = $lastResult->row();
+					$lastNewReg = intval($lastResult->reg_new_account);
+				}
+				else
+				{
+					$lastNewReg = 0;
+				}
+				
+				//新注册数
+				$where = "`server_id` = '{$row->account_server_id}' and `partner_key`='{$partnerKey}' and `log_time` >= {$lastTimeStart} and `log_time` <= {$lastTimeEnd} and (`log_action` = 'ACCOUNT_REGISTER_SUCCESS' or `log_action` = 'ACCOUNT_DEMO_SUCCESS')";
+				$this->logdb->where($where);
+				$regNewCount = $this->logdb->count_all_results('log_account');
+				
+				//总改名用户数
+				$this->accountdb->where('server_id', $row->account_server_id);
+				$this->accountdb->where('account_status', 1);
+				$this->accountdb->where('partner_key', $partnerKey);
+				$modifyCount = $this->accountdb->count_all_results('web_account');
+				
+				//昨日改名用户数
+				$this->logcachedb->where('log_date', $preDate);
+				$this->logcachedb->where('server_id', $row->account_server_id);
+				$this->logcachedb->where('partner_key', $partnerKey);
+				$lastResult = $this->logcachedb->get('log_daily_statistics');
+				if(!empty($lastResult))
+				{
+					$lastResult = $lastResult->row();
+					$lastModifyAccount = intval($lastResult->modify_account);
+				}
+				else
+				{
+					$lastModifyAccount = 0;
+				}
+				
+				//新改名用户数
+				$modifyNewCount = $modifyCount - $lastModifyAccount;
+	
+				//当天活跃玩家数(登录数)
+				$this->logdb->where('log_action', 'ACCOUNT_LOGIN_SUCCESS');
+				$this->logdb->where('log_time >', $lastTimeStart);
+				$this->logdb->where('log_time <=', $lastTimeEnd);
+				$this->logdb->where('server_id', $row->account_server_id);
+				$this->logdb->where('partner_key', $partnerKey);
+				$this->logdb->group_by('log_GUID');
+				$loginCount = $this->logdb->count_all_results('log_account');
+				
+				//活跃玩家数(三天以内登录过游戏的人数)
 				$threeDaysAgoStart = $lastTimeStart - 3 * 86400;
 				$this->accountdb->where('account_lastlogin >=', $threeDaysAgoStart);
 				$this->accountdb->where('account_lastlogin <=', $lastTimeEnd);
 				$this->accountdb->where('server_id', $row->account_server_id);
-				$this->accountdb->where_in('GUID', $flowoverCacheResult);
-				$reflowCount = $this->accountdb->count_all_results('web_account');
+				$this->accountdb->where('partner_key', $partnerKey);
+				$activeCount = $this->accountdb->count_all_results('web_account');
+				
+				//回流玩家数(超过一周没有登录但最近有登录的玩家数)
+				$this->logcachedb->where('server_id', $row->account_server_id);
+				$this->logcachedb->where('partner_key', $partnerKey);
+				$query = $this->logcachedb->get('log_flowover_cache');
+				$guidArray = $query->result();
+				$flowoverCacheResult = array();
+				foreach($guidArray as $guid)
+				{
+					array_push($flowoverCacheResult, $guid->guid);
+				}
+				$reflowCount = 0;
+				if(!empty($guidArray))
+				{
+					$threeDaysAgoStart = $lastTimeStart - 3 * 86400;
+					$this->accountdb->where('account_lastlogin >=', $threeDaysAgoStart);
+					$this->accountdb->where('account_lastlogin <=', $lastTimeEnd);
+					$this->accountdb->where('server_id', $row->account_server_id);
+					$this->accountdb->where('partner_key', $partnerKey);
+					$this->accountdb->where_in('GUID', $flowoverCacheResult);
+					$reflowCount = $this->accountdb->count_all_results('web_account');
+				}
+				$this->logcachedb->delete('log_flowover_cache', array('server_id'=>$row->account_server_id));
+				
+				//流失玩家数(超过一周没有登录的玩家数)
+				$weekAgoStart = $lastTimeStart - 7 * 86400;
+				$this->accountdb->where('account_lastlogin <=', $weekAgoStart);
+				$this->accountdb->where('server_id', $row->account_server_id);
+				$this->accountdb->where('partner_key', $partnerKey);
+				$flowoverCount = $this->accountdb->count_all_results('web_account');
+				//流失玩家放入临时表
+				$this->accountdb->where('account_lastlogin <=', $weekAgoStart);
+				$this->accountdb->where('server_id', $row->account_server_id);
+				$this->accountdb->where('partner_key', $partnerKey);
+				$query = $this->accountdb->get('web_account');
+				$flowoverResult = $query->result();
+				foreach($flowoverResult as $flowover)
+				{
+					$this->logcachedb->insert('log_flowover_cache', array(
+						'guid'					=>	$flowover->GUID,
+						'server_id'				=>	$row->account_server_id,
+						'account_job'		=>	empty($flowover->account_job) ? '' : $flowover->account_job,
+						'account_level'		=>	empty($flowover->account_level) ? 0 : $flowover->account_level,
+						'account_mission'	=>	empty($flowover->account_mission) ? 0 : $flowover->account_mission,
+						'partner_key'			=>	$partnerKey
+					));
+				}
+	
+				//次日留存
+				$secondSurvive = floatval(number_format(($loginCount - $regNewCount) / $lastNewReg, 2)) * 100;
+	
+				//当天订单数
+				$this->fundsdb->where('funds_flow_dir', 'CHECK_IN');
+				$this->fundsdb->where('funds_time >', $lastTimeStart);
+				$this->fundsdb->where('funds_time <=', $lastTimeEnd);
+				$this->fundsdb->where('server_id', $row->account_server_id);
+				$this->fundsdb->where('partner_key', $partnerKey);
+				$ordersCount = $this->fundsdb->count_all_results('funds_checkinout');
+	
+				//当天订单总额
+				$this->fundsdb->select_sum('funds_amount');
+				$this->fundsdb->where('funds_flow_dir', 'CHECK_IN');
+				$this->fundsdb->where('funds_time >', $lastTimeStart);
+				$this->fundsdb->where('funds_time <=', $lastTimeEnd);
+				$this->fundsdb->where('server_id', $row->account_server_id);
+				$this->fundsdb->where('partner_key', $partnerKey);
+				$checkResult = $this->fundsdb->get('funds_checkinout')->row();
+				$ordersCurrentSum = intval($checkResult->funds_amount);
+	
+				//订单总额
+				$this->fundsdb->select_sum('funds_amount');
+				$this->fundsdb->where('funds_flow_dir', 'CHECK_IN');
+				$this->fundsdb->where('server_id', $row->account_server_id);
+				$this->fundsdb->where('partner_key', $partnerKey);
+				$checkResult = $this->fundsdb->get('funds_checkinout')->row();
+				$ordersSum = intval($checkResult->funds_amount);
+				
+				//当天充值人数
+				$this->fundsdb->where('funds_flow_dir', 'CHECK_IN');
+				$this->fundsdb->where('funds_time >', $lastTimeStart);
+				$this->fundsdb->where('funds_time <=', $lastTimeEnd);
+				$this->fundsdb->where('server_id', $row->account_server_id);
+				$this->fundsdb->where('partner_key', $partnerKey);
+				$this->fundsdb->group_by('account_guid');
+				$rechargeAccount = $this->fundsdb->count_all_results('funds_checkinout');
+	
+				//arpu
+				$arpu = floatval(number_format($ordersCurrentSum / $loginCount, 2)) * 100;
+				
+				$parameter = array(
+					'log_date'						=>	$date,
+					'server_id'						=>	$row->account_server_id,
+					'server_name'				=>	$row->server_name,
+					'reg_account'				=>	$registerCount,
+					'reg_new_account'			=>	$regNewCount,
+					'modify_account'			=>	$modifyCount,
+					'modify_new_account'	=>	$modifyNewCount,
+					'login_account'				=>	$loginCount,
+					'active_account'			=>	$activeCount,
+					'flowover_account'		=>	$flowoverCount,
+					'reflow_account'			=>	$reflowCount,
+					'orders_current_sum'		=>	$ordersCurrentSum,
+					'orders_sum'					=>	$ordersSum,
+					'arpu'							=>	$arpu,
+					'recharge_account'		=>	$rechargeAccount,
+					'order_count'				=>	$ordersCount,
+					'second_survive'			=>	$secondSurvive,
+					'partner_key'					=>	$partnerKey
+				);
+				$this->logcachedb->insert('log_daily_statistics', $parameter);
+	
+				$this->flowover_detail_statistics($date, $row->account_server_id, $partnerKey);
 			}
-			$this->logcachedb->delete('log_flowover_cache', array('server_id'=>$row->account_server_id));
-			
-			//流失玩家数(超过一周没有登录的玩家数)
-			$weekAgoStart = $lastTimeStart - 7 * 86400;
-			$this->accountdb->where('account_lastlogin <=', $weekAgoStart);
-			$this->accountdb->where('server_id', $row->account_server_id);
-			$flowoverCount = $this->accountdb->count_all_results('web_account');
-			//流失玩家放入临时表
-			$this->accountdb->where('account_lastlogin <=', $weekAgoStart);
-			$this->accountdb->where('server_id', $row->account_server_id);
-			$query = $this->accountdb->get('web_account');
-			$flowoverResult = $query->result();
-			foreach($flowoverResult as $flowover)
-			{
-				$this->logcachedb->insert('log_flowover_cache', array(
-					'guid'					=>	$flowover->GUID,
-					'server_id'				=>	$row->account_server_id,
-					'account_job'		=>	empty($flowover->account_job) ? '' : $flowover->account_job,
-					'account_level'		=>	empty($flowover->account_level) ? 0 : $flowover->account_level,
-					'account_mission'	=>	empty($flowover->account_mission) ? 0 : $flowover->account_mission
-				));
-			}
-
-			//次日留存
-			$secondSurvive = floatval(number_format(($loginCount - $regNewCount) / $lastNewReg, 2)) * 100;
-
-			//当天订单数
-			$this->fundsdb->where('funds_flow_dir', 'CHECK_IN');
-			$this->fundsdb->where('funds_time >', $lastTimeStart);
-			$this->fundsdb->where('funds_time <=', $lastTimeEnd);
-			$this->fundsdb->where('server_id', $row->account_server_id);
-			$ordersCount = $this->fundsdb->count_all_results('funds_checkinout');
-
-			//当天订单总额
-			$this->fundsdb->select_sum('funds_amount');
-			$this->fundsdb->where('funds_flow_dir', 'CHECK_IN');
-			$this->fundsdb->where('funds_time >', $lastTimeStart);
-			$this->fundsdb->where('funds_time <=', $lastTimeEnd);
-			$this->fundsdb->where('server_id', $row->account_server_id);
-			$checkResult = $this->fundsdb->get('funds_checkinout')->row();
-			$ordersCurrentSum = intval($checkResult->funds_amount);
-
-			//订单总额
-			$this->fundsdb->select_sum('funds_amount');
-			$this->fundsdb->where('funds_flow_dir', 'CHECK_IN');
-			$this->fundsdb->where('server_id', $row->account_server_id);
-			$checkResult = $this->fundsdb->get('funds_checkinout')->row();
-			$ordersSum = intval($checkResult->funds_amount);
-			
-			//当天充值人数
-			$this->fundsdb->where('funds_flow_dir', 'CHECK_IN');
-			$this->fundsdb->where('funds_time >', $lastTimeStart);
-			$this->fundsdb->where('funds_time <=', $lastTimeEnd);
-			$this->fundsdb->where('server_id', $row->account_server_id);
-			$this->fundsdb->group_by('account_guid');
-			$rechargeAccount = $this->fundsdb->count_all_results('funds_checkinout');
-
-			//arpu
-			$arpu = floatval(number_format($ordersCurrentSum / $loginCount, 2)) * 100;
-			
-			$parameter = array(
-				'log_date'						=>	$date,
-				'server_id'						=>	$row->account_server_id,
-				'server_name'				=>	$row->server_name,
-				'reg_account'				=>	$registerCount,
-				'reg_new_account'			=>	$regNewCount,
-				'modify_account'			=>	$modifyCount,
-				'modify_new_account'	=>	$modifyNewCount,
-				'login_account'				=>	$loginCount,
-				'active_account'			=>	$activeCount,
-				'flowover_account'		=>	$flowoverCount,
-				'reflow_account'			=>	$reflowCount,
-				'orders_current_sum'		=>	$ordersCurrentSum,
-				'orders_sum'					=>	$ordersSum,
-				'arpu'							=>	$arpu,
-				'recharge_account'		=>	$rechargeAccount,
-				'order_count'				=>	$ordersCount,
-				'second_survive'			=>	$secondSurvive
-			);
-			$this->logcachedb->insert('log_daily_statistics', $parameter);
-
-			$this->flowover_detail_statistics($date, $row->account_server_id);
 		}
 	}
 	
-	private function flowover_detail_statistics($date, $server_id)
+	private function flowover_detail_statistics($date, $server_id, $partnerKey)
 	{
-		$sql = "SELECT `account_job`, COUNT(*) AS `numrows` FROM `log_flowover_cache` WHERE `server_id` = '{$server_id}' GROUP BY `account_job`";
+		$sql = "SELECT `account_job`, COUNT(*) AS `numrows` FROM `log_flowover_cache` WHERE `server_id` = '{$server_id}' and `partner_key` = '{$partnerKey}' GROUP BY `account_job`";
 		$countResult = $this->logcachedb->query($sql)->result();
 		$jobArray = array();
 		foreach($countResult as $row)
@@ -202,7 +232,7 @@ class Overview extends CI_Controller {
 		}
 		$jobResult = implode(',', $jobArray);
 
-		$sql = "SELECT `account_level`, COUNT(*) AS `numrows` FROM `log_flowover_cache` WHERE `server_id` = '{$server_id}' GROUP BY `account_level`";
+		$sql = "SELECT `account_level`, COUNT(*) AS `numrows` FROM `log_flowover_cache` WHERE `server_id` = '{$server_id}' and `partner_key` = '{$partnerKey}' GROUP BY `account_level`";
 		$countResult = $this->logcachedb->query($sql)->result();
 		$levelArray = array();
 		foreach($countResult as $row)
@@ -211,7 +241,7 @@ class Overview extends CI_Controller {
 		}
 		$levelResult = implode(',', $levelArray);
 
-		$sql = "SELECT `account_mission`, COUNT(*) AS `numrows` FROM `log_flowover_cache` WHERE `server_id` = '{$server_id}' GROUP BY `account_mission`";
+		$sql = "SELECT `account_mission`, COUNT(*) AS `numrows` FROM `log_flowover_cache` WHERE `server_id` = '{$server_id}' and `partner_key` = '{$partnerKey}' GROUP BY `account_mission`";
 		$countResult = $this->logcachedb->query($sql)->result();
 		$missionArray = array();
 		foreach($countResult as $row)
@@ -225,7 +255,8 @@ class Overview extends CI_Controller {
 			'server_id'			=>	$server_id,
 			'job'					=>	$jobResult,
 			'level'				=>	$levelResult,
-			'mission'			=>	$missionResult
+			'mission'			=>	$missionResult,
+			'partner_key'		=>	$partnerKey
 		);
 		$this->logcachedb->insert('log_flowover_detail', $parameter);
 	}

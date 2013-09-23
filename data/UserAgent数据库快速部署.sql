@@ -575,3 +575,12 @@ USE `agent1_web_db`;
 INSERT INTO `agent1_web_db`.`scc_user` (`GUID`, `user_name`, `user_pass`, `user_permission`, `permission_name`, `user_founder`, `user_freezed`, `additional_permission`, `user_fromwhere`) VALUES ('D2EF3D9D-2022-B1B1-C211-88CAEDFAAB8E', 'johnnyeven', 'b40714d351a35e8f0d2f15ee977da4a9f5a7e2cd', 999, '超级管理员', 1, 0, '', 'default');
 
 COMMIT;
+
+-- -----------------------------------------------------
+-- Data for table `agent1_web_db`.`scc_partner`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `agent1_web_db`;
+INSERT INTO `agent1_web_db`.`scc_partner` (`partner_key`) VALUES ('default');
+
+COMMIT;
