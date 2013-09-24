@@ -19,8 +19,8 @@ class Overview extends CI_Controller {
 		$this->load->model('websrv/server');
 		$serverResult = $this->server->getAllResult();
 		
-		$this->load->model('websrv/mpartner');
-		$partnerResult = $this->mpartner->getAllResult();
+// 		$this->load->model('websrv/mpartner');
+// 		$partnerResult = $this->mpartner->getAllResult();
 		
 		exit();
 		$this->process($serverResult, $partnerResult);
