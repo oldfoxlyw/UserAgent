@@ -47,6 +47,22 @@
 $active_group = 'accountdb';
 $active_record = TRUE;
 
+$db['webdb']['hostname'] = '127.0.0.1';
+$db['webdb']['username'] = 'useragent';
+$db['webdb']['password'] = 'carM2u6ZTJq5fJWM';
+$db['webdb']['database'] = 'agent1_web_db';
+$db['webdb']['dbdriver'] = 'mysql';
+$db['webdb']['dbprefix'] = '';
+$db['webdb']['pconnect'] = FALSE;
+$db['webdb']['db_debug'] = TRUE;
+$db['webdb']['cache_on'] = FALSE;
+$db['webdb']['cachedir'] = '';
+$db['webdb']['char_set'] = 'utf8';
+$db['webdb']['dbcollat'] = 'utf8_general_ci';
+$db['webdb']['swap_pre'] = '';
+$db['webdb']['autoinit'] = TRUE;
+$db['webdb']['stricton'] = FALSE;
+
 $db['accountdb']['hostname'] = '127.0.0.1';
 $db['accountdb']['username'] = 'useragent';
 $db['accountdb']['password'] = 'carM2u6ZTJq5fJWM';
