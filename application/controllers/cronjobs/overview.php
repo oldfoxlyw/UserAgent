@@ -127,7 +127,11 @@ class Overview extends CI_Controller {
 					$this->accountdb->where_in('GUID', $flowoverCacheResult);
 					$reflowCount = $this->accountdb->count_all_results('web_account');
 				}
-				$this->logcachedb->delete('log_flowover_cache', array('server_id'=>$row->account_server_id));
+				$this->logcachedb->delete('log_flowover_cache', array(
+					'server_id'			=>	$row->account_server_id,
+					'partner_key'		=>	$partnerKey
+					
+				));
 				
 				//流失玩家数(超过一周没有登录的玩家数)
 				$weekAgoStart = $lastTimeStart - 7 * 86400;
