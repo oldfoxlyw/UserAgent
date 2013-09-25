@@ -28,7 +28,7 @@ class Servers extends CI_Controller {
 		// }
 		
 		if($partner===FALSE || empty($partner)) {
-			$partner = '';
+			$partner = 'default';
 		}
 		
 		if($mode===FALSE || empty($mode)) {

@@ -48,8 +48,8 @@ $active_group = 'accountdb';
 $active_record = TRUE;
 
 $db['webdb']['hostname'] = '127.0.0.1';
-$db['webdb']['username'] = 'useragent';
-$db['webdb']['password'] = 'carM2u6ZTJq5fJWM';
+$db['webdb']['username'] = 'root';
+$db['webdb']['password'] = '84@41%%wi96^4';
 $db['webdb']['database'] = 'agent1_web_db';
 $db['webdb']['dbdriver'] = 'mysql';
 $db['webdb']['dbprefix'] = '';
@@ -64,8 +64,8 @@ $db['webdb']['autoinit'] = TRUE;
 $db['webdb']['stricton'] = FALSE;
 
 $db['accountdb']['hostname'] = '127.0.0.1';
-$db['accountdb']['username'] = 'useragent';
-$db['accountdb']['password'] = 'carM2u6ZTJq5fJWM';
+$db['accountdb']['username'] = 'root';
+$db['accountdb']['password'] = '84@41%%wi96^4';
 $db['accountdb']['database'] = 'agent1_account_db';
 $db['accountdb']['dbdriver'] = 'mysql';
 $db['accountdb']['dbprefix'] = '';
@@ -80,8 +80,8 @@ $db['accountdb']['autoinit'] = TRUE;
 $db['accountdb']['stricton'] = FALSE;
 
 $db['productdb']['hostname'] = '127.0.0.1';
-$db['productdb']['username'] = 'useragent';
-$db['productdb']['password'] = 'carM2u6ZTJq5fJWM';
+$db['productdb']['username'] = 'root';
+$db['productdb']['password'] = '84@41%%wi96^4';
 $db['productdb']['database'] = 'agent1_product_db';
 $db['productdb']['dbdriver'] = 'mysql';
 $db['productdb']['dbprefix'] = '';
@@ -96,8 +96,8 @@ $db['productdb']['autoinit'] = TRUE;
 $db['productdb']['stricton'] = FALSE;
 
 $db['fundsdb']['hostname'] = '127.0.0.1';
-$db['fundsdb']['username'] = 'useragent';
-$db['fundsdb']['password'] = 'carM2u6ZTJq5fJWM';
+$db['fundsdb']['username'] = 'root';
+$db['fundsdb']['password'] = '84@41%%wi96^4';
 $db['fundsdb']['database'] = 'agent1_funds_flow_db';
 $db['fundsdb']['dbdriver'] = 'mysql';
 $db['fundsdb']['dbprefix'] = '';
@@ -112,8 +112,8 @@ $db['fundsdb']['autoinit'] = TRUE;
 $db['fundsdb']['stricton'] = FALSE;
 
 $db['logdb']['hostname'] = '127.0.0.1';
-$db['logdb']['username'] = 'useragent';
-$db['logdb']['password'] = 'carM2u6ZTJq5fJWM';
+$db['logdb']['username'] = 'root';
+$db['logdb']['password'] = '84@41%%wi96^4';
 $db['logdb']['database'] = 'agent1_log_db_201203';
 $db['logdb']['dbdriver'] = 'mysql';
 $db['logdb']['dbprefix'] = '';
@@ -128,8 +128,8 @@ $db['logdb']['autoinit'] = TRUE;
 $db['logdb']['stricton'] = FALSE;
 
 $db['log_cachedb']['hostname'] = '127.0.0.1';
-$db['log_cachedb']['username'] = 'useragent';
-$db['log_cachedb']['password'] = 'carM2u6ZTJq5fJWM';
+$db['log_cachedb']['username'] = 'root';
+$db['log_cachedb']['password'] = '84@41%%wi96^4';
 $db['log_cachedb']['database'] = 'agent1_log_db';
 $db['log_cachedb']['dbdriver'] = 'mysql';
 $db['log_cachedb']['dbprefix'] = '';

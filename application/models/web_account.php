@@ -67,7 +67,8 @@ class Web_account extends CI_Model {
 				'account_pass_answer'		=>	$parameter['answer'],
 				'account_regtime'				=>	$time,
 				'account_lastlogin'			=>	$time,
-				'account_status'				=>	$parameter['status']
+				'account_status'				=>	$parameter['status'],
+				'partner_key'						=>	$parameter['partner']
 			);
 			if($this->accountdb->insert($this->accountTable, $insertArray)) {
 				return $this->accountdb->insert_id();

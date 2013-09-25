@@ -130,7 +130,6 @@ class Overview extends CI_Controller {
 				$this->logcachedb->delete('log_flowover_cache', array(
 					'server_id'			=>	$row->account_server_id,
 					'partner_key'		=>	$partnerKey
-					
 				));
 				
 				//流失玩家数(超过一周没有登录的玩家数)

@@ -122,8 +122,10 @@ class Account extends CI_Controller {
 		$accountEmail=	$this->input->get_post('account_email', TRUE);
 		$server_id	=	$this->input->get_post('server_id', TRUE);
 		$question	=	$this->input->get_post('account_question', TRUE);
-		$answer		=	$this->input->get_post('account_answer', TRUE);
+		$answer	=	$this->input->get_post('account_answer', TRUE);
+		$partner	=	$this->input->get_post('partner', TRUE);
 		
+		$partner = empty($partner) ? 'default' : $partner;
 		$accountEmail = $accountEmail===FALSE ? '' : $accountEmail;
 		$country = $country===FALSE ? '' : $country;
 		$question = $question===FALSE ? '' : $question;
@@ -156,7 +158,8 @@ class Account extends CI_Controller {
 					'question'	=>	$question,
 					'answer'	=>	$answer,
 					'server_id'	=>	$server_id,
-					'status'		=>	1
+					'status'		=>	1,
+					'partner'	=>	$partner
 				);
 				$guid = $this->web_account->register($parameter);
 				if(!empty($guid)) {
@@ -347,7 +350,7 @@ class Account extends CI_Controller {
 
 		if(empty($partner))
 		{
-			$partner = '';
+			$partner = 'default';
 		}
 			
 		$this->load->library('guid');
@@ -358,7 +361,6 @@ class Account extends CI_Controller {
 		
 		$this->load->model('websrv/server', 'server');
 		$parameter = array(
-			'partner'				=>	$partner,
 			'server_recommend'		=>	'1'
 		);
 		$result = $this->server->getAllResult($parameter);
@@ -366,7 +368,6 @@ class Account extends CI_Controller {
 			$server_id = $result[0]->account_server_id;
 		} else {
 			$parameter = array(
-				'partner'				=>	$partner,
 				'order_by'				=>	'server_sort'
 			);
 			$result = $this->server->getAllResult($parameter);
@@ -380,7 +381,8 @@ class Account extends CI_Controller {
 					'pass'		=>	$pass,
 					'email'		=>	'',
 					'server_id'	=>	$server_id,
-					'status'	=>	0
+					'status'		=>	0,
+					'partner'	=>	$partner
 				);
 				$guid = $this->web_account->register($parameter);
 				if(!empty($guid)) {
