@@ -33,6 +33,10 @@ class Servers extends CI_Controller {
 		{
 			$parameter['server_mode'] = 'partner';
 		}
+		elseif($mode=='debug')
+		{
+			$parameter['server_debug'] = 1;
+		}
 		
 		switch($lang) {
 			case 'CN':
