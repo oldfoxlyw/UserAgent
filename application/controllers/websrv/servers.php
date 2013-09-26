@@ -25,6 +25,7 @@ class Servers extends CI_Controller {
 		{
 			$partner = 'default';
 		}
+		
 		if($mode===FALSE || empty($mode))
 		{
 			$parameter['server_debug'] = 0;
