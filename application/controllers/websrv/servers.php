@@ -16,23 +16,18 @@ class Servers extends CI_Controller {
 		$mode		=	$this->input->get_post('mode', TRUE);
 		$lang		=	$this->input->get_post('language', TRUE);
 
-		// $status = $this->status->read();
-		// if($status->server_status != '1')
-		// {
-		// 	$jsonData = array(
-		// 		'message'	=>	'SERVER_CLOSED',
-		// 		'text'		=>	$status->message
-		// 	);
-		// 	echo $this->return_format->format($jsonData, $format);
-		// 	exit();
-		// }
+		$parameter = array(
+			'use_cache_style'		=>	true,
+			'order_by'					=>	'server_sort'
+		);
 		
 		if($partner===FALSE || empty($partner)) {
 			$partner = 'default';
 		}
 		
-		if($mode===FALSE || empty($mode)) {
-			$mode = 'normal';
+		if($mode===FALSE || empty($mode))
+		{
+			$parameter['server_mode'] = 'normal';
 		}
 		
 		switch($lang) {
@@ -48,11 +43,6 @@ class Servers extends CI_Controller {
 
 		//不使用缓存
 		$this->load->model('websrv/server', 'server');
-		$parameter = array(
-			'use_cache_style'			=>	true,
-			'server_mode'				=>	$mode,
-			'order_by'					=>	'server_sort'
-		);
 		$result = $this->server->getAllResult($parameter);
 
 		$this->lang->load('server_list', $lang);
