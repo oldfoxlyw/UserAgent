@@ -29,6 +29,10 @@ class Servers extends CI_Controller {
 		{
 			$parameter['server_mode'] = 'normal';
 		}
+		elseif ($mode=='partner')
+		{
+			$parameter['server_mode'] = 'partner';
+		}
 		
 		switch($lang) {
 			case 'CN':
