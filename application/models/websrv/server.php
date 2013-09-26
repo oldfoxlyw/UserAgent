@@ -43,8 +43,8 @@ class Server extends CI_Model {
 			if($parameter['server_recommend']=='1' || $parameter['server_recommend']=='0') {
 				$this->productdb->where('server_recommend', intval($parameter['server_recommend']));
 			}
-			if(!empty($parameter['server_mode']) && $parameter['server_mode']!='debug') {
-				$this->productdb->where('server_mode', $parameter['server_mode']);
+			if($parameter['server_debug']==0 || $parameter['server_debug']==1) {
+				$this->productdb->where('server_debug', $parameter['server_debug']);
 			}
 			if(!empty($parameter['partner'])) {
 				$this->productdb->where('partner', $parameter['partner']);

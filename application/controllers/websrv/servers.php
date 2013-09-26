@@ -21,17 +21,13 @@ class Servers extends CI_Controller {
 			'order_by'					=>	'server_sort'
 		);
 		
-		if($partner===FALSE || empty($partner)) {
+		if($partner===FALSE || empty($partner))
+		{
 			$partner = 'default';
 		}
-		
 		if($mode===FALSE || empty($mode))
 		{
-			$parameter['server_mode'] = 'normal';
-		}
-		elseif ($mode=='partner')
-		{
-			$parameter['server_mode'] = 'partner';
+			$parameter['server_debug'] = 0;
 		}
 		elseif($mode=='debug')
 		{
