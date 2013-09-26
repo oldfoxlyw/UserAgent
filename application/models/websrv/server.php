@@ -49,6 +49,7 @@ class Server extends CI_Model {
 			if(!empty($parameter['partner'])) {
 				$this->productdb->where('partner', $parameter['partner']);
 			}
+			$this->productdb->where('server_status <>', 9);
 			if(!empty($parameter['order_by'])) {
 				$this->productdb->order_by($parameter['order_by'], 'desc');
 			}
