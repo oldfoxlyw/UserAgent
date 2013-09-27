@@ -36,7 +36,7 @@ class Servers extends CI_Controller {
 		}
 		elseif($mode=='all')
 		{
-			
+			$parameter['server_mode'] = $mode;
 		}
 		else
 		{
