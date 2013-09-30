@@ -58,7 +58,7 @@ class Server extends CI_Model {
 			}
 		}
 		$result = $this->productdb->get($this->accountTable);
-//		exit($this->productdb->last_query());
+		exit($this->productdb->last_query());
 		if($result->num_rows() > 0)
 		{
 			return $result->result();
