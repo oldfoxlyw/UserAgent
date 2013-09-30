@@ -47,7 +47,7 @@ class Server extends CI_Model {
 				$this->productdb->where('server_debug', $parameter['server_debug']);
 			}
 			if(!empty($parameter['partner'])) {
-				$this->productdb->where('partner', $parameter['partner']);
+				$this->productdb->like('partner', $parameter['partner']);
 			}
 			if($parameter['server_mode'] != 'all')
 			{
