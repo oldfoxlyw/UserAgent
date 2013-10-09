@@ -41,5 +41,23 @@ class Consume extends CI_Model
 			return fales;
 		}
 	}
+
+	public function query($sql)
+	{
+		if (! empty ( $sql ))
+		{
+			$query = $this->logdb->query ( $sql );
+			if ($query->num_rows () > 0)
+			{
+				return $query->result ();
+			} else
+			{
+				return false;
+			}
+		} else
+		{
+			return false;
+		}
+	}
 }
 ?>
