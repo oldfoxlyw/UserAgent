@@ -127,6 +127,7 @@ class Orders extends CI_Controller {
 				$parameter = array(
 					'player_id'						=>	$playerId,
 					'role_id'						=>	$roleId,
+					'role_level'					=>	intval($roleLevel),
 					'action_name'				=>	$actionName,
 					'current_special_gold'	=>	$currentSpecialGold,
 					'spend_special_gold'		=>	$spendSpecialGold,
