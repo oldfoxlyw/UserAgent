@@ -24,6 +24,7 @@ class Servers extends CI_Controller {
 		if($partner===FALSE || empty($partner))
 		{
 			$partner = 'default';
+			$parameter['partner'] = $partner;
 		}
 		else
 		{

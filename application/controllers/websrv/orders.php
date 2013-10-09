@@ -93,15 +93,15 @@ class Orders extends CI_Controller {
 	
 	public function consume($format = 'json')
 	{
-		$playerId = $this->input->get_post('player_id', TRUE);
-		$roleId = $this->input->get_post('role_id', TRUE);
-		$actionName = $this->input->get_post('action_name', TRUE);
-		$currentSpecialGold = $this->input->get_post('current_special_gold', TRUE);
-		$spendSpecialGold = $this->input->get_post('spend_special_gold', TRUE);
-		$itemName = $this->input->get_post('item_name', TRUE);
-		$itemInfo = $this->input->get_post('item_info', TRUE);
-		$description = $this->input->get_post('description', TRUE);
-		$serverId = $this->input->get_post('server_id', TRUE);
+		$playerId					=	$this->input->get_post('player_id', TRUE);
+		$roleId						=	$this->input->get_post('role_id', TRUE);
+		$roleLevel					=	$this->input->get_post('role_level', TRUE);
+		$actionName				=	$this->input->get_post('action_name', TRUE);
+		$currentSpecialGold	=	$this->input->get_post('current_special_gold', TRUE);
+		$spendSpecialGold	=	$this->input->get_post('spend_special_gold', TRUE);
+		$itemName				=	$this->input->get_post('item_name', TRUE);
+		$itemInfo					=	$this->input->get_post('item_info', TRUE);
+		$serverId					=	$this->input->get_post('server_id', TRUE);
 		
 		$logTime = time();
 		
@@ -110,11 +110,11 @@ class Orders extends CI_Controller {
 			$this->load->model('websrv/consume');
 			$this->load->model('web_account');
 			$this->load->model('funds');
-		
+			
+			$roleLevel = empty($roleLevel) ? 0 : intval($roleLevel);
 			$actionName = empty($actionName) ? '' : $actionName;
 			$itemName = empty($itemName) ? '' : $itemName;
 			$itemInfo = empty($itemInfo) ? '' : $itemInfo;
-			$description = empty($description) ? '' : $description;
 			
 			$account = $this->web_account->get($playerId);
 			if($account !== FALSE)
@@ -131,6 +131,7 @@ class Orders extends CI_Controller {
 					'current_special_gold'	=>	$currentSpecialGold,
 					'spend_special_gold'		=>	$spendSpecialGold,
 					'item_name'					=>	$itemName,
+					'item_info'					=>	$itemInfo,
 					'log_time'						=>	$logTime,
 					'server_id'						=>	$serverId
 				);
