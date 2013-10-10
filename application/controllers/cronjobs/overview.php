@@ -266,7 +266,7 @@ class Overview extends CI_Controller
 		$this->logcachedb->insert ( 'log_flowover_detail', $parameter );
 	}
 
-	private function buy_equipment_statistics($date, $server_id, $partnerKey)
+	public function buy_equipment_statistics($date, $server_id, $partnerKey)
 	{
 		$levelDetail = array();
 		$timeStart = strtotime("{$date} 00:00:00");
@@ -282,7 +282,7 @@ class Overview extends CI_Controller
 				{
 					$result[$i] = implode(':', $result[$i]);
 				}
-				$levelDetail['level_' . $m] = implode(',', $result);
+				$levelDetail[strval($m)] = implode(',', $result);
 			}
 		}
 		$parameter = array(
