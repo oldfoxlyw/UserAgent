@@ -248,6 +248,22 @@ CREATE  TABLE IF NOT EXISTS `agent1_log_db`.`log_online_count` (
   PRIMARY KEY (`server_id`, `log_date`, `log_hour`) )
 ENGINE = InnoDB;
 
+
+-- -----------------------------------------------------
+-- Table `agent1_log_db`.`log_buy_equipment_detail`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `agent1_log_db`.`log_buy_equipment_detail` ;
+
+CREATE  TABLE IF NOT EXISTS `agent1_log_db`.`log_buy_equipment_detail` (
+  `id` INT NOT NULL AUTO_INCREMENT ,
+  `date` DATE NOT NULL ,
+  `server_id` CHAR(8) NOT NULL ,
+  `partner_key` CHAR(16) NOT NULL ,
+  `level_detail` TEXT NOT NULL ,
+  `mission_detail` TEXT NOT NULL ,
+  PRIMARY KEY (`id`) )
+ENGINE = InnoDB;
+
 USE `agent1_log_db_201203` ;
 
 -- -----------------------------------------------------
@@ -285,6 +301,7 @@ CREATE  TABLE IF NOT EXISTS `agent1_log_db_201203`.`log_consume` (
   `player_id` BIGINT NOT NULL ,
   `role_id` BIGINT NOT NULL ,
   `role_level` INT NOT NULL DEFAULT 0 ,
+  `role_mission` CHAR(16) NOT NULL ,
   `action_name` CHAR(64) NOT NULL ,
   `current_special_gold` INT(11) NOT NULL ,
   `spend_special_gold` INT(11) NOT NULL ,

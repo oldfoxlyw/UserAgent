@@ -96,6 +96,7 @@ class Orders extends CI_Controller {
 		$playerId					=	$this->input->get_post('player_id', TRUE);
 		$roleId						=	$this->input->get_post('role_id', TRUE);
 		$roleLevel					=	$this->input->get_post('role_level', TRUE);
+		$roleMission				=	$this->input->get_post('role_mission', TRUE);
 		$actionName				=	$this->input->get_post('action_name', TRUE);
 		$currentSpecialGold	=	$this->input->get_post('current_special_gold', TRUE);
 		$spendSpecialGold	=	$this->input->get_post('spend_special_gold', TRUE);
@@ -112,6 +113,7 @@ class Orders extends CI_Controller {
 			$this->load->model('funds');
 			
 			$roleLevel = empty($roleLevel) ? 0 : intval($roleLevel);
+			$roleMission = empty($roleMission) ? '' : $roleMission;
 			$actionName = empty($actionName) ? '' : $actionName;
 			$itemName = empty($itemName) ? '' : $itemName;
 			$itemInfo = empty($itemInfo) ? '' : $itemInfo;
@@ -134,7 +136,8 @@ class Orders extends CI_Controller {
 					'item_name'					=>	$itemName,
 					'item_info'					=>	$itemInfo,
 					'log_time'						=>	$logTime,
-					'server_id'						=>	$serverId
+					'server_id'						=>	$serverId,
+					'partner_key'					=>	$account->partner_key
 				);
 				$this->consume->insert($parameter);
 				
