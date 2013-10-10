@@ -130,6 +130,7 @@ class Orders extends CI_Controller {
 					'player_id'						=>	$playerId,
 					'role_id'						=>	$roleId,
 					'role_level'					=>	$roleLevel,
+					'role_mission'				=>	$roleMission,
 					'action_name'				=>	$actionName,
 					'current_special_gold'	=>	$currentSpecialGold,
 					'spend_special_gold'		=>	$spendSpecialGold,
