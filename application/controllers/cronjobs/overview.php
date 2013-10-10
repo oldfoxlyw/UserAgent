@@ -273,7 +273,7 @@ class Overview extends CI_Controller
 		$timeEnd = strtotime("{$date} 23:59:59");
 		for($m=1; $m<=6; $m++)
 		{
-			$levelDetail['level_' . $m] = '';
+			$levelDetail[strval($m)] = '';
 			$sql = "SELECT `role_level`, COUNT(*) AS `count` FROM `log_consume` WHERE `action_name` = 'buy_equipment' AND `item_info` = {$m} AND `server_id` = '{$server_id}' AND `partner_key` = '{$partnerKey}' AND `log_time` >= {$timeStart} AND `log_time` <= {$timeEnd} GROUP BY `role_level`";
 			$result = $this->logdb->query ( $sql )->result_array ();
 			if (! empty ( $result ))
