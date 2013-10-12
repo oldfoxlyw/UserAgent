@@ -64,7 +64,7 @@ class Orders extends CI_Controller {
 							'funds_time'					=>	$time,
 							'funds_time_local'			=>	date('Y-m-d H:i:s', $time),
 							'funds_type'					=>	1,
-							'partner_key'					=>	$result->user_fromwhere
+							'partner_key'					=>	$result->partner_key
 					);
 					$this->funds->insert($parameter);
 				} else {
@@ -135,7 +135,7 @@ class Orders extends CI_Controller {
 					'item_info'					=>	$itemInfo,
 					'log_time'						=>	$logTime,
 					'server_id'						=>	$serverId,
-					'partner_key'					=>	$account->user_fromwhere
+					'partner_key'					=>	$account->partner_key
 				);
 				$this->consume->insert($parameter);
 				
@@ -150,7 +150,7 @@ class Orders extends CI_Controller {
 					'funds_time'					=>	$logTime,
 					'funds_time_local'			=>	date('Y-m-d H:i:s', $logTime),
 					'funds_type'					=>	1,
-					'partner_key'					=>	$account->user_fromwhere
+					'partner_key'					=>	$account->partner_key
 				);
 				$this->funds->insert($parameter);
 				$jsonData = Array(
