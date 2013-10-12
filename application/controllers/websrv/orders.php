@@ -18,22 +18,18 @@ class Orders extends CI_Controller {
 		$accountId = $this->input->get_post('account_id', TRUE);
 		$fundsAmount = $this->input->get_post('funds_amount', TRUE);
 		$itemCount = $this->input->get_post('item_count', TRUE);
-		$gameId = $this->input->get_post('game_id', TRUE);
-		$sectionId = $this->input->get_post('server_section', TRUE);
 		$serverId = $this->input->get_post('server_id', TRUE);
 		$playerId = $this->input->get_post('player_id', TRUE);
 		$checkSum = $this->input->get_post('checksum', TRUE);
 		
-		if(!empty($gameId) && !empty($sectionId) && !empty($serverId) && !empty($playerId) && !empty($checkSum) && is_numeric($fundsAmount) && is_numeric($itemCount)) {
+		if(!empty($serverId) && !empty($playerId) && !empty($checkSum) && is_numeric($fundsAmount) && is_numeric($itemCount)) {
 			$result = $this->order->get($checkSum);
 			if($result==FALSE)
 			{
 				$parameter = array(
 					'player_id'		=>	$playerId,
-					'game_id'		=>	$gameId,
-					'section_id'	=>	$sectionId,
 					'server_id'		=>	$serverId,
-					'checksum'		=>	$checkSum
+					'checksum'	=>	$checkSum
 				);
 				$this->order->insert($parameter);
 				

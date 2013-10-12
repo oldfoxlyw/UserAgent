@@ -156,8 +156,6 @@ DROP TABLE IF EXISTS `agent1_funds_flow_db`.`funds_order` ;
 CREATE  TABLE IF NOT EXISTS `agent1_funds_flow_db`.`funds_order` (
   `id` INT(11) NOT NULL AUTO_INCREMENT ,
   `player_id` CHAR(22) NOT NULL ,
-  `game_id` CHAR(1) NOT NULL ,
-  `section_id` CHAR(1) NOT NULL ,
   `server_id` CHAR(1) NOT NULL ,
   `checksum` CHAR(64) NOT NULL ,
   `check_count` INT(11) NOT NULL ,
