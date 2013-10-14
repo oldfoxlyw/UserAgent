@@ -269,6 +269,7 @@ class Overview extends CI_Controller
 	public function buy_equipment_statistics($date, $server_id, $partnerKey)
 	{
 		$levelDetail = array();
+		$missionDetail = array();
 		$timeStart = strtotime("{$date} 00:00:00");
 		$timeEnd = strtotime("{$date} 23:59:59");
 		for($m=1; $m<=6; $m++)
@@ -285,11 +286,27 @@ class Overview extends CI_Controller
 				$levelDetail[strval($m)] = implode(',', $result);
 			}
 		}
+		for($m=1; $m<=6; $m++)
+		{
+			$missionDetail[strval($m)] = '';
+			$sql = "SELECT `role_mission`, COUNT(*) AS `count` FROM `log_consume` WHERE `action_name` = 'buy_equipment' AND `item_info` = {$m} AND `server_id` = '{$server_id}' AND `partner_key` = '{$partnerKey}' AND `log_time` >= {$timeStart} AND `log_time` <= {$timeEnd} GROUP BY `role_mission`";
+			$result = $this->logdb->query ( $sql )->result_array ();
+			if (! empty ( $result ))
+			{
+				for ( $i=0; $i<count($result); $i++ )
+				{
+					$result[$i] = implode(':', $result[$i]);
+				}
+				$missionDetail[strval($m)] = implode(',', $result);
+			}
+		}
+		
 		$parameter = array(
 			'date'					=>	$date,
 			'server_id'				=>	$server_id,
 			'partner_key'			=>	$partnerKey,
-			'level_detail'			=>	json_encode($levelDetail)
+			'level_detail'			=>	json_encode($levelDetail),
+			'mission_detail'	=>	json_encode($missionDetail)
 		);
 		$this->logcachedb->insert('log_buy_equipment_detail', $parameter);
 	}
