@@ -120,8 +120,6 @@ class Account extends CI_Controller {
 		for($i=0; $i<1000; $i++)
 		{
 			$name = sprintf('test%03u', $i);
-			echo $name;
-			continue;
 			$post_data = array(
 					'account_name'	=>	$name,
 					'account_pass'	=>	$name,
