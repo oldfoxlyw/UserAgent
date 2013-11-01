@@ -119,7 +119,7 @@ class Account extends CI_Controller {
 	{
 		for($i=0; $i<1000; $i++)
 		{
-			$name = sprintf('test%3u', $i);
+			$name = sprintf('test%03u', $i);
 			echo $name;
 			continue;
 			$post_data = array(
