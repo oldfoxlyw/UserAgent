@@ -115,6 +115,29 @@ class Account extends CI_Controller {
 		}
 	}
 	
+	public function generate()
+	{
+		for($i=0; $i<1000; $i++)
+		{
+			$name = sprintf('test%u', $i);
+			echo $name;
+			break;
+			$post_data = array(
+					'account_name'	=>	$name,
+					'account_pass'	=>	$name,
+					'server_id'		=>	'V'
+			);
+			$ch = curl_init();
+			curl_setopt($ch, CURLOPT_URL, "http://192.168.2.230/UserAgent_zhanshen/websrv/account/register");
+			curl_setopt($ch, CURLOPT_POST, 1);
+			curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
+			$output = curl_exec($ch);
+			curl_close($ch);
+			echo $output;
+			echo '<br>';
+		}
+	}
+	
 	public function register($format = 'json')
 	{
 		$name		=	$this->input->get_post('account_name', TRUE);
