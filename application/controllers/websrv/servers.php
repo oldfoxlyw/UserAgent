@@ -12,9 +12,9 @@ class Servers extends CI_Controller {
 	}
 
 	public function server_list($format = 'json') {
-		$partner	=	$this->input->post('partner', TRUE);
-		$mode		=	$this->input->post('mode', TRUE);
-		$lang		=	$this->input->post('language', TRUE);
+		$partner	=	$this->input->get_post('partner', TRUE);
+		$mode		=	$this->input->get_post('mode', TRUE);
+		$lang		=	$this->input->get_post('language', TRUE);
 
 		$parameter = array(
 			'use_cache_style'		=>	true,
