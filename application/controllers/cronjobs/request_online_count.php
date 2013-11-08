@@ -46,6 +46,7 @@ class Request_online_count extends CI_Controller
 				$param = '?' . $this->getQueryString($parameter);
 			}
 			curl_setopt($ch, CURLOPT_URL, $postPath . $param);
+			curl_setopt($ch, CURLOPT_POST, 1);
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 			curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
 			curl_setopt($ch, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']);
