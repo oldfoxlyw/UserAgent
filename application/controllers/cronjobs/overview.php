@@ -37,9 +37,6 @@ class Overview extends CI_Controller
 		$date = date ( 'Y-m-d', $lastTimeStart );
 		$preDate = date ( 'Y-m-d', $lastTimeStart - 86400 );
 		
-		echo $lastTimeStart . ', ' . $lastTimeEnd;
-		exit();
-		
 		foreach ( $serverResult as $row )
 		{
 			foreach ( $partnerResult as $partner )
@@ -95,12 +92,15 @@ class Overview extends CI_Controller
 				
 				// 当天活跃玩家数(登录数)
 				$this->logdb->where ( 'log_action', 'ACCOUNT_LOGIN_SUCCESS' );
-				$this->logdb->where ( 'log_time >', $lastTimeStart );
+				$this->logdb->where ( 'log_time >=', $lastTimeStart );
 				$this->logdb->where ( 'log_time <=', $lastTimeEnd );
 				$this->logdb->where ( 'server_id', $row->account_server_id );
 				$this->logdb->where ( 'partner_key', $partnerKey );
 				$this->logdb->group_by ( 'log_GUID' );
 				$loginCount = $this->logdb->count_all_results ( 'log_account' );
+				
+				echo $loginCount;
+				exit($this->logdb->last_query());
 				
 				// 活跃玩家数(三天以内登录过游戏的人数)
 				$threeDaysAgoStart = $lastTimeStart - 3 * 86400;
