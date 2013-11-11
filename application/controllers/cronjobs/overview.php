@@ -345,7 +345,7 @@ class Overview extends CI_Controller
 				$registerCount = $this->logdb->count_all_results ( 'log_account' );
 				//今天登录数
 				$sql = "SELECT `log_GUID` as `numrows` FROM `log_account` WHERE `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}' AND `log_action`='ACCOUNT_LOGIN_SUCCESS' AND `log_time`>={$lastTimeStart} AND `log_time`<={$lastTimeEnd} AND `log_GUID` in (SELECT `log_GUID` FROM `log_account` WHERE `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}' AND `log_action`='ACCOUNT_REGISTER_SUCCESS' AND `log_time`>={$prevTimeStart} AND `log_time`<={$prevTimeEnd}) GROUP BY `log_GUID`";
-				$nextRetention = $this->logdb->query($sql)->result()->num_rows();
+				$nextRetention = $this->logdb->query($sql)->num_rows();
 				
 				echo $nextRetention . ', ' . $registerCount . ', ' . ($nextRetention / $registerCount) * 100 . '%';
 				exit();
