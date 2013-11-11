@@ -37,6 +37,9 @@ class Overview extends CI_Controller
 		$date = date ( 'Y-m-d', $lastTimeStart );
 		$preDate = date ( 'Y-m-d', $lastTimeStart - 86400 );
 		
+		echo $lastTimeStart . ', ' . $lastTimeEnd;
+		exit();
+		
 		foreach ( $serverResult as $row )
 		{
 			foreach ( $partnerResult as $partner )
