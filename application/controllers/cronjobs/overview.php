@@ -159,9 +159,6 @@ class Overview extends CI_Controller
 					) );
 				}
 				
-				// 次日留存
-				$secondSurvive = floatval ( number_format ( ($loginCount - $regNewCount) / $lastNewReg, 2 ) ) * 100;
-				
 				// 当天订单数
 				$this->fundsdb->where ( 'funds_flow_dir', 'CHECK_IN' );
 				$this->fundsdb->where ( 'funds_time >', $lastTimeStart );
@@ -218,7 +215,6 @@ class Overview extends CI_Controller
 					'arpu' => $arpu,
 					'recharge_account' => $rechargeAccount,
 					'order_count' => $ordersCount,
-					'second_survive' => $secondSurvive,
 					'partner_key' => $partnerKey 
 				);
 				$this->logcachedb->insert ( 'log_daily_statistics', $parameter );
@@ -312,6 +308,49 @@ class Overview extends CI_Controller
 			'mission_detail'	=>	json_encode($missionDetail)
 		);
 		$this->logcachedb->insert('log_buy_equipment_detail', $parameter);
+	}
+	
+	public function retention_statistics()
+	{
+		$this->load->model ( 'websrv/server' );
+		$serverResult = $this->server->getAllResult ();
+		
+		$this->load->model ( 'websrv/mpartner' );
+		$partnerResult = $this->mpartner->getAllResult ();
+		
+		$currentTimeStamp = time ();
+		$currentDate = date ( 'Y-m-d', $currentTimeStamp );
+		//昨日
+		$lastTimeStart = strtotime ( $currentDate . ' 00:00:00' ) - 86400;
+		$lastTimeEnd = strtotime ( $currentDate . ' 23:59:59' ) - 86400;
+		//前日
+		$prevTimeStart = $lastTimeStart - 86400;
+		$prevTimeEnd = $lastTimeEnd - 86400;
+		//三天前
+		$thirdTimeStart = $lastTimeStart - 3 * 86400;
+		$thirdTimeEnd = $lastTimeEnd - 3 * 86400;
+
+		foreach ( $serverResult as $row )
+		{
+			foreach ( $partnerResult as $partner )
+			{
+				$partnerKey = $partner->partner_key;
+				
+				//昨日注册数
+				$this->logdb->where ( 'log_action', 'ACCOUNT_REGISTER_SUCCESS' );
+				$this->logdb->where ( 'log_time >=', $prevTimeStart );
+				$this->logdb->where ( 'log_time <=', $prevTimeEnd );
+				$this->logdb->where ( 'server_id', $row->account_server_id );
+				$this->logdb->where ( 'partner_key', $partnerKey );
+				$registerCount = $this->logdb->count_all_results ( 'log_account' );
+				//今天登录数
+				$sql = "SELECT COUNT(*) as `numrows` FROM `log_account` WHERE `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}' AND `log_action`='ACCOUNT_LOGIN_SUCCESS' AND `log_time`>={$lastTimeStart} AND `log_time`<={$lastTimeEnd} AND `log_GUID` in (SELECT `log_GUID` FROM `log_account` WHERE `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}' AND `log_action`='ACCOUNT_REGISTER_SUCCESS' AND `log_time`>={$prevTimeStart} AND `log_time`<={$prevTimeEnd}) GROUP BY `log_GUID`";
+				$nextRetention = $this->logdb->query($sql);
+				
+				echo $nextRetention . ', ' . $registerCount . ', ' . ($nextRetention / $registerCount) * 100 . '%';
+				exit();
+			}
+		}
 	}
 }
 ?>
