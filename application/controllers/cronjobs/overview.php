@@ -337,14 +337,11 @@ class Overview extends CI_Controller
 				$partnerKey = $partner->partner_key;
 				
 				//昨日注册数
-				$this->logdb->where ( 'log_action', 'ACCOUNT_REGISTER_SUCCESS' );
-				$this->logdb->where ( 'log_time >=', $prevTimeStart );
-				$this->logdb->where ( 'log_time <=', $prevTimeEnd );
-				$this->logdb->where ( 'server_id', $row->account_server_id );
-				$this->logdb->where ( 'partner_key', $partnerKey );
-				$registerCount = $this->logdb->count_all_results ( 'log_account' );
+				$sql = "SELECT COUNT(*) as `numrows` FROM `log_account` WHERE (`log_action`='ACCOUNT_REGISTER_SUCCESS' OR `log_action`='ACCOUNT_DEMO_SUCCESS') AND `log_time`>={$prevTimeStart} AND `log_time`<={$prevTimeEnd} AND `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}'";
+				$registerCount = $this->logdb->query ( $sql )->row();
+				$registerCount = $registerCount->numrows;
 				//今天登录数
-				$sql = "SELECT `log_GUID` as `numrows` FROM `log_account` WHERE `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}' AND `log_action`='ACCOUNT_LOGIN_SUCCESS' AND `log_time`>={$lastTimeStart} AND `log_time`<={$lastTimeEnd} AND `log_GUID` in (SELECT `log_GUID` FROM `log_account` WHERE `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}' AND `log_action`='ACCOUNT_REGISTER_SUCCESS' AND `log_time`>={$prevTimeStart} AND `log_time`<={$prevTimeEnd}) GROUP BY `log_GUID`";
+				$sql = "SELECT `log_GUID` as `numrows` FROM `log_account` WHERE `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}' AND `log_action`='ACCOUNT_LOGIN_SUCCESS' AND `log_time`>={$lastTimeStart} AND `log_time`<={$lastTimeEnd} AND `log_GUID` in (SELECT `log_GUID` FROM `log_account` WHERE `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}' AND (`log_action`='ACCOUNT_REGISTER_SUCCESS' OR `log_action`='ACCOUNT_DEMO_SUCCESS') AND `log_time`>={$prevTimeStart} AND `log_time`<={$prevTimeEnd}) GROUP BY `log_GUID`";
 				$nextRetention = $this->logdb->query($sql)->num_rows();
 				
 				echo $nextRetention . ', ' . $registerCount . ', ' . ($nextRetention / $registerCount) * 100 . '%';
