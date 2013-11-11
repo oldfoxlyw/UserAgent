@@ -101,9 +101,6 @@ class Overview extends CI_Controller
 				$loginCount = $this->logdb->get ( 'log_account' );
 				$loginCount = $loginCount->num_rows();
 				
-				echo $loginCount;
-				exit($this->logdb->last_query());
-				
 				// 活跃玩家数(三天以内登录过游戏的人数)
 				$threeDaysAgoStart = $lastTimeStart - 3 * 86400;
 				$this->accountdb->where ( 'account_lastlogin >=', $threeDaysAgoStart );
@@ -198,7 +195,8 @@ class Overview extends CI_Controller
 				$this->fundsdb->where ( 'server_id', $row->account_server_id );
 				$this->fundsdb->where ( 'partner_key', $partnerKey );
 				$this->fundsdb->group_by ( 'account_guid' );
-				$rechargeAccount = $this->fundsdb->count_all_results ( 'funds_checkinout' );
+				$rechargeAccount = $this->fundsdb->get ( 'funds_checkinout' );
+				$rechargeAccount = $rechargeAccount->num_rows();
 				
 				// arpu
 				$arpu = floatval ( number_format ( $ordersCurrentSum / $loginCount, 2 ) ) * 100;
