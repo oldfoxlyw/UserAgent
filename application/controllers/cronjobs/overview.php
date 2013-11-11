@@ -96,8 +96,9 @@ class Overview extends CI_Controller
 				$this->logdb->where ( 'log_time <=', $lastTimeEnd );
 				$this->logdb->where ( 'server_id', $row->account_server_id );
 				$this->logdb->where ( 'partner_key', $partnerKey );
-				$this->logdb->group_by ( 'log_GUID' );
-				$loginCount = $this->logdb->count_all_results ( 'log_account' );
+				$this->logdb->distinct ( 'log_GUID' );
+				$loginCount = $this->logdb->get ( 'log_account' );
+				$loginCount = $loginCount->num_rows();
 				
 				echo $loginCount;
 				exit($this->logdb->last_query());
