@@ -91,12 +91,13 @@ class Overview extends CI_Controller
 				$modifyNewCount = $modifyCount - $lastModifyAccount;
 				
 				// 当天活跃玩家数(登录数)
+				$this->logdb->select( 'log_GUID' );
 				$this->logdb->where ( 'log_action', 'ACCOUNT_LOGIN_SUCCESS' );
 				$this->logdb->where ( 'log_time >=', $lastTimeStart );
 				$this->logdb->where ( 'log_time <=', $lastTimeEnd );
 				$this->logdb->where ( 'server_id', $row->account_server_id );
 				$this->logdb->where ( 'partner_key', $partnerKey );
-				$this->logdb->distinct ( 'log_GUID' );
+				$this->logdb->group_by ( 'log_GUID' );
 				$loginCount = $this->logdb->get ( 'log_account' );
 				$loginCount = $loginCount->num_rows();
 				
