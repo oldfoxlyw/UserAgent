@@ -102,7 +102,7 @@ class Overview extends CI_Controller
 				$loginCount = $loginCount->num_rows();
 				
 				// 活跃玩家数(三天以内登录过游戏的人数)
-				$threeDaysAgoStart = $lastTimeStart - 3 * 86400;
+				$threeDaysAgoStart = $lastTimeStart - 2 * 86400;
 				$this->accountdb->where ( 'account_lastlogin >=', $threeDaysAgoStart );
 				$this->accountdb->where ( 'account_lastlogin <=', $lastTimeEnd );
 				$this->accountdb->where ( 'server_id', $row->account_server_id );
@@ -122,7 +122,7 @@ class Overview extends CI_Controller
 				$reflowCount = 0;
 				if (! empty ( $guidArray ))
 				{
-					$threeDaysAgoStart = $lastTimeStart - 3 * 86400;
+					$threeDaysAgoStart = $lastTimeStart - 2 * 86400;
 					$this->accountdb->where ( 'account_lastlogin >=', $threeDaysAgoStart );
 					$this->accountdb->where ( 'account_lastlogin <=', $lastTimeEnd );
 					$this->accountdb->where ( 'server_id', $row->account_server_id );
@@ -136,7 +136,7 @@ class Overview extends CI_Controller
 				) );
 				
 				// 流失玩家数(超过一周没有登录的玩家数)
-				$weekAgoStart = $lastTimeStart - 7 * 86400;
+				$weekAgoStart = $lastTimeStart - 6 * 86400;
 				$this->accountdb->where ( 'account_lastlogin <=', $weekAgoStart );
 				$this->accountdb->where ( 'server_id', $row->account_server_id );
 				$this->accountdb->where ( 'partner_key', $partnerKey );
