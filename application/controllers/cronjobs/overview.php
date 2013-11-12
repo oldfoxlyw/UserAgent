@@ -337,12 +337,12 @@ class Overview extends CI_Controller
 				$partnerKey = $partner->partner_key;
 				
 				//昨日注册数
-				$sql = "SELECT COUNT(*) as `numrows` FROM `web_account` WHERE `account_regtime`>={$prevTimeStart} AND `account_regtime`<={$prevTimeEnd} AND `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}'";
+				$sql = "SELECT COUNT(*) as `numrows` FROM `web_account` WHERE `account_regtime`>={$prevTimeStart} AND `account_regtime`<={$prevTimeEnd} AND `account_level`>0 AND `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}'";
 				exit($sql);
 				$registerCount = $this->accountdb->query ( $sql )->row();
 				$registerCount = $registerCount->numrows;
 				//今天登录数
-				$sql = "SELECT `log_GUID` as `numrows` FROM `log_account` WHERE `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}' AND `log_action`='ACCOUNT_LOGIN_SUCCESS' AND `log_time`>={$lastTimeStart} AND `log_time`<={$lastTimeEnd} AND `log_GUID` in (SELECT `GUID` FROM `agent1_account_db`.`web_account` WHERE `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}' AND `account_regtime`>={$prevTimeStart} AND `account_regtime`<={$prevTimeEnd}) GROUP BY `log_GUID`";
+				$sql = "SELECT `log_GUID` as `numrows` FROM `log_account` WHERE `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}' AND `log_action`='ACCOUNT_LOGIN_SUCCESS' AND `log_time`>={$lastTimeStart} AND `log_time`<={$lastTimeEnd} AND `log_GUID` in (SELECT `GUID` FROM `agent1_account_db`.`web_account` WHERE `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}' AND `account_regtime`>={$prevTimeStart} AND `account_regtime`<={$prevTimeEnd} AND `account_level`>0) GROUP BY `log_GUID`";
 				$nextRetention = $this->logdb->query($sql)->num_rows();
 				
 				echo $nextRetention . ', ' . $registerCount . ', ' . ($nextRetention / $registerCount) * 100 . '%';
