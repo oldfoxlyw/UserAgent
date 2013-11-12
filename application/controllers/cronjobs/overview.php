@@ -351,7 +351,7 @@ class Overview extends CI_Controller
 				$thirdRegisterCount = $this->accountdb->query ( $sql )->row();
 				$thirdRegisterCount = $thirdRegisterCount->numrows;
 				//今天登录数
-				$sql = "SELECT `log_GUID` as `numrows` FROM `log_account` WHERE `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}' AND `log_action`='ACCOUNT_LOGIN_SUCCESS' AND `log_time`>={$thirdTimeStart} AND `log_time`<={$thirdTimeEnd} AND `log_GUID` in (SELECT `GUID` FROM `agent1_account_db`.`web_account` WHERE `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}' AND `account_regtime`>={$thirdTimeStart} AND `account_regtime`<={$thirdTimeEnd} AND `account_level`>0) GROUP BY `log_GUID`";
+				$sql = "SELECT `log_GUID` as `numrows` FROM `log_account` WHERE `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}' AND `log_action`='ACCOUNT_LOGIN_SUCCESS' AND `log_time`>={$lastTimeStart} AND `log_time`<={$lastTimeEnd} AND `log_GUID` in (SELECT `GUID` FROM `agent1_account_db`.`web_account` WHERE `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}' AND `account_regtime`>={$thirdTimeStart} AND `account_regtime`<={$thirdTimeEnd} AND `account_level`>0) GROUP BY `log_GUID`";
 				$thirdCurrentLogin = $this->logdb->query($sql)->num_rows();
 				
 				$thirdRetention = floor(($thirdCurrentLogin / $thirdRegisterCount) * 10000);
