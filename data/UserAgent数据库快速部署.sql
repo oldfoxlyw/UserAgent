@@ -207,11 +207,11 @@ DROP TABLE IF EXISTS `agent1_log_db`.`log_flowover_cache` ;
 CREATE TABLE IF NOT EXISTS `agent1_log_db`.`log_flowover_cache` (
   `guid` BIGINT NOT NULL,
   `server_id` CHAR(8) NOT NULL,
+  `partner_key` CHAR(16) NOT NULL DEFAULT 'default',
   `account_job` CHAR(16) NOT NULL,
   `account_level` INT NOT NULL,
   `account_mission` BIGINT NOT NULL,
-  `partner_key` CHAR(16) NOT NULL DEFAULT 'default',
-  PRIMARY KEY (`guid`, `server_id`))
+  PRIMARY KEY (`guid`, `server_id`, `partner_key`))
 ENGINE = InnoDB;
 
 
@@ -223,11 +223,11 @@ DROP TABLE IF EXISTS `agent1_log_db`.`log_flowover_detail` ;
 CREATE TABLE IF NOT EXISTS `agent1_log_db`.`log_flowover_detail` (
   `date` DATE NOT NULL,
   `server_id` CHAR(8) NOT NULL,
+  `partner_key` CHAR(16) NOT NULL DEFAULT 'default',
   `job` TEXT NOT NULL,
   `level` TEXT NOT NULL,
   `mission` TEXT NOT NULL,
-  `partner_key` CHAR(16) NOT NULL DEFAULT 'default',
-  PRIMARY KEY (`date`, `server_id`))
+  PRIMARY KEY (`date`, `server_id`, `partner_key`))
 ENGINE = InnoDB;
 
 
@@ -238,10 +238,11 @@ DROP TABLE IF EXISTS `agent1_log_db`.`log_online_count` ;
 
 CREATE TABLE IF NOT EXISTS `agent1_log_db`.`log_online_count` (
   `server_id` CHAR(8) NOT NULL,
+  `partner_key` CHAR(16) NOT NULL,
   `log_date` DATE NOT NULL,
   `log_hour` INT NOT NULL DEFAULT 0,
   `log_count` INT NOT NULL DEFAULT 0,
-  PRIMARY KEY (`server_id`, `log_date`, `log_hour`))
+  PRIMARY KEY (`server_id`, `partner_key`, `log_date`, `log_hour`))
 ENGINE = InnoDB;
 
 
@@ -269,13 +270,14 @@ DROP TABLE IF EXISTS `agent1_log_db`.`log_retention` ;
 CREATE TABLE IF NOT EXISTS `agent1_log_db`.`log_retention` (
   `log_date` DATE NOT NULL,
   `server_id` CHAR(5) NOT NULL,
+  `partner_key` CHAR(16) NOT NULL,
   `prev_register` INT NOT NULL,
   `prev_current_login` INT NOT NULL,
   `next_retention` INT NOT NULL,
   `third_register` INT NOT NULL,
   `third_current_login` INT NOT NULL,
   `third_retention` INT NOT NULL,
-  PRIMARY KEY (`log_date`, `server_id`))
+  PRIMARY KEY (`log_date`, `server_id`, `partner_key`))
 ENGINE = InnoDB;
 
 USE `agent1_log_db_201203` ;
