@@ -338,6 +338,7 @@ class Overview extends CI_Controller
 				
 				//昨日注册数
 				$sql = "SELECT COUNT(*) as `numrows` FROM `web_account` WHERE `account_regtime`>={$prevTimeStart} AND `account_regtime`<={$prevTimeEnd} AND `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}'";
+				exit($sql);
 				$registerCount = $this->accountdb->query ( $sql )->row();
 				$registerCount = $registerCount->numrows;
 				//今天登录数
