@@ -271,12 +271,13 @@ CREATE TABLE IF NOT EXISTS `agent1_log_db`.`log_retention` (
   `log_date` DATE NOT NULL,
   `server_id` CHAR(5) NOT NULL,
   `partner_key` CHAR(16) NOT NULL,
-  `prev_register` INT NOT NULL,
-  `prev_current_login` INT NOT NULL,
-  `next_retention` INT NOT NULL,
-  `third_register` INT NOT NULL,
-  `third_current_login` INT NOT NULL,
-  `third_retention` INT NOT NULL,
+  `prev_register` INT NOT NULL DEFAULT 0,
+  `prev_current_login` INT NOT NULL DEFAULT 0,
+  `next_retention` INT NOT NULL DEFAULT 0,
+  `third_register` INT NOT NULL DEFAULT 0,
+  `third_current_login` INT NOT NULL DEFAULT 0,
+  `third_retention` INT NOT NULL DEFAULT 0,
+  `level1` INT NOT NULL DEFAULT 0,
   PRIMARY KEY (`log_date`, `server_id`, `partner_key`))
 ENGINE = InnoDB;
 
