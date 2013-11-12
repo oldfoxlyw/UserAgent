@@ -90,8 +90,9 @@ class Account extends CI_Controller {
 		$level = $this->input->get_post('level', TRUE);
 		$mission = $this->input->get_post('mission', TRUE);
 		
-		if(!empty($guid) && !empty($job) && !empty($level) && !empty($mission))
+		if(!empty($guid) && !empty($job) && !empty($level))
 		{
+			$mission = empty($mission) ? '' : $mission;
 			$parameter = array(
 				'account_job'			=>	$job,
 				'account_level'			=>	$level,
