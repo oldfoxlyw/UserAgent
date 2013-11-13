@@ -334,6 +334,17 @@ CREATE TABLE IF NOT EXISTS `agent1_log_db_201203`.`log_consume` (
 ENGINE = MyISAM
 DEFAULT CHARACTER SET = utf8;
 
+
+-- -----------------------------------------------------
+-- Table `agent1_log_db_201203`.`equipment_name`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `agent1_log_db_201203`.`equipment_name` ;
+
+CREATE TABLE IF NOT EXISTS `agent1_log_db_201203`.`equipment_name` (
+  `equipment_name` CHAR(16) NOT NULL,
+  PRIMARY KEY (`equipment_name`))
+ENGINE = InnoDB;
+
 USE `agent1_product_db` ;
 
 -- -----------------------------------------------------
