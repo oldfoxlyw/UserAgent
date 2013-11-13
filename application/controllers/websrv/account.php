@@ -90,14 +90,17 @@ class Account extends CI_Controller {
 		$level = $this->input->get_post('level', TRUE);
 		$mission = $this->input->get_post('mission', TRUE);
 		
-		if(!empty($guid) && !empty($job) && !empty($level))
+		if(!empty($guid) && (!empty($job) || !empty($level) || !empty($mission)))
 		{
-			$mission = empty($mission) ? '' : $mission;
-			$parameter = array(
-				'account_job'			=>	$job,
-				'account_level'			=>	$level,
-				'account_mission'		=>	$mission
-			);
+			if(!empty($job)) {
+				$parameter['account_job'] = $job;
+			}
+			if(!empty($level)) {
+				$parameter['account_level'] = intval($level);
+			}
+			if(!empty($mission)) {
+				$parameter['account_mission'] = $mission;
+			}
 			$this->web_account->update($parameter, $guid);
 
 			$jsonData = Array(
