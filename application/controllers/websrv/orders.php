@@ -156,7 +156,7 @@ class Orders extends CI_Controller {
 				
 				if($actionName == 'buy_equipment')
 				{
-					$this->load->model('equipment_name');
+					$this->load->model('websrv/equipment_name');
 					$parameter = array(
 							'equipment_name'	=>	$itemName
 					);
