@@ -5,11 +5,12 @@ class Sleep extends CI_Controller
 	{
 		parent::__construct ();
 	}
-	
+	/*
 	public function test()
 	{
 		sleep(10);
 	}
+	*/
 }
 
 ?>
