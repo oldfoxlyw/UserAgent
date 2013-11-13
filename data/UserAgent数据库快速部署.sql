@@ -281,6 +281,21 @@ CREATE TABLE IF NOT EXISTS `agent1_log_db`.`log_retention` (
   PRIMARY KEY (`log_date`, `server_id`, `partner_key`))
 ENGINE = InnoDB;
 
+
+-- -----------------------------------------------------
+-- Table `agent1_log_db`.`log_funds_hours`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `agent1_log_db`.`log_funds_hours` ;
+
+CREATE TABLE IF NOT EXISTS `agent1_log_db`.`log_funds_hours` (
+  `log_date` DATE NOT NULL,
+  `log_hour` INT NOT NULL,
+  `server_id` CHAR(5) NOT NULL,
+  `partner_key` CHAR(16) NOT NULL,
+  `funds_sum` INT NOT NULL DEFAULT 0,
+  PRIMARY KEY (`log_date`, `server_id`, `log_hour`, `partner_key`))
+ENGINE = InnoDB;
+
 USE `agent1_log_db_201203` ;
 
 -- -----------------------------------------------------
