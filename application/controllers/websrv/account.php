@@ -108,6 +108,13 @@ class Account extends CI_Controller {
 					'message'	=>	'ACCOUNT_ENTER_SUCCESS'
 			);
 			echo $this->return_format->format($jsonData, $format);
+			
+			$logParameter = array(
+					'account_guid'	=>	$guid,
+					'account_name'	=>	'',
+					'log_action'	=>	'ACCOUNT_ENTER_SUCCESS'
+			);
+			$this->logs->write_api($logParameter);
 		}
 		else
 		{
@@ -122,7 +129,7 @@ class Account extends CI_Controller {
 					'account_name'	=>	'',
 					'log_action'	=>	'ACCOUNT_ENTER_ERROR_NO_PARAM'
 			);
-			$this->logs->write($logParameter);
+			$this->logs->write_api($logParameter);
 		}
 	}
 	
