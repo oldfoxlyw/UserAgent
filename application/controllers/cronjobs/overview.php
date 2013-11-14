@@ -55,7 +55,11 @@ class Overview extends CI_Controller
 				$regNewCount = $this->accountdb->count_all_results ( 'web_account' );
 				
 				// 无效帐号（等级为1或者没有等级的帐号）
-				$this->accountdb->where('account_level >', 0);
+				$this->accountdb->where ( 'server_id', $row->account_server_id );
+				$this->accountdb->where ( 'partner_key', $partnerKey );
+				$this->accountdb->where ( 'account_regtime >=', $lastTimeStart );
+				$this->accountdb->where ( 'account_regtime <=', $lastTimeEnd );
+				$this->accountdb->where ( 'account_level >', 0 );
 				$invalidCount = $this->accountdb->count_all_results ( 'web_account' );
 				
 				// 总改名用户数
