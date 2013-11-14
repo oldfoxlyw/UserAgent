@@ -60,7 +60,7 @@ class Overview extends CI_Controller
 				$this->accountdb->where ( 'account_regtime >=', $lastTimeStart );
 				$this->accountdb->where ( 'account_regtime <=', $lastTimeEnd );
 				$this->accountdb->where ( 'account_level >', 0 );
-				$invalidCount = $this->accountdb->count_all_results ( 'web_account' );
+				$validCount = $this->accountdb->count_all_results ( 'web_account' );
 
 				// 等级大于1的帐号
 				$this->accountdb->where ( 'server_id', $row->account_server_id );
@@ -207,7 +207,7 @@ class Overview extends CI_Controller
 					'server_name' => $row->server_name,
 					'reg_account' => $registerCount,
 					'reg_new_account' => $regNewCount,
-					'invalid_account' => $invalidCount,
+					'valid_account' => $validCount,
 					'level_account' => $levelCount,
 					'modify_account' => $modifyCount,
 					'modify_new_account' => $modifyNewCount,
