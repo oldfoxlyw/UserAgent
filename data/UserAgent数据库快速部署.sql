@@ -189,7 +189,7 @@ CREATE TABLE IF NOT EXISTS `agent1_log_db`.`log_daily_statistics` (
   `orders_current_sum` INT(11) NOT NULL COMMENT '当天订单总额',
   `orders_num` INT(11) NOT NULL,
   `orders_sum` INT(11) NOT NULL,
-  `arpu` INT(11) NOT NULL,
+  `arpu` INT(11) NOT NULL COMMENT '充值率',
   `recharge_account` INT(11) NOT NULL COMMENT '当天充值人数',
   `order_count` INT(11) NOT NULL COMMENT '订单数',
   `partner_key` CHAR(16) NOT NULL DEFAULT 'default',

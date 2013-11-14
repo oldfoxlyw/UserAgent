@@ -183,7 +183,7 @@ class Overview extends CI_Controller
 				$rechargeAccount = $rechargeAccount->num_rows();
 				
 				// arpu
-				$arpu = floatval ( number_format ( $ordersCurrentSum / $loginCount, 2 ) ) * 100;
+				$arpu = floatval ( number_format ( $rechargeAccount / $activeCount, 2 ) ) * 100;
 				
 				$parameter = array (
 					'log_date' => $date,
