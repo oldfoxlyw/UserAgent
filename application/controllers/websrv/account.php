@@ -108,13 +108,6 @@ class Account extends CI_Controller {
 					'message'	=>	'ACCOUNT_ENTER_SUCCESS'
 			);
 			echo $this->return_format->format($jsonData, $format);
-
-			$logParameter = array(
-					'log_action'	=>	'ACCOUNT_ENTER_SUCCESS',
-					'account_guid'	=>	$guid,
-					'account_name'	=>	''
-			);
-			$this->logs->write($logParameter);
 		}
 		else
 		{
