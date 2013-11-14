@@ -85,8 +85,6 @@ class Account extends CI_Controller {
 	
 	public function enter($format = 'json')
 	{
-		$this->load->model('logs');
-		
 		$guid = $this->input->get_post('guid', TRUE);
 		$job = $this->input->get_post('job', TRUE);
 		$level = $this->input->get_post('level', TRUE);
@@ -111,12 +109,12 @@ class Account extends CI_Controller {
 			);
 			echo $this->return_format->format($jsonData, $format);
 
-			$parameter = array(
+			$logParameter = array(
+					'log_action'	=>	'ACCOUNT_ENTER_SUCCESS',
 					'account_guid'	=>	$guid,
-					'account_name'	=>	'',
-					'log_action'	=>	'ACCOUNT_ENTER_SUCCESS'
+					'account_name'	=>	''
 			);
-			$this->logs->insert($parameter);
+			$this->logs->write($logParameter);
 		}
 		else
 		{
@@ -126,12 +124,12 @@ class Account extends CI_Controller {
 			);
 			echo $this->return_format->format($jsonData, $format);
 			
-			$parameter = array(
+			$logParameter = array(
 					'account_guid'	=>	$guid,
 					'account_name'	=>	'',
 					'log_action'	=>	'ACCOUNT_ENTER_ERROR_NO_PARAM'
 			);
-			$this->logs->insert($parameter);
+			$this->logs->write($logParameter);
 		}
 	}
 	
