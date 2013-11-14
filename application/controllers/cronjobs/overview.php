@@ -46,6 +46,7 @@ class Overview extends CI_Controller
 				// 总注册数
 				$this->accountdb->where ( 'server_id', $row->account_server_id );
 				$this->accountdb->where ( 'partner_key', $partnerKey );
+				$this->accountdb->where ( 'account_regtime <=', $lastTimeEnd );
 				$registerCount = $this->accountdb->count_all_results ( 'web_account' );
 				
 				// 新注册数
