@@ -51,7 +51,7 @@ class Overview extends CI_Controller
 				
 				// 新注册数
 				$where = "`server_id` = '{$row->account_server_id}' and `partner_key`='{$partnerKey}' and `account_regtime` >= {$lastTimeStart} and `account_regtime` <= {$lastTimeEnd}";
-				$this->logdb->where ( $where );
+				$this->accountdb->where ( $where );
 				$regNewCount = $this->accountdb->count_all_results ( 'web_account' );
 				
 				// 总改名用户数
@@ -86,7 +86,6 @@ class Overview extends CI_Controller
 				$this->logdb->where ( 'partner_key', $partnerKey );
 				$this->logdb->group_by ( 'log_GUID' );
 				$loginCount = $this->logdb->get ( 'log_account' );
-				echo $this->logdb->last_query();
 				$loginCount = $loginCount->num_rows();
 
 				// 活跃玩家数(三天以内登录过游戏的人数)
