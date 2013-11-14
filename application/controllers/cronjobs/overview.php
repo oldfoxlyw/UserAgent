@@ -48,7 +48,7 @@ class Overview extends CI_Controller
 				$this->accountdb->where ( 'partner_key', $partnerKey );
 				$this->accountdb->where ( 'account_regtime <=', $lastTimeEnd );
 				$registerCount = $this->accountdb->count_all_results ( 'web_account' );
-				
+				echo $registerCount;
 				// 新注册数
 				$where = "`server_id` = '{$row->account_server_id}' and `partner_key`='{$partnerKey}' and `account_regtime` >= {$lastTimeStart} and `account_regtime` <= {$lastTimeEnd}";
 				$this->logdb->where ( $where );
