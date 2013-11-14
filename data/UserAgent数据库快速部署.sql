@@ -180,7 +180,9 @@ CREATE TABLE IF NOT EXISTS `agent1_log_db`.`log_daily_statistics` (
   `server_name` CHAR(16) NOT NULL,
   `reg_account` INT(11) NOT NULL,
   `reg_new_account` INT(11) NOT NULL,
-  `modify_account` INT(11) NOT NULL,
+  `valid_account` INT(11) NOT NULL COMMENT '无效用户：等级等于1级以及没有注册角色的帐号',
+  `level_account` INT(11) NOT NULL,
+  `modify_account` INT(11) NOT NULL COMMENT '持有注册帐号的用户',
   `modify_new_account` INT(11) NOT NULL,
   `login_account` INT(11) NOT NULL,
   `active_account` INT(11) NOT NULL DEFAULT '0' COMMENT '活跃用户，三天内登陆过游戏的人数',
@@ -319,8 +321,7 @@ CREATE TABLE IF NOT EXISTS `agent1_log_db_201203`.`log_account` (
   INDEX `log_action` USING BTREE (`log_action` ASC),
   INDEX `game_id` (`server_id` ASC))
 ENGINE = MyISAM
-AUTO_INCREMENT = 2068
-DEFAULT CHARACTER SET = utf8;
+AUTO_INCREMENT = 2068;
 
 
 -- -----------------------------------------------------
