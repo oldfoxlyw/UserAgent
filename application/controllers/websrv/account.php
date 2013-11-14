@@ -75,7 +75,7 @@ class Account extends CI_Controller {
 			echo $this->return_format->format($jsonData, $format);
 				
 			$logParameter = array(
-				'errors'	=>	'ACCOUNT_LOGIN_ERROR_NO_PARAM',
+				'log_action'	=>	'ACCOUNT_LOGIN_ERROR_NO_PARAM',
 				'account_guid'	=>	'',
 				'account_name'	=>	''
 			);
@@ -89,7 +89,7 @@ class Account extends CI_Controller {
 		$job = $this->input->get_post('job', TRUE);
 		$level = $this->input->get_post('level', TRUE);
 		$mission = $this->input->get_post('mission', TRUE);
-		
+		$this->load->model('logs');
 		if(!empty($guid) && (!empty($job) || !empty($level) || !empty($mission)))
 		{
 			if(!empty($job)) {
@@ -116,6 +116,13 @@ class Account extends CI_Controller {
 				'errors'	=>	'ACCOUNT_ENTER_ERROR_NO_PARAM'
 			);
 			echo $this->return_format->format($jsonData, $format);
+			
+			$parameter = array(
+					'account_guid'	=>	$guid,
+					'account_name'	=>	'',
+					'log_action'	=>	'ACCOUNT_ENTER_ERROR_NO_PARAM'
+			);
+			$this->logs->insert($parameter);
 		}
 	}
 	
