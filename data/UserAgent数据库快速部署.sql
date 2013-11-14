@@ -360,6 +360,31 @@ CREATE TABLE IF NOT EXISTS `agent1_log_db_201203`.`equipment_name` (
   PRIMARY KEY (`equipment_name`))
 ENGINE = InnoDB;
 
+
+-- -----------------------------------------------------
+-- Table `agent1_log_db_201203`.`log_api`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `agent1_log_db_201203`.`log_api` ;
+
+CREATE TABLE IF NOT EXISTS `agent1_log_db_201203`.`log_api` (
+  `log_id` INT(11) NOT NULL AUTO_INCREMENT,
+  `log_GUID` CHAR(36) NOT NULL,
+  `log_account_name` CHAR(64) NULL DEFAULT NULL,
+  `log_action` CHAR(64) NOT NULL,
+  `log_parameter` TEXT NULL DEFAULT NULL,
+  `log_time` INT(11) NOT NULL,
+  `log_ip` CHAR(24) NOT NULL,
+  `server_id` CHAR(5) NOT NULL,
+  `partner_key` CHAR(16) NOT NULL DEFAULT 'default',
+  PRIMARY KEY (`log_id`),
+  INDEX `log_GUID` USING BTREE (`log_GUID` ASC),
+  INDEX `log_account_name` USING BTREE (`log_account_name` ASC),
+  INDEX `log_action` USING BTREE (`log_action` ASC),
+  INDEX `game_id` (`server_id` ASC))
+ENGINE = MyISAM
+AUTO_INCREMENT = 2068
+DEFAULT CHARACTER SET = utf8;
+
 USE `agent1_product_db` ;
 
 -- -----------------------------------------------------
