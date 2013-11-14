@@ -60,7 +60,6 @@ class Overview extends CI_Controller
 				$this->accountdb->where ( 'partner_key', $partnerKey );
 				$modifyCount = $this->accountdb->count_all_results ( 'web_account' );
 
-				echo '111';
 				// 昨日改名用户数
 				$this->logcachedb->where ( 'log_date', $preDate );
 				$this->logcachedb->where ( 'server_id', $row->account_server_id );
@@ -75,7 +74,6 @@ class Overview extends CI_Controller
 					$lastModifyAccount = 0;
 				}
 
-				echo '222';
 				// 新改名用户数
 				$modifyNewCount = $modifyCount - $lastModifyAccount;
 				
@@ -88,9 +86,9 @@ class Overview extends CI_Controller
 				$this->logdb->where ( 'partner_key', $partnerKey );
 				$this->logdb->group_by ( 'log_GUID' );
 				$loginCount = $this->logdb->get ( 'log_account' );
+				echo $this->logdb->last_query();
 				$loginCount = $loginCount->num_rows();
 
-				echo '333';
 				// 活跃玩家数(三天以内登录过游戏的人数)
 				$threeDaysAgoStart = $lastTimeStart - 2 * 86400;
 				$this->accountdb->where ( 'account_lastlogin >=', $threeDaysAgoStart );
