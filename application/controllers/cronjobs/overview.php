@@ -204,8 +204,8 @@ class Overview extends CI_Controller
 					'order_count' => $ordersCount,
 					'partner_key' => $partnerKey 
 				);
-				$this->logcachedb->insert ( 'log_daily_statistics', $parameter );
 				echo 'asdfasdfasdf';
+				$this->logcachedb->insert ( 'log_daily_statistics', $parameter );
 				
 				$this->flowover_detail_statistics ( $date, $row->account_server_id, $partnerKey );
 				$this->buy_equipment_statistics ( $date, $row->account_server_id, $partnerKey );
