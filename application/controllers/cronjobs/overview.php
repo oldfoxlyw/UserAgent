@@ -63,9 +63,9 @@ class Overview extends CI_Controller
 				}
 				
 				// 新注册数
-				$where = "`server_id` = '{$row->account_server_id}' and `partner_key`='{$partnerKey}' and `log_time` >= {$lastTimeStart} and `log_time` <= {$lastTimeEnd} and (`log_action` = 'ACCOUNT_REGISTER_SUCCESS' or `log_action` = 'ACCOUNT_DEMO_SUCCESS')";
+				$where = "`server_id` = '{$row->account_server_id}' and `partner_key`='{$partnerKey}' and `account_regtime` >= {$lastTimeStart} and `account_regtime` <= {$lastTimeEnd}";
 				$this->logdb->where ( $where );
-				$regNewCount = $this->logdb->count_all_results ( 'log_account' );
+				$regNewCount = $this->accountdb->count_all_results ( 'web_account' );
 				
 				// 总改名用户数
 				$this->accountdb->where ( 'server_id', $row->account_server_id );
