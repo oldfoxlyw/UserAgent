@@ -48,20 +48,6 @@ class Overview extends CI_Controller
 				$this->accountdb->where ( 'partner_key', $partnerKey );
 				$registerCount = $this->accountdb->count_all_results ( 'web_account' );
 				
-				// 昨日新注册数
-				$this->logcachedb->where ( 'log_date', $preDate );
-				$this->logcachedb->where ( 'server_id', $row->account_server_id );
-				$this->logcachedb->where ( 'partner_key', $partnerKey );
-				$lastResult = $this->logcachedb->get ( 'log_daily_statistics' );
-				if (! empty ( $lastResult ))
-				{
-					$lastResult = $lastResult->row ();
-					$lastNewReg = intval ( $lastResult->reg_new_account );
-				} else
-				{
-					$lastNewReg = 0;
-				}
-				
 				// 新注册数
 				$where = "`server_id` = '{$row->account_server_id}' and `partner_key`='{$partnerKey}' and `account_regtime` >= {$lastTimeStart} and `account_regtime` <= {$lastTimeEnd}";
 				$this->logdb->where ( $where );
