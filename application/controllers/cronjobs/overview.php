@@ -53,7 +53,7 @@ class Overview extends CI_Controller
 				$where = "`server_id` = '{$row->account_server_id}' and `partner_key`='{$partnerKey}' and `account_regtime` >= {$lastTimeStart} and `account_regtime` <= {$lastTimeEnd}";
 				$this->accountdb->where ( $where );
 				$regNewCount = $this->accountdb->count_all_results ( 'web_account' );
-				exit($this->accountdb->last_query());
+				
 				// 总改名用户数
 				$this->accountdb->where ( 'server_id', $row->account_server_id );
 				$this->accountdb->where ( 'account_status', 1 );
