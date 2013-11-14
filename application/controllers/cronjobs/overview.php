@@ -54,6 +54,10 @@ class Overview extends CI_Controller
 				$this->accountdb->where ( $where );
 				$regNewCount = $this->accountdb->count_all_results ( 'web_account' );
 				
+				// 无效帐号（等级为1或者没有等级的帐号）
+				$this->accountdb->where('account_level >', 0);
+				$invalidCount = $this->accountdb->count_all_results ( 'web_account' );
+				
 				// 总改名用户数
 				$this->accountdb->where ( 'server_id', $row->account_server_id );
 				$this->accountdb->where ( 'account_status', 1 );
@@ -191,6 +195,7 @@ class Overview extends CI_Controller
 					'server_name' => $row->server_name,
 					'reg_account' => $registerCount,
 					'reg_new_account' => $regNewCount,
+					'invalid_account' => $invalidCount,
 					'modify_account' => $modifyCount,
 					'modify_new_account' => $modifyNewCount,
 					'login_account' => $loginCount,
