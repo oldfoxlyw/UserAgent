@@ -85,11 +85,13 @@ class Account extends CI_Controller {
 	
 	public function enter($format = 'json')
 	{
+		$this->load->model('logs');
+		
 		$guid = $this->input->get_post('guid', TRUE);
 		$job = $this->input->get_post('job', TRUE);
 		$level = $this->input->get_post('level', TRUE);
 		$mission = $this->input->get_post('mission', TRUE);
-		$this->load->model('logs');
+		
 		if(!empty($guid) && (!empty($job) || !empty($level) || !empty($mission)))
 		{
 			if(!empty($job)) {
