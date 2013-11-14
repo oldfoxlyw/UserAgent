@@ -53,7 +53,7 @@ class Overview extends CI_Controller
 				$where = "`server_id` = '{$row->account_server_id}' and `partner_key`='{$partnerKey}' and `account_regtime` >= {$lastTimeStart} and `account_regtime` <= {$lastTimeEnd}";
 				$this->logdb->where ( $where );
 				$regNewCount = $this->accountdb->count_all_results ( 'web_account' );
-				echo $regNewCount;
+				
 				// 总改名用户数
 				$this->accountdb->where ( 'server_id', $row->account_server_id );
 				$this->accountdb->where ( 'account_status', 1 );
@@ -208,6 +208,7 @@ class Overview extends CI_Controller
 				
 				$this->flowover_detail_statistics ( $date, $row->account_server_id, $partnerKey );
 				$this->buy_equipment_statistics ( $date, $row->account_server_id, $partnerKey );
+				echo 'asdfasdfasdf';
 			}
 		}
 	}
