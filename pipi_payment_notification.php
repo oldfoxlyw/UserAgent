@@ -17,3 +17,46 @@ if(!empty($post))
 		
 	curl_close($ch);
 }
+else
+{
+	echo ip_address();
+}
+
+function ip_address()
+{
+	if ($ip !== FALSE)
+	{
+		return $ip;
+	}
+
+	if ($_SERVER('REMOTE_ADDR') AND $_SERVER('HTTP_CLIENT_IP'))
+	{
+		$ip = $_SERVER['HTTP_CLIENT_IP'];
+	}
+	elseif ($_SERVER('REMOTE_ADDR'))
+	{
+		$ip = $_SERVER['REMOTE_ADDR'];
+	}
+	elseif ($_SERVER('HTTP_CLIENT_IP'))
+	{
+		$ip = $_SERVER['HTTP_CLIENT_IP'];
+	}
+	elseif ($_SERVER('HTTP_X_FORWARDED_FOR'))
+	{
+		$ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+	}
+
+	if ($ip === FALSE)
+	{
+		$ip = '0.0.0.0';
+		return $ip;
+	}
+
+	if (strpos($ip, ',') !== FALSE)
+	{
+		$x = explode(',', $ip);
+		$ip = trim(end($x));
+	}
+
+	return $ip;
+}
