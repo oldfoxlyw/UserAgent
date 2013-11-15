@@ -18,6 +18,8 @@ if(!empty($post))
 	curl_close($ch);
 }
 
+echo 'asdfasdf';
+
 // function ip_address()
 // {
 // 	if ($_SERVER('REMOTE_ADDR') AND $_SERVER('HTTP_CLIENT_IP'))
