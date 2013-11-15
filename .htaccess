@@ -1,4 +1,5 @@
 RewriteEngine on
+RewriteRule pipi_payment_notification /UserAgent_zhanshen/index.php/webapi/router/pipi_payment_notification
 RewriteBase /UserAgent_zhanshen/
 RewriteCond $1 !^(index\.php|resources|robot\.txt|documents)
 RewriteRule ^(.*)$ index.php/$1 [L]
