@@ -24,7 +24,7 @@ else
 
 function ip_address()
 {
-	if ($_SERVER('REMOTE_ADDR') AND $_SERVER('HTTP_CLIENT_IP'))
+	if ($_SERVER('REMOTE_ADDR') && $_SERVER('HTTP_CLIENT_IP'))
 	{
 		$ip = $_SERVER['HTTP_CLIENT_IP'];
 	}
@@ -45,12 +45,6 @@ function ip_address()
 	{
 		$ip = '0.0.0.0';
 		return $ip;
-	}
-
-	if (strpos($ip, ',') !== FALSE)
-	{
-		$x = explode(',', $ip);
-		$ip = trim(end($x));
 	}
 
 	return $ip;
