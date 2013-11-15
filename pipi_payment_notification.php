@@ -9,12 +9,6 @@ if(!empty($post))
 	curl_setopt($ch, CURLOPT_URL, $postPath);
 	curl_setopt($ch, CURLOPT_POST, 1);
 	curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
-	$ip = $this->input->ip_address();
-	$header = array(
-			'CLIENT-IP:' . $ip,
-			'X-FORWARDED-FOR:' . $ip,
-	);
-	curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 	curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
 	curl_setopt($ch, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']);
