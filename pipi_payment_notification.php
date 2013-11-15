@@ -5,7 +5,6 @@ $post = $_POST;
 if(!empty($post))
 {
 	$postPath = 'http://112.124.37.58:8090/pipi_payment_notification';
-	echo ip_address();
 	exit($postPath);
 	
 	$ch = curl_init();
@@ -20,6 +19,7 @@ if(!empty($post))
 		
 	curl_close($ch);
 }
+exit(ip_address());
 
 function ip_address()
 {
