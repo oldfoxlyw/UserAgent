@@ -24,8 +24,6 @@ else
 
 function ip_address()
 {
-	var_dump($_SERVER);
-	exit();
 	if ($_SERVER('REMOTE_ADDR') && $_SERVER('HTTP_CLIENT_IP'))
 	{
 		$ip = $_SERVER['HTTP_CLIENT_IP'];
@@ -42,8 +40,10 @@ function ip_address()
 	{
 		$ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
 	}
+	var_dump($ip);
+	exit();
 
-	if ($ip === FALSE)
+	if ($ip == null)
 	{
 		$ip = '0.0.0.0';
 		return $ip;
