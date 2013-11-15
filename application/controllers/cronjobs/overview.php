@@ -359,6 +359,11 @@ class Overview extends CI_Controller
 				$sql = "SELECT `log_GUID` as `numrows` FROM `log_account` WHERE `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}' AND `log_action`='ACCOUNT_LOGIN_SUCCESS' AND `log_time`>={$lastTimeStart} AND `log_time`<={$lastTimeEnd} AND `log_GUID` in (SELECT `GUID` FROM `agent1_account_db`.`web_account` WHERE `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}' AND `account_regtime`>={$thirdTimeStart} AND `account_regtime`<={$thirdTimeEnd} AND `account_level`>1) GROUP BY `log_GUID`";
 				$thirdCurrentLogin = $this->logdb->query($sql)->num_rows();
 				
+				//今天内等级为1的账户数
+				$sql = "SELECT COUNT(*) as `numrows` FROM `web_account` WHERE `account_regtime`>={$thirdTimeStart} AND `account_regtime`<={$thirdTimeEnd} AND `account_level`=1 AND `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}'";
+				$level1 = $this->accountdb->query ( $sql )->row();
+				$level1 = $level1->numrows;
+				
 				$thirdRetention = floor(($thirdCurrentLogin / $thirdRegisterCount) * 10000);
 				
 				$parameter = array(
