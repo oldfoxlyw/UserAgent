@@ -20,30 +20,30 @@ if(!empty($post))
 }
 exit('dsgdfsg');
 
-// function ip_address()
-// {
-// 	if (!empty($_SERVER('REMOTE_ADDR')) && !empty($_SERVER('HTTP_CLIENT_IP')))
-// 	{
-// 		$ip = $_SERVER['HTTP_CLIENT_IP'];
-// 	}
-// 	elseif (!empty($_SERVER('REMOTE_ADDR')))
-// 	{
-// 		$ip = $_SERVER['REMOTE_ADDR'];
-// 	}
-// 	elseif (!empty($_SERVER('HTTP_CLIENT_IP')))
-// 	{
-// 		$ip = $_SERVER['HTTP_CLIENT_IP'];
-// 	}
-// 	elseif (!empty($_SERVER('HTTP_X_FORWARDED_FOR')))
-// 	{
-// 		$ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-// 	}
+function ip_address()
+{
+	if (!empty($_SERVER('REMOTE_ADDR')) && !empty($_SERVER('HTTP_CLIENT_IP')))
+	{
+		$ip = $_SERVER['HTTP_CLIENT_IP'];
+	}
+	elseif (!empty($_SERVER('REMOTE_ADDR')))
+	{
+		$ip = $_SERVER['REMOTE_ADDR'];
+	}
+	elseif (!empty($_SERVER('HTTP_CLIENT_IP')))
+	{
+		$ip = $_SERVER['HTTP_CLIENT_IP'];
+	}
+	elseif (!empty($_SERVER('HTTP_X_FORWARDED_FOR')))
+	{
+		$ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+	}
 
-// 	if ($ip == null)
-// 	{
-// 		$ip = '0.0.0.0';
-// 		return $ip;
-// 	}
+	if ($ip == null)
+	{
+		$ip = '0.0.0.0';
+		return $ip;
+	}
 
-// 	return $ip;
-// }
+	return $ip;
+}
