@@ -10,9 +10,11 @@ class Router extends CI_Controller
 	{
 		$post = $_POST;
 		
-		$this->load->model('webapi/connector');
-		
-		$this->connector->post('http://112.124.37.58:8090/pipi_payment_notification', $post, false);
+		if(!empty($post))
+		{
+			$this->load->model('webapi/connector');
+			$this->connector->post('http://112.124.37.58:8090/pipi_payment_notification', $post, false);
+		}
 	}
 }
 
