@@ -18,8 +18,6 @@ if(!empty($post))
 	curl_close($ch);
 }
 
-echo ip_address();
-
 function ip_address()
 {
 	if (!empty($_SERVER['REMOTE_ADDR']) && !empty($_SERVER['HTTP_CLIENT_IP']))
