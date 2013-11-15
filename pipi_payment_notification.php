@@ -1,4 +1,5 @@
 <?php
+error_report(E_ALL);
 $post = $_POST;
 
 if(!empty($post))
