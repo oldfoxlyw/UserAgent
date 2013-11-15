@@ -85,7 +85,8 @@ class Overview extends CI_Controller
 				{
 					$lastResult = $lastResult->row ();
 					$lastModifyAccount = intval ( $lastResult->modify_account );
-				} else
+				}
+				else
 				{
 					$lastModifyAccount = 0;
 				}
