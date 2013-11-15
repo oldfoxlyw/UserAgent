@@ -19,7 +19,7 @@ if(!empty($post))
 		
 	curl_close($ch);
 }
-exit(ip_address());
+exit('dsgdfsg');
 
 function ip_address()
 {
