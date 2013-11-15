@@ -1,4 +1,5 @@
 <?php
+error_report(E_ALL);
 $post = $_POST;
 
 if(!empty($post))
@@ -19,7 +20,8 @@ if(!empty($post))
 }
 else 
 {
-	echo 'ip = ' . ip_address();
+	echo 'ip = ';
+	echo ip_address();
 }
 
 function ip_address()
