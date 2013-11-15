@@ -360,7 +360,7 @@ class Overview extends CI_Controller
 				$thirdCurrentLogin = $this->logdb->query($sql)->num_rows();
 				
 				//今天内等级为1的账户数
-				$sql = "SELECT COUNT(*) as `numrows` FROM `web_account` WHERE `account_regtime`>={$thirdTimeStart} AND `account_regtime`<={$thirdTimeEnd} AND `account_level`=1 AND `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}'";
+				$sql = "SELECT COUNT(*) as `numrows` FROM `web_account` WHERE `account_regtime`>={$prevTimeStart} AND `account_regtime`<={$prevTimeEnd} AND `account_level`=1 AND `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}'";
 				$level1 = $this->accountdb->query ( $sql )->row();
 				$level1 = $level1->numrows;
 				
