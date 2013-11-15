@@ -342,7 +342,7 @@ class Overview extends CI_Controller
 				$partnerKey = $partner->partner_key;
 				
 				//昨日注册数
-				$sql = "SELECT COUNT(*) as `numrows` FROM `web_account` WHERE `account_regtime`>={$prevTimeStart} AND `account_regtime`<={$prevTimeEnd} AND `account_level`>0 AND `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}'";
+				$sql = "SELECT COUNT(*) as `numrows` FROM `web_account` WHERE `account_regtime`>={$prevTimeStart} AND `account_regtime`<={$prevTimeEnd} AND `account_level`>1 AND `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}'";
 				$registerCount = $this->accountdb->query ( $sql )->row();
 				$registerCount = $registerCount->numrows;
 				//今天登录数
@@ -352,7 +352,7 @@ class Overview extends CI_Controller
 				$nextRetention = floor(($currentLogin / $registerCount) * 10000);
 				
 				//三天前注册数
-				$sql = "SELECT COUNT(*) as `numrows` FROM `web_account` WHERE `account_regtime`>={$thirdTimeStart} AND `account_regtime`<={$thirdTimeEnd} AND `account_level`>0 AND `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}'";
+				$sql = "SELECT COUNT(*) as `numrows` FROM `web_account` WHERE `account_regtime`>={$thirdTimeStart} AND `account_regtime`<={$thirdTimeEnd} AND `account_level`>1 AND `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}'";
 				$thirdRegisterCount = $this->accountdb->query ( $sql )->row();
 				$thirdRegisterCount = $thirdRegisterCount->numrows;
 				//今天登录数
@@ -370,7 +370,8 @@ class Overview extends CI_Controller
 						'next_retention'		=>	$nextRetention,
 						'third_register'		=>	$thirdRegisterCount,
 						'third_current_login'	=>	$thirdCurrentLogin,
-						'third_retention'		=>	$thirdRetention
+						'third_retention'		=>	$thirdRetention,
+						'level1'				=>	$level1
 				);
 				$this->logcachedb->insert('log_retention', $parameter);
 			}
