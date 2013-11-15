@@ -1,5 +1,9 @@
 <?php
-var_dump($_SERVER);
+if (!empty($_SERVER('REMOTE_ADDR')))
+{
+	$ip = $_SERVER['REMOTE_ADDR'];
+}
+echo $ip;
 exit();
 $post = $_POST;
 
