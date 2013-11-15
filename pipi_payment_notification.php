@@ -19,7 +19,7 @@ if(!empty($post))
 }
 else 
 {
-	echo ip_address();
+	echo 'ip = ' . ip_address();
 }
 
 function ip_address()
