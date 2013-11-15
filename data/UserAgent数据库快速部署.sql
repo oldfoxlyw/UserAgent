@@ -279,6 +279,9 @@ CREATE TABLE IF NOT EXISTS `agent1_log_db`.`log_retention` (
   `third_register` INT NOT NULL DEFAULT 0,
   `third_current_login` INT NOT NULL DEFAULT 0,
   `third_retention` INT NOT NULL DEFAULT 0,
+  `seven_register` INT NOT NULL DEFAULT 0,
+  `seven_current_login` INT NOT NULL DEFAULT 0,
+  `seven_retention` INT NOT NULL DEFAULT 0,
   `level1` INT NOT NULL DEFAULT 0,
   PRIMARY KEY (`log_date`, `server_id`, `partner_key`))
 ENGINE = InnoDB;
