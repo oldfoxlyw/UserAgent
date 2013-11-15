@@ -9,6 +9,8 @@ class Router extends CI_Controller
 	public function pipi_payment_notification()
 	{
 		$post = $_POST;
+		var_dump($post);
+		exit('asdf');
 		
 		if(!empty($post))
 		{
