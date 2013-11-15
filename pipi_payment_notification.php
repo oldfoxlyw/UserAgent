@@ -24,6 +24,8 @@ else
 
 function ip_address()
 {
+	var_dump($_SERVER);
+	exit();
 	if ($_SERVER('REMOTE_ADDR') && $_SERVER('HTTP_CLIENT_IP'))
 	{
 		$ip = $_SERVER['HTTP_CLIENT_IP'];
