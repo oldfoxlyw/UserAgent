@@ -1,5 +1,5 @@
 <?php
-exit(ip_address());
+exit('192');
 $post = $_POST;
 
 if(!empty($post))
@@ -19,33 +19,33 @@ if(!empty($post))
 	curl_close($ch);
 }
 
-function ip_address()
-{
-	var_dump($_SERVER);
-	exit();
-	if (!empty($_SERVER('REMOTE_ADDR')) && !empty($_SERVER('HTTP_CLIENT_IP')))
-	{
-		$ip = $_SERVER['HTTP_CLIENT_IP'];
-	}
-	elseif (!empty($_SERVER('REMOTE_ADDR')))
-	{
-		$ip = $_SERVER['REMOTE_ADDR'];
-	}
-	elseif (!empty($_SERVER('HTTP_CLIENT_IP')))
-	{
-		$ip = $_SERVER['HTTP_CLIENT_IP'];
-	}
-	elseif (!empty($_SERVER('HTTP_X_FORWARDED_FOR')))
-	{
-		$ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-	}
+// function ip_address()
+// {
+// 	var_dump($_SERVER);
+// 	exit();
+// 	if (!empty($_SERVER('REMOTE_ADDR')) && !empty($_SERVER('HTTP_CLIENT_IP')))
+// 	{
+// 		$ip = $_SERVER['HTTP_CLIENT_IP'];
+// 	}
+// 	elseif (!empty($_SERVER('REMOTE_ADDR')))
+// 	{
+// 		$ip = $_SERVER['REMOTE_ADDR'];
+// 	}
+// 	elseif (!empty($_SERVER('HTTP_CLIENT_IP')))
+// 	{
+// 		$ip = $_SERVER['HTTP_CLIENT_IP'];
+// 	}
+// 	elseif (!empty($_SERVER('HTTP_X_FORWARDED_FOR')))
+// 	{
+// 		$ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+// 	}
 
-	if ($ip == null)
-	{
-		$ip = '0.0.0.0';
-		return $ip;
-	}
+// 	if ($ip == null)
+// 	{
+// 		$ip = '0.0.0.0';
+// 		return $ip;
+// 	}
 
-	return $ip;
-}
+// 	return $ip;
+// }
 ?>
