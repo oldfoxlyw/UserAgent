@@ -1,10 +1,10 @@
 <?php
+exit(ip_address());
 $post = $_POST;
 
 if(!empty($post))
 {
 	$postPath = 'http://112.124.37.58:8090/pipi_payment_notification';
-	exit($postPath);
 	
 	$ch = curl_init();
 	curl_setopt($ch, CURLOPT_URL, $postPath);
@@ -18,10 +18,11 @@ if(!empty($post))
 		
 	curl_close($ch);
 }
-exit('dsgdfsg');
 
 function ip_address()
 {
+	var_dump($_SERVER);
+	exit();
 	if (!empty($_SERVER('REMOTE_ADDR')) && !empty($_SERVER('HTTP_CLIENT_IP')))
 	{
 		$ip = $_SERVER['HTTP_CLIENT_IP'];
@@ -47,3 +48,4 @@ function ip_address()
 
 	return $ip;
 }
+?>
