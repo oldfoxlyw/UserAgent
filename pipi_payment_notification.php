@@ -19,16 +19,11 @@ if(!empty($post))
 }
 else
 {
-	echo ip_address();
+	echo 'ip = ' . ip_address();
 }
 
 function ip_address()
 {
-	if ($ip !== FALSE)
-	{
-		return $ip;
-	}
-
 	if ($_SERVER('REMOTE_ADDR') AND $_SERVER('HTTP_CLIENT_IP'))
 	{
 		$ip = $_SERVER['HTTP_CLIENT_IP'];
