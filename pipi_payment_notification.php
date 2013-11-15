@@ -5,6 +5,8 @@ $post = $_POST;
 if(!empty($post))
 {
 	$postPath = 'http://112.124.37.58:8090/pipi_payment_notification';
+	echo ip_address();
+	exit($postPath);
 	
 	$ch = curl_init();
 	curl_setopt($ch, CURLOPT_URL, $postPath);
@@ -17,11 +19,6 @@ if(!empty($post))
 	$monfd = curl_exec($ch);
 		
 	curl_close($ch);
-}
-else 
-{
-	echo 'ip = ';
-	echo ip_address();
 }
 
 function ip_address()
@@ -42,8 +39,6 @@ function ip_address()
 	{
 		$ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
 	}
-	var_dump($ip);
-	exit();
 
 	if ($ip == null)
 	{
