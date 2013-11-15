@@ -1,5 +1,6 @@
 <?php
-exit('192');
+var_dump($_SERVER);
+exit();
 $post = $_POST;
 
 if(!empty($post))
