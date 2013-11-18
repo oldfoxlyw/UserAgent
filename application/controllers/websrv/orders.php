@@ -158,7 +158,8 @@ class Orders extends CI_Controller {
 				{
 					$this->load->model('websrv/equipment_name');
 					$parameter = array(
-							'equipment_name'	=>	$itemName
+							'equipment_name'	=>	$itemName,
+							'type'				=>	$itemInfo
 					);
 					$this->equipment_name->insert($parameter);
 				}

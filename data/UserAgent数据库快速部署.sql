@@ -185,7 +185,7 @@ CREATE TABLE IF NOT EXISTS `agent1_log_db`.`log_daily_statistics` (
   `modify_account` INT(11) NOT NULL COMMENT '持有注册帐号的用户',
   `modify_new_account` INT(11) NOT NULL,
   `login_account` INT(11) NOT NULL,
-  `new_login_account` INT NOT NULL COMMENT '当天登录的新用户',
+  `old_login_account` INT NOT NULL COMMENT '当天登录的老用户',
   `active_account` INT(11) NOT NULL DEFAULT '0' COMMENT '活跃用户，三天内登陆过游戏的人数',
   `flowover_account` INT(11) NOT NULL DEFAULT '0' COMMENT '流失用户，超过一周没有登录游戏的人数',
   `reflow_account` INT NOT NULL DEFAULT 0,
@@ -362,7 +362,9 @@ DROP TABLE IF EXISTS `agent1_log_db_201203`.`equipment_name` ;
 
 CREATE TABLE IF NOT EXISTS `agent1_log_db_201203`.`equipment_name` (
   `equipment_name` CHAR(16) NOT NULL,
-  PRIMARY KEY (`equipment_name`))
+  `type` INT NOT NULL,
+  PRIMARY KEY (`equipment_name`),
+  INDEX `type` (`type` ASC))
 ENGINE = InnoDB;
 
 
