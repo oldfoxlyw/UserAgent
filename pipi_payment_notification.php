@@ -16,6 +16,8 @@ if(!empty($post))
 	$monfd = curl_exec($ch);
 		
 	curl_close($ch);
+	
+	echo $monfd;
 }
 
 function ip_address()
