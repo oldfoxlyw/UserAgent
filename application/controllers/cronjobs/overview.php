@@ -396,6 +396,14 @@ class Overview extends CI_Controller
 						'level1'				=>	$level1
 				);
 				$this->logcachedb->insert('log_retention', $parameter);
+				
+				$parameter = array(
+						'level_account'		=>	$registerCount
+				);
+				$this->logcachedb->where('log_date', date('Y-m-d', $prevTimeStart));
+				$this->logcachedb->where('server_id', $row->account_server_id);
+				$this->logcachedb->where('partner_key', $partnerKey);
+				$this->logcachedb->update('log_daily_statistics', $parameter);
 			}
 		}
 	}
