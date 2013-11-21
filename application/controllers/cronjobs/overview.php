@@ -364,7 +364,7 @@ class Overview extends CI_Controller
 				//昨日注册数
 				$prevTimeDate = date('Y-m-d', $prevTimeStart);
 				$sql = "SELECT `level_account` FROM `log_retention1` WHERE `log_date`={$prevTimeDate} AND `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}'";
-				$lastRegisterCount = $this->accountdb->query ( $sql )->row();
+				$lastRegisterCount = $this->logdb->query ( $sql )->row();
 				if(empty($lastRegisterCount))
 				{
 					$currentLogin = 0;
@@ -383,7 +383,7 @@ class Overview extends CI_Controller
 				//三天前注册数
 				$thirdTimeDate = date('Y-m-d', $thirdTimeStart);
 				$sql = "SELECT `level_account` FROM `log_retention1` WHERE `log_date`={$thirdTimeDate} AND `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}'";
-				$thirdRegisterCount = $this->accountdb->query ( $sql )->row();
+				$thirdRegisterCount = $this->logdb->query ( $sql )->row();
 				if(empty($thirdRegisterCount))
 				{
 					$thirdCurrentLogin = 0;
@@ -402,7 +402,7 @@ class Overview extends CI_Controller
 				//七天前注册数
 				$sevenTimeDate = date('Y-m-d', $sevenTimeStart);
 				$sql = "SELECT `level_account` FROM `log_retention1` WHERE `log_date`={$sevenTimeDate} AND `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}'";
-				$sevenRegisterCount = $this->accountdb->query ( $sql )->row();
+				$sevenRegisterCount = $this->logdb->query ( $sql )->row();
 				if(empty($sevenRegisterCount))
 				{
 					$sevenCurrentLogin = 0;
@@ -444,7 +444,7 @@ class Overview extends CI_Controller
 						'seven_retention'		=>	$sevenRetention,
 						'level1'				=>	$level1
 				);
-				$this->logcachedb->insert('log_retention', $parameter);
+				$this->logcachedb->insert('log_retention1', $parameter);
 			}
 		}
 	}
