@@ -354,9 +354,7 @@ class Overview extends CI_Controller
 		//七天前
 		$sevenTimeStart = $lastTimeStart - 6 * 86400;
 		$sevenTimeEnd = $lastTimeEnd - 6 * 86400;
-
-		var_dump($serverResult);
-		var_dump($partnerResult);
+		
 		foreach ( $serverResult as $row )
 		{
 			foreach ( $partnerResult as $partner )
@@ -366,7 +364,7 @@ class Overview extends CI_Controller
 				//昨日注册数
 				$prevTimeDate = date('Y-m-d', $prevTimeStart);
 				$sql = "SELECT `level_account` FROM `log_retention1` WHERE `log_date`={$prevTimeDate} AND `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}'";
-				$lastRegisterCount = $this->logdb->query ( $sql )->row();
+				$lastRegisterCount = $this->logcachedb->query ( $sql )->row();
 				if(empty($lastRegisterCount))
 				{
 					$currentLogin = 0;
@@ -381,12 +379,11 @@ class Overview extends CI_Controller
 					
 					$nextRetention = floor(($currentLogin / $lastRegisterCount) * 10000);
 				}
-				echo 'nextRetention';
 				
 				//三天前注册数
 				$thirdTimeDate = date('Y-m-d', $thirdTimeStart);
 				$sql = "SELECT `level_account` FROM `log_retention1` WHERE `log_date`={$thirdTimeDate} AND `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}'";
-				$thirdRegisterCount = $this->logdb->query ( $sql )->row();
+				$thirdRegisterCount = $this->logcachedb->query ( $sql )->row();
 				if(empty($thirdRegisterCount))
 				{
 					$thirdCurrentLogin = 0;
@@ -401,12 +398,11 @@ class Overview extends CI_Controller
 					
 					$thirdRetention = floor(($thirdCurrentLogin / $thirdRegisterCount) * 10000);
 				}
-				echo 'thirdRetention';
 				
 				//七天前注册数
 				$sevenTimeDate = date('Y-m-d', $sevenTimeStart);
 				$sql = "SELECT `level_account` FROM `log_retention1` WHERE `log_date`={$sevenTimeDate} AND `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}'";
-				$sevenRegisterCount = $this->logdb->query ( $sql )->row();
+				$sevenRegisterCount = $this->logcachedb->query ( $sql )->row();
 				if(empty($sevenRegisterCount))
 				{
 					$sevenCurrentLogin = 0;
@@ -421,13 +417,11 @@ class Overview extends CI_Controller
 					
 					$sevenRetention = floor(($sevenCurrentLogin / $sevenRegisterCount) * 10000);
 				}
-				echo 'sevenRetention';
 				
 				//今天内等级为1的账户数
 				$sql = "SELECT COUNT(*) as `numrows` FROM `web_account` WHERE `account_regtime`>={$prevTimeStart} AND `account_regtime`<={$prevTimeEnd} AND `account_level`=1 AND `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}'";
 				$level1 = $this->accountdb->query ( $sql )->row();
 				$level1 = $level1->numrows;
-				echo 'level1Retention';
 
 				// 等级大于1的帐号
 				$this->accountdb->where ( 'server_id', $row->account_server_id );
@@ -436,7 +430,6 @@ class Overview extends CI_Controller
 				$this->accountdb->where ( 'account_regtime <=', $lastTimeEnd );
 				$this->accountdb->where ( 'account_level >', 1 );
 				$levelCount = $this->accountdb->count_all_results ( 'web_account' );
-				echo 'levelCount';
 				
 				$parameter = array(
 						'log_date'				=>	date('Y-m-d', $lastTimeStart),
