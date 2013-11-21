@@ -27,7 +27,8 @@ class Rep extends CI_Controller
 					'type'			=>	$type,
 					'time'			=>	$time,
 					'profession'	=>	$profession,
-					'nickname'		=>	$nickname
+					'nickname'		=>	$nickname,
+					'posttime'		=>	time()
 			);
 			$this->mrep->create($parameter);
 			
