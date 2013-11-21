@@ -444,6 +444,7 @@ class Overview extends CI_Controller
 						'seven_retention'		=>	$sevenRetention,
 						'level1'				=>	$level1
 				);
+				var_dump($parameter);
 				$this->logcachedb->insert('log_retention1', $parameter);
 			}
 		}
