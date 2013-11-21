@@ -196,6 +196,7 @@ CREATE TABLE IF NOT EXISTS `agent1_log_db`.`log_daily_statistics` (
   `recharge_account` INT(11) NOT NULL COMMENT '当天充值人数',
   `order_count` INT(11) NOT NULL COMMENT '订单数',
   `partner_key` CHAR(16) NOT NULL DEFAULT 'default',
+  `at` INT NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `log_date` (`log_date` ASC, `server_id` ASC))
 ENGINE = MyISAM
@@ -400,8 +401,13 @@ DROP TABLE IF EXISTS `agent1_log_db_201203`.`log_rep` ;
 
 CREATE TABLE IF NOT EXISTS `agent1_log_db_201203`.`log_rep` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `server_id` CHAR(5) NOT NULL,
   `player_id` BIGINT NOT NULL,
+  `type` INT NOT NULL,
   `time` INT NOT NULL,
+  `profession` CHAR(16) NOT NULL,
+  `nickname` CHAR(20) NOT NULL,
+  `posttime` INT NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
