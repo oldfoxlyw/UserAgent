@@ -379,6 +379,7 @@ class Overview extends CI_Controller
 					
 					$nextRetention = floor(($currentLogin / $lastRegisterCount) * 10000);
 				}
+				echo 'nextRetention';
 				
 				//三天前注册数
 				$thirdTimeDate = date('Y-m-d', $thirdTimeStart);
@@ -398,6 +399,7 @@ class Overview extends CI_Controller
 					
 					$thirdRetention = floor(($thirdCurrentLogin / $thirdRegisterCount) * 10000);
 				}
+				echo 'thirdRetention';
 				
 				//七天前注册数
 				$sevenTimeDate = date('Y-m-d', $sevenTimeStart);
@@ -417,11 +419,13 @@ class Overview extends CI_Controller
 					
 					$sevenRetention = floor(($sevenCurrentLogin / $sevenRegisterCount) * 10000);
 				}
+				echo 'sevenRetention';
 				
 				//今天内等级为1的账户数
 				$sql = "SELECT COUNT(*) as `numrows` FROM `web_account` WHERE `account_regtime`>={$prevTimeStart} AND `account_regtime`<={$prevTimeEnd} AND `account_level`=1 AND `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}'";
 				$level1 = $this->accountdb->query ( $sql )->row();
 				$level1 = $level1->numrows;
+				echo 'level1Retention';
 
 				// 等级大于1的帐号
 				$this->accountdb->where ( 'server_id', $row->account_server_id );
@@ -430,6 +434,7 @@ class Overview extends CI_Controller
 				$this->accountdb->where ( 'account_regtime <=', $lastTimeEnd );
 				$this->accountdb->where ( 'account_level >', 1 );
 				$levelCount = $this->accountdb->count_all_results ( 'web_account' );
+				echo 'levelCount';
 				
 				$parameter = array(
 						'log_date'				=>	date('Y-m-d', $lastTimeStart),
@@ -444,7 +449,6 @@ class Overview extends CI_Controller
 						'seven_retention'		=>	$sevenRetention,
 						'level1'				=>	$level1
 				);
-				var_dump($parameter);
 				$this->logcachedb->insert('log_retention1', $parameter);
 			}
 		}
