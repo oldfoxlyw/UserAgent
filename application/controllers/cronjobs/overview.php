@@ -334,15 +334,12 @@ class Overview extends CI_Controller
 	
 	public function retention1_statistics()
 	{
-				echo '1';
 		$this->load->model ( 'websrv/server' );
 		$serverResult = $this->server->getAllResult ();
-
-		echo '2';
+		
 		$this->load->model ( 'websrv/mpartner' );
 		$partnerResult = $this->mpartner->getAllResult ();
-
-		echo '3';
+		
 		$currentTimeStamp = time ();
 		$currentDate = date ( 'Y-m-d', $currentTimeStamp );
 		//昨日
@@ -358,6 +355,8 @@ class Overview extends CI_Controller
 		$sevenTimeStart = $lastTimeStart - 6 * 86400;
 		$sevenTimeEnd = $lastTimeEnd - 6 * 86400;
 
+		var_dump($serverResult);
+		var_dump($partnerResult);
 		foreach ( $serverResult as $row )
 		{
 			foreach ( $partnerResult as $partner )
