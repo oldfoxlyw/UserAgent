@@ -202,6 +202,14 @@ class Overview extends CI_Controller
 				// arpu
 				$arpu = floatval ( number_format ( $rechargeAccount / $activeCount, 2 ) ) * 100;
 				
+				// at 平均在线时长
+				$sql = "SELECT SUM(`time`) as `time` FROM `log_rep` WHERE `server_id`='{$row->account_server_id}' AND `posttime`>={$lastTimeStart} AND `posttime`<={$lastTimeEnd}";
+				$atSum = $this->logdb->query($sql)->row();
+				$atSum = $atSum->time;
+				$sql = "SELECT * FROM `log_rep` WHERE `server_id`='{$row->account_server_id}' AND `posttime`>={$lastTimeStart} AND `posttime`<={$lastTimeEnd} GROUP BY `player_id`";
+				$atCount = $this->logdb->query($sql)->num_rows();
+				$at = $atSum / $atCount;
+				
 				$parameter = array (
 					'log_date' => $date,
 					'server_id' => $row->account_server_id,
@@ -221,6 +229,7 @@ class Overview extends CI_Controller
 					'arpu' => $arpu,
 					'recharge_account' => $rechargeAccount,
 					'order_count' => $ordersCount,
+					'at' => $at,
 					'partner_key' => $partnerKey 
 				);
 				$this->logcachedb->insert ( 'log_daily_statistics', $parameter );
