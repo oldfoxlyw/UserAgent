@@ -19,19 +19,29 @@ class Rep extends CI_Controller
 		$profession = $this->input->post('profession', TRUE);
 		$nickname = $this->input->post('nickname', TRUE);
 		
-		$parameter = array(
-				'server_id'		=>	$serverId,
-				'player_id'		=>	$guid,
-				'type'			=>	$type,
-				'time'			=>	$time,
-				'profession'	=>	$profession,
-				'nickname'		=>	$nickname
-		);
-		$this->mrep->create($parameter);
-		
-		$jsonData = Array(
-				'success'	=>	true
-		);
+		if(!empty($serverId) && !empty($guid) && !empty($time))
+		{
+			$parameter = array(
+					'server_id'		=>	$serverId,
+					'player_id'		=>	$guid,
+					'type'			=>	$type,
+					'time'			=>	$time,
+					'profession'	=>	$profession,
+					'nickname'		=>	$nickname
+			);
+			$this->mrep->create($parameter);
+			
+			$jsonData = Array(
+					'success'	=>	true
+			);
+		}
+		else
+		{
+			$jsonData = Array(
+					'success'	=>	false,
+					'error'		=>	'参数不足，必要参数：server_id, player_id, time'
+			);
+		}
 		echo $this->return_format->format($jsonData, $format);
 	}
 }
