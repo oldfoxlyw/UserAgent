@@ -332,6 +332,123 @@ class Overview extends CI_Controller
 		$this->logcachedb->insert('log_buy_equipment_detail', $parameter);
 	}
 	
+	public function retention1_statistics()
+	{
+		$this->load->model ( 'websrv/server' );
+		$serverResult = $this->server->getAllResult ();
+		
+		$this->load->model ( 'websrv/mpartner' );
+		$partnerResult = $this->mpartner->getAllResult ();
+		
+		$currentTimeStamp = time ();
+		$currentDate = date ( 'Y-m-d', $currentTimeStamp );
+		//昨日
+		$lastTimeStart = strtotime ( $currentDate . ' 00:00:00' ) - 86400;
+		$lastTimeEnd = strtotime ( $currentDate . ' 23:59:59' ) - 86400;
+		//前日
+		$prevTimeStart = $lastTimeStart - 86400;
+		$prevTimeEnd = $lastTimeEnd - 86400;
+		//三天前
+		$thirdTimeStart = $lastTimeStart - 2 * 86400;
+		$thirdTimeEnd = $lastTimeEnd - 2 * 86400;
+		//七天前
+		$sevenTimeStart = $lastTimeStart - 6 * 86400;
+		$sevenTimeEnd = $lastTimeEnd - 6 * 86400;
+
+		foreach ( $serverResult as $row )
+		{
+			foreach ( $partnerResult as $partner )
+			{
+				$partnerKey = $partner->partner_key;
+				
+				//昨日注册数
+				$prevTimeDate = date('Y-m-d', $prevTimeStart);
+				$sql = "SELECT `level_account` FROM `log_retention1` WHERE `log_date`={$prevTimeDate} AND `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}'";
+				$lastRegisterCount = $this->accountdb->query ( $sql )->row();
+				if(empty($lastRegisterCount))
+				{
+					$currentLogin = 0;
+					$nextRetention = 0;
+				}
+				else
+				{
+					$lastRegisterCount = $lastRegisterCount->level_account;
+					//今天登录数
+					$sql = "SELECT `log_GUID` as `numrows` FROM `log_account` WHERE `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}' AND `log_action`='ACCOUNT_LOGIN_SUCCESS' AND `log_time`>={$lastTimeStart} AND `log_time`<={$lastTimeEnd} AND `log_GUID` in (SELECT `GUID` FROM `agent1_account_db`.`web_account` WHERE `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}' AND `account_regtime`>={$prevTimeStart} AND `account_regtime`<={$prevTimeEnd} AND `account_level`>1) GROUP BY `log_GUID`";
+					$currentLogin = $this->logdb->query($sql)->num_rows();
+					
+					$nextRetention = floor(($currentLogin / $lastRegisterCount) * 10000);
+				}
+				
+				//三天前注册数
+				$thirdTimeDate = date('Y-m-d', $thirdTimeStart);
+				$sql = "SELECT `level_account` FROM `log_retention1` WHERE `log_date`={$thirdTimeDate} AND `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}'";
+				$thirdRegisterCount = $this->accountdb->query ( $sql )->row();
+				if(empty($thirdRegisterCount))
+				{
+					$thirdCurrentLogin = 0;
+					$thirdRetention = 0;
+				}
+				else
+				{
+					$thirdRegisterCount = $thirdRegisterCount->level_account;
+					//今天登录数
+					$sql = "SELECT `log_GUID` as `numrows` FROM `log_account` WHERE `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}' AND `log_action`='ACCOUNT_LOGIN_SUCCESS' AND `log_time`>={$lastTimeStart} AND `log_time`<={$lastTimeEnd} AND `log_GUID` in (SELECT `GUID` FROM `agent1_account_db`.`web_account` WHERE `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}' AND `account_regtime`>={$thirdTimeStart} AND `account_regtime`<={$thirdTimeEnd} AND `account_level`>1) GROUP BY `log_GUID`";
+					$thirdCurrentLogin = $this->logdb->query($sql)->num_rows();
+					
+					$thirdRetention = floor(($thirdCurrentLogin / $thirdRegisterCount) * 10000);
+				}
+				
+				//七天前注册数
+				$sevenTimeDate = date('Y-m-d', $sevenTimeStart);
+				$sql = "SELECT `level_account` FROM `log_retention1` WHERE `log_date`={$sevenTimeDate} AND `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}'";
+				$sevenRegisterCount = $this->accountdb->query ( $sql )->row();
+				if(empty($sevenRegisterCount))
+				{
+					$sevenCurrentLogin = 0;
+					$sevenRetention = 0;
+				}
+				else
+				{
+					$sevenRegisterCount = $sevenRegisterCount->level_account;
+					//今天登录数
+					$sql = "SELECT `log_GUID` as `numrows` FROM `log_account` WHERE `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}' AND `log_action`='ACCOUNT_LOGIN_SUCCESS' AND `log_time`>={$lastTimeStart} AND `log_time`<={$lastTimeEnd} AND `log_GUID` in (SELECT `GUID` FROM `agent1_account_db`.`web_account` WHERE `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}' AND `account_regtime`>={$sevenTimeStart} AND `account_regtime`<={$sevenTimeEnd} AND `account_level`>1) GROUP BY `log_GUID`";
+					$sevenCurrentLogin = $this->logdb->query($sql)->num_rows();
+					
+					$sevenRetention = floor(($sevenCurrentLogin / $sevenRegisterCount) * 10000);
+				}
+				
+				//今天内等级为1的账户数
+				$sql = "SELECT COUNT(*) as `numrows` FROM `web_account` WHERE `account_regtime`>={$prevTimeStart} AND `account_regtime`<={$prevTimeEnd} AND `account_level`=1 AND `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}'";
+				$level1 = $this->accountdb->query ( $sql )->row();
+				$level1 = $level1->numrows;
+
+				// 等级大于1的帐号
+				$this->accountdb->where ( 'server_id', $row->account_server_id );
+				$this->accountdb->where ( 'partner_key', $partnerKey );
+				$this->accountdb->where ( 'account_regtime >=', $lastTimeStart );
+				$this->accountdb->where ( 'account_regtime <=', $lastTimeEnd );
+				$this->accountdb->where ( 'account_level >', 1 );
+				$levelCount = $this->accountdb->count_all_results ( 'web_account' );
+				
+				$parameter = array(
+						'log_date'				=>	date('Y-m-d', $lastTimeStart),
+						'server_id'				=>	$row->account_server_id,
+						'partner_key'			=>	$partnerKey,
+						'level_account'			=>	$levelCount,
+						'next_current_login'	=>	$currentLogin,
+						'next_retention'		=>	$nextRetention,
+						'third_current_login'	=>	$thirdCurrentLogin,
+						'third_retention'		=>	$thirdRetention,
+						'seven_current_login'	=>	$sevenCurrentLogin,
+						'seven_retention'		=>	$sevenRetention,
+						'level1'				=>	$level1
+				);
+				$this->logcachedb->insert('log_retention', $parameter);
+			}
+		}
+	}
+	
 	public function retention_statistics()
 	{
 		$this->load->model ( 'websrv/server' );

@@ -303,6 +303,29 @@ CREATE TABLE IF NOT EXISTS `agent1_log_db`.`log_funds_hours` (
   PRIMARY KEY (`log_date`, `server_id`, `log_hour`, `partner_key`))
 ENGINE = InnoDB;
 
+
+-- -----------------------------------------------------
+-- Table `agent1_log_db`.`log_retention1`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `agent1_log_db`.`log_retention1` ;
+
+CREATE TABLE IF NOT EXISTS `agent1_log_db`.`log_retention1` (
+  `log_date` DATE NOT NULL,
+  `server_id` CHAR(5) NOT NULL,
+  `partner_key` CHAR(16) NOT NULL,
+  `level_account` INT NOT NULL DEFAULT 0 COMMENT '有效用户数',
+  `next_current_login` INT NOT NULL DEFAULT 0 COMMENT '次日登录',
+  `next_retention` INT NOT NULL DEFAULT 0 COMMENT '次日留存',
+  `third_current_login` INT NOT NULL DEFAULT 0 COMMENT '点三登录',
+  `third_retention` INT NOT NULL DEFAULT 0 COMMENT '点三留存',
+  `third_current_login_range` INT NOT NULL DEFAULT 0 COMMENT '区间三日登录',
+  `third_retention_range` INT NOT NULL DEFAULT 0,
+  `seven_current_login` INT NOT NULL DEFAULT 0,
+  `seven_retention` INT NOT NULL DEFAULT 0,
+  `level1` INT NOT NULL DEFAULT 0,
+  PRIMARY KEY (`log_date`, `server_id`, `partner_key`))
+ENGINE = InnoDB;
+
 USE `agent1_log_db_201203` ;
 
 -- -----------------------------------------------------
