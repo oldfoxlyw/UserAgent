@@ -392,6 +392,19 @@ ENGINE = MyISAM
 AUTO_INCREMENT = 2068
 DEFAULT CHARACTER SET = utf8;
 
+
+-- -----------------------------------------------------
+-- Table `agent1_log_db_201203`.`log_rep`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `agent1_log_db_201203`.`log_rep` ;
+
+CREATE TABLE IF NOT EXISTS `agent1_log_db_201203`.`log_rep` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `player_id` BIGINT NOT NULL,
+  `time` INT NOT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
 USE `agent1_product_db` ;
 
 -- -----------------------------------------------------
