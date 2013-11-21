@@ -205,10 +205,17 @@ class Overview extends CI_Controller
 				// at 平均在线时长
 				$sql = "SELECT SUM(`time`) as `time` FROM `log_rep` WHERE `server_id`='{$row->account_server_id}' AND `posttime`>={$lastTimeStart} AND `posttime`<={$lastTimeEnd}";
 				$atSum = $this->logdb->query($sql)->row();
-				$atSum = $atSum->time;
-				$sql = "SELECT * FROM `log_rep` WHERE `server_id`='{$row->account_server_id}' AND `posttime`>={$lastTimeStart} AND `posttime`<={$lastTimeEnd} GROUP BY `player_id`";
-				$atCount = $this->logdb->query($sql)->num_rows();
-				$at = $atSum / $atCount;
+				if(empty($atSum))
+				{
+					$at = 0;
+				}
+				else
+				{
+					$atSum = $atSum->time;
+					$sql = "SELECT * FROM `log_rep` WHERE `server_id`='{$row->account_server_id}' AND `posttime`>={$lastTimeStart} AND `posttime`<={$lastTimeEnd} GROUP BY `player_id`";
+					$atCount = $this->logdb->query($sql)->num_rows();
+					$at = $atSum / $atCount;
+				}
 				
 				$parameter = array (
 					'log_date' => $date,
