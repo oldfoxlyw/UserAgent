@@ -402,11 +402,17 @@ class Overview extends CI_Controller
 					$thirdRetention = floor(($thirdCurrentLogin / $thirdRegisterCount) * 10000);
 					
 					$thirdCurrentLoginResult = $thirdCurrentLoginResult->result_array();
-					var_dump($thirdCurrentLoginResult->array_values());
-					exit();
+					for($i=0; $i<count($thirdCurrentLoginResult); $i++)
+					{
+						$thirdCurrentLoginResult[$i] = $thirdCurrentLoginResult[$i]['log_GUID'];
+					}
 					//昨天登录
 					$sql = "SELECT `log_GUID` FROM `log_account` WHERE `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}' AND `log_action`='ACCOUNT_LOGIN_SUCCESS' AND `log_time`>={$prevTimeStart} AND `log_time`<={$prevTimeEnd} AND `log_GUID` in (SELECT `GUID` FROM `agent1_account_db`.`web_account` WHERE `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}' AND `account_regtime`>={$thirdTimeStart} AND `account_regtime`<={$thirdTimeEnd} AND `account_level`>1) GROUP BY `log_GUID`";
 					$prevCurrentLoginResult = $this->logdb->query($sql)->result_array();
+					for($i=0; $i<count($prevCurrentLoginResult); $i++)
+					{
+						$prevCurrentLoginResult[$i] = $prevCurrentLoginResult[$i]['log_GUID'];
+					}
 					
 					$thirdRetentionRange = array_intersect($thirdCurrentLoginResult, $prevCurrentLoginResult);
 					$thirdRetentionRange = count($thirdRetentionRange);
