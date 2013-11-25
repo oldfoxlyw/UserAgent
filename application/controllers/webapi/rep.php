@@ -21,16 +21,46 @@ class Rep extends CI_Controller
 		
 		if(!empty($serverId) && !empty($guid) && !empty($time))
 		{
-			$parameter = array(
-					'server_id'		=>	$serverId,
-					'player_id'		=>	$guid,
-					'type'			=>	$type,
-					'time'			=>	$time,
-					'profession'	=>	$profession,
-					'nickname'		=>	$nickname,
-					'posttime'		=>	time()
-			);
-			$this->mrep->create($parameter);
+			$currentTime = time();
+			$date = date('d', $currentTime);
+			
+			$lastTime = $currentTime - $time;
+			$lastDate = date('d', $lastTime);
+			
+			if($date != $lastDate)
+			{
+				for($i=$lastTime; $i<=$currentTime; $i+=86400)
+				{
+					$tmpTime = strtotime(date('Y-m-d', $i) . ' 23:59:59');
+					$onlineTime = $tmpTime - $i;
+					if($onlineTime > 0)
+					{
+						$parameter = array(
+								'server_id'		=>	$serverId,
+								'player_id'		=>	$guid,
+								'type'			=>	$type,
+								'time'			=>	$onlineTime,
+								'profession'	=>	$profession,
+								'nickname'		=>	$nickname,
+								'posttime'		=>	$tmpTime
+						);
+						$this->mrep->create($parameter);
+					}
+				}
+			}
+			else
+			{
+				$parameter = array(
+						'server_id'		=>	$serverId,
+						'player_id'		=>	$guid,
+						'type'			=>	$type,
+						'time'			=>	$time,
+						'profession'	=>	$profession,
+						'nickname'		=>	$nickname,
+						'posttime'		=>	time()
+				);
+				$this->mrep->create($parameter);
+			}
 			
 			$jsonData = Array(
 					'success'	=>	true
