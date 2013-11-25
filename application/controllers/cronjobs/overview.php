@@ -375,7 +375,7 @@ class Overview extends CI_Controller
 				{
 					$lastRegisterCount = $lastRegisterCount->level_account;
 					//今天登录数
-					$sql = "SELECT `log_GUID` as `numrows` FROM `log_account` WHERE `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}' AND `log_action`='ACCOUNT_LOGIN_SUCCESS' AND `log_time`>={$lastTimeStart} AND `log_time`<={$lastTimeEnd} AND `log_GUID` in (SELECT `GUID` FROM `agent1_account_db`.`web_account` WHERE `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}' AND `account_regtime`>={$prevTimeStart} AND `account_regtime`<={$prevTimeEnd} AND `account_level`>1) GROUP BY `log_GUID`";
+					$sql = "SELECT `log_GUID` FROM `log_account` WHERE `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}' AND `log_action`='ACCOUNT_LOGIN_SUCCESS' AND `log_time`>={$lastTimeStart} AND `log_time`<={$lastTimeEnd} AND `log_GUID` in (SELECT `GUID` FROM `agent1_account_db`.`web_account` WHERE `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}' AND `account_regtime`>={$prevTimeStart} AND `account_regtime`<={$prevTimeEnd} AND `account_level`>1) GROUP BY `log_GUID`";
 					$currentLogin = $this->logdb->query($sql)->num_rows();
 					
 					$nextRetention = floor(($currentLogin / $lastRegisterCount) * 10000);
@@ -389,15 +389,27 @@ class Overview extends CI_Controller
 				{
 					$thirdCurrentLogin = 0;
 					$thirdRetention = 0;
+					$thirdRetentionRange = 0;
 				}
 				else
 				{
 					$thirdRegisterCount = $thirdRegisterCount->level_account;
 					//今天登录数
-					$sql = "SELECT `log_GUID` as `numrows` FROM `log_account` WHERE `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}' AND `log_action`='ACCOUNT_LOGIN_SUCCESS' AND `log_time`>={$lastTimeStart} AND `log_time`<={$lastTimeEnd} AND `log_GUID` in (SELECT `GUID` FROM `agent1_account_db`.`web_account` WHERE `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}' AND `account_regtime`>={$thirdTimeStart} AND `account_regtime`<={$thirdTimeEnd} AND `account_level`>1) GROUP BY `log_GUID`";
-					$thirdCurrentLogin = $this->logdb->query($sql)->num_rows();
+					$sql = "SELECT `log_GUID` FROM `log_account` WHERE `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}' AND `log_action`='ACCOUNT_LOGIN_SUCCESS' AND `log_time`>={$lastTimeStart} AND `log_time`<={$lastTimeEnd} AND `log_GUID` in (SELECT `GUID` FROM `agent1_account_db`.`web_account` WHERE `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}' AND `account_regtime`>={$thirdTimeStart} AND `account_regtime`<={$thirdTimeEnd} AND `account_level`>1) GROUP BY `log_GUID`";
+					$thirdCurrentLoginResult = $this->logdb->query($sql);
+					$thirdCurrentLogin = $thirdCurrentLoginResult->num_rows();
 					
 					$thirdRetention = floor(($thirdCurrentLogin / $thirdRegisterCount) * 10000);
+					
+					$thirdCurrentLoginResult = $thirdCurrentLoginResult->result();
+					//昨天登录
+					$sql = "SELECT `log_GUID` FROM `log_account` WHERE `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}' AND `log_action`='ACCOUNT_LOGIN_SUCCESS' AND `log_time`>={$prevTimeStart} AND `log_time`<={$prevTimeEnd} AND `log_GUID` in (SELECT `GUID` FROM `agent1_account_db`.`web_account` WHERE `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}' AND `account_regtime`>={$thirdTimeStart} AND `account_regtime`<={$thirdTimeEnd} AND `account_level`>1) GROUP BY `log_GUID`";
+					$prevCurrentLoginResult = $this->logdb->query($sql)->result();
+					$thirdRetentionRange = array_intersect($thirdCurrentLoginResult, $prevCurrentLoginResult);
+					$thirdRetentionRange = count($thirdRetentionRange);
+					
+					echo $thirdRetentionRange;
+					exit();
 				}
 				
 				//七天前注册数
@@ -413,7 +425,7 @@ class Overview extends CI_Controller
 				{
 					$sevenRegisterCount = $sevenRegisterCount->level_account;
 					//今天登录数
-					$sql = "SELECT `log_GUID` as `numrows` FROM `log_account` WHERE `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}' AND `log_action`='ACCOUNT_LOGIN_SUCCESS' AND `log_time`>={$lastTimeStart} AND `log_time`<={$lastTimeEnd} AND `log_GUID` in (SELECT `GUID` FROM `agent1_account_db`.`web_account` WHERE `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}' AND `account_regtime`>={$sevenTimeStart} AND `account_regtime`<={$sevenTimeEnd} AND `account_level`>1) GROUP BY `log_GUID`";
+					$sql = "SELECT `log_GUID` FROM `log_account` WHERE `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}' AND `log_action`='ACCOUNT_LOGIN_SUCCESS' AND `log_time`>={$lastTimeStart} AND `log_time`<={$lastTimeEnd} AND `log_GUID` in (SELECT `GUID` FROM `agent1_account_db`.`web_account` WHERE `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}' AND `account_regtime`>={$sevenTimeStart} AND `account_regtime`<={$sevenTimeEnd} AND `account_level`>1) GROUP BY `log_GUID`";
 					$sevenCurrentLogin = $this->logdb->query($sql)->num_rows();
 					
 					$sevenRetention = floor(($sevenCurrentLogin / $sevenRegisterCount) * 10000);
@@ -445,7 +457,7 @@ class Overview extends CI_Controller
 						'seven_retention'		=>	$sevenRetention,
 						'level1'				=>	$level1
 				);
-				$this->logcachedb->insert('log_retention1', $parameter);
+// 				$this->logcachedb->insert('log_retention1', $parameter);
 			}
 		}
 	}

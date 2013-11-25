@@ -318,10 +318,14 @@ CREATE TABLE IF NOT EXISTS `agent1_log_db`.`log_retention1` (
   `next_retention` INT NOT NULL DEFAULT 0 COMMENT '次日留存',
   `third_current_login` INT NOT NULL DEFAULT 0 COMMENT '点三登录',
   `third_retention` INT NOT NULL DEFAULT 0 COMMENT '点三留存',
-  `third_current_login_range` INT NOT NULL DEFAULT 0 COMMENT '区间三日登录',
+  `third_current_login_range` INT NOT NULL DEFAULT 0 COMMENT '连续三日登录',
   `third_retention_range` INT NOT NULL DEFAULT 0,
   `seven_current_login` INT NOT NULL DEFAULT 0,
   `seven_retention` INT NOT NULL DEFAULT 0,
+  `seven_current_login_range` INT NOT NULL DEFAULT 0 COMMENT '小区间七日登录',
+  `seven_retention_range` INT NOT NULL DEFAULT 0 COMMENT '小区间七日留存率',
+  `seven_current_login_huge` INT NOT NULL DEFAULT 0 COMMENT '大区间7日登录',
+  `seven_retention_huge` INT NOT NULL DEFAULT 0 COMMENT '大区间七日留存',
   `level1` INT NOT NULL DEFAULT 0,
   PRIMARY KEY (`log_date`, `server_id`, `partner_key`))
 ENGINE = InnoDB;
