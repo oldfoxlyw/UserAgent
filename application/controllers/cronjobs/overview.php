@@ -30,10 +30,20 @@ class Overview extends CI_Controller
 
 	private function process($serverResult, $partnerResult = null)
 	{
-		$currentTimeStamp = time ();
-		$currentDate = date ( 'Y-m-d', $currentTimeStamp );
-		$lastTimeStart = strtotime ( $currentDate . ' 00:00:00' ) - 86400;
-		$lastTimeEnd = strtotime ( $currentDate . ' 23:59:59' ) - 86400;
+		$lastDate = $this->input->get('date', TRUE);
+		
+		if(!empty($lastDate))
+		{
+			$lastTimeStart = strtotime ( $lastDate . ' 00:00:00' );
+			$lastTimeEnd = strtotime ( $lastDate . ' 23:59:59' );
+		}
+		else
+		{
+			$currentTimeStamp = time ();
+			$currentDate = date ( 'Y-m-d', $currentTimeStamp );
+			$lastTimeStart = strtotime ( $currentDate . ' 00:00:00' ) - 86400;
+			$lastTimeEnd = strtotime ( $currentDate . ' 23:59:59' ) - 86400;
+		}
 		$date = date ( 'Y-m-d', $lastTimeStart );
 		$preDate = date ( 'Y-m-d', $lastTimeStart - 86400 );
 		
