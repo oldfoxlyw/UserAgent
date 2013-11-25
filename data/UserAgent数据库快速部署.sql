@@ -536,6 +536,20 @@ CREATE TABLE IF NOT EXISTS `agent1_product_db`.`game_announcement` (
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
+
+-- -----------------------------------------------------
+-- Table `agent1_product_db`.`game_autosend_message`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `agent1_product_db`.`game_autosend_message` ;
+
+CREATE TABLE IF NOT EXISTS `agent1_product_db`.`game_autosend_message` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `content` TEXT NOT NULL,
+  `is_auto_send` TINYINT NOT NULL DEFAULT 1,
+  `pattern` CHAR(32) NOT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
 USE `agent1_web_db` ;
 
 -- -----------------------------------------------------
