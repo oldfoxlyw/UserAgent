@@ -529,9 +529,9 @@ class Overview extends CI_Controller
 						'level1'					=>	$level1
 				);
 				
-				var_dump($parameter);
-				exit();
-// 				$this->logcachedb->insert('log_retention1', $parameter);
+// 				var_dump($parameter);
+// 				exit();
+				$this->logcachedb->insert('log_retention1', $parameter);
 			}
 		}
 	}
