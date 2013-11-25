@@ -212,7 +212,8 @@ class Overview extends CI_Controller
 				else
 				{
 					$atSum = $atSum->time;
-					$sql = "SELECT * FROM `log_rep` WHERE `server_id`='{$row->account_server_id}' AND `posttime`>={$lastTimeStart} AND `posttime`<={$lastTimeEnd} GROUP BY `player_id`";
+					$sql = "SELECT * FROM `log_rep` WHERE `server_id`='{$row->account_server_id}' AND `posttime`>={$lastTimeStart} AND `posttime`<={$lastTimeEnd}";
+					//$sql .= " GROUP BY `player_id`";
 					$atCount = $this->logdb->query($sql)->num_rows();
 					$at = $atSum / $atCount;
 				}
