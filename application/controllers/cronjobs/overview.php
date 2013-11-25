@@ -389,6 +389,7 @@ class Overview extends CI_Controller
 				{
 					$thirdCurrentLogin = 0;
 					$thirdRetention = 0;
+					$thirdCurrentLoginRange = 0;
 					$thirdRetentionRange = 0;
 				}
 				else
@@ -414,11 +415,10 @@ class Overview extends CI_Controller
 						$prevCurrentLoginResult[$i] = $prevCurrentLoginResult[$i]['log_GUID'];
 					}
 					
-					$thirdRetentionRange = array_intersect($thirdCurrentLoginResult, $prevCurrentLoginResult);
-					$thirdRetentionRange = count($thirdRetentionRange);
+					$thirdCurrentLoginRange = array_intersect($thirdCurrentLoginResult, $prevCurrentLoginResult);
+					$thirdCurrentLoginRange = count($thirdCurrentLoginRange);
 					
-					echo $thirdRetentionRange;
-					exit();
+					$thirdRetentionRange = floor(($thirdCurrentLoginRange / $thirdRegisterCount) * 10000);
 				}
 				
 				//七天前注册数
@@ -454,17 +454,19 @@ class Overview extends CI_Controller
 				$levelCount = $this->accountdb->count_all_results ( 'web_account' );
 				
 				$parameter = array(
-						'log_date'				=>	date('Y-m-d', $lastTimeStart),
-						'server_id'				=>	$row->account_server_id,
-						'partner_key'			=>	$partnerKey,
-						'level_account'			=>	$levelCount,
-						'next_current_login'	=>	$currentLogin,
-						'next_retention'		=>	$nextRetention,
-						'third_current_login'	=>	$thirdCurrentLogin,
-						'third_retention'		=>	$thirdRetention,
-						'seven_current_login'	=>	$sevenCurrentLogin,
-						'seven_retention'		=>	$sevenRetention,
-						'level1'				=>	$level1
+						'log_date'					=>	date('Y-m-d', $lastTimeStart),
+						'server_id'					=>	$row->account_server_id,
+						'partner_key'				=>	$partnerKey,
+						'level_account'				=>	$levelCount,
+						'next_current_login'		=>	$currentLogin,
+						'next_retention'			=>	$nextRetention,
+						'third_current_login'		=>	$thirdCurrentLogin,
+						'third_retention'			=>	$thirdRetention,
+						'third_current_login_range'	=>	$thirdCurrentLoginRange,
+						'third_retention_range'		=>	$thirdRetentionRange,
+						'seven_current_login'		=>	$sevenCurrentLogin,
+						'seven_retention'			=>	$sevenRetention,
+						'level1'					=>	$level1
 				);
 // 				$this->logcachedb->insert('log_retention1', $parameter);
 			}
