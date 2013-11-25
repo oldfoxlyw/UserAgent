@@ -447,6 +447,10 @@ class Overview extends CI_Controller
 				{
 					$sevenCurrentLogin = 0;
 					$sevenRetention = 0;
+					$sevenCurrentLoginRange = 0;
+					$sevenRetentionRange = 0;
+					$sevenCurrentLoginHuge = 0;
+					$sevenRetentionHuge = 0;
 				}
 				else
 				{
