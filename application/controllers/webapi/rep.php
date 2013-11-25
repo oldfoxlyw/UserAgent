@@ -26,6 +26,10 @@ class Rep extends CI_Controller
 			
 			$lastTime = $currentTime - $time;
 			$lastDate = date('d', $lastTime);
+
+			$this->load->model('web_account');
+			$result = $this->web_account->get($guid);
+			$partnerKey = empty($result) ? '' : $result->partner_key;
 			
 			if($date != $lastDate)
 			{
@@ -42,7 +46,8 @@ class Rep extends CI_Controller
 								'time'			=>	$onlineTime,
 								'profession'	=>	$profession,
 								'nickname'		=>	$nickname,
-								'posttime'		=>	$tmpTime
+								'posttime'		=>	$tmpTime,
+								'partner_key'	=>	$partnerKey
 						);
 						$this->mrep->create($parameter);
 					}
@@ -57,7 +62,8 @@ class Rep extends CI_Controller
 						'time'			=>	$time,
 						'profession'	=>	$profession,
 						'nickname'		=>	$nickname,
-						'posttime'		=>	time()
+						'posttime'		=>	time(),
+						'partner_key'	=>	$partnerKey
 				);
 				$this->mrep->create($parameter);
 			}

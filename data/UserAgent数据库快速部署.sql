@@ -435,6 +435,7 @@ CREATE TABLE IF NOT EXISTS `agent1_log_db_201203`.`log_rep` (
   `profession` CHAR(16) NOT NULL,
   `nickname` CHAR(20) NOT NULL,
   `posttime` INT NOT NULL,
+  `partner_key` CHAR(16) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
