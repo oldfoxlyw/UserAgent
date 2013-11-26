@@ -58,6 +58,8 @@ class Overview extends CI_Controller
 				$this->accountdb->where ( 'partner_key', $partnerKey );
 				$this->accountdb->where ( 'account_regtime <=', $lastTimeEnd );
 				$registerCount = $this->accountdb->count_all_results ( 'web_account' );
+
+				echo '总注册数';
 				
 				// 新注册数
 				$where = "`server_id` = '{$row->account_server_id}' and `partner_key`='{$partnerKey}' and `account_regtime` >= {$lastTimeStart} and `account_regtime` <= {$lastTimeEnd}";
@@ -85,6 +87,8 @@ class Overview extends CI_Controller
 				$this->accountdb->where ( 'account_status', 1 );
 				$this->accountdb->where ( 'partner_key', $partnerKey );
 				$modifyCount = $this->accountdb->count_all_results ( 'web_account' );
+				
+				echo '总改名用户数';
 
 				// 昨日改名用户数
 				$this->logcachedb->where ( 'log_date', $preDate );
@@ -103,7 +107,8 @@ class Overview extends CI_Controller
 
 				// 新改名用户数
 				$modifyNewCount = $modifyCount - $lastModifyAccount;
-				
+
+				echo '新改名用户数';
 				// 当天活跃玩家数(登录数)
 				$this->logdb->select( 'log_GUID' );
 				$this->logdb->where ( 'log_action', 'ACCOUNT_LOGIN_SUCCESS' );
@@ -250,9 +255,6 @@ class Overview extends CI_Controller
 					'at' => $at,
 					'partner_key' => $partnerKey 
 				);
-				
-				var_dump($parameter);
-				exit();
 				$this->logcachedb->insert ( 'log_daily_statistics', $parameter );
 				
 				$this->flowover_detail_statistics ( $date, $row->account_server_id, $partnerKey );
