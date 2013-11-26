@@ -22,11 +22,10 @@ class Rep1 extends CI_Controller
 			
 			if($date != $lastDate)
 			{
-				for($i=$lastTime; $i<=$endTime; $i+=86400)
+				if($time > 86400)
 				{
-					echo "{$i}, {$endTime}";
-					$tmpTime = strtotime(date('Y-m-d', $i) . ' 23:59:59');
-					$onlineTime = $tmpTime - $i;
+					$tmpTime = strtotime(date('Y-m-d', $lastTime) . ' 23:59:59');
+					$onlineTime = $tmpTime - $lastTime;
 					if($onlineTime > 0)
 					{
 						$parameter = array(
@@ -34,6 +33,28 @@ class Rep1 extends CI_Controller
 								'posttime'		=>	$tmpTime
 						);
 						var_dump($parameter);
+
+						$parameter = array(
+								'time'			=>	$time - $onlineTime,
+								'posttime'		=>	$currentTime
+						);
+						var_dump($parameter);
+					}
+				}
+				else 
+				{
+					$i=$lastTime;
+					while ($i<=$currentTime) {
+						$tmpTime = strtotime(date('Y-m-d', $i) . ' 23:59:59');
+						
+						$onlineTime = $tmpTime - $i;
+						$parameter = array(
+								'time'			=>	$onlineTime,
+								'posttime'		=>	$tmpTime
+						);
+						var_dump($parameter);
+						
+						$i+=$onlineTime;
 					}
 				}
 			}
