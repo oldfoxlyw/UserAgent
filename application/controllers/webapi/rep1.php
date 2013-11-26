@@ -24,6 +24,7 @@ class Rep1 extends CI_Controller
 			{
 				for($i=$lastTime; $i<=$endTime; $i+=86400)
 				{
+					echo "{$i}, {$endTime}";
 					$tmpTime = strtotime(date('Y-m-d', $i) . ' 23:59:59');
 					$onlineTime = $tmpTime - $i;
 					if($onlineTime > 0)
