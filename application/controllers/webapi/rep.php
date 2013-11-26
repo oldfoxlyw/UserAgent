@@ -33,10 +33,10 @@ class Rep extends CI_Controller
 			
 			if($date != $lastDate)
 			{
-				for($i=$lastTime; $i<=$currentTime; $i+=86400)
+				if($time <= 86400)
 				{
-					$tmpTime = strtotime(date('Y-m-d', $i) . ' 23:59:59');
-					$onlineTime = $tmpTime - $i;
+					$tmpTime = strtotime(date('Y-m-d', $lastTime) . ' 23:59:59');
+					$onlineTime = $tmpTime - $lastTime;
 					if($onlineTime > 0)
 					{
 						$parameter = array(
@@ -47,6 +47,18 @@ class Rep extends CI_Controller
 								'profession'	=>	$profession,
 								'nickname'		=>	$nickname,
 								'posttime'		=>	$tmpTime,
+								'partner_key'	=>	$partnerKey
+						);
+						$this->mrep->create($parameter);
+						
+						$parameter = array(
+								'server_id'		=>	$serverId,
+								'player_id'		=>	$guid,
+								'type'			=>	$type,
+								'time'			=>	$time - $onlineTime,
+								'profession'	=>	$profession,
+								'nickname'		=>	$nickname,
+								'posttime'		=>	$currentTime,
 								'partner_key'	=>	$partnerKey
 						);
 						$this->mrep->create($parameter);
