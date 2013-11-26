@@ -10,10 +10,10 @@ class Rep1 extends CI_Controller
 	public function post($format = 'json')
 	{
 		$time = $this->input->get('time', TRUE);
+		$currentTime = $this->input->get('current_time', TRUE);
 		
 		if(!empty($time))
 		{
-			$currentTime = time();
 			$date = date('d', $currentTime);
 			
 			$lastTime = $currentTime - $time;
