@@ -14,6 +14,7 @@ class Rep1 extends CI_Controller
 		
 		if(!empty($time))
 		{
+			$endTime = strtotime(date('Y-m-d', $currentTime) . ' 23:59:59');
 			$date = date('d', $currentTime);
 			
 			$lastTime = $currentTime - $time;
@@ -21,7 +22,7 @@ class Rep1 extends CI_Controller
 			
 			if($date != $lastDate)
 			{
-				for($i=$lastTime; $i<=$currentTime; $i+=86400)
+				for($i=$lastTime; $i<=$endTime; $i+=86400)
 				{
 					$tmpTime = strtotime(date('Y-m-d', $i) . ' 23:59:59');
 					$onlineTime = $tmpTime - $i;
