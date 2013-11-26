@@ -149,8 +149,6 @@ class Overview extends CI_Controller
 					'partner_key' => $partnerKey 
 				) );
 				
-				echo '回来玩家数';
-				
 				// 流失玩家数(超过一周没有登录的玩家数)
 				$weekAgoStart = $lastTimeStart - 6 * 86400;
 				$this->accountdb->where ( 'account_lastlogin <=', $weekAgoStart );
@@ -217,6 +215,7 @@ class Overview extends CI_Controller
 				// at 平均在线时长
 				$sql = "SELECT SUM(`time`) as `time` FROM `log_rep` WHERE `server_id`='{$row->account_server_id}' AND `partner_id`='{$partnerKey}' AND `posttime`>={$lastTimeStart} AND `posttime`<={$lastTimeEnd}";
 				$atSum = $this->logdb->query($sql)->row();
+				exit($this->logdb->last_query());
 				if(empty($atSum))
 				{
 					$at = 0;
@@ -229,8 +228,6 @@ class Overview extends CI_Controller
 					$atCount = $this->logdb->query($sql)->num_rows();
 					$at = $atSum / $atCount;
 				}
-				
-				echo 'at';
 				
 				$parameter = array (
 					'log_date' => $date,
