@@ -58,8 +58,6 @@ class Overview extends CI_Controller
 				$this->accountdb->where ( 'partner_key', $partnerKey );
 				$this->accountdb->where ( 'account_regtime <=', $lastTimeEnd );
 				$registerCount = $this->accountdb->count_all_results ( 'web_account' );
-
-				echo '总注册数';
 				
 				// 新注册数
 				$where = "`server_id` = '{$row->account_server_id}' and `partner_key`='{$partnerKey}' and `account_regtime` >= {$lastTimeStart} and `account_regtime` <= {$lastTimeEnd}";
@@ -87,8 +85,6 @@ class Overview extends CI_Controller
 				$this->accountdb->where ( 'account_status', 1 );
 				$this->accountdb->where ( 'partner_key', $partnerKey );
 				$modifyCount = $this->accountdb->count_all_results ( 'web_account' );
-				
-				echo '总改名用户数';
 
 				// 昨日改名用户数
 				$this->logcachedb->where ( 'log_date', $preDate );
@@ -108,7 +104,6 @@ class Overview extends CI_Controller
 				// 新改名用户数
 				$modifyNewCount = $modifyCount - $lastModifyAccount;
 
-				echo '新改名用户数';
 				// 当天活跃玩家数(登录数)
 				$this->logdb->select( 'log_GUID' );
 				$this->logdb->where ( 'log_action', 'ACCOUNT_LOGIN_SUCCESS' );
@@ -153,6 +148,8 @@ class Overview extends CI_Controller
 					'server_id' => $row->account_server_id,
 					'partner_key' => $partnerKey 
 				) );
+				
+				echo '回来玩家数';
 				
 				// 流失玩家数(超过一周没有登录的玩家数)
 				$weekAgoStart = $lastTimeStart - 6 * 86400;
@@ -232,6 +229,8 @@ class Overview extends CI_Controller
 					$atCount = $this->logdb->query($sql)->num_rows();
 					$at = $atSum / $atCount;
 				}
+				
+				echo 'at';
 				
 				$parameter = array (
 					'log_date' => $date,
