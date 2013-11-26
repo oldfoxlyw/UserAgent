@@ -22,7 +22,7 @@ class Rep1 extends CI_Controller
 			
 			if($date != $lastDate)
 			{
-				if($time > 86400)
+				if($time <= 86400)
 				{
 					$tmpTime = strtotime(date('Y-m-d', $lastTime) . ' 23:59:59');
 					$onlineTime = $tmpTime - $lastTime;
