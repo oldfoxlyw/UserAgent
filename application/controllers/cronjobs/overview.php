@@ -250,6 +250,9 @@ class Overview extends CI_Controller
 					'at' => $at,
 					'partner_key' => $partnerKey 
 				);
+				
+				var_dump($parameter);
+				exit();
 				$this->logcachedb->insert ( 'log_daily_statistics', $parameter );
 				
 				$this->flowover_detail_statistics ( $date, $row->account_server_id, $partnerKey );
