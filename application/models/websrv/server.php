@@ -49,13 +49,13 @@ class Server extends CI_Model {
 			if(!empty($parameter['partner'])) {
 				$this->productdb->like('partner', $parameter['partner']);
 			}
-			if($parameter['server_mode'] != 'all')
-			{
-				$this->productdb->where('server_status <>', 9);
-			}
 			if(!empty($parameter['special_ip']))
 			{
 				$this->productdb->where('special_ip', $parameter['special_ip']);
+			}
+			else
+			{
+				$this->productdb->where('server_status <>', 9);
 			}
 			if(!empty($parameter['order_by'])) {
 				$this->productdb->order_by($parameter['order_by'], 'desc');
