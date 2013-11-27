@@ -71,7 +71,10 @@ class Servers extends CI_Controller {
 					'special_ip'	=>	$ip
 			);
 			$specialResult = $this->server->getAllResult($parameter);
-			$result = array_merge($result, $specialResult);
+			if(!empty($specialResult))
+			{
+				$result = array_merge($result, $specialResult);
+			}
 		}
 
 		$this->lang->load('server_list', $lang);
