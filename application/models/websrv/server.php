@@ -53,6 +53,10 @@ class Server extends CI_Model {
 			{
 				$this->productdb->where('server_status <>', 9);
 			}
+			if(!empty($parameter['special_ip']))
+			{
+				$this->productdb->where('special_ip', $parameter['special_ip']);
+			}
 			if(!empty($parameter['order_by'])) {
 				$this->productdb->order_by($parameter['order_by'], 'desc');
 			}

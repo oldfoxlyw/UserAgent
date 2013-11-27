@@ -62,6 +62,18 @@ class Servers extends CI_Controller {
 		$this->load->model('websrv/server', 'server');
 		$result = $this->server->getAllResult($parameter);
 
+		$ip = $this->input->ip_address();
+		$specialIp = $this->config->item('special_ip');
+		
+		if($specialIp)
+		{
+			$parameter = array(
+					'special_ip'	=>	$ip
+			);
+			$specialResult = $this->server->getAllResult($parameter);
+			$result = array_merge($result, $specialResult);
+		}
+
 		$this->lang->load('server_list', $lang);
 		$this->load->helper('language');
 		foreach($result as $value) {
