@@ -151,15 +151,15 @@ class Orders extends CI_Controller {
 				$parameter = array(
 					'account_guid'				=>	$playerId,
 					'account_name'				=>	$account->account_name,
-					'account_id'					=>	$roleId,
-					'server_id'						=>	$serverId,
+					'account_id'				=>	$roleId,
+					'server_id'					=>	$serverId,
 					'funds_flow_dir'			=>	'CHECK_OUT',
-					'funds_item_amount'	=>	-intval($spendSpecialGold),
+					'funds_item_amount'			=>	-intval($spendSpecialGold),
 					'funds_item_current'		=>	$currentSpecialGold,
-					'funds_time'					=>	$logTime,
+					'funds_time'				=>	$logTime,
 					'funds_time_local'			=>	date('Y-m-d H:i:s', $logTime),
-					'funds_type'					=>	1,
-					'partner_key'					=>	$account->partner_key
+					'funds_type'				=>	1,
+					'partner_key'				=>	$account->partner_key
 				);
 				$this->funds->insert($parameter);
 				
