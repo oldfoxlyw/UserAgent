@@ -99,6 +99,7 @@ class Orders extends CI_Controller {
 		$spendSpecialGold	=	$this->input->get_post('spend_special_gold', TRUE);
 		$itemName				=	$this->input->get_post('item_name', TRUE);
 		$itemInfo					=	$this->input->get_post('item_info', TRUE);
+		$itemType					=	$this->input->get_post('item_type', TRUE);
 		$itemLevel					=	$this->input->get_post('item_level', TRUE);
 		$itemValue					=	$this->input->get_post('item_value', TRUE);
 		$itemJob					=	$this->input->get_post('item_job', TRUE);
@@ -117,6 +118,7 @@ class Orders extends CI_Controller {
 			$actionName = empty($actionName) ? '' : $actionName;
 			$itemName = empty($itemName) ? '' : $itemName;
 			$itemInfo = empty($itemInfo) ? '' : $itemInfo;
+			$itemType = empty($itemType) ? 0 : intval($itemType);
 			$itemLevel = empty($itemLevel) ? 0 : intval($itemLevel);
 			$itemValue = empty($itemValue) ? 0 : intval($itemValue);
 			$itemValue = $itemValue > 4 ? 4 : $itemValue;
@@ -140,6 +142,7 @@ class Orders extends CI_Controller {
 					'spend_special_gold'		=>	$spendSpecialGold,
 					'item_name'					=>	$itemName,
 					'item_info'					=>	$itemInfo,
+					'item_type'					=>	$itemType,
 					'item_level'				=>	$itemLevel,
 					'item_value'				=>	$itemValue,
 					'item_job'					=>	$itemJob,
