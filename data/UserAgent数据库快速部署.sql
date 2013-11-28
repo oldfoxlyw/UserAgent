@@ -372,6 +372,9 @@ CREATE TABLE IF NOT EXISTS `agent1_log_db_201203`.`log_consume` (
   `spend_special_gold` INT(11) NOT NULL,
   `item_name` CHAR(64) NOT NULL,
   `item_info` TEXT NOT NULL,
+  `item_level` INT NOT NULL DEFAULT 0 COMMENT '装备等级',
+  `item_value` INT NOT NULL DEFAULT 0 COMMENT '装备品质\n1=普通 2=绿色 3=蓝色 4=紫色',
+  `item_job` INT NOT NULL DEFAULT 0 COMMENT '装备需求的职业\n1=战士 2=猎手 3=潜行者 4=法师',
   `log_time` INT(11) NOT NULL,
   `server_id` CHAR(5) NOT NULL,
   `partner_key` CHAR(16) NOT NULL DEFAULT 'default',
@@ -379,8 +382,7 @@ CREATE TABLE IF NOT EXISTS `agent1_log_db_201203`.`log_consume` (
   INDEX `player_id` (`player_id` ASC),
   INDEX `item_name` (`item_name` ASC),
   INDEX `server_id` (`server_id` ASC))
-ENGINE = MyISAM
-DEFAULT CHARACTER SET = utf8;
+ENGINE = MyISAM;
 
 
 -- -----------------------------------------------------
@@ -504,10 +506,10 @@ CREATE TABLE IF NOT EXISTS `agent1_product_db`.`server_list` (
   `partner` CHAR(16) NOT NULL DEFAULT 'default',
   `server_status` INT(11) NOT NULL DEFAULT '1' COMMENT '0=关闭；1=正常；2=繁忙；3=拥挤',
   `server_new` INT(11) NOT NULL DEFAULT 1 COMMENT '1=新服；0=旧服',
+  `special_ip` CHAR(16) NOT NULL,
   PRIMARY KEY (`game_id`, `account_server_section`, `account_server_id`),
   INDEX `server_recommend` USING BTREE (`server_recommend` ASC))
-ENGINE = MyISAM
-DEFAULT CHARACTER SET = utf8;
+ENGINE = MyISAM;
 
 
 -- -----------------------------------------------------

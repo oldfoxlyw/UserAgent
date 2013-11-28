@@ -99,6 +99,9 @@ class Orders extends CI_Controller {
 		$spendSpecialGold	=	$this->input->get_post('spend_special_gold', TRUE);
 		$itemName				=	$this->input->get_post('item_name', TRUE);
 		$itemInfo					=	$this->input->get_post('item_info', TRUE);
+		$itemLevel					=	$this->input->get_post('item_level', TRUE);
+		$itemValue					=	$this->input->get_post('item_value', TRUE);
+		$itemJob					=	$this->input->get_post('item_job', TRUE);
 		$serverId					=	$this->input->get_post('server_id', TRUE);
 		
 		$logTime = time();
@@ -114,6 +117,9 @@ class Orders extends CI_Controller {
 			$actionName = empty($actionName) ? '' : $actionName;
 			$itemName = empty($itemName) ? '' : $itemName;
 			$itemInfo = empty($itemInfo) ? '' : $itemInfo;
+			$itemLevel = empty($itemLevel) ? 0 : intval($itemLevel);
+			$itemValue = empty($itemValue) ? 0 : intval($itemValue);
+			$itemJob = empty($itemJob) ? 0 : intval($itemJob);
 			
 			$account = $this->web_account->get($playerId);
 			if($account !== FALSE)
@@ -129,10 +135,13 @@ class Orders extends CI_Controller {
 					'role_level'					=>	$roleLevel,
 					'role_mission'				=>	$roleMission,
 					'action_name'				=>	$actionName,
-					'current_special_gold'	=>	$currentSpecialGold,
+					'current_special_gold'		=>	$currentSpecialGold,
 					'spend_special_gold'		=>	$spendSpecialGold,
 					'item_name'					=>	$itemName,
 					'item_info'					=>	$itemInfo,
+					'item_level'				=>	$itemLevel,
+					'item_value'				=>	$itemValue,
+					'item_job'					=>	$itemJob,
 					'log_time'						=>	$logTime,
 					'server_id'						=>	$serverId,
 					'partner_key'					=>	$account->partner_key
