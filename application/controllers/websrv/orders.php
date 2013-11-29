@@ -167,15 +167,15 @@ class Orders extends CI_Controller {
 				);
 				$this->funds->insert($parameter);
 				
-				if($actionName == 'buy_equipment')
-				{
-					$this->load->model('websrv/equipment_name');
-					$parameter = array(
-							'equipment_name'	=>	$itemName,
-							'type'				=>	$itemInfo
-					);
-					$this->equipment_name->insert($parameter);
-				}
+// 				if($actionName == 'buy_equipment')
+// 				{
+// 					$this->load->model('websrv/equipment_name');
+// 					$parameter = array(
+// 							'equipment_name'	=>	$itemName,
+// 							'type'				=>	$itemInfo
+// 					);
+// 					$this->equipment_name->insert($parameter);
+// 				}
 				
 				$jsonData = Array(
 						'success'	=>	true,
