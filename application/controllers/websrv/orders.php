@@ -133,9 +133,9 @@ class Orders extends CI_Controller {
 				$this->web_account->update($parameter, $playerId);
 				
 				$parameter = array(
-					'player_id'						=>	$playerId,
-					'role_id'						=>	$roleId,
-					'role_level'					=>	$roleLevel,
+					'player_id'					=>	$playerId,
+					'role_id'					=>	$roleId,
+					'role_level'				=>	$roleLevel,
 					'role_mission'				=>	$roleMission,
 					'action_name'				=>	$actionName,
 					'current_special_gold'		=>	$currentSpecialGold,
@@ -146,9 +146,9 @@ class Orders extends CI_Controller {
 					'item_level'				=>	$itemLevel,
 					'item_value'				=>	$itemValue,
 					'item_job'					=>	$itemJob,
-					'log_time'						=>	$logTime,
-					'server_id'						=>	$serverId,
-					'partner_key'					=>	$account->partner_key
+					'log_time'					=>	$logTime,
+					'server_id'					=>	$serverId,
+					'partner_key'				=>	$account->partner_key
 				);
 				$this->consume->insert($parameter);
 				

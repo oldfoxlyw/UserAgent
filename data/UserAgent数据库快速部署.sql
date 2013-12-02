@@ -372,6 +372,7 @@ CREATE TABLE IF NOT EXISTS `agent1_log_db_201203`.`log_consume` (
   `spend_special_gold` INT(11) NOT NULL,
   `item_name` CHAR(64) NOT NULL,
   `item_info` TEXT NOT NULL,
+  `item_type` INT NOT NULL,
   `item_level` INT NOT NULL DEFAULT 0 COMMENT '装备等级',
   `item_value` INT NOT NULL DEFAULT 0 COMMENT '装备品质\n1=普通 2=绿色 3=蓝色 4=紫色',
   `item_job` INT NOT NULL DEFAULT 0 COMMENT '装备需求的职业\n1=战士 2=猎手 3=潜行者 4=法师',
