@@ -467,49 +467,28 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `agent1_product_db`.`section_list`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `agent1_product_db`.`section_list` ;
-
-CREATE TABLE IF NOT EXISTS `agent1_product_db`.`section_list` (
-  `game_id` CHAR(5) NOT NULL,
-  `server_section_id` CHAR(5) NOT NULL,
-  `section_name` CHAR(32) NOT NULL,
-  PRIMARY KEY (`server_section_id`, `game_id`))
-ENGINE = MyISAM
-DEFAULT CHARACTER SET = utf8;
-
-
--- -----------------------------------------------------
 -- Table `agent1_product_db`.`server_list`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `agent1_product_db`.`server_list` ;
 
 CREATE TABLE IF NOT EXISTS `agent1_product_db`.`server_list` (
   `game_id` CHAR(5) NOT NULL,
-  `account_server_section` CHAR(5) NOT NULL,
   `account_server_id` CHAR(5) NOT NULL,
   `server_name` CHAR(32) NOT NULL,
-  `server_ip` CHAR(32) NOT NULL,
-  `server_port` INT(11) NOT NULL,
-  `server_game_ip` CHAR(32) NOT NULL,
-  `server_game_port` INT(11) NOT NULL,
-  `server_message_ip` CHAR(32) NOT NULL,
-  `server_message_port` INT(11) NOT NULL,
-  `team_server` CHAR(32) NOT NULL,
-  `team_server_port` INT(11) NOT NULL,
+  `server_ip` TEXT NOT NULL,
+  `server_game_ip` TEXT NOT NULL,
   `server_max_player` INT(11) NOT NULL DEFAULT '0',
   `account_count` INT(11) NOT NULL DEFAULT '0',
-  `server_language` CHAR(16) NULL DEFAULT NULL,
+  `server_language` CHAR(16) NOT NULL DEFAULT 'CN',
   `server_sort` INT(11) NOT NULL DEFAULT '0',
   `server_recommend` TINYINT(1) NOT NULL DEFAULT '0',
   `server_debug` TINYINT NOT NULL DEFAULT 0,
   `partner` CHAR(16) NOT NULL DEFAULT 'default',
   `server_status` INT(11) NOT NULL DEFAULT '1' COMMENT '0=关闭；1=正常；2=繁忙；3=拥挤',
   `server_new` INT(11) NOT NULL DEFAULT 1 COMMENT '1=新服；0=旧服',
-  `special_ip` CHAR(16) NOT NULL,
-  PRIMARY KEY (`game_id`, `account_server_section`, `account_server_id`),
-  INDEX `server_recommend` USING BTREE (`server_recommend` ASC))
+  `special_ip` CHAR(16) NOT NULL DEFAULT '',
+  PRIMARY KEY (`game_id`, `account_server_id`),
+  INDEX `server_recommend` (`server_recommend` ASC))
 ENGINE = MyISAM;
 
 
@@ -653,20 +632,6 @@ CREATE TABLE IF NOT EXISTS `agent1_web_db`.`scc_partner` (
   PRIMARY KEY (`partner_key`))
 ENGINE = InnoDB;
 
-USE `agent1_product_db` ;
-
--- -----------------------------------------------------
--- Placeholder table for view `agent1_product_db`.`server_list_view`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `agent1_product_db`.`server_list_view` (`game_id` INT, `account_server_section` INT, `account_server_id` INT, `server_name` INT, `server_ip` INT, `server_port` INT, `server_message_ip` INT, `server_message_port` INT, `server_max_player` INT, `account_count` INT, `server_language` INT, `server_recommend` INT, `section_name` INT, `game_name` INT, `game_version` INT, `game_platform` INT, `auth_key` INT, `game_pic_small` INT, `game_pic_middium` INT, `game_pic_big` INT, `game_download_iphone` INT, `game_download_ipad` INT, `game_status` INT);
-
--- -----------------------------------------------------
--- View `agent1_product_db`.`server_list_view`
--- -----------------------------------------------------
-DROP VIEW IF EXISTS `agent1_product_db`.`server_list_view` ;
-DROP TABLE IF EXISTS `agent1_product_db`.`server_list_view`;
-USE `agent1_product_db`;
-CREATE  OR REPLACE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `agent1_product_db`.`server_list_view` AS select `agent1_product_db`.`server_list`.`game_id` AS `game_id`,`agent1_product_db`.`server_list`.`account_server_section` AS `account_server_section`,`agent1_product_db`.`server_list`.`account_server_id` AS `account_server_id`,`agent1_product_db`.`server_list`.`server_name` AS `server_name`,`agent1_product_db`.`server_list`.`server_ip` AS `server_ip`,`agent1_product_db`.`server_list`.`server_port` AS `server_port`,`agent1_product_db`.`server_list`.`server_message_ip` AS `server_message_ip`,`agent1_product_db`.`server_list`.`server_message_port` AS `server_message_port`,`agent1_product_db`.`server_list`.`server_max_player` AS `server_max_player`,`agent1_product_db`.`server_list`.`account_count` AS `account_count`,`agent1_product_db`.`server_list`.`server_language` AS `server_language`,`agent1_product_db`.`server_list`.`server_recommend` AS `server_recommend`,`agent1_product_db`.`section_list`.`section_name` AS `section_name`,`agent1_product_db`.`game_product`.`game_name` AS `game_name`,`agent1_product_db`.`game_product`.`game_version` AS `game_version`,`agent1_product_db`.`game_product`.`game_platform` AS `game_platform`,`agent1_product_db`.`game_product`.`auth_key` AS `auth_key`,`agent1_product_db`.`game_product`.`game_pic_small` AS `game_pic_small`,`agent1_product_db`.`game_product`.`game_pic_middium` AS `game_pic_middium`,`agent1_product_db`.`game_product`.`game_pic_big` AS `game_pic_big`,`agent1_product_db`.`game_product`.`game_download_iphone` AS `game_download_iphone`,`agent1_product_db`.`game_product`.`game_download_ipad` AS `game_download_ipad`,`agent1_product_db`.`game_product`.`game_status` AS `game_status` from ((`agent1_product_db`.`server_list` join `agent1_product_db`.`section_list` on((`agent1_product_db`.`server_list`.`account_server_section` = `agent1_product_db`.`section_list`.`server_section_id`))) join `agent1_product_db`.`game_product` on((`agent1_product_db`.`server_list`.`game_id` = `agent1_product_db`.`game_product`.`game_id`)));
 USE `agent1_web_db` ;
 
 -- -----------------------------------------------------

@@ -17,8 +17,7 @@ class Servers extends CI_Controller {
 		$lang		=	$this->input->get_post('language', TRUE);
 
 		$parameter = array(
-			'use_cache_style'		=>	true,
-			'order_by'					=>	'server_sort'
+			'order_by'			=>	'server_sort'
 		);
 		
 		if($partner===FALSE || empty($partner))
@@ -58,7 +57,6 @@ class Servers extends CI_Controller {
 				$lang = 'zh-cn';
 		}
 
-		//不使用缓存
 		$this->load->model('websrv/server', 'server');
 		$result = $this->server->getAllResult($parameter);
 
@@ -79,12 +77,37 @@ class Servers extends CI_Controller {
 
 		$this->lang->load('server_list', $lang);
 		$this->load->helper('language');
-		foreach($result as $value) {
-			$serverName = lang('server_list_' . $value->server_name);
+		$this->load->helper('array');
+		for($i=0; $i<count($result); $i++)
+		{
+			$serverName = lang('server_list_' . $result[$i]->server_name);
 			if(!empty($serverName)) {
-				$value->server_name = $serverName;
+				$result[$i]->server_name = $serverName;
 			}
-			$value->server_language = lang('server_list_language_' . $value->server_language);
+			$result[$i]->server_language = lang('server_list_language_' . $result[$i]->server_language);
+			
+			$result[$i]->server_ip = json_decode($result[$i]->server_ip);
+			if(count($result[$i]->server_ip) > 0)
+			{
+				$result[$i]->server_ip = random_element($result[$i]->server_ip);
+			}
+			else
+			{
+				$result[$i]->server_ip = $result[$i]->server_ip[0];
+			}
+			$result[$i]->server_ip = $result[$i]->server_ip->ip . ':' . $result[$i]->server_ip->port;
+
+			$result[$i]->server_game_ip = json_decode($result[$i]->server_game_ip);
+			if(count($result[$i]->server_game_ip) > 0)
+			{
+				$result[$i]->server_game_ip = random_element($result[$i]->server_game_ip);
+			}
+			else
+			{
+				$result[$i]->server_game_ip = $result[$i]->server_game_ip[0];
+			}
+			$result[$i]->server_game_port = $result[$i]->server_game_ip->port;
+			$result[$i]->server_game_ip = $result[$i]->server_game_ip->ip;
 		}
 		
 		$this->load->model('websrv/announcement');
@@ -93,8 +116,8 @@ class Servers extends CI_Controller {
 		
 		$jsonData = Array(
 			'message'			=>	'SERVER_LIST_SUCCESS',
-			'server'				=>	$result,
-			'announce'		=>	$announce
+			'server'			=>	$result,
+			'announce'			=>	$announce
 		);
 		echo $this->return_format->format($jsonData, $format);
 	}
