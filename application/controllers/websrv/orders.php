@@ -94,10 +94,12 @@ class Orders extends CI_Controller {
 		$roleId						=	$this->input->get_post('role_id', TRUE);
 		$roleLevel					=	$this->input->get_post('role_level', TRUE);
 		$roleMission				=	$this->input->get_post('role_mission', TRUE);
-		$actionName				=	$this->input->get_post('action_name', TRUE);
-		$currentSpecialGold	=	$this->input->get_post('current_special_gold', TRUE);
-		$spendSpecialGold	=	$this->input->get_post('spend_special_gold', TRUE);
-		$itemName				=	$this->input->get_post('item_name', TRUE);
+		$actionName					=	$this->input->get_post('action_name', TRUE);
+		$currentGold				=	$this->input->get_post('current_special_gold', TRUE);
+		$spendGold					=	$this->input->get_post('spend_special_gold', TRUE);
+		$currentSpecialGold			=	$this->input->get_post('current_special_gold', TRUE);
+		$spendSpecialGold			=	$this->input->get_post('spend_special_gold', TRUE);
+		$itemName					=	$this->input->get_post('item_name', TRUE);
 		$itemInfo					=	$this->input->get_post('item_info', TRUE);
 		$itemType					=	$this->input->get_post('item_type', TRUE);
 		$itemLevel					=	$this->input->get_post('item_level', TRUE);
@@ -107,7 +109,7 @@ class Orders extends CI_Controller {
 		
 		$logTime = time();
 		
-		if(!empty($playerId) && !empty($roleId) && is_numeric($currentSpecialGold) && is_numeric($spendSpecialGold) && !empty($serverId))
+		if(!empty($playerId) && !empty($roleId) && !empty($serverId))
 		{
 			$this->load->model('websrv/consume');
 			$this->load->model('web_account');
@@ -138,6 +140,8 @@ class Orders extends CI_Controller {
 					'role_level'				=>	$roleLevel,
 					'role_mission'				=>	$roleMission,
 					'action_name'				=>	$actionName,
+					'current_gold'				=>	$currentGold,
+					'spend_gold'				=>	$spendGold,
 					'current_special_gold'		=>	$currentSpecialGold,
 					'spend_special_gold'		=>	$spendSpecialGold,
 					'item_name'					=>	$itemName,
@@ -152,20 +156,23 @@ class Orders extends CI_Controller {
 				);
 				$this->consume->insert($parameter);
 				
-				$parameter = array(
-					'account_guid'				=>	$playerId,
-					'account_name'				=>	$account->account_name,
-					'account_id'				=>	$roleId,
-					'server_id'					=>	$serverId,
-					'funds_flow_dir'			=>	'CHECK_OUT',
-					'funds_item_amount'			=>	-intval($spendSpecialGold),
-					'funds_item_current'		=>	$currentSpecialGold,
-					'funds_time'				=>	$logTime,
-					'funds_time_local'			=>	date('Y-m-d H:i:s', $logTime),
-					'funds_type'				=>	1,
-					'partner_key'				=>	$account->partner_key
-				);
-				$this->funds->insert($parameter);
+				if(intval($spendSpecialGold) > 0)
+				{
+					$parameter = array(
+						'account_guid'				=>	$playerId,
+						'account_name'				=>	$account->account_name,
+						'account_id'				=>	$roleId,
+						'server_id'					=>	$serverId,
+						'funds_flow_dir'			=>	'CHECK_OUT',
+						'funds_item_amount'			=>	-intval($spendSpecialGold),
+						'funds_item_current'		=>	$currentSpecialGold,
+						'funds_time'				=>	$logTime,
+						'funds_time_local'			=>	date('Y-m-d H:i:s', $logTime),
+						'funds_type'				=>	1,
+						'partner_key'				=>	$account->partner_key
+					);
+					$this->funds->insert($parameter);
+				}
 				
 // 				if($actionName == 'buy_equipment')
 // 				{

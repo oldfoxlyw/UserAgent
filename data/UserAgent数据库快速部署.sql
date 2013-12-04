@@ -368,6 +368,8 @@ CREATE TABLE IF NOT EXISTS `agent1_log_db_201203`.`log_consume` (
   `role_level` INT NOT NULL DEFAULT 0,
   `role_mission` CHAR(16) NOT NULL,
   `action_name` CHAR(64) NOT NULL,
+  `current_gold` INT NOT NULL,
+  `spend_gold` INT NOT NULL,
   `current_special_gold` INT(11) NOT NULL,
   `spend_special_gold` INT(11) NOT NULL,
   `item_name` CHAR(64) NOT NULL,
