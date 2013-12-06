@@ -124,7 +124,7 @@ class Orders extends CI_Controller {
 			$itemLevel = empty($itemLevel) ? 0 : intval($itemLevel);
 			$itemValue = empty($itemValue) ? 0 : intval($itemValue);
 			$itemValue = $itemValue > 4 ? 4 : $itemValue;
-			$itemJob = empty($itemJob) ? 0 : intval($itemJob);
+			$itemJob = empty($itemJob) ? '' : $itemJob;
 			
 			$account = $this->web_account->get($playerId);
 			if($account !== FALSE)

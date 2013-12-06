@@ -17,7 +17,7 @@ date_default_timezone_set('PRC');
 */
 $config['base_url']	= '';
 $config['root_path'] = '/UserAgent_zhanshen/';
-$config['special_ip'] = false;
+$config['special_ip'] = true;
 
 /*
 |--------------------------------------------------------------------------

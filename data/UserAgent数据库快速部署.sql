@@ -377,7 +377,7 @@ CREATE TABLE IF NOT EXISTS `agent1_log_db_201203`.`log_consume` (
   `item_type` INT NOT NULL,
   `item_level` INT NOT NULL DEFAULT 0 COMMENT '装备等级',
   `item_value` INT NOT NULL DEFAULT 0 COMMENT '装备品质\n1=普通 2=绿色 3=蓝色 4=紫色',
-  `item_job` INT NOT NULL DEFAULT 0 COMMENT '装备需求的职业\n1=战士 2=猎手 3=潜行者 4=法师',
+  `item_job` CHAR(16) NOT NULL DEFAULT '' COMMENT '装备需求的职业\n1=战士 2=猎手 3=潜行者 4=法师',
   `log_time` INT(11) NOT NULL,
   `server_id` CHAR(5) NOT NULL,
   `partner_key` CHAR(16) NOT NULL DEFAULT 'default',
@@ -474,6 +474,7 @@ DEFAULT CHARACTER SET = utf8;
 DROP TABLE IF EXISTS `agent1_product_db`.`server_list` ;
 
 CREATE TABLE IF NOT EXISTS `agent1_product_db`.`server_list` (
+  `id` INT NOT NULL,
   `game_id` CHAR(5) NOT NULL,
   `account_server_id` CHAR(5) NOT NULL,
   `server_name` CHAR(32) NOT NULL,
@@ -489,8 +490,9 @@ CREATE TABLE IF NOT EXISTS `agent1_product_db`.`server_list` (
   `server_status` INT(11) NOT NULL DEFAULT '1' COMMENT '0=关闭；1=正常；2=繁忙；3=拥挤',
   `server_new` INT(11) NOT NULL DEFAULT 1 COMMENT '1=新服；0=旧服',
   `special_ip` CHAR(16) NOT NULL DEFAULT '',
-  PRIMARY KEY (`game_id`, `account_server_id`),
-  INDEX `server_recommend` (`server_recommend` ASC))
+  INDEX `server_recommend` (`server_recommend` ASC),
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `unique_id` (`game_id` ASC, `account_server_id` ASC, `server_name` ASC, `special_ip` ASC))
 ENGINE = MyISAM;
 
 
@@ -672,6 +674,17 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 START TRANSACTION;
 USE `agent1_product_db`;
 INSERT INTO `agent1_product_db`.`game_product` (`game_id`, `game_name`, `game_version`, `game_platform`, `auth_key`, `game_pic_small`, `game_pic_middium`, `game_pic_big`, `game_download_iphone`, `game_download_ipad`, `game_status`) VALUES ('B', '战神Online', '1.0.0', 'ios', '467022354ac09e8dd2233acbbde1db7fa9j8ekk7', '', '', '', '', '', 0);
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `agent1_product_db`.`server_list`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `agent1_product_db`;
+INSERT INTO `agent1_product_db`.`server_list` (`id`, `game_id`, `account_server_id`, `server_name`, `server_ip`, `server_game_ip`, `server_max_player`, `account_count`, `server_language`, `server_sort`, `server_recommend`, `server_debug`, `partner`, `server_status`, `server_new`, `special_ip`) VALUES (1, 'B', 'A', '红龙女王', '[{\"ip\":\"115.29.195.156\",\"port\":\"8090\"}]', '[{\"ip\":\"112.124.40.93\",\"port\":\"9999\"}]', 100000, 0, 'CN', 5, 1, 0, 'default', 1, 1, '');
+INSERT INTO `agent1_product_db`.`server_list` (`id`, `game_id`, `account_server_id`, `server_name`, `server_ip`, `server_game_ip`, `server_max_player`, `account_count`, `server_language`, `server_sort`, `server_recommend`, `server_debug`, `partner`, `server_status`, `server_new`, `special_ip`) VALUES (2, 'B', 'B', '闪光平原', '[{\"ip\":\"112.124.37.58\",\"port\":\"8090\"}]', '[{\"ip\":\"112.124.40.93\",\"port\":\"9998\"}]', 100000, 0, 'CN', 4, 0, 0, 'default', 1, 1, '');
 
 COMMIT;
 
