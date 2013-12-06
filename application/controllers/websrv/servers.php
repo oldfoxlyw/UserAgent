@@ -78,36 +78,43 @@ class Servers extends CI_Controller {
 		$this->lang->load('server_list', $lang);
 		$this->load->helper('language');
 		$this->load->helper('array');
-		for($i=0; $i<count($result); $i++)
+		if(!empty($result))
 		{
-			$serverName = lang('server_list_' . $result[$i]->server_name);
-			if(!empty($serverName)) {
-				$result[$i]->server_name = $serverName;
-			}
-			$result[$i]->server_language = lang('server_list_language_' . $result[$i]->server_language);
-			
-			$result[$i]->server_ip = json_decode($result[$i]->server_ip);
-			if(count($result[$i]->server_ip) > 0)
+			for($i=0; $i<count($result); $i++)
 			{
-				$result[$i]->server_ip = random_element($result[$i]->server_ip);
+				$serverName = lang('server_list_' . $result[$i]->server_name);
+				if(!empty($serverName)) {
+					$result[$i]->server_name = $serverName;
+				}
+				$result[$i]->server_language = lang('server_list_language_' . $result[$i]->server_language);
+				
+				$result[$i]->server_ip = json_decode($result[$i]->server_ip);
+				if(count($result[$i]->server_ip) > 0)
+				{
+					$result[$i]->server_ip = random_element($result[$i]->server_ip);
+				}
+				else
+				{
+					$result[$i]->server_ip = $result[$i]->server_ip[0];
+				}
+				$result[$i]->server_ip = $result[$i]->server_ip->ip . ':' . $result[$i]->server_ip->port;
+	
+				$result[$i]->server_game_ip = json_decode($result[$i]->server_game_ip);
+				if(count($result[$i]->server_game_ip) > 0)
+				{
+					$result[$i]->server_game_ip = random_element($result[$i]->server_game_ip);
+				}
+				else
+				{
+					$result[$i]->server_game_ip = $result[$i]->server_game_ip[0];
+				}
+				$result[$i]->server_game_port = $result[$i]->server_game_ip->port;
+				$result[$i]->server_game_ip = $result[$i]->server_game_ip->ip;
 			}
-			else
-			{
-				$result[$i]->server_ip = $result[$i]->server_ip[0];
-			}
-			$result[$i]->server_ip = $result[$i]->server_ip->ip . ':' . $result[$i]->server_ip->port;
-
-			$result[$i]->server_game_ip = json_decode($result[$i]->server_game_ip);
-			if(count($result[$i]->server_game_ip) > 0)
-			{
-				$result[$i]->server_game_ip = random_element($result[$i]->server_game_ip);
-			}
-			else
-			{
-				$result[$i]->server_game_ip = $result[$i]->server_game_ip[0];
-			}
-			$result[$i]->server_game_port = $result[$i]->server_game_ip->port;
-			$result[$i]->server_game_ip = $result[$i]->server_game_ip->ip;
+		}
+		else
+		{
+			$result = array();
 		}
 		
 		$this->load->model('websrv/announcement');
