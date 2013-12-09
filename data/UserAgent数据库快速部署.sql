@@ -453,6 +453,8 @@ DROP TABLE IF EXISTS `agent1_log_db_201203`.`log_action_mall` ;
 CREATE TABLE IF NOT EXISTS `agent1_log_db_201203`.`log_action_mall` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `player_id` BIGINT NOT NULL,
+  `role_id` BIGINT NOT NULL,
+  `nickname` CHAR(16) NOT NULL,
   `content` TEXT NOT NULL,
   `posttime` INT NOT NULL,
   PRIMARY KEY (`id`),
