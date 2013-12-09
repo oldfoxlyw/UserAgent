@@ -95,8 +95,8 @@ class Orders extends CI_Controller {
 		$roleLevel					=	$this->input->get_post('role_level', TRUE);
 		$roleMission				=	$this->input->get_post('role_mission', TRUE);
 		$actionName					=	$this->input->get_post('action_name', TRUE);
-		$currentGold				=	$this->input->get_post('current_special_gold', TRUE);
-		$spendGold					=	$this->input->get_post('spend_special_gold', TRUE);
+		$currentGold				=	$this->input->get_post('current_gold', TRUE);
+		$spendGold					=	$this->input->get_post('spend_gold', TRUE);
 		$currentSpecialGold			=	$this->input->get_post('current_special_gold', TRUE);
 		$spendSpecialGold			=	$this->input->get_post('spend_special_gold', TRUE);
 		$itemName					=	$this->input->get_post('item_name', TRUE);
@@ -115,6 +115,8 @@ class Orders extends CI_Controller {
 			$this->load->model('web_account');
 			$this->load->model('funds');
 			
+			$currentGold = empty($currentGold) ? 0 : intval($currentGold);
+			$spendGold = empty($spendGold) ? 0 : intval($spendGold);
 			$roleLevel = empty($roleLevel) ? 0 : intval($roleLevel);
 			$roleMission = empty($roleMission) ? '' : $roleMission;
 			$actionName = empty($actionName) ? '' : $actionName;
