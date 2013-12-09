@@ -26,29 +26,39 @@ class Action extends CI_Controller
 				'select'		=>	'content'
 		);
 		
-		if(!empty($playerId))
+		if(empty($playerId) && empty($roleId) && empty($nickname))
 		{
 			$parameter = array(
-					'player_id'		=>	$playerId
+					'success'		=>	false,
+					'error'			=>	'ACTION_MALL_ERROR_NO_PARAM'
 			);
-			$result = $this->maction_mall->read($parameter, $extention);
 		}
-		elseif (!empty($roleId))
+		else 
 		{
-			$parameter = array(
-					'role_id'		=>	$roleId
-			);
-			$result = $this->maction_mall->read($parameter, $extention);
+			if(!empty($playerId))
+			{
+				$parameter = array(
+						'player_id'		=>	$playerId
+				);
+				$result = $this->maction_mall->read($parameter, $extention);
+			}
+			elseif (!empty($roleId))
+			{
+				$parameter = array(
+						'role_id'		=>	$roleId
+				);
+				$result = $this->maction_mall->read($parameter, $extention);
+			}
+			elseif (!empty($nickname))
+			{
+				$parameter = array(
+						'nickname'		=>	$nickname
+				);
+				$result = $this->maction_mall->read($parameter, $extention);
+			}
+			
+			echo json_encode($result);
 		}
-		elseif (!empty($nickname))
-		{
-			$parameter = array(
-					'nickname'		=>	$nickname
-			);
-			$result = $this->maction_mall->read($parameter, $extention);
-		}
-		
-		echo json_encode($result);
 	}
 }
 
