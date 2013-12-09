@@ -16,6 +16,9 @@ class Action extends CI_Controller
 		$logId = $this->input->get_post('log_id', TRUE);
 		$content = $this->input->get_post('log_content', TRUE);
 		
+		echo json_encode($_POST);
+		exit();
+		
 		if(!empty($playerId) && !empty($content))
 		{
 			$this->load->model('maction_mall');
