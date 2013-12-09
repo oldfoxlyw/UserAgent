@@ -444,6 +444,21 @@ CREATE TABLE IF NOT EXISTS `agent1_log_db_201203`.`log_rep` (
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
+
+-- -----------------------------------------------------
+-- Table `agent1_log_db_201203`.`log_action_mall`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `agent1_log_db_201203`.`log_action_mall` ;
+
+CREATE TABLE IF NOT EXISTS `agent1_log_db_201203`.`log_action_mall` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `player_id` BIGINT NOT NULL,
+  `content` TEXT NOT NULL,
+  `posttime` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `player_id` (`player_id` ASC))
+ENGINE = InnoDB;
+
 USE `agent1_product_db` ;
 
 -- -----------------------------------------------------
