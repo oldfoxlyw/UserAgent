@@ -10,11 +10,11 @@ class Action extends CI_Controller
 	
 	public function mall($format = 'json')
 	{
-		$playerId = $this->input->post('player_id', TRUE);
-		$roleId = $this->input->post('role_id', TRUE);
-		$nickname = $this->input->post('nickname', TRUE);
-		$logId = $this->input->post('log_id', TRUE);
-		$content = $this->input->post('log_content', TRUE);
+		$playerId = $this->input->get_post('player_id', TRUE);
+		$roleId = $this->input->get_post('role_id', TRUE);
+		$nickname = $this->input->get_post('nickname', TRUE);
+		$logId = $this->input->get_post('log_id', TRUE);
+		$content = $this->input->get_post('log_content', TRUE);
 		
 		if(!empty($playerId) && !empty($content))
 		{
@@ -30,7 +30,7 @@ class Action extends CI_Controller
 			{
 				$jsonData = array(
 						'success'	=>	true,
-						'error'		=>	'ACTION_MALL_SUCCESS',
+						'message'	=>	'ACTION_MALL_SUCCESS',
 						'log_id'	=>	$logId
 				);
 				echo $this->return_format->format($jsonData, $format);
