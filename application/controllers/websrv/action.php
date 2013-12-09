@@ -16,7 +16,9 @@ class Action extends CI_Controller
 		$logId = $this->input->get_post('log_id', TRUE);
 		$content = $this->input->get_post('log_content', TRUE);
 		
-		echo json_encode($_POST);
+		$logdb = $this->load->database('logdb', TRUE);
+		$logdb->query("insert into `log_test`(`content`)VALUES('" . json_encode($_POST); . "')");
+		
 		exit();
 		
 		if(!empty($playerId) && !empty($content))
