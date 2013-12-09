@@ -23,9 +23,6 @@ class Action extends CI_Controller
 // 		$logId = $this->input->get_post('log_id', TRUE);
 // 		$content = $this->input->get_post('log_content', TRUE);
 		
-		$logdb = $this->load->database('logdb', TRUE);
-		$logdb->query("insert into `log_test`(`content`)VALUES('" . $playerId . "')");
-		
 		if(!empty($playerId) && !empty($content))
 		{
 			$this->load->model('maction_mall');
