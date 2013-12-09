@@ -10,16 +10,9 @@ class Action extends CI_Controller
 	
 	public function mall($format = 'json')
 	{
-		$raw_post_data = file_get_contents('php://input', 'r');
-		$inputParam = json_decode($raw_post_data);
-		$playerId = $inputParam->player_id;
-		$roleId = $inputParam->role_id;
-		$nickname = $inputParam->nickname;
-// 		$playerId = $this->input->get_post('player_id', TRUE);
-// 		$roleId = $this->input->get_post('role_id', TRUE);
-// 		$nickname = $this->input->get_post('nickname', TRUE);
-// 		$logId = $this->input->get_post('log_id', TRUE);
-// 		$content = $this->input->get_post('log_content', TRUE);
+		$playerId = $this->input->get_post('player_id', TRUE);
+		$roleId = $this->input->get_post('role_id', TRUE);
+		$nickname = $this->input->get_post('nickname', TRUE);
 
 		$this->load->model('maction_mall');
 		$extention = array(
