@@ -25,6 +25,7 @@ class Action extends CI_Controller
 					'success'		=>	false,
 					'error'			=>	'ACTION_MALL_ERROR_NO_PARAM'
 			);
+			echo json_encode($parameter);
 		}
 		else 
 		{
