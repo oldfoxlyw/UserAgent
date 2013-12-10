@@ -20,7 +20,10 @@ class Request_online_count extends CI_Controller
 		$serverResult = $this->server->getAllResult();
 		foreach($serverResult as $row)
 		{
-			$url = 'http://' . $row->server_ip . ':' . $row->server_port;
+			$row->server_ip = json_decode($row->server_ip);
+			$row->server_ip = $row->server_ip[0];
+			$row->server_ip = $row->server_ip->ip . ':' . $row->server_ip->port;
+			$url = 'http://' . $row->server_ip;
 			$count = $this->get($url . '/get_online_count');
 			
 			$json = json_decode($count);
