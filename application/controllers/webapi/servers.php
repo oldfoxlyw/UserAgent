@@ -9,56 +9,59 @@ class Servers extends CI_Controller {
 	
 	public function server_list($format = 'json') {
 		$serverId = $this->input->post('server_id', TRUE);
-
-		$this->load->model('websrv/server', 'server');
-		$result = $this->server->getAllResult(array(
-				'account_server_id'		=>	$serverId
-		));
 		
-		if(!empty($result))
+		if(!empty($serverId))
 		{
-			$this->load->helper('array');
-			$result = $result[0];
+			$this->load->model('websrv/server', 'server');
+			$result = $this->server->getAllResult(array(
+					'account_server_id'		=>	$serverId
+			));
 			
-			$result->server_ip = json_decode($result->server_ip);
-			if(count($result->server_ip) > 0)
+			if(!empty($result))
 			{
-				$result->server_ip = random_element($result->server_ip);
+				$this->load->helper('array');
+				$result = $result[0];
+				
+				$result->server_ip = json_decode($result->server_ip);
+				if(count($result->server_ip) > 0)
+				{
+					$result->server_ip = random_element($result->server_ip);
+				}
+				else
+				{
+					$result->server_ip = $result->server_ip[0];
+				}
+				$result->server_ip = $result->server_ip->ip . ':' . $result->server_ip->port;
+	
+				$result->server_game_ip = json_decode($result->server_game_ip);
+				if(count($result->server_game_ip) > 0)
+				{
+					$result->server_game_ip = random_element($result->server_game_ip);
+				}
+				else
+				{
+					$result->server_game_ip = $result->server_game_ip[0];
+				}
+				$result->server_game_port = $result->server_game_ip->port;
+				$result->server_game_ip = $result->server_game_ip->ip;
+				
+				$result->game_message_ip = json_decode($result->game_message_ip);
+				if(count($result->game_message_ip) > 0)
+				{
+					$result->game_message_ip = random_element($result->game_message_ip);
+				}
+				else
+				{
+					$result->game_message_ip = $result->game_message_ip[0];
+				}
+				$result->game_message_ip = $result->game_message_ip->ip . ':' . $result->game_message_ip->port;
 			}
 			else
 			{
-				$result->server_ip = $result->server_ip[0];
+				$result = array();
 			}
-			$result->server_ip = $result->server_ip->ip . ':' . $result->server_ip->port;
-
-			$result->server_game_ip = json_decode($result->server_game_ip);
-			if(count($result->server_game_ip) > 0)
-			{
-				$result->server_game_ip = random_element($result->server_game_ip);
-			}
-			else
-			{
-				$result->server_game_ip = $result->server_game_ip[0];
-			}
-			$result->server_game_port = $result->server_game_ip->port;
-			$result->server_game_ip = $result->server_game_ip->ip;
-			
-			$result->game_message_ip = json_decode($result->game_message_ip);
-			if(count($result->game_message_ip) > 0)
-			{
-				$result->game_message_ip = random_element($result->game_message_ip);
-			}
-			else
-			{
-				$result->game_message_ip = $result->game_message_ip[0];
-			}
-			$result->game_message_ip = $result->game_message_ip->ip . ':' . $result->game_message_ip->port;
+			echo $this->return_format->format($result, $format);
 		}
-		else
-		{
-			$result = array();
-		}
-		echo $this->return_format->format($result, $format);
 	}
 }
 ?>
