@@ -20,54 +20,62 @@ class Servers extends CI_Controller {
 	}
 	
 	public function server_list($format = 'json') {
-		$game_id = $this->input->post('game_id', TRUE);
-		if(!empty($game_id)) {
-			/*
-			 * 检测参数合法性
-			 */
-			$check = array($game_id);
-			//$this->load->helper('security');
-			//exit(do_hash(implode('|||', $check) . '|||' . $this->authToken));
-			if(!$this->param_check->check($check, $this->authToken)) {
-				$jsonData = Array(
-					'message'	=>	'PARAM_INVALID'
-				);
-				echo $this->return_format->format($jsonData, $format);
-				$logParameter = array(
-					'log_action'	=>	'PARAM_INVALID',
-					'account_guid'	=>	'',
-					'account_name'	=>	''
-				);
-				$this->logs->write($logParameter);
-				exit();
-			}
-			/*
-			 * 检查完毕
-			 */
-			$this->load->model('websrv/server', 'server');
-			$parameter = array(
-				'game_id'	=>	$game_id
-			);
-			$result = $this->server->getAllResult($parameter);
+		$serverId	=	$this->input->post('server_id', TRUE);
+
+		$this->load->model('websrv/server', 'server');
+		$result = $this->server->getAllResult(array(
+				'account_server_id'		=>	$serverId
+		));
+		
+		if(!empty($result))
+		{
+			$result = $result[0];
 			
-			$jsonData = Array(
-				'message'	=>	'SERVER_LIST_SUCCESS',
-				'result'	=>	json_encode($result)
-			);
-			echo $this->return_format->format($jsonData, $format);
-		} else {
-			$jsonData = Array(
-				'message'	=>	'SERVER_ERROR_NO_PARAM'
-			);
-			echo $this->return_format->format($jsonData, $format);
-				
-			$logParameter = array(
-				'log_action'	=>	'SERVER_LIST_ERROR_NO_PARAM',
-				'account_guid'	=>	'',
-				'account_name'	=>	''
-			);
-			$this->logs->write($logParameter);
+			$serverName = lang('server_list_' . $result->server_name);
+			if(!empty($serverName)) {
+				$result->server_name = $serverName;
+			}
+			$result->server_language = lang('server_list_language_' . $result->server_language);
+			
+			$result->server_ip = json_decode($result->server_ip);
+			if(count($result->server_ip) > 0)
+			{
+				$result->server_ip = random_element($result->server_ip);
+			}
+			else
+			{
+				$result->server_ip = $result->server_ip[0];
+			}
+			$result->server_ip = $result->server_ip->ip . ':' . $result->server_ip->port;
+
+			$result->server_game_ip = json_decode($result->server_game_ip);
+			if(count($result->server_game_ip) > 0)
+			{
+				$result->server_game_ip = random_element($result->server_game_ip);
+			}
+			else
+			{
+				$result->server_game_ip = $result->server_game_ip[0];
+			}
+			$result->server_game_port = $result->server_game_ip->port;
+			$result->server_game_ip = $result->server_game_ip->ip;
+			
+			$result->game_message_ip = json_decode($result->game_message_ip);
+			if(count($result->game_message_ip) > 0)
+			{
+				$result->game_message_ip = random_element($result->game_message_ip);
+			}
+			else
+			{
+				$result->game_message_ip = $result->game_message_ip[0];
+			}
+			$result->game_message_ip = $result->game_message_ip->ip . ':' . $result->game_message_ip->port;
 		}
+		else
+		{
+			$result = array();
+		}
+		echo $this->return_format->format($result, $format);
 	}
 }
 ?>
