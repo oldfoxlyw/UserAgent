@@ -110,6 +110,17 @@ class Servers extends CI_Controller {
 				}
 				$result[$i]->server_game_port = $result[$i]->server_game_ip->port;
 				$result[$i]->server_game_ip = $result[$i]->server_game_ip->ip;
+				
+				$result[$i]->game_message_ip = json_decode($result[$i]->game_message_ip);
+				if(count($result[$i]->game_message_ip) > 0)
+				{
+					$result[$i]->game_message_ip = random_element($result[$i]->game_message_ip);
+				}
+				else
+				{
+					$result[$i]->game_message_ip = $result[$i]->game_message_ip[0];
+				}
+				$result[$i]->game_message_ip = $result[$i]->game_message_ip->ip . ':' . $result[$i]->game_message_ip->port;
 			}
 		}
 		else
