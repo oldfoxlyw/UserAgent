@@ -17,6 +17,7 @@ class Servers extends CI_Controller {
 		
 		if(!empty($result))
 		{
+			$this->load->helper('array');
 			$result = $result[0];
 			
 			$result->server_ip = json_decode($result->server_ip);
