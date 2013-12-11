@@ -80,5 +80,17 @@ class Server extends CI_Model {
 			return false;
 		}
 	}
+	
+	public function select($parameter)
+	{
+		if(!empty($parameter))
+		{
+			if(is_array($parameter))
+			{
+				$parameter = implode(',', $parameter);
+			}
+			$this->productdb->select($parameter);
+		}
+	}
 }
 ?>

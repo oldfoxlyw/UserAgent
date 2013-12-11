@@ -13,6 +13,7 @@ class Servers extends CI_Controller {
 		if(!empty($serverId))
 		{
 			$this->load->model('websrv/server', 'server');
+			$this->server->select('game_message_ip');
 			$result = $this->server->getAllResult(array(
 					'account_server_id'		=>	$serverId
 			));
