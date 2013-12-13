@@ -60,16 +60,17 @@ class Web_account extends CI_Model {
 			$parameter['partner'] = empty($parameter['partner']) ? 'default' : $parameter['partner'];
 			$time = time();
 			$insertArray = array(
+				'zhongqingbao_guid'				=>	empty($parameter['zqb_guid']) ? '' : $parameter['zqb_guid'],
 				'account_name'					=>	$parameter['name'],
 				'account_pass'					=>	$parameter['pass'],
-				'server_id'							=>	$parameter['server_id'],
+				'server_id'						=>	$parameter['server_id'],
 				'account_email'					=>	$parameter['email'],
-				'account_pass_question'	=>	$parameter['question'],
-				'account_pass_answer'		=>	$parameter['answer'],
+				'account_pass_question'			=>	$parameter['question'],
+				'account_pass_answer'			=>	$parameter['answer'],
 				'account_regtime'				=>	$time,
-				'account_lastlogin'			=>	$time,
+				'account_lastlogin'				=>	$time,
 				'account_status'				=>	$parameter['status'],
-				'partner_key'						=>	$parameter['partner']
+				'partner_key'					=>	$parameter['partner']
 			);
 			if($this->accountdb->insert($this->accountTable, $insertArray)) {
 				return $this->accountdb->insert_id();

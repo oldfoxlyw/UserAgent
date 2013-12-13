@@ -156,6 +156,7 @@ class Account extends CI_Controller {
 	
 	public function register($format = 'json')
 	{
+		$zqbGUID	=	$this->input->get_post('zqb_guid', TRUE);
 		$name		=	$this->input->get_post('account_name', TRUE);
 		$pass		=	$this->input->get_post('account_pass', TRUE);
 		$accountEmail=	$this->input->get_post('account_email', TRUE);
@@ -191,6 +192,7 @@ class Account extends CI_Controller {
 
 			if($this->web_account->validate_duplicate($name, $pass, $server_id)) {
 				$parameter = array(
+					'zqb_guid'	=>	$zqbGUID,
 					'name'		=>	$name,
 					'pass'		=>	$pass,
 					'email'		=>	$accountEmail,
