@@ -58,7 +58,7 @@ class Account extends CI_Controller {
 					'errors'	=>	'ACCOUNT_VALIDATE_FAIL'
 				);
 				echo $this->return_format->format($jsonData, $format);
-					
+				
 				$logParameter = array(
 					'log_action'	=>	'ACCOUNT_LOGIN_FAIL',
 					'account_guid'	=>	'',
