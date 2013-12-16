@@ -158,10 +158,17 @@ class Account extends CI_Controller {
 	{
 		$name		=	$this->input->get_post('account_name', TRUE);
 		$pass		=	$this->input->get_post('account_pass', TRUE);
+		$accountEmail=	$this->input->get_post('account_email', TRUE);
 		$server_id	=	$this->input->get_post('server_id', TRUE);
+		$question	=	$this->input->get_post('account_question', TRUE);
+		$answer	=	$this->input->get_post('account_answer', TRUE);
 		$partner	=	$this->input->get_post('partner', TRUE);
 		
 		$partner = empty($partner) ? 'default' : $partner;
+		$accountEmail = $accountEmail===FALSE ? '' : $accountEmail;
+		$country = $country===FALSE ? '' : $country;
+		$question = $question===FALSE ? '' : $question;
+		$answer = $answer===FALSE ? '' : $answer;
 		
 		if(!empty($name) && !empty($pass) && !empty($server_id))
 		{
@@ -186,6 +193,9 @@ class Account extends CI_Controller {
 				$parameter = array(
 					'name'		=>	$name,
 					'pass'		=>	$pass,
+					'email'		=>	$accountEmail,
+					'question'	=>	$question,
+					'answer'	=>	$answer,
 					'server_id'	=>	$server_id,
 					'status'		=>	1,
 					'partner'	=>	$partner
