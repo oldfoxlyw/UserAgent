@@ -60,7 +60,6 @@ class Web_account extends CI_Model {
 			$parameter['partner'] = empty($parameter['partner']) ? 'default' : $parameter['partner'];
 			$time = time();
 			$insertArray = array(
-				'zhongqingbao_guid'				=>	empty($parameter['zqb_guid']) ? '' : $parameter['zqb_guid'],
 				'account_name'					=>	$parameter['name'],
 				'account_pass'					=>	$parameter['pass'],
 				'server_id'						=>	$parameter['server_id'],

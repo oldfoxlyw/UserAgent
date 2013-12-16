@@ -67,13 +67,11 @@ DROP TABLE IF EXISTS `agent1_account_db`.`web_account` ;
 
 CREATE TABLE IF NOT EXISTS `agent1_account_db`.`web_account` (
   `GUID` BIGINT(20) NOT NULL AUTO_INCREMENT,
+  `zhongqingbao_guid` CHAR(36) NOT NULL,
   `account_name` CHAR(64) NOT NULL,
   `account_pass` CHAR(32) NOT NULL,
   `server_id` CHAR(6) NOT NULL,
-  `account_email` CHAR(64) NOT NULL,
   `account_nickname` CHAR(16) NULL DEFAULT NULL,
-  `account_pass_question` CHAR(128) NULL DEFAULT NULL,
-  `account_pass_answer` CHAR(128) NULL DEFAULT NULL,
   `account_point` INT(11) NOT NULL DEFAULT '0',
   `account_regtime` INT(11) NOT NULL DEFAULT '0',
   `account_lastlogin` INT(11) NOT NULL DEFAULT '0',
@@ -89,8 +87,7 @@ CREATE TABLE IF NOT EXISTS `agent1_account_db`.`web_account` (
   PRIMARY KEY (`GUID`),
   INDEX `account_name` (`account_name` ASC, `account_pass` ASC, `server_id` ASC))
 ENGINE = MyISAM
-AUTO_INCREMENT = 200110091006909
-DEFAULT CHARACTER SET = utf8;
+AUTO_INCREMENT = 200110091006909;
 
 USE `agent1_adminlog_db` ;
 
@@ -493,6 +490,7 @@ DROP TABLE IF EXISTS `agent1_product_db`.`server_list` ;
 CREATE TABLE IF NOT EXISTS `agent1_product_db`.`server_list` (
   `id` INT NOT NULL,
   `game_id` CHAR(5) NOT NULL,
+  `section_id` INT NOT NULL,
   `account_server_id` CHAR(5) NOT NULL,
   `server_name` CHAR(32) NOT NULL,
   `server_ip` TEXT NOT NULL,
@@ -552,6 +550,19 @@ CREATE TABLE IF NOT EXISTS `agent1_product_db`.`game_autosend_message` (
   `is_auto_send` TINYINT NOT NULL DEFAULT 1,
   `pattern` CHAR(32) NOT NULL,
   PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `agent1_product_db`.`game_code`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `agent1_product_db`.`game_code` ;
+
+CREATE TABLE IF NOT EXISTS `agent1_product_db`.`game_code` (
+  `code` CHAR(8) NOT NULL,
+  `comment` CHAR(16) NOT NULL,
+  `disabled` TINYINT NOT NULL DEFAULT 0,
+  PRIMARY KEY (`code`))
 ENGINE = InnoDB;
 
 USE `agent1_web_db` ;
@@ -701,8 +712,8 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `agent1_product_db`;
-INSERT INTO `agent1_product_db`.`server_list` (`id`, `game_id`, `account_server_id`, `server_name`, `server_ip`, `server_game_ip`, `game_message_ip`, `server_max_player`, `account_count`, `server_language`, `server_sort`, `server_recommend`, `server_debug`, `partner`, `server_status`, `server_new`, `special_ip`) VALUES (1, 'B', 'A', '红龙女王', '[{\"ip\":\"115.29.195.156\",\"port\":\"8090\"}]', '[{\"ip\":\"112.124.40.93\",\"port\":\"9999\"}]', NULL, 100000, 0, 'CN', 5, 1, 0, 'default', 1, 1, '');
-INSERT INTO `agent1_product_db`.`server_list` (`id`, `game_id`, `account_server_id`, `server_name`, `server_ip`, `server_game_ip`, `game_message_ip`, `server_max_player`, `account_count`, `server_language`, `server_sort`, `server_recommend`, `server_debug`, `partner`, `server_status`, `server_new`, `special_ip`) VALUES (2, 'B', 'B', '闪光平原', '[{\"ip\":\"112.124.37.58\",\"port\":\"8090\"}]', '[{\"ip\":\"112.124.40.93\",\"port\":\"9998\"}]', NULL, 100000, 0, 'CN', 4, 0, 0, 'default', 1, 1, '');
+INSERT INTO `agent1_product_db`.`server_list` (`id`, `game_id`, `section_id`, `account_server_id`, `server_name`, `server_ip`, `server_game_ip`, `game_message_ip`, `server_max_player`, `account_count`, `server_language`, `server_sort`, `server_recommend`, `server_debug`, `partner`, `server_status`, `server_new`, `special_ip`) VALUES (1, 'B', NULL, 'A', '红龙女王', '[{\"ip\":\"115.29.195.156\",\"port\":\"8090\"}]', '[{\"ip\":\"112.124.40.93\",\"port\":\"9999\"}]', NULL, 100000, 0, 'CN', 5, 1, 0, 'default', 1, 1, '');
+INSERT INTO `agent1_product_db`.`server_list` (`id`, `game_id`, `section_id`, `account_server_id`, `server_name`, `server_ip`, `server_game_ip`, `game_message_ip`, `server_max_player`, `account_count`, `server_language`, `server_sort`, `server_recommend`, `server_debug`, `partner`, `server_status`, `server_new`, `special_ip`) VALUES (2, 'B', NULL, 'B', '闪光平原', '[{\"ip\":\"112.124.37.58\",\"port\":\"8090\"}]', '[{\"ip\":\"112.124.40.93\",\"port\":\"9998\"}]', NULL, 100000, 0, 'CN', 4, 0, 0, 'default', 1, 1, '');
 
 COMMIT;
 
