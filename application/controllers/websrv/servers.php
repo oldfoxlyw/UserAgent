@@ -134,6 +134,7 @@ class Servers extends CI_Controller {
 		
 		$jsonData = Array(
 			'message'			=>	'SERVER_LIST_SUCCESS',
+			'activate'			=>	1,
 			'server'			=>	$result,
 			'announce'			=>	$announce
 		);
