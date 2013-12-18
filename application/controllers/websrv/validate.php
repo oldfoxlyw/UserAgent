@@ -42,7 +42,7 @@ class Validate extends CI_Controller
 					'disabled'	=>	1
 			);
 // 			$this->mcode->update($code, $parameter);
-				
+			
 			$jsonData = array(
 					'success'		=>	true,
 					'message'		=>	'ACTIVATE_SUCCESS'
