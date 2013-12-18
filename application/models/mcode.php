@@ -36,7 +36,7 @@ class Mcode extends CI_Model implements ICrud
 		{
 			if($this->logdb->insert($this->accountTable, $row))
 			{
-				return $this->logdb->insert_id();
+				return true;
 			}
 			else
 			{
