@@ -12,42 +12,48 @@ class Validate extends CI_Controller
 	{
 		$code = $this->input->get_post('code', TRUE);
 		
-		if(!empty($code))
+		if(empty($code))
 		{
-			$this->load->model('mcode');
-			$parameter = array(
-					'code'		=>	$code,
-					'disabled'	=>	0
-			);
-			$result = $this->mcode->read($parameter);
+			$raw_post_data = file_get_contents('php://input', 'r');
+			$inputParam = json_decode($raw_post_data);
+			$code = $inputParam->code;
 			
-			if(!empty($result))
-			{
-				$parameter = array(
-						'disabled'	=>	1
-				);
-				$this->mcode->update($code, $parameter);
-				
-				$jsonData = array(
-						'success'		=>	true,
-						'message'		=>	'ACTIVATE_SUCCESS'
-				);
-				echo $this->return_format->format($jsonData, $format);
-			}
-			else
+			if(empty($code))
 			{
 				$jsonData = array(
 						'success'		=>	false,
-						'message'		=>	'ACTIVATE_FAIL'
+						'error'			=>	'ACTIVATE_ERROR_NO_PARAM'
 				);
 				echo $this->return_format->format($jsonData, $format);
+				exit();
 			}
+		}
+
+		$this->load->model('mcode');
+		$parameter = array(
+				'code'		=>	$code,
+				'disabled'	=>	0
+		);
+		$result = $this->mcode->read($parameter);
+		
+		if(!empty($result))
+		{
+			$parameter = array(
+					'disabled'	=>	1
+			);
+			$this->mcode->update($code, $parameter);
+				
+			$jsonData = array(
+					'success'		=>	true,
+					'message'		=>	'ACTIVATE_SUCCESS'
+			);
+			echo $this->return_format->format($jsonData, $format);
 		}
 		else
 		{
 			$jsonData = array(
 					'success'		=>	false,
-					'error'			=>	'ACTIVATE_ERROR_NO_PARAM'
+					'message'		=>	'ACTIVATE_FAIL'
 			);
 			echo $this->return_format->format($jsonData, $format);
 		}
