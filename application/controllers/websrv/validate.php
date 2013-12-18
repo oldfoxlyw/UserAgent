@@ -43,6 +43,14 @@ class Validate extends CI_Controller
 				echo $this->return_format->format($jsonData, $format);
 			}
 		}
+		else
+		{
+			$jsonData = array(
+					'success'		=>	false,
+					'error'			=>	'ACTIVATE_ERROR_NO_PARAM'
+			);
+			echo $this->return_format->format($jsonData, $format);
+		}
 	}
 }
 
