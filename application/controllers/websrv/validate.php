@@ -30,6 +30,8 @@ class Validate extends CI_Controller
 		}
 
 		$this->load->model('mcode');
+		$this->load->model('logs');
+		
 		$parameter = array(
 				'code'		=>	$code,
 				'disabled'	=>	0
@@ -48,6 +50,13 @@ class Validate extends CI_Controller
 					'message'		=>	'ACTIVATE_SUCCESS'
 			);
 			echo $this->return_format->format($jsonData, $format);
+
+			$logParameter = array(
+					'account_guid'	=>	$code,
+					'account_name'	=>	'',
+					'log_action'	=>	'ACTIVATE_SUCCESS'
+			);
+			$this->logs->write_api($logParameter);
 		}
 		else
 		{
