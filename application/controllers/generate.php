@@ -59,14 +59,16 @@ class Generate extends CI_Controller
 			}
 			$code = $prefix . $code;
 			
-			$parameter = array(
-					'code'		=>	$code,
-					'comment'	=>	$comment
-			);
-			if(!$this->mcode->create($parameter))
-			{
-				$i--;
-			}
+			echo $code . '<br>';
+			
+// 			$parameter = array(
+// 					'code'		=>	$code,
+// 					'comment'	=>	$comment
+// 			);
+// 			if(!$this->mcode->create($parameter))
+// 			{
+// 				$i--;
+// 			}
 		}
 	}
 }
