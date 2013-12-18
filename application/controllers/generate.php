@@ -45,7 +45,6 @@ class Generate extends CI_Controller
 				$code .= $numberPool[rand(0, 9)];
 			}
 			
-			echo $code . '<br>';
 		}
 	}
 }
