@@ -50,10 +50,10 @@ class Generate extends CI_Controller
 			$prefixLength = 0;
 		}
 		
-		for($i = 0; $i < $count - $prefixLength; $i++)
+		for($i = 0; $i < $count; $i++)
 		{
 			$code = '';
-			for($j = 0; $j < $limit; $j++)
+			for($j = 0; $j < $limit - $prefixLength; $j++)
 			{
 				$code .= $numberPool[rand(0, 9)];
 			}
