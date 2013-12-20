@@ -8,7 +8,7 @@ class Servers extends CI_Controller {
 	}
 	
 	public function server_list($format = 'json') {
-		$serverId = $this->input->post('server_id', TRUE);
+		$serverId = $this->input->get_post('server_id', TRUE);
 		
 		if(!empty($serverId))
 		{
