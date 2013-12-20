@@ -12,11 +12,12 @@ class Thirdpart extends CI_Controller
 		$this->load->model('webapi/connector');
 		$this->load->model('websrv/server');
 		
-		$serverId = $this->input->post('server_id', TRUE);
+		$serverId = $this->input->post('zone', TRUE);
 		$post = $this->input->post();
 		
 		if(!empty($serverId))
 		{
+			$serverId = chr(intval($serverId));
 			$parameter = array(
 					'account_server_id'		=>	$serverId
 			);
@@ -24,11 +25,12 @@ class Thirdpart extends CI_Controller
 			$serverResult = $serverResult[0];
 			if(!empty($serverResult))
 			{
-				
+				$serverResult->server_ip = json_decode($serverResult->server_ip);
+				$serverResult->server_ip = $serverResult->server_ip[0];
+				$postPath = 'http://' . $serverResult->server_ip->ip . ':' . $serverResult->server_ip->port . '/pipi_payment_notification';
+				$data = $this->connector->post($postPath, $post);
+				echo $data;
 			}
-			$postPath = 'http://112.124.37.58:8090/pipi_payment_notification';
-			$data = $this->connector->post($postPath, $post);
-			echo $data;
 		}
 	}
 }
