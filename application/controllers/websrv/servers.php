@@ -12,6 +12,16 @@ class Servers extends CI_Controller {
 	}
 
 	public function server_list($format = 'json') {
+		$serverIp	=	$this->input->server('SERVER_ADDR');
+		if($serverIp == '122.13.131.55')
+		{
+			$ipFlag = 'ip2';
+		}
+		else //183.60.255.55
+		{
+			$ipFlag = 'ip';
+		}
+		
 		$partner	=	$this->input->get_post('partner', TRUE);
 		$mode		=	$this->input->get_post('mode', TRUE);
 		$lang		=	$this->input->get_post('language', TRUE);
@@ -97,7 +107,14 @@ class Servers extends CI_Controller {
 				{
 					$result[$i]->server_ip = $result[$i]->server_ip[0];
 				}
-				$result[$i]->server_ip = $result[$i]->server_ip->ip . ':' . $result[$i]->server_ip->port;
+				if(empty($result[$i]->server_ip->$ipFlag))
+				{
+					$result[$i]->server_ip = $result[$i]->server_ip->ip . ':' . $result[$i]->server_ip->port;
+				}
+				else
+				{
+					$result[$i]->server_ip = $result[$i]->server_ip->$ipFlag . ':' . $result[$i]->server_ip->port;
+				}
 	
 				$result[$i]->server_game_ip = json_decode($result[$i]->server_game_ip);
 				if(count($result[$i]->server_game_ip) > 0)
@@ -109,7 +126,14 @@ class Servers extends CI_Controller {
 					$result[$i]->server_game_ip = $result[$i]->server_game_ip[0];
 				}
 				$result[$i]->server_game_port = $result[$i]->server_game_ip->port;
-				$result[$i]->server_game_ip = $result[$i]->server_game_ip->ip;
+				if(empty($result[$i]->server_game_ip->$ipFlag))
+				{
+					$result[$i]->server_game_ip = $result[$i]->server_game_ip->ip;
+				}
+				else
+				{
+					$result[$i]->server_game_ip = $result[$i]->server_game_ip->$ipFlag;
+				}
 				
 				$result[$i]->game_message_ip = json_decode($result[$i]->game_message_ip);
 				if(count($result[$i]->game_message_ip) > 0)
@@ -120,7 +144,14 @@ class Servers extends CI_Controller {
 				{
 					$result[$i]->game_message_ip = $result[$i]->game_message_ip[0];
 				}
-				$result[$i]->game_message_ip = $result[$i]->game_message_ip->ip . ':' . $result[$i]->game_message_ip->port;
+				if(empty($result[$i]->game_message_ip->$ipFlag))
+				{
+					$result[$i]->game_message_ip = $result[$i]->game_message_ip->ip . ':' . $result[$i]->game_message_ip->port;
+				}
+				else
+				{
+					$result[$i]->game_message_ip = $result[$i]->game_message_ip->$ipFlag . ':' . $result[$i]->game_message_ip->port;
+				}
 			}
 		}
 		else
