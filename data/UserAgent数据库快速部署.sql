@@ -564,7 +564,6 @@ CREATE TABLE IF NOT EXISTS `agent1_product_db`.`game_code` (
   `code` CHAR(8) NOT NULL,
   `comment` CHAR(16) NOT NULL,
   `disabled` TINYINT NOT NULL DEFAULT 0,
-  `is_get_pack` TINYINT NOT NULL DEFAULT 0,
   PRIMARY KEY (`code`))
 ENGINE = InnoDB;
 

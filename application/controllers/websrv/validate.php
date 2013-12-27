@@ -68,7 +68,7 @@ class Validate extends CI_Controller
 		}
 	}
 	
-	public function is_ckecked_code($format = 'json')
+	public function is_checked_code($format = 'json')
 	{
 		$code = $this->input->post('code', TRUE);
 
