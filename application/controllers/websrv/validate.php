@@ -67,6 +67,77 @@ class Validate extends CI_Controller
 			echo $this->return_format->format($jsonData, $format);
 		}
 	}
+	
+	public function is_received_pack($format = 'json')
+	{
+		$code = $this->input->post('code', TRUE);
+
+		$this->load->model('mcode');
+
+		$parameter = array(
+				'code'			=>	$code,
+				'is_get_pack'	=>	0
+		);
+
+		if(!empty($result))
+		{
+			$jsonData = array(
+					'success'		=>	false,
+					'message'		=>	'PACK_NOT_RECEIVED'
+			);
+			echo $this->return_format->format($jsonData, $format);
+		}
+		else
+		{
+			$jsonData = array(
+					'success'		=>	false,
+					'message'		=>	'PACK_RECEIVED'
+			);
+			echo $this->return_format->format($jsonData, $format);
+		}
+	}
+	
+	public function receive_pack($format = 'json')
+	{
+		$code = $this->input->post('code', TRUE);
+
+		$this->load->model('mcode');
+		
+		$parameter = array(
+				'code'			=>	$code,
+				'is_get_pack'	=>	0
+		);
+
+
+		if(!empty($result))
+		{
+			$parameter = array(
+					'is_get_pack'	=>	1
+			);
+			$this->mcode->update($code, $parameter);
+
+			$jsonData = array(
+					'success'		=>	true,
+					'message'		=>	'PACK_RECEIVE_SUCCESS'
+			);
+			echo $this->return_format->format($jsonData, $format);
+			
+			$logParameter = array(
+					'account_guid'	=>	$code,
+					'account_name'	=>	'',
+					'log_action'	=>	'PACK_RECEIVE_SUCCESS'
+			);
+			$this->logs->write_api($logParameter);
+		}
+		else
+		{
+			$jsonData = array(
+					'success'		=>	false,
+					'message'		=>	'PACK_RECEIVED'
+			);
+			echo $this->return_format->format($jsonData, $format);
+		}
+	}
 }
 
 ?>
