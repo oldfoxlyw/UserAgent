@@ -82,7 +82,7 @@ class Validate extends CI_Controller
 		if(!empty($result))
 		{
 			$jsonData = array(
-					'success'		=>	false,
+					'success'		=>	true,
 					'message'		=>	'PACK_NOT_RECEIVED'
 			);
 			echo $this->return_format->format($jsonData, $format);
