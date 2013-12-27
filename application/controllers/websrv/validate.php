@@ -78,6 +78,7 @@ class Validate extends CI_Controller
 				'code'			=>	$code,
 				'is_get_pack'	=>	0
 		);
+		$result = $this->mcode->read($parameter);
 
 		if(!empty($result))
 		{
@@ -107,7 +108,7 @@ class Validate extends CI_Controller
 				'code'			=>	$code,
 				'is_get_pack'	=>	0
 		);
-
+		$result = $this->mcode->read($parameter);
 
 		if(!empty($result))
 		{
