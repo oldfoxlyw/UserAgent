@@ -43,7 +43,7 @@ class Validate extends CI_Controller
 			$parameter = array(
 					'disabled'	=>	1
 			);
-// 			$this->mcode->update($code, $parameter);
+			$this->mcode->update($code, $parameter);
 			
 			$jsonData = array(
 					'success'		=>	true,
