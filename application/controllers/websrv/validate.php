@@ -82,7 +82,7 @@ class Validate extends CI_Controller
 		if(!empty($result))
 		{
 			$jsonData = array(
-					'success'		=>	true,
+					'success'		=>	false,
 					'message'		=>	'PACK_NOT_RECEIVED'
 			);
 			echo $this->return_format->format($jsonData, $format);
@@ -90,7 +90,7 @@ class Validate extends CI_Controller
 		else
 		{
 			$jsonData = array(
-					'success'		=>	false,
+					'success'		=>	true,
 					'message'		=>	'PACK_RECEIVED'
 			);
 			echo $this->return_format->format($jsonData, $format);
@@ -133,7 +133,7 @@ class Validate extends CI_Controller
 		{
 			$jsonData = array(
 					'success'		=>	false,
-					'message'		=>	'PACK_RECEIVED'
+					'error'			=>	'PACK_RECEIVED'
 			);
 			echo $this->return_format->format($jsonData, $format);
 		}
