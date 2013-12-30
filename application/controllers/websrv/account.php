@@ -25,17 +25,27 @@ class Account extends CI_Controller {
 			if($user != FALSE) {
 				unset($user->account_pass);
 				unset($user->account_secret_key);
-				if ($user->account_status == '-1') {
-					$jsonData = Array(
-						'success'	=>	false,
-						'errors'	=>	'ACCOUNT_VALIDATE_FAIL_BANNED',
-						'endtime'	=>	$user->closure_endtime
-					);
-					exit($this->return_format->format($jsonData, $format));
-				}
 
 				$db = $this->web_account->db();
 				$time = time();
+				
+				if ($user->account_status == '-1') {
+					if($user->closure_endtime <= $time)
+					{
+						$sql = "update `web_account` set `account_status`=1, `closure_endtime`=0 where `GUID`='{$user->GUID}'";
+						$db->query($sql);
+					}
+					else
+					{
+						$jsonData = Array(
+							'success'	=>	false,
+							'errors'	=>	'ACCOUNT_VALIDATE_FAIL_BANNED',
+							'endtime'	=>	$user->closure_endtime
+						);
+						exit($this->return_format->format($jsonData, $format));
+					}
+				}
+
 				$sql = "update `web_account` set `account_lastlogin`={$time}, `account_activity`=`account_activity`+1 where `GUID`='{$user->GUID}'";
 				$db->query($sql);
 				$jsonData = Array(

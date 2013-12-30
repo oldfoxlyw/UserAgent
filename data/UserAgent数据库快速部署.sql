@@ -42,6 +42,7 @@ CREATE TABLE IF NOT EXISTS `agent1_account_db`.`web_account` (
   `account_pass` CHAR(32) NOT NULL,
   `server_id` CHAR(6) NOT NULL,
   `account_nickname` CHAR(16) NULL DEFAULT NULL,
+  `account_email` CHAR(32) NULL DEFAULT NULL,
   `account_pass_question` CHAR(4) NULL DEFAULT NULL,
   `account_pass_answer` CHAR(4) NULL DEFAULT NULL,
   `account_point` INT(11) NOT NULL DEFAULT '0',
@@ -56,7 +57,7 @@ CREATE TABLE IF NOT EXISTS `agent1_account_db`.`web_account` (
   `account_level` INT NOT NULL DEFAULT 0,
   `account_mission` BIGINT NOT NULL DEFAULT 0,
   `partner_key` CHAR(16) NOT NULL DEFAULT 'default',
-  `closure_endtime` INT NOT NULL,
+  `closure_endtime` INT NOT NULL DEFAULT 0,
   PRIMARY KEY (`GUID`),
   INDEX `account_name` (`account_name` ASC, `account_pass` ASC, `server_id` ASC))
 ENGINE = MyISAM
