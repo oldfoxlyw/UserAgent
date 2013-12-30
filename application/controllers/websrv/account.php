@@ -29,7 +29,7 @@ class Account extends CI_Controller {
 					$jsonData = Array(
 						'success'	=>	false,
 						'errors'	=>	'ACCOUNT_VALIDATE_FAIL_BANNED',
-						'user'		=>	$user
+						'endtime'	=>	$user->closure_endtime
 					);
 					exit($this->return_format->format($jsonData, $format));
 				}

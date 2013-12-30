@@ -32,35 +32,6 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `agent1_account_db`.`closure_account`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `agent1_account_db`.`closure_account` ;
-
-CREATE TABLE IF NOT EXISTS `agent1_account_db`.`closure_account` (
-  `GUID` CHAR(36) NOT NULL,
-  `account_closure_reason` TEXT NULL DEFAULT NULL,
-  `account_closure_starttime` INT(11) NOT NULL,
-  `account_closure_endtime` INT(11) NOT NULL,
-  PRIMARY KEY (`GUID`))
-ENGINE = MyISAM
-DEFAULT CHARACTER SET = utf8;
-
-
--- -----------------------------------------------------
--- Table `agent1_account_db`.`master_account`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `agent1_account_db`.`master_account` ;
-
-CREATE TABLE IF NOT EXISTS `agent1_account_db`.`master_account` (
-  `master_id` INT(11) NOT NULL AUTO_INCREMENT,
-  `master_name` CHAR(16) NOT NULL,
-  `master_generationtime` INT(11) NOT NULL,
-  PRIMARY KEY (`master_id`))
-ENGINE = MyISAM
-DEFAULT CHARACTER SET = utf8;
-
-
--- -----------------------------------------------------
 -- Table `agent1_account_db`.`web_account`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `agent1_account_db`.`web_account` ;
@@ -85,6 +56,7 @@ CREATE TABLE IF NOT EXISTS `agent1_account_db`.`web_account` (
   `account_level` INT NOT NULL DEFAULT 0,
   `account_mission` BIGINT NOT NULL DEFAULT 0,
   `partner_key` CHAR(16) NOT NULL DEFAULT 'default',
+  `closure_endtime` INT NOT NULL,
   PRIMARY KEY (`GUID`),
   INDEX `account_name` (`account_name` ASC, `account_pass` ASC, `server_id` ASC))
 ENGINE = MyISAM
@@ -565,6 +537,24 @@ CREATE TABLE IF NOT EXISTS `agent1_product_db`.`game_code` (
   `comment` CHAR(16) NOT NULL,
   `disabled` TINYINT NOT NULL DEFAULT 0,
   PRIMARY KEY (`code`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `agent1_product_db`.`game_announcement_crontab`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `agent1_product_db`.`game_announcement_crontab` ;
+
+CREATE TABLE IF NOT EXISTS `agent1_product_db`.`game_announcement_crontab` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `server_id` CHAR(5) NOT NULL,
+  `content` TEXT NOT NULL,
+  `minutes` CHAR(16) NOT NULL,
+  `hour` CHAR(16) NOT NULL,
+  `date` CHAR(16) NOT NULL,
+  `starttime` INT NOT NULL,
+  `endtime` INT NOT NULL,
+  PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
 USE `agent1_web_db` ;
