@@ -41,7 +41,7 @@ class Account extends CI_Controller
 						'partner_id'	=>	$uid
 				);
 				$extension = array(
-						'select'	=>	'GUID,account_name,server_id,account_status,account_job,account_level,account_mission,partner_key,partner_id'
+						'select'	=>	'GUID,account_name,server_id,account_nickname,account_status,account_job,account_level,account_mission,partner_key,partner_id'
 				);
 				$result = $this->web_account->read($parameter, $extension);
 				if(empty($result))
