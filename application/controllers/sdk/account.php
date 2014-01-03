@@ -2,7 +2,7 @@
 
 class Account extends CI_Controller
 {
-	private $check_code = 'decdd397d0e4959aae4bcc319ee8e41d68ada9c5';
+	private $check_code = 'YI7RclFHiSIk4mbz*D9OGstjDN&QkjehA6SvfRj_2awnBUPOy@ITCctHmhhNDJbY';
 	
 	public function __construct()
 	{
@@ -24,12 +24,17 @@ class Account extends CI_Controller
 			
 			$uid = $inputParam->uid;
 			$partner_key = $inputParam->partner_key;
-			$code = $inputParam->code;
+			
+			$headers = getallheaders();
+			$code = $headers['theMd5String'];
 		}
 		
 		if(!empty($uid) && !empty($partner_key))
 		{
-			$parameter = array($uid, $partner_key);
+			$parameter = array(
+					'uid'			=>	$uid,
+					'partner_key'	=>	$partner_key
+			);
 			if($this->verify_check_code($parameter, $code))
 			{
 				$this->load->model('web_account');
@@ -106,11 +111,18 @@ class Account extends CI_Controller
 			$uid = $inputParam->uid;
 			$server_id = $inputParam->server_id;
 			$partner_key = $inputParam->partner_key;
+			
+			$headers = getallheaders();
+			$code = $headers['theMd5String'];
 		}
 		
 		if(!empty($uid) && !empty($server_id) && !empty($partner_key))
 		{
-			$parameter = array($uid, $server_id, $partner_key);
+			$parameter = array(
+					'uid'			=>	$uid,
+					'server_id'		=>	$server_id,
+					'partner_key'	=>	$partner_key
+			);
 			if($this->verify_check_code($parameter, $code))
 			{
 				$this->load->library('guid');
@@ -187,6 +199,7 @@ class Account extends CI_Controller
 	{
 		if(is_array($parameter))
 		{
+			asort($parameter);
 			array_push($parameter, $this->check_code);
 			
 			$str = strtolower(md5(implode('', $parameter)));
