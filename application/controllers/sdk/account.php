@@ -200,9 +200,9 @@ class Account extends CI_Controller
 			
 			$str = strtolower(md5(implode('', $parameter)));
 
-			$this->load->model('web_account');
-			$database = $this->web_account->db();
-			$database->query("insert into `debug`(`text`)VALUES('" . implode('', $parameter) . '   ' . $str . '   ' . $code . "')");
+// 			$this->load->model('web_account');
+// 			$database = $this->web_account->db();
+// 			$database->query("insert into `debug`(`text`)VALUES('" . implode('', $parameter) . '   ' . $str . '   ' . $code . "')");
 			
 			if($code == $str)
 			{
