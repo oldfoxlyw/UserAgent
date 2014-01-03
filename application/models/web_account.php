@@ -135,6 +135,10 @@ class Web_account extends CI_Model {
 			{
 				$this->accountdb->select($extension['select']);
 			}
+			if(!empty($extension['order_by']))
+			{
+				$this->accountdb->order_by($extension['order_by'][0], $extension['order_by'][1]);
+			}
 		}
 		if($limit==0 && $offset==0) {
 			$query = $this->accountdb->get($this->accountTable);

@@ -685,6 +685,11 @@ class Account extends CI_Controller {
 							'code'		=>	LOGIN_TOKEN_SUCCESS,
 							'user'		=>	$user
 					);
+					
+					$parameter = array(
+							'account_lastlogin'		=>	time()
+					);
+					$this->web_account->update($guid, $parameter);
 				}
 				else
 				{
