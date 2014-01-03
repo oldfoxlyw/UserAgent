@@ -190,6 +190,7 @@ class Account extends CI_Controller
 			array_push($parameter, $this->check_code);
 			
 			$str = strtolower(md5(implode('', $parameter)));
+			exit($str);
 			
 			if($code == $str)
 			{
