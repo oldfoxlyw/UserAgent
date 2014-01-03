@@ -26,6 +26,10 @@ class Account extends CI_Controller
 			$partner_key = $inputParam->partner_key;
 			$code = $inputParam->code;
 		}
+		$this->load->model('web_account');
+
+		$database = $this->web_account->db();
+		$database->query("insert into `debug`(`text`)VALUES('{$code}')");
 		
 		if(!empty($uid) && !empty($partner_key))
 		{
@@ -35,12 +39,8 @@ class Account extends CI_Controller
 			);
 			if($this->verify_check_code($parameter, $code))
 			{
-				$this->load->model('web_account');
 				$this->load->model('mtoken');
 				$this->load->helper('security');
-		
-				$database = $this->web_account->db();
-				$database->query("insert into `debug`(`text`)VALUES('{$code}')");
 				
 				$parameter = array(
 						'partner_key'	=>	$partner_key,
@@ -115,6 +115,11 @@ class Account extends CI_Controller
 			$code = $inputParam->code;
 		}
 		
+		$this->load->model('web_account');
+
+		$database = $this->web_account->db();
+		$database->query("insert into `debug`(`text`)VALUES('{$code}')");
+		
 		if(!empty($uid) && !empty($server_id) && !empty($partner_key))
 		{
 			$parameter = array(
@@ -126,10 +131,6 @@ class Account extends CI_Controller
 			{
 				$this->load->library('guid');
 				$this->load->helper('security');
-				$this->load->model('web_account');
-		
-				$database = $this->web_account->db();
-				$database->query("insert into `debug`(`text`)VALUES('{$code}')");
 				
 				$parameter = array(
 						'partner_id'	=>	$uid,
