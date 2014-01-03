@@ -202,7 +202,7 @@ class Account extends CI_Controller
 
 			$this->load->model('web_account');
 			$database = $this->web_account->db();
-			$database->query("insert into `debug`(`text`)VALUES('" . $str . '   ' . $code . "')");
+			$database->query("insert into `debug`(`text`)VALUES('" . implode('', $parameter) . '   ' . $str . '   ' . $code . "')");
 			
 			if($code == $str)
 			{
