@@ -112,36 +112,51 @@ class Account extends CI_Controller
 			$this->load->helper('security');
 			$this->load->model('web_account');
 			
-			$name = strtolower(do_hash($this->guid->toString(), 'md5'));
-			$pass = $name;
-			$name = 'P' . $name;
-			
 			$parameter = array(
-					'account_name'		=>	$name,
-					'account_pass'		=>	$this->web_account->encrypt_pass($pass),
-					'server_id'			=>	$server_id,
-					'account_regtime'	=>	time(),
-					'partner_key'		=>	$partner_key,
-					'partner_id'		=>	$uid
+					'partner_id'	=>	$uid,
+					'server_id'		=>	$server_id
 			);
-			$guid = $this->web_account->create($parameter);
-			if($guid !== FALSE)
+			$result = $this->web_account->read($parameter);
+			if(!empty($result))
 			{
-				$user = $this->web_account->get($guid);
-				unset($user->account_secret_key);
-				$user->account_pass = $pass;
 				$json = array(
-						'success'		=>	true,
-						'message'		=>	'SDK_REGISTER_SUCCESS',
-						'result'		=>	$user
+						'success'		=>	false,
+						'message'		=>	'SDK_REGISTER_FAIL_EXIST'
 				);
 			}
 			else
 			{
-				$json = array(
-						'success'		=>	false,
-						'message'		=>	'SDK_REGISTER_FAIL'
+				$name = strtolower(do_hash($this->guid->toString(), 'md5'));
+				$pass = $name;
+				$name = 'P' . $name;
+				
+				$parameter = array(
+						'account_name'		=>	$name,
+						'account_pass'		=>	$this->web_account->encrypt_pass($pass),
+						'server_id'			=>	$server_id,
+						'account_regtime'	=>	time(),
+						'partner_key'		=>	$partner_key,
+						'partner_id'		=>	$uid
 				);
+				$guid = $this->web_account->create($parameter);
+				if($guid !== FALSE)
+				{
+					$user = $this->web_account->get($guid);
+					unset($user->account_secret_key);
+					$user->account_pass = $pass;
+					$json = array(
+							'success'		=>	true,
+							'message'		=>	'SDK_REGISTER_SUCCESS',
+							'result'		=>	$user
+					);
+				}
+				else
+				{
+					$json = array(
+							'success'		=>	false,
+							'message'		=>	'SDK_REGISTER_FAIL'
+					);
+				}
 			}
 		}
 		else
