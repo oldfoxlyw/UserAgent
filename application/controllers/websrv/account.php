@@ -667,6 +667,7 @@ class Account extends CI_Controller {
 		if(!empty($guid) && !empty($token))
 		{
 			$this->load->model('mtoken');
+			$this->load->model('web_account');
 			
 			$parameter = array(
 					'guid'	=>	$guid,
@@ -678,9 +679,11 @@ class Account extends CI_Controller {
 				$result = $result[0];
 				if($result->expire_time > time())
 				{
+					$user = $this->web_account->get($guid);
 					$json = array(
 							'success'	=>	true,
-							'code'		=>	LOGIN_TOKEN_SUCCESS
+							'code'		=>	LOGIN_TOKEN_SUCCESS,
+							'user'		=>	$user
 					);
 				}
 				else
