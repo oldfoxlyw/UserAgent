@@ -24,9 +24,7 @@ class Account extends CI_Controller
 			
 			$uid = $inputParam->uid;
 			$partner_key = $inputParam->partner_key;
-			
-			$headers = getallheaders();
-			$code = $headers['theMd5String'];
+			$code = $inputParam->code;
 		}
 		
 		if(!empty($uid) && !empty($partner_key))
@@ -114,9 +112,7 @@ class Account extends CI_Controller
 			$uid = $inputParam->uid;
 			$server_id = $inputParam->server_id;
 			$partner_key = $inputParam->partner_key;
-			
-			$headers = getallheaders();
-			$code = $headers['theMd5String'];
+			$code = $inputParam->code;
 		}
 		
 		if(!empty($uid) && !empty($server_id) && !empty($partner_key))
