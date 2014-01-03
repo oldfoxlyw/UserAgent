@@ -148,6 +148,8 @@ class Account extends CI_Controller
 					'message'		=>	'SDK_REGISTER_FAIL_NO_PARAM'
 			);
 		}
+		
+		echo $this->return_format->format($json);
 	}
 	
 	private function verify_check_code($parameter, $code)
