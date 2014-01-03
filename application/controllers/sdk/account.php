@@ -160,7 +160,6 @@ class Account extends CI_Controller
 			
 			$str = strtolower(sha1(implode('|', $parameter)));
 			
-			exit($str);
 			if($code == $str)
 			{
 				return true;
