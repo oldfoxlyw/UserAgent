@@ -78,7 +78,7 @@ class Mtoken extends CI_Model implements ICrud
 	{
 		if(!empty($id) && !empty($row))
 		{
-			$this->logdb->where('GUID', $id);
+			$this->logdb->where('guid', $id);
 			return $this->logdb->update($this->accountTable, $row);
 		}
 		else
@@ -91,7 +91,7 @@ class Mtoken extends CI_Model implements ICrud
 	{
 		if(!empty($id))
 		{
-			$this->logdb->where('GUID', $id);
+			$this->logdb->where('guid', $id);
 			return $this->logdb->delete($this->accountTable);
 		}
 		else

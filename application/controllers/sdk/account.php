@@ -51,6 +51,9 @@ class Account extends CI_Controller
 				$time = time();
 				for($i = 0; $i<count($result); $i++)
 				{
+					$this->mtoken->update($result[$i]->GUID, array(
+							'expire_time'	=>	0
+					));
 					$hash = do_hash($result[$i]->GUID . $time . mt_rand());
 					$result[$i]->token = $hash;
 					$parameter = array(
