@@ -66,6 +66,7 @@ class Account extends CI_Controller
 				
 				$json = array(
 						'success'		=>	true,
+						'message'		=>	'SDK_LOGIN_SUCCESS',
 						'result'		=>	$result
 				);
 			}
@@ -188,7 +189,7 @@ class Account extends CI_Controller
 		{
 			array_push($parameter, $this->check_code);
 			
-			$str = strtolower(sha1(implode('|', $parameter)));
+			$str = strtolower(md5(implode('', $parameter)));
 			
 			if($code == $str)
 			{
