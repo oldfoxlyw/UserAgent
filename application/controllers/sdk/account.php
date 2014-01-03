@@ -95,6 +95,7 @@ class Account extends CI_Controller
 		$uid = $this->input->get_post('uid', TRUE);
 		$server_id = $this->input->get_post('server_id', TRUE);
 		$partner_key = $this->input->get_post('partner_key', TRUE);
+		$code = $this->input->get_post('code', TRUE);
 		
 		if(empty($uid) || empty($server_id) || empty($partner_key))
 		{
@@ -108,55 +109,66 @@ class Account extends CI_Controller
 		
 		if(!empty($uid) && !empty($server_id) && !empty($partner_key))
 		{
-			$this->load->library('guid');
-			$this->load->helper('security');
-			$this->load->model('web_account');
-			
-			$parameter = array(
-					'partner_id'	=>	$uid,
-					'server_id'		=>	$server_id
-			);
-			$result = $this->web_account->read($parameter);
-			if(!empty($result))
+			$parameter = array($uid, $server_id, $partner_key);
+			if($this->verify_check_code($parameter, $code))
 			{
-				$json = array(
-						'success'		=>	false,
-						'message'		=>	'SDK_REGISTER_FAIL_EXIST'
-				);
-			}
-			else
-			{
-				$name = strtolower(do_hash($this->guid->toString(), 'md5'));
-				$pass = $name;
-				$name = 'P' . $name;
+				$this->load->library('guid');
+				$this->load->helper('security');
+				$this->load->model('web_account');
 				
 				$parameter = array(
-						'account_name'		=>	$name,
-						'account_pass'		=>	$this->web_account->encrypt_pass($pass),
-						'server_id'			=>	$server_id,
-						'account_regtime'	=>	time(),
-						'partner_key'		=>	$partner_key,
-						'partner_id'		=>	$uid
+						'partner_id'	=>	$uid,
+						'server_id'		=>	$server_id
 				);
-				$guid = $this->web_account->create($parameter);
-				if($guid !== FALSE)
+				$result = $this->web_account->read($parameter);
+				if(!empty($result))
 				{
-					$user = $this->web_account->get($guid);
-					unset($user->account_secret_key);
-					$user->account_pass = $pass;
 					$json = array(
-							'success'		=>	true,
-							'message'		=>	'SDK_REGISTER_SUCCESS',
-							'result'		=>	$user
+							'success'		=>	false,
+							'message'		=>	'SDK_REGISTER_FAIL_EXIST'
 					);
 				}
 				else
 				{
-					$json = array(
-							'success'		=>	false,
-							'message'		=>	'SDK_REGISTER_FAIL'
+					$name = strtolower(do_hash($this->guid->toString(), 'md5'));
+					$pass = $name;
+					$name = 'P' . $name;
+					
+					$parameter = array(
+							'account_name'		=>	$name,
+							'account_pass'		=>	$this->web_account->encrypt_pass($pass),
+							'server_id'			=>	$server_id,
+							'account_regtime'	=>	time(),
+							'partner_key'		=>	$partner_key,
+							'partner_id'		=>	$uid
 					);
+					$guid = $this->web_account->create($parameter);
+					if($guid !== FALSE)
+					{
+						$user = $this->web_account->get($guid);
+						unset($user->account_secret_key);
+						$user->account_pass = $pass;
+						$json = array(
+								'success'		=>	true,
+								'message'		=>	'SDK_REGISTER_SUCCESS',
+								'result'		=>	$user
+						);
+					}
+					else
+					{
+						$json = array(
+								'success'		=>	false,
+								'message'		=>	'SDK_REGISTER_FAIL'
+						);
+					}
 				}
+			}
+			else
+			{
+				$json = array(
+						'success'		=>	false,
+						'message'		=>	'SDK_REGISTER_FAIL_ERROR_CHECK_CODE'
+				);
 			}
 		}
 		else
