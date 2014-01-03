@@ -159,6 +159,8 @@ class Account extends CI_Controller
 			array_push($parameter, $this->check_code);
 			
 			$str = strtolower(sha1(implode('|', $parameter)));
+			
+			exit($str);
 			if($code == $str)
 			{
 				return true;
