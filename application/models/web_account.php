@@ -120,6 +120,53 @@ class Web_account extends CI_Model {
 		}
 	}
 	
+	public function read($parameter = null, $extension = null, $limit = 0, $offset = 0)
+	{
+		if(!empty($parameter))
+		{
+			foreach($parameter as $key=>$value)
+			{
+				$this->accountdb->where($key, $value);
+			}
+		}
+		if(!empty($extension))
+		{
+			if(!empty($extension['select']))
+			{
+				$this->accountdb->select($extension['select']);
+			}
+		}
+		if($limit==0 && $offset==0) {
+			$query = $this->accountdb->get($this->accountTable);
+		} else {
+			$query = $this->accountdb->get($this->accountTable, $limit, $offset);
+		}
+		if($query->num_rows() > 0) {
+			return $query->result();
+		} else {
+			return false;
+		}
+	}
+	
+	public function create($row)
+	{
+		if(!empty($row))
+		{
+			if($this->accountdb->insert($this->accountTable, $row))
+			{
+				return $this->accountdb->insert_id();
+			}
+			else
+			{
+				return false;
+			}
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
 	public function db() {
 		return $this->accountdb;
 	}

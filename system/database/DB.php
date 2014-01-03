@@ -69,7 +69,7 @@ function &DB($params = '', $active_record_override = NULL)
 		{
 			show_error('Invalid DB Connection String');
 		}
-
+		
 		$params = array(
 							'dbdriver'	=> $dns['scheme'],
 							'hostname'	=> (isset($dns['host'])) ? rawurldecode($dns['host']) : '',

@@ -14,12 +14,12 @@ class Connector extends CI_Model {
 				
 			$ch = curl_init();
 			curl_setopt($ch, CURLOPT_URL, $postPath . '?' . $this->getQueryString($parameter));
-			$ip = $this->input->ip_address();
-			$header = array(
-				'CLIENT-IP:' . $ip,
-				'X-FORWARDED-FOR:' . $ip,
-			);
-			curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+// 			$ip = $this->input->ip_address();
+// 			$header = array(
+// 				'CLIENT-IP:' . $ip,
+// 				'X-FORWARDED-FOR:' . $ip,
+// 			);
+// 			curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 			curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
 			curl_setopt($ch, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']);

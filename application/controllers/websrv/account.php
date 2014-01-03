@@ -99,8 +99,9 @@ class Account extends CI_Controller {
 		$job = $this->input->get_post('job', TRUE);
 		$level = $this->input->get_post('level', TRUE);
 		$mission = $this->input->get_post('mission', TRUE);
+		$nickname = $this->input->get_post('nickname', TRUE);
 		
-		if(!empty($guid) && (!empty($job) || !empty($level) || !empty($mission)))
+		if(!empty($guid) && (!empty($job) || !empty($level) || !empty($mission) || !empty($nickname)))
 		{
 			if(!empty($job)) {
 				$parameter['account_job'] = $job;
@@ -110,6 +111,9 @@ class Account extends CI_Controller {
 			}
 			if(!empty($mission)) {
 				$parameter['account_mission'] = $mission;
+			}
+			if(!empty($nickname)) {
+				$parameter['account_nickname'] = $nickname;
 			}
 			$this->web_account->update($parameter, $guid);
 
@@ -651,6 +655,59 @@ class Account extends CI_Controller {
 				exit($this->return_format->format($jsonData, $format));
 			}
 		}
+	}
+	
+	public function verify_login_token()
+	{
+		$this->load->model('return_format');
+		
+		$guid = $this->input->post('guid', TRUE);
+		$token = $this->input->post('token', TRUE);
+		
+		if(!empty($guid) && !empty($token))
+		{
+			$this->load->model('mtoken');
+			
+			$parameter = array(
+					'guid'	=>	$guid,
+					'token'	=>	$token
+			);
+			$result = $this->mtoken->read($parameter);
+			if(!empty($result))
+			{
+				$result = $result[0];
+				if($result->expire_time > time())
+				{
+					$json = array(
+							'success'	=>	true,
+							'code'		=>	LOGIN_TOKEN_SUCCESS
+					);
+				}
+				else
+				{
+					$json = array(
+							'success'	=>	false,
+							'code'		=>	VERIFY_LOGIN_TOKEN_ERROR_EXPIRED
+					);
+				}
+			}
+			else
+			{
+				$json = array(
+						'success'	=>	FALSE,
+						'code'		=>	VERIFY_LOGIN_TOKEN_ERROR_NOT_EXIST
+				);
+			}
+		}
+		else
+		{
+			$json = array(
+					'success'	=>	FALSE,
+					'code'		=>	VERIFY_LOGIN_TOKEN_ERROR_NO_PARAM
+			);
+		}
+		
+		echo $this->return_format->format($json);
 	}
 }
 

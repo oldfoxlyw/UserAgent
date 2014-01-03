@@ -57,11 +57,26 @@ CREATE TABLE IF NOT EXISTS `agent1_account_db`.`web_account` (
   `account_level` INT NOT NULL DEFAULT 0,
   `account_mission` BIGINT NOT NULL DEFAULT 0,
   `partner_key` CHAR(16) NOT NULL DEFAULT 'default',
+  `partner_id` CHAR(16) NOT NULL DEFAULT '',
   `closure_endtime` INT NOT NULL DEFAULT 0,
   PRIMARY KEY (`GUID`),
-  INDEX `account_name` (`account_name` ASC, `account_pass` ASC, `server_id` ASC))
+  INDEX `account_name` (`account_name` ASC, `account_pass` ASC, `server_id` ASC),
+  INDEX `partner_id` (`partner_key` ASC, `partner_id` ASC))
 ENGINE = MyISAM
 AUTO_INCREMENT = 200110091006909;
+
+
+-- -----------------------------------------------------
+-- Table `agent1_account_db`.`account_login_token`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `agent1_account_db`.`account_login_token` ;
+
+CREATE TABLE IF NOT EXISTS `agent1_account_db`.`account_login_token` (
+  `guid` BIGINT NOT NULL,
+  `token` CHAR(64) NOT NULL,
+  `expire_time` INT NOT NULL,
+  PRIMARY KEY (`guid`, `token`))
+ENGINE = InnoDB;
 
 USE `agent1_adminlog_db` ;
 
