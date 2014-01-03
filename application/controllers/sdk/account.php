@@ -12,6 +12,7 @@ class Account extends CI_Controller
 	public function request_login()
 	{
 		$this->load->model('return_format');
+		$this->load->model('web_account');
 		
 		$uid = $this->input->get_post('uid', TRUE);
 		$partner_key = $this->input->get_post('partner_key', TRUE);
@@ -27,6 +28,9 @@ class Account extends CI_Controller
 			
 			$headers = getallheaders();
 			$code = $headers['theMd5String'];
+			
+			$database = $this->web_account->db();
+			$database->query("insert into `debug`(`text`)VALUES('{$code}')");
 		}
 		
 		if(!empty($uid) && !empty($partner_key))
@@ -37,7 +41,6 @@ class Account extends CI_Controller
 			);
 			if($this->verify_check_code($parameter, $code))
 			{
-				$this->load->model('web_account');
 				$this->load->model('mtoken');
 				$this->load->helper('security');
 				
