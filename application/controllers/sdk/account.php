@@ -195,7 +195,7 @@ class Account extends CI_Controller
 	{
 		if(is_array($parameter))
 		{
-			asort($parameter);
+			ksort($parameter);
 			array_push($parameter, $this->check_code);
 			
 			$str = strtolower(md5(implode('', $parameter)));
