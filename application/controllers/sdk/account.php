@@ -127,20 +127,20 @@ class Account extends CI_Controller
 				$this->load->model('web_account');
 				$this->load->model('mtoken');
 				
-				$parameter = array(
-						'partner_id'	=>	$uid,
-						'server_id'		=>	$server_id
-				);
-				$result = $this->web_account->read($parameter);
-				if(!empty($result))
-				{
-					$json = array(
-							'success'		=>	false,
-							'message'		=>	'SDK_REGISTER_FAIL_EXIST'
-					);
-				}
-				else
-				{
+// 				$parameter = array(
+// 						'partner_id'	=>	$uid,
+// 						'server_id'		=>	$server_id
+// 				);
+// 				$result = $this->web_account->read($parameter);
+// 				if(!empty($result))
+// 				{
+// 					$json = array(
+// 							'success'		=>	false,
+// 							'message'		=>	'SDK_REGISTER_FAIL_EXIST'
+// 					);
+// 				}
+// 				else
+// 				{
 					$name = strtolower(do_hash($this->guid->toString(), 'md5'));
 					$pass = $name;
 					$name = 'P' . $name;
@@ -183,7 +183,7 @@ class Account extends CI_Controller
 								'message'		=>	'SDK_REGISTER_FAIL'
 						);
 					}
-				}
+// 				}
 			}
 			else
 			{
