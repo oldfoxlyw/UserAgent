@@ -40,8 +40,9 @@ class Account extends CI_Controller
 				$this->load->helper('security');
 				
 				$parameter = array(
-						'partner_key'	=>	$partner_key,
-						'partner_id'	=>	$uid
+						'partner_key'		=>	$partner_key,
+						'partner_id'		=>	$uid,
+						'account_nickname'	=>	''
 				);
 				$extension = array(
 						'select'	=>	'GUID,account_name,server_id,account_nickname,account_status,account_job,account_level,account_mission,partner_key,partner_id',
