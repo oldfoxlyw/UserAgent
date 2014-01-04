@@ -163,9 +163,19 @@ class Servers extends CI_Controller {
 		$announce = $this->announcement->getAllResult(null, 1);
 		$announce = empty($announce) ? '' : $announce[0];
 		
+		if($partner == 'default')
+		{
+			$activate = 0;
+		}
+		else
+		{
+			$activate = 1;
+		}
+// 		$activate = 0;
+		
 		$jsonData = Array(
 			'message'			=>	'SERVER_LIST_SUCCESS',
-			'activate'			=>	0,
+			'activate'			=>	$activate,
 			'server'			=>	$result,
 			'announce'			=>	$announce
 		);
