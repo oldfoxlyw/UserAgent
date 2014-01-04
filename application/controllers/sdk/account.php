@@ -125,6 +125,7 @@ class Account extends CI_Controller
 				$this->load->library('guid');
 				$this->load->helper('security');
 				$this->load->model('web_account');
+				$this->load->model('mtoken');
 				
 				$parameter = array(
 						'partner_id'	=>	$uid,
@@ -158,6 +159,17 @@ class Account extends CI_Controller
 						$user = $this->web_account->get($guid);
 						unset($user->account_secret_key);
 						$user->account_pass = $pass;
+						
+						$time = time();
+						$hash = do_hash($guid . $time . mt_rand());
+						$user->token = $hash;
+						$parameter = array(
+								'guid'			=>	$guid,
+								'token'			=>	$hash,
+								'expire_time'	=>	$time + 600
+						);
+						$this->mtoken->create($parameter);
+						
 						$json = array(
 								'success'		=>	true,
 								'message'		=>	'SDK_REGISTER_SUCCESS',
