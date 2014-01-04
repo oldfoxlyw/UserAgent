@@ -693,7 +693,7 @@ class Account extends CI_Controller {
 					$parameter = array(
 							'account_lastlogin'		=>	time()
 					);
-					$this->web_account->update($guid, $parameter);
+					$this->web_account->update($parameter, $guid);
 				}
 				else
 				{
