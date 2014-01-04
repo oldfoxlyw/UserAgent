@@ -54,7 +54,7 @@ CREATE TABLE IF NOT EXISTS `agent1_account_db`.`web_account` (
   `account_status` TINYINT(4) NOT NULL DEFAULT '1' COMMENT '1=正常 0=试玩 -1=封停',
   `account_activity` INT(11) NOT NULL DEFAULT '0',
   `account_job` CHAR(16) NULL DEFAULT '',
-  `account_face` CHAR(16) NOT NULL DEFAULT '',
+  `profession_id` CHAR(16) NOT NULL DEFAULT '',
   `account_level` INT NOT NULL DEFAULT 0,
   `account_mission` BIGINT NOT NULL DEFAULT 0,
   `partner_key` CHAR(16) NOT NULL DEFAULT 'default',
