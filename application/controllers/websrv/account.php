@@ -97,14 +97,18 @@ class Account extends CI_Controller {
 	{
 		$guid = $this->input->get_post('guid', TRUE);
 		$job = $this->input->get_post('job', TRUE);
+		$face = $this->input->get_post('face', TRUE);
 		$level = $this->input->get_post('level', TRUE);
 		$mission = $this->input->get_post('mission', TRUE);
 		$nickname = $this->input->get_post('nickname', TRUE);
 		
-		if(!empty($guid) && (!empty($job) || !empty($level) || !empty($mission) || !empty($nickname)))
+		if(!empty($guid) && (!empty($job) || !empty($face) || !empty($level) || !empty($mission) || !empty($nickname)))
 		{
 			if(!empty($job)) {
 				$parameter['account_job'] = $job;
+			}
+			if(!empty($face)) {
+				$parameter['account_face'] = $face;
 			}
 			if(!empty($level)) {
 				$parameter['account_level'] = intval($level);
