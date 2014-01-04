@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS `agent1_account_db`.`web_account` (
   `account_name` CHAR(64) NOT NULL,
   `account_pass` CHAR(32) NOT NULL,
   `server_id` CHAR(6) NOT NULL,
-  `account_nickname` CHAR(16) NULL DEFAULT NULL,
+  `account_nickname` CHAR(16) NOT NULL DEFAULT '',
   `account_email` CHAR(32) NULL DEFAULT NULL,
   `account_pass_question` CHAR(4) NULL DEFAULT NULL,
   `account_pass_answer` CHAR(4) NULL DEFAULT NULL,
