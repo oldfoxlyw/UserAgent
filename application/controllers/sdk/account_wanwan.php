@@ -8,7 +8,7 @@ class Account_wanwan extends CI_Controller
 	private $api_name = 'verifyUser';
 	private $GAME_ID = 54;
 	private $GAME_SECRET = '9fb644427278b9288c40823318b4aadf';
-	private $VENDOR = '4';
+	private $VENDOR = 'Shenzhen Shidai Top Mobile Game Interactive Technology Co.Ltd';
 	
 	public function __construct()
 	{
