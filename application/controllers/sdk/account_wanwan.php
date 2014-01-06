@@ -71,9 +71,10 @@ class Account_wanwan extends CI_Controller
 				$result = json_decode($result);
 				if(!empty($result) && !empty($result->usergameid))
 				{
+					$uid = $result->usergameid;
 					$parameter = array(
 							'partner_key'			=>	$partner_key,
-							'partner_id'			=>	$result->usergameid,
+							'partner_id'			=>	$uid,
 							'account_nickname !='	=>	''
 					);
 					$extension = array(
@@ -104,14 +105,15 @@ class Account_wanwan extends CI_Controller
 					$json = array(
 							'success'		=>	true,
 							'message'		=>	'SDK_LOGIN_SUCCESS',
-							'result'		=>	$result
+							'result'		=>	$result,
+							'uid'			=>	$uid
 					);
 				}
 				else
 				{
 					$json = array(
 							'success'		=>	false,
-							'message'		=>	'SDK_REGISTER_FAIL'
+							'message'		=>	'SDK_LOGIN_SUCCESS'
 					);
 				}
 			}
@@ -207,6 +209,7 @@ class Account_wanwan extends CI_Controller
 // 				}
 // 				else
 // 				{
+					$uid = $result->usergameid;
 					$name = strtolower(do_hash($this->guid->toString(), 'md5'));
 					$pass = $name;
 					$name = 'P' . $name;
@@ -217,7 +220,7 @@ class Account_wanwan extends CI_Controller
 							'server_id'			=>	$server_id,
 							'account_regtime'	=>	time(),
 							'partner_key'		=>	$partner_key,
-							'partner_id'		=>	$result->usergameid
+							'partner_id'		=>	$uid
 					);
 					$guid = $this->web_account->create($parameter);
 					if($guid !== FALSE)
@@ -239,7 +242,8 @@ class Account_wanwan extends CI_Controller
 						$json = array(
 								'success'		=>	true,
 								'message'		=>	'SDK_REGISTER_SUCCESS',
-								'result'		=>	$user
+								'result'		=>	$user,
+								'uid'			=>	$uid
 						);
 					}
 					else

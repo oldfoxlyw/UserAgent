@@ -3,10 +3,11 @@
 class Account_uc extends CI_Controller
 {
 	private $check_code = 'YI7RclFHiSIk4mbz*D9OGstjDN&QkjehA6SvfRj_2awnBUPOy@ITCctHmhhNDJbY';
-	private $wanwan_server = 'http://sdk.g.uc.cn/ss/';
+	private $url = 'http://sdk.g.uc.cn/ss/';
 	private $service = 'ucid.user.sidInfo';
 	private $cpId = '32634';
 	private $gameId = '536890';
+	private $apiKey = 'e35824e52b996a5e6ec17bd9763f17ad';
 	
 	public function __construct()
 	{
@@ -47,23 +48,36 @@ class Account_uc extends CI_Controller
 				$this->load->model('webapi/connector');
 				$this->load->helper('security');
 				
-				//向wanwan验证登录并获取uid
+				//向uc验证登录并获取uid
 				$params = array(
-						'token'		=>	$uid
+						'sid'	=>	$uid
 				);
 				$paramStr = $this->connector->getQueryString($params);
-				$path = $this->wanwan_server . $this->api_name;
-				$timestamp = date('D, d M Y H:i:s') . ' GMT';
-				$sign = md5("{$timestamp}:{$this->api_name}:{$paramStr}:{$this->GAME_SECRET}");
-				$auth = "{$this->VENDOR} {$this->GAME_ID}:{$sign}";
-				$header = array(
-						'Date:' . $timestamp,
-						'Accept:application/json; version=' . $this->api_version,
-						'Authentication:' . $auth
+				$paramStr = str_replace('&', '', $paramStr);
+				$time = explode ( " ", microtime () );
+				$time = $time [1] . ($time [0] * 1000);
+				$time2 = explode ( ".", $time );
+				$time = $time2 [0];
+				$game = array(
+						'cpId'		=>	$this->cpId,
+						'gameId'	=>	$this->gameId,
+						'channelId'	=>	'2',
+						'serverId'	=>	0
 				);
-				$result = $this->connector->post($path, $params, false, $header);
+				$sign = md5("{$this->cpId}{$paramStr}{$this->apiKey}");
+				$header = array(
+						'Content-Type: application/json'
+				);
+				$params = array(
+						'id'		=>	$time,
+						'service'	=>	$this->service,
+						'data'		=>	$params,
+						'game'		=>	$game,
+						'sign'		=>	$sign
+				);
+				$result = $this->connector->post($this->url, json_encode($params), false, $header);
 				//--------------------------------------
-				$sql = "insert into debug(text)values('" . 'login:' . $result . "')";
+				$sql = "insert into debug(text)values('" . 'uc_login:' . $result . "')";
 				$this->web_account->db()->query($sql);
 				//--------------------------------------
 				$result = json_decode($result);
@@ -169,23 +183,36 @@ class Account_uc extends CI_Controller
 				$this->load->model('web_account');
 				$this->load->model('mtoken');
 
-				//向wanwan验证登录并获取uid
+				//向uc验证登录并获取uid
 				$params = array(
-						'token'		=>	$uid
+						'sid'	=>	$uid
 				);
 				$paramStr = $this->connector->getQueryString($params);
-				$path = $this->wanwan_server . $this->api_name;
-				$timestamp = date('D, d M Y H:i:s') . ' GMT';
-				$sign = md5("{$timestamp}:{$this->api_name}:{$paramStr}:{$this->GAME_SECRET}");
-				$auth = "{$this->VENDOR} {$this->GAME_ID}:{$sign}";
-				$header = array(
-						'Date:' . $timestamp,
-						'Accept:application/json; version=' . $this->api_version,
-						'Authentication:' . $auth
+				$paramStr = str_replace('&', '', $paramStr);
+				$time = explode ( " ", microtime () );
+				$time = $time [1] . ($time [0] * 1000);
+				$time2 = explode ( ".", $time );
+				$time = $time2 [0];
+				$game = array(
+						'cpId'		=>	$this->cpId,
+						'gameId'	=>	$this->gameId,
+						'channelId'	=>	'2',
+						'serverId'	=>	0
 				);
-				$result = $this->connector->post($path, $params, false, $header);
+				$sign = md5("{$this->cpId}{$paramStr}{$this->apiKey}");
+				$header = array(
+						'Content-Type: application/json'
+				);
+				$params = array(
+						'id'		=>	$time,
+						'service'	=>	$this->service,
+						'data'		=>	$params,
+						'game'		=>	$game,
+						'sign'		=>	$sign
+				);
+				$result = $this->connector->post($this->url, json_encode($params), false, $header);
 				//--------------------------------------
-				$sql = "insert into debug(text)values('" . 'register:' . $result . "')";
+				$sql = "insert into debug(text)values('" . 'uc_login:' . $result . "')";
 				$this->web_account->db()->query($sql);
 				//--------------------------------------
 				$result = json_decode($result);
