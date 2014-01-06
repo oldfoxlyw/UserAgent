@@ -39,7 +39,7 @@ class Connector extends CI_Model {
 		}
 	}
 	
-	public function post($controller, $parameter, $parsePath = true) {
+	public function post($controller, $parameter, $parsePath = true, $header = 0) {
 		if(!empty($controller)) {
 			$postPath = $controller;
 			
@@ -50,10 +50,10 @@ class Connector extends CI_Model {
 			curl_setopt($ch, CURLOPT_POST, 1);
 			curl_setopt($ch, CURLOPT_POSTFIELDS, $parameter);
 			$ip = $this->input->ip_address();
-			$header = array(
-				'CLIENT-IP:' . $ip,
-				'X-FORWARDED-FOR:' . $ip,
-			);
+// 			$header = array(
+// 				'CLIENT-IP:' . $ip,
+// 				'X-FORWARDED-FOR:' . $ip,
+// 			);
 			curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 			curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);

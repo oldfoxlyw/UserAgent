@@ -58,7 +58,7 @@ CREATE TABLE IF NOT EXISTS `agent1_account_db`.`web_account` (
   `account_level` INT NOT NULL DEFAULT 0,
   `account_mission` BIGINT NOT NULL DEFAULT 0,
   `partner_key` CHAR(16) NOT NULL DEFAULT 'default',
-  `partner_id` CHAR(16) NOT NULL DEFAULT '',
+  `partner_id` CHAR(32) NOT NULL DEFAULT '',
   `closure_endtime` INT NOT NULL DEFAULT 0,
   PRIMARY KEY (`GUID`),
   INDEX `account_name` (`account_name` ASC, `account_pass` ASC, `server_id` ASC),
