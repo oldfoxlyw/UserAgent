@@ -75,7 +75,8 @@ class Account extends CI_Controller
 				$json = array(
 						'success'		=>	true,
 						'message'		=>	'SDK_LOGIN_SUCCESS',
-						'result'		=>	$result
+						'result'		=>	$result,
+						'uid'			=>	$uid
 				);
 			}
 			else
@@ -180,7 +181,8 @@ class Account extends CI_Controller
 						$json = array(
 								'success'		=>	true,
 								'message'		=>	'SDK_REGISTER_SUCCESS',
-								'result'		=>	$user
+								'result'		=>	$user,
+								'uid'			=>	$uid
 						);
 					}
 					else
