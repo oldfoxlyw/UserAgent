@@ -113,7 +113,7 @@ class Account_wanwan extends CI_Controller
 				{
 					$json = array(
 							'success'		=>	false,
-							'message'		=>	'SDK_LOGIN_SUCCESS'
+							'message'		=>	'SDK_LOGIN_FAIL'
 					);
 				}
 			}
