@@ -5,10 +5,10 @@ class Account_uc extends CI_Controller
 	private $check_code = 'YI7RclFHiSIk4mbz*D9OGstjDN&QkjehA6SvfRj_2awnBUPOy@ITCctHmhhNDJbY';
 	private $url = 'http://sdk.g.uc.cn/ss/';
 	private $service = 'ucid.user.sidInfo';
-	private $cpId = '32634';
-	private $gameId = '536890';
+	private $cpId = 32634;
+	private $gameId = 536890;
 	private $apiKey = 'e35824e52b996a5e6ec17bd9763f17ad';
-	private $channelId = '2';
+	private $channelId = 2;
 	private $serverId = 2623;
 	
 	public function __construct()
