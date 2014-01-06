@@ -34,7 +34,7 @@ class Account_uc extends CI_Controller
 			$code = $inputParam->code;
 		}
 		
-		if(!empty($uid) && !empty($partner_key))
+		if(!empty($partner_key))
 		{
 			$parameter = array(
 					'uid'			=>	$uid,
@@ -170,7 +170,7 @@ class Account_uc extends CI_Controller
 			$code = $inputParam->code;
 		}
 		
-		if(!empty($uid) && !empty($server_id) && !empty($partner_key))
+		if(!empty($server_id) && !empty($partner_key))
 		{
 			$parameter = array(
 					'uid'			=>	$uid,
