@@ -63,8 +63,8 @@ class Account_uc extends CI_Controller
 					$game = array(
 							'cpId'		=>	$this->cpId,
 							'gameId'	=>	$this->gameId,
-							'channelId'	=>	'2',
-							'serverId'	=>	0
+							'channelId'	=>	'JY_2',
+							'serverId'	=>	1001
 					);
 					$sign = md5("{$this->cpId}{$paramStr}{$this->apiKey}");
 					$header = array(
