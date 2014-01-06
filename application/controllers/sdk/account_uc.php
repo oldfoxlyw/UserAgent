@@ -310,6 +310,13 @@ class Account_uc extends CI_Controller
 	{
 		if(is_array($parameter))
 		{
+			foreach($parameter as $key=>$value)
+			{
+				if(empty($value))
+				{
+					unset($parameter[$key]);
+				}
+			}
 			ksort($parameter);
 			array_push($parameter, $this->check_code);
 			
