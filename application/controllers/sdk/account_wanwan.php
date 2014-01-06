@@ -65,7 +65,7 @@ class Account_wanwan extends CI_Controller
 				);
 				$result = $this->connector->post($path, $params, false, $header);
 				//--------------------------------------
-				$sql = "insert into debug(text)values('" . 'login:' . $result . "')";
+				$sql = "insert into debug(text)values('" . 'send:' . json_encode($params) . ', login:' . $result . "')";
 				$this->web_account->db()->query($sql);
 				//--------------------------------------
 				$result = json_decode($result);
@@ -189,7 +189,7 @@ class Account_wanwan extends CI_Controller
 				);
 				$result = $this->connector->post($path, $params, false, $header);
 				//--------------------------------------
-				$sql = "insert into debug(text)values('" . 'register:' . $result . "')";
+				$sql = "insert into debug(text)values('" . 'send:' . json_encode($params) . ', register:' . $result . "')";
 				$this->web_account->db()->query($sql);
 				//--------------------------------------
 				$result = json_decode($result);
