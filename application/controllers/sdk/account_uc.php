@@ -183,6 +183,7 @@ class Account_uc extends CI_Controller
 				$this->load->library('guid');
 				$this->load->helper('security');
 				$this->load->model('web_account');
+				$this->load->model('webapi/connector');
 				$this->load->model('mtoken');
 
 				//向uc验证登录并获取uid

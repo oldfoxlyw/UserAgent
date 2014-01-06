@@ -171,6 +171,7 @@ class Account_wanwan extends CI_Controller
 				$this->load->library('guid');
 				$this->load->helper('security');
 				$this->load->model('web_account');
+				$this->load->model('webapi/connector');
 				$this->load->model('mtoken');
 
 				//向wanwan验证登录并获取uid
