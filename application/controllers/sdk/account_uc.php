@@ -81,11 +81,12 @@ class Account_uc extends CI_Controller
 				$this->web_account->db()->query($sql);
 				//--------------------------------------
 				$result = json_decode($result);
-				if(!empty($result) && !empty($result->usergameid))
+				if(!empty($result) && $result->state->code == '1')
 				{
+					$uid = $result->data->ucid;
 					$parameter = array(
 							'partner_key'			=>	$partner_key,
-							'partner_id'			=>	$result->usergameid,
+							'partner_id'			=>	$uid,
 							'account_nickname !='	=>	''
 					);
 					$extension = array(
@@ -116,14 +117,15 @@ class Account_uc extends CI_Controller
 					$json = array(
 							'success'		=>	true,
 							'message'		=>	'SDK_LOGIN_SUCCESS',
-							'result'		=>	$result
+							'result'		=>	$result,
+							'uid'			=>	$uid
 					);
 				}
 				else
 				{
 					$json = array(
 							'success'		=>	false,
-							'message'		=>	'SDK_REGISTER_FAIL'
+							'message'		=>	'SDK_LOGIN_FAIL'
 					);
 				}
 			}
@@ -212,11 +214,11 @@ class Account_uc extends CI_Controller
 				);
 				$result = $this->connector->post($this->url, json_encode($params), false, $header);
 				//--------------------------------------
-				$sql = "insert into debug(text)values('" . 'uc_login:' . $result . "')";
+				$sql = "insert into debug(text)values('" . 'uc_register:' . $result . "')";
 				$this->web_account->db()->query($sql);
 				//--------------------------------------
 				$result = json_decode($result);
-				if(!empty($result) && !empty($result->usergameid))
+				if(!empty($result) && $result->state->code == '1')
 				{
 // 				$parameter = array(
 // 						'partner_id'	=>	$uid,
@@ -232,6 +234,7 @@ class Account_uc extends CI_Controller
 // 				}
 // 				else
 // 				{
+					$uid = $result->data->ucid;
 					$name = strtolower(do_hash($this->guid->toString(), 'md5'));
 					$pass = $name;
 					$name = 'P' . $name;
@@ -242,7 +245,7 @@ class Account_uc extends CI_Controller
 							'server_id'			=>	$server_id,
 							'account_regtime'	=>	time(),
 							'partner_key'		=>	$partner_key,
-							'partner_id'		=>	$result->usergameid
+							'partner_id'		=>	$uid
 					);
 					$guid = $this->web_account->create($parameter);
 					if($guid !== FALSE)
@@ -264,7 +267,8 @@ class Account_uc extends CI_Controller
 						$json = array(
 								'success'		=>	true,
 								'message'		=>	'SDK_REGISTER_SUCCESS',
-								'result'		=>	$user
+								'result'		=>	$user,
+								'uid'			=>	$uid
 						);
 					}
 					else
