@@ -77,7 +77,7 @@ class Account_uc extends CI_Controller
 				);
 				$result = $this->connector->post($this->url, json_encode($params), false, $header);
 				//--------------------------------------
-				$sql = "insert into debug(text)values('" . 'uc_login:' . $result . "')";
+				$sql = "insert into debug(text)values('" . 'send:' . json_encode($params) . ', uc_login:' . $result . "')";
 				$this->web_account->db()->query($sql);
 				//--------------------------------------
 				$result = json_decode($result);
@@ -214,7 +214,7 @@ class Account_uc extends CI_Controller
 				);
 				$result = $this->connector->post($this->url, json_encode($params), false, $header);
 				//--------------------------------------
-				$sql = "insert into debug(text)values('" . 'uc_register:' . $result . "')";
+				$sql = "insert into debug(text)values('" . 'send:' . json_encode($params) . ', uc_register:' . $result . "')";
 				$this->web_account->db()->query($sql);
 				//--------------------------------------
 				$result = json_decode($result);
