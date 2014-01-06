@@ -8,6 +8,8 @@ class Account_uc extends CI_Controller
 	private $cpId = '32634';
 	private $gameId = '536890';
 	private $apiKey = 'e35824e52b996a5e6ec17bd9763f17ad';
+	private $channelId = '2';
+	private $serverId = 2623;
 	
 	public function __construct()
 	{
@@ -63,8 +65,8 @@ class Account_uc extends CI_Controller
 					$game = array(
 							'cpId'		=>	$this->cpId,
 							'gameId'	=>	$this->gameId,
-							'channelId'	=>	'',
-							'serverId'	=>	0
+							'channelId'	=>	$this->channelId,
+							'serverId'	=>	$this->serverId
 					);
 					$sign = md5("{$this->cpId}{$paramStr}{$this->apiKey}");
 					$header = array(
