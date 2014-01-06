@@ -48,86 +48,87 @@ class Account_uc extends CI_Controller
 				$this->load->model('webapi/connector');
 				$this->load->helper('security');
 				
-				//向uc验证登录并获取uid
-				$params = array(
-						'sid'	=>	$uid
-				);
-				$paramStr = $this->connector->getQueryString($params);
-				$paramStr = str_replace('&', '', $paramStr);
-				$time = explode ( " ", microtime () );
-				$time = $time [1] . ($time [0] * 1000);
-				$time2 = explode ( ".", $time );
-				$time = $time2 [0];
-				$game = array(
-						'cpId'		=>	$this->cpId,
-						'gameId'	=>	$this->gameId,
-						'channelId'	=>	'2',
-						'serverId'	=>	0
-				);
-				$sign = md5("{$this->cpId}{$paramStr}{$this->apiKey}");
-				$header = array(
-						'Content-Type: application/json'
-				);
-				$params = array(
-						'id'		=>	$time,
-						'service'	=>	$this->service,
-						'data'		=>	$params,
-						'game'		=>	$game,
-						'sign'		=>	$sign
-				);
-				$result = $this->connector->post($this->url, json_encode($params), false, $header);
-				//--------------------------------------
-				$sql = "insert into debug(text)values('" . 'send:' . json_encode($params) . ', uc_login:' . $result . "')";
-				$this->web_account->db()->query($sql);
-				//--------------------------------------
-				$result = json_decode($result);
-				if(!empty($result) && $result->state->code == '1')
+				if(empty($uid))
 				{
-					$uid = $result->data->ucid;
-					$parameter = array(
-							'partner_key'			=>	$partner_key,
-							'partner_id'			=>	$uid,
-							'account_nickname !='	=>	''
+					//向uc验证登录并获取uid
+					$params = array(
+							'sid'	=>	$session_id
 					);
-					$extension = array(
-							'select'	=>	'GUID,account_name,server_id,account_nickname,account_status,account_job,profession_icon,account_level,account_mission,partner_key,partner_id',
-							'order_by'	=>	array('account_lastlogin', 'desc')
+					$paramStr = $this->connector->getQueryString($params);
+					$paramStr = str_replace('&', '', $paramStr);
+					$time = explode ( " ", microtime () );
+					$time = $time [1] . ($time [0] * 1000);
+					$time2 = explode ( ".", $time );
+					$time = $time2 [0];
+					$game = array(
+							'cpId'		=>	$this->cpId,
+							'gameId'	=>	$this->gameId,
+							'channelId'	=>	'2',
+							'serverId'	=>	0
 					);
-					$result = $this->web_account->read($parameter, $extension);
-					if(empty($result))
+					$sign = md5("{$this->cpId}{$paramStr}{$this->apiKey}");
+					$header = array(
+							'Content-Type: application/json'
+					);
+					$params = array(
+							'id'		=>	$time,
+							'service'	=>	$this->service,
+							'data'		=>	$params,
+							'game'		=>	$game,
+							'sign'		=>	$sign
+					);
+					$result = $this->connector->post($this->url, json_encode($params), false, $header);
+					//--------------------------------------
+					$sql = "insert into debug(text)values('" . 'send:' . json_encode($params) . ', uc_login:' . $result . "')";
+					$this->web_account->db()->query($sql);
+					//--------------------------------------
+					$result = json_decode($result);
+					if(empty($result) || $result->state->code != '1')
 					{
-						$result = array();
-					}
-					$time = time();
-					for($i = 0; $i<count($result); $i++)
-					{
-						$this->mtoken->update($result[$i]->GUID, array(
-								'expire_time'	=>	0
-						));
-						$hash = do_hash($result[$i]->GUID . $time . mt_rand());
-						$result[$i]->token = $hash;
-						$parameter = array(
-								'guid'			=>	$result[$i]->GUID,
-								'token'			=>	$hash,
-								'expire_time'	=>	$time + 600
+						$json = array(
+								'success'		=>	false,
+								'message'		=>	'SDK_LOGIN_FAIL'
 						);
-						$this->mtoken->create($parameter);
+						exit($this->return_format->format($json));
 					}
-					
-					$json = array(
-							'success'		=>	true,
-							'message'		=>	'SDK_LOGIN_SUCCESS',
-							'result'		=>	$result,
-							'uid'			=>	$uid
-					);
+					$uid = $result->data->ucid;
 				}
-				else
+				$parameter = array(
+						'partner_key'			=>	$partner_key,
+						'partner_id'			=>	$uid,
+						'account_nickname !='	=>	''
+				);
+				$extension = array(
+						'select'	=>	'GUID,account_name,server_id,account_nickname,account_status,account_job,profession_icon,account_level,account_mission,partner_key,partner_id',
+						'order_by'	=>	array('account_lastlogin', 'desc')
+				);
+				$result = $this->web_account->read($parameter, $extension);
+				if(empty($result))
 				{
-					$json = array(
-							'success'		=>	false,
-							'message'		=>	'SDK_LOGIN_FAIL'
-					);
+					$result = array();
 				}
+				$time = time();
+				for($i = 0; $i<count($result); $i++)
+				{
+					$this->mtoken->update($result[$i]->GUID, array(
+							'expire_time'	=>	0
+					));
+					$hash = do_hash($result[$i]->GUID . $time . mt_rand());
+					$result[$i]->token = $hash;
+					$parameter = array(
+							'guid'			=>	$result[$i]->GUID,
+							'token'			=>	$hash,
+							'expire_time'	=>	$time + 600
+					);
+					$this->mtoken->create($parameter);
+				}
+				
+				$json = array(
+						'success'		=>	true,
+						'message'		=>	'SDK_LOGIN_SUCCESS',
+						'result'		=>	$result,
+						'uid'			=>	$uid
+				);
 			}
 			else
 			{
@@ -186,99 +187,86 @@ class Account_uc extends CI_Controller
 				$this->load->model('webapi/connector');
 				$this->load->model('mtoken');
 
-				//向uc验证登录并获取uid
-				$params = array(
-						'sid'	=>	$uid
-				);
-				$paramStr = $this->connector->getQueryString($params);
-				$paramStr = str_replace('&', '', $paramStr);
-				$time = explode ( " ", microtime () );
-				$time = $time [1] . ($time [0] * 1000);
-				$time2 = explode ( ".", $time );
-				$time = $time2 [0];
-				$game = array(
-						'cpId'		=>	$this->cpId,
-						'gameId'	=>	$this->gameId,
-						'channelId'	=>	'2',
-						'serverId'	=>	0
-				);
-				$sign = md5("{$this->cpId}{$paramStr}{$this->apiKey}");
-				$header = array(
-						'Content-Type: application/json'
-				);
-				$params = array(
-						'id'		=>	$time,
-						'service'	=>	$this->service,
-						'data'		=>	$params,
-						'game'		=>	$game,
-						'sign'		=>	$sign
-				);
-				$result = $this->connector->post($this->url, json_encode($params), false, $header);
-				//--------------------------------------
-				$sql = "insert into debug(text)values('" . 'send:' . json_encode($params) . ', uc_register:' . $result . "')";
-				$this->web_account->db()->query($sql);
-				//--------------------------------------
-				$result = json_decode($result);
-				if(!empty($result) && $result->state->code == '1')
+				if(empty($uid))
 				{
-// 				$parameter = array(
-// 						'partner_id'	=>	$uid,
-// 						'server_id'		=>	$server_id
-// 				);
-// 				$result = $this->web_account->read($parameter);
-// 				if(!empty($result))
-// 				{
-// 					$json = array(
-// 							'success'		=>	false,
-// 							'message'		=>	'SDK_REGISTER_FAIL_EXIST'
-// 					);
-// 				}
-// 				else
-// 				{
-					$uid = $result->data->ucid;
-					$name = strtolower(do_hash($this->guid->toString(), 'md5'));
-					$pass = $name;
-					$name = 'P' . $name;
-					
-					$parameter = array(
-							'account_name'		=>	$name,
-							'account_pass'		=>	$this->web_account->encrypt_pass($pass),
-							'server_id'			=>	$server_id,
-							'account_regtime'	=>	time(),
-							'partner_key'		=>	$partner_key,
-							'partner_id'		=>	$uid
+				//向uc验证登录并获取uid
+					$params = array(
+							'sid'	=>	$session_id
 					);
-					$guid = $this->web_account->create($parameter);
-					if($guid !== FALSE)
-					{
-						$user = $this->web_account->get($guid);
-						unset($user->account_secret_key);
-						$user->account_pass = $pass;
-						
-						$time = time();
-						$hash = do_hash($guid . $time . mt_rand());
-						$user->token = $hash;
-						$parameter = array(
-								'guid'			=>	$guid,
-								'token'			=>	$hash,
-								'expire_time'	=>	$time + 600
-						);
-						$this->mtoken->create($parameter);
-						
-						$json = array(
-								'success'		=>	true,
-								'message'		=>	'SDK_REGISTER_SUCCESS',
-								'result'		=>	$user,
-								'uid'			=>	$uid
-						);
-					}
-					else
+					$paramStr = $this->connector->getQueryString($params);
+					$paramStr = str_replace('&', '', $paramStr);
+					$time = explode ( " ", microtime () );
+					$time = $time [1] . ($time [0] * 1000);
+					$time2 = explode ( ".", $time );
+					$time = $time2 [0];
+					$game = array(
+							'cpId'		=>	$this->cpId,
+							'gameId'	=>	$this->gameId,
+							'channelId'	=>	'2',
+							'serverId'	=>	0
+					);
+					$sign = md5("{$this->cpId}{$paramStr}{$this->apiKey}");
+					$header = array(
+							'Content-Type: application/json'
+					);
+					$params = array(
+							'id'		=>	$time,
+							'service'	=>	$this->service,
+							'data'		=>	$params,
+							'game'		=>	$game,
+							'sign'		=>	$sign
+					);
+					$result = $this->connector->post($this->url, json_encode($params), false, $header);
+					//--------------------------------------
+					$sql = "insert into debug(text)values('" . 'send:' . json_encode($params) . ', uc_register:' . $result . "')";
+					$this->web_account->db()->query($sql);
+					//--------------------------------------
+					$result = json_decode($result);
+					if(!empty($result) && $result->state->code == '1')
 					{
 						$json = array(
 								'success'		=>	false,
 								'message'		=>	'SDK_REGISTER_FAIL'
 						);
+						exit($this->return_format->format($json));
 					}
+					$uid = $result->data->ucid;
+				}
+				$name = strtolower(do_hash($this->guid->toString(), 'md5'));
+				$pass = $name;
+				$name = 'P' . $name;
+				
+				$parameter = array(
+						'account_name'		=>	$name,
+						'account_pass'		=>	$this->web_account->encrypt_pass($pass),
+						'server_id'			=>	$server_id,
+						'account_regtime'	=>	time(),
+						'partner_key'		=>	$partner_key,
+						'partner_id'		=>	$uid
+				);
+				$guid = $this->web_account->create($parameter);
+				if($guid !== FALSE)
+				{
+					$user = $this->web_account->get($guid);
+					unset($user->account_secret_key);
+					$user->account_pass = $pass;
+					
+					$time = time();
+					$hash = do_hash($guid . $time . mt_rand());
+					$user->token = $hash;
+					$parameter = array(
+							'guid'			=>	$guid,
+							'token'			=>	$hash,
+							'expire_time'	=>	$time + 600
+					);
+					$this->mtoken->create($parameter);
+					
+					$json = array(
+							'success'		=>	true,
+							'message'		=>	'SDK_REGISTER_SUCCESS',
+							'result'		=>	$user,
+							'uid'			=>	$uid
+					);
 				}
 				else
 				{
