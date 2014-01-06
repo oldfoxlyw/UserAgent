@@ -1,8 +1,12 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Account extends CI_Controller
+class Account_uc extends CI_Controller
 {
 	private $check_code = 'YI7RclFHiSIk4mbz*D9OGstjDN&QkjehA6SvfRj_2awnBUPOy@ITCctHmhhNDJbY';
+	private $wanwan_server = 'http://sdk.g.uc.cn/ss/';
+	private $service = 'ucid.user.sidInfo';
+	private $cpId = '32634';
+	private $gameId = '536890';
 	
 	public function __construct()
 	{
@@ -33,50 +37,80 @@ class Account extends CI_Controller
 		{
 			$parameter = array(
 					'uid'			=>	$uid,
-					'session_id'	=>	$session_id,
 					'partner_key'	=>	$partner_key
 			);
 			if($this->verify_check_code($parameter, $code))
 			{
 				$this->load->model('web_account');
 				$this->load->model('mtoken');
+				$this->load->model('webapi/connector');
 				$this->load->helper('security');
 				
-				$parameter = array(
-						'partner_key'			=>	$partner_key,
-						'partner_id'			=>	$uid,
-						'account_nickname !='	=>	''
+				//向wanwan验证登录并获取uid
+				$params = array(
+						'token'		=>	$uid
 				);
-				$extension = array(
-						'select'	=>	'GUID,account_name,server_id,account_nickname,account_status,account_job,profession_icon,account_level,account_mission,partner_key,partner_id',
-						'order_by'	=>	array('account_lastlogin', 'desc')
+				$paramStr = $this->connector->getQueryString($params);
+				$path = $this->wanwan_server . $this->api_name;
+				$timestamp = date('D, d M Y H:i:s') . ' GMT';
+				$sign = md5("{$timestamp}:{$this->api_name}:{$paramStr}:{$this->GAME_SECRET}");
+				$auth = "{$this->VENDOR} {$this->GAME_ID}:{$sign}";
+				$header = array(
+						'Date:' . $timestamp,
+						'Accept:application/json; version=' . $this->api_version,
+						'Authentication:' . $auth
 				);
-				$result = $this->web_account->read($parameter, $extension);
-				if(empty($result))
+				$result = $this->connector->post($path, $params, false, $header);
+				//--------------------------------------
+				$sql = "insert into debug(text)values('" . 'login:' . $result . "')";
+				$this->web_account->db()->query($sql);
+				//--------------------------------------
+				$result = json_decode($result);
+				if(!empty($result) && !empty($result->usergameid))
 				{
-					$result = array();
-				}
-				$time = time();
-				for($i = 0; $i<count($result); $i++)
-				{
-					$this->mtoken->update($result[$i]->GUID, array(
-							'expire_time'	=>	0
-					));
-					$hash = do_hash($result[$i]->GUID . $time . mt_rand());
-					$result[$i]->token = $hash;
 					$parameter = array(
-							'guid'			=>	$result[$i]->GUID,
-							'token'			=>	$hash,
-							'expire_time'	=>	$time + 600
+							'partner_key'			=>	$partner_key,
+							'partner_id'			=>	$result->usergameid,
+							'account_nickname !='	=>	''
 					);
-					$this->mtoken->create($parameter);
+					$extension = array(
+							'select'	=>	'GUID,account_name,server_id,account_nickname,account_status,account_job,profession_icon,account_level,account_mission,partner_key,partner_id',
+							'order_by'	=>	array('account_lastlogin', 'desc')
+					);
+					$result = $this->web_account->read($parameter, $extension);
+					if(empty($result))
+					{
+						$result = array();
+					}
+					$time = time();
+					for($i = 0; $i<count($result); $i++)
+					{
+						$this->mtoken->update($result[$i]->GUID, array(
+								'expire_time'	=>	0
+						));
+						$hash = do_hash($result[$i]->GUID . $time . mt_rand());
+						$result[$i]->token = $hash;
+						$parameter = array(
+								'guid'			=>	$result[$i]->GUID,
+								'token'			=>	$hash,
+								'expire_time'	=>	$time + 600
+						);
+						$this->mtoken->create($parameter);
+					}
+					
+					$json = array(
+							'success'		=>	true,
+							'message'		=>	'SDK_LOGIN_SUCCESS',
+							'result'		=>	$result
+					);
 				}
-				
-				$json = array(
-						'success'		=>	true,
-						'message'		=>	'SDK_LOGIN_SUCCESS',
-						'result'		=>	$result
-				);
+				else
+				{
+					$json = array(
+							'success'		=>	false,
+							'message'		=>	'SDK_REGISTER_FAIL'
+					);
+				}
 			}
 			else
 			{
@@ -102,7 +136,6 @@ class Account extends CI_Controller
 		$this->load->model('return_format');
 		
 		$uid = $this->input->get_post('uid', TRUE);
-		$session_id = $this->input->get_post('session_id', TRUE);
 		$server_id = $this->input->get_post('server_id', TRUE);
 		$partner_key = $this->input->get_post('partner_key', TRUE);
 		$code = $this->input->get_post('code', TRUE);
@@ -113,7 +146,6 @@ class Account extends CI_Controller
 			$inputParam = json_decode($raw_post_data);
 			
 			$uid = $inputParam->uid;
-			$session_id = $inputParam->session_id;
 			$server_id = $inputParam->server_id;
 			$partner_key = $inputParam->partner_key;
 			$code = $inputParam->code;
@@ -123,7 +155,6 @@ class Account extends CI_Controller
 		{
 			$parameter = array(
 					'uid'			=>	$uid,
-					'session_id'	=>	$session_id,
 					'server_id'		=>	$server_id,
 					'partner_key'	=>	$partner_key
 			);
@@ -133,7 +164,29 @@ class Account extends CI_Controller
 				$this->load->helper('security');
 				$this->load->model('web_account');
 				$this->load->model('mtoken');
-				
+
+				//向wanwan验证登录并获取uid
+				$params = array(
+						'token'		=>	$uid
+				);
+				$paramStr = $this->connector->getQueryString($params);
+				$path = $this->wanwan_server . $this->api_name;
+				$timestamp = date('D, d M Y H:i:s') . ' GMT';
+				$sign = md5("{$timestamp}:{$this->api_name}:{$paramStr}:{$this->GAME_SECRET}");
+				$auth = "{$this->VENDOR} {$this->GAME_ID}:{$sign}";
+				$header = array(
+						'Date:' . $timestamp,
+						'Accept:application/json; version=' . $this->api_version,
+						'Authentication:' . $auth
+				);
+				$result = $this->connector->post($path, $params, false, $header);
+				//--------------------------------------
+				$sql = "insert into debug(text)values('" . 'register:' . $result . "')";
+				$this->web_account->db()->query($sql);
+				//--------------------------------------
+				$result = json_decode($result);
+				if(!empty($result) && !empty($result->usergameid))
+				{
 // 				$parameter = array(
 // 						'partner_id'	=>	$uid,
 // 						'server_id'		=>	$server_id
@@ -158,7 +211,7 @@ class Account extends CI_Controller
 							'server_id'			=>	$server_id,
 							'account_regtime'	=>	time(),
 							'partner_key'		=>	$partner_key,
-							'partner_id'		=>	$uid
+							'partner_id'		=>	$result->usergameid
 					);
 					$guid = $this->web_account->create($parameter);
 					if($guid !== FALSE)
@@ -190,7 +243,14 @@ class Account extends CI_Controller
 								'message'		=>	'SDK_REGISTER_FAIL'
 						);
 					}
-// 				}
+				}
+				else
+				{
+					$json = array(
+							'success'		=>	false,
+							'message'		=>	'SDK_REGISTER_FAIL'
+					);
+				}
 			}
 			else
 			{
@@ -215,13 +275,6 @@ class Account extends CI_Controller
 	{
 		if(is_array($parameter))
 		{
-			foreach($parameter as $key=>$value)
-			{
-				if(empty($value))
-				{
-					unset($parameter[$key]);
-				}
-			}
 			ksort($parameter);
 			array_push($parameter, $this->check_code);
 			

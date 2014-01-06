@@ -39,6 +39,7 @@ class Account_wanwan extends CI_Controller
 		{
 			$parameter = array(
 					'uid'			=>	$uid,
+					'session_id'	=>	$session_id,
 					'partner_key'	=>	$partner_key
 			);
 			if($this->verify_check_code($parameter, $code))
@@ -50,7 +51,7 @@ class Account_wanwan extends CI_Controller
 				
 				//向wanwan验证登录并获取uid
 				$params = array(
-						'token'		=>	$uid
+						'token'		=>	$session_id
 				);
 				$paramStr = $this->connector->getQueryString($params);
 				$path = $this->wanwan_server . $this->api_name;
@@ -138,6 +139,7 @@ class Account_wanwan extends CI_Controller
 		$this->load->model('return_format');
 		
 		$uid = $this->input->get_post('uid', TRUE);
+		$session_id = $this->input->get_post('session_id', TRUE);
 		$server_id = $this->input->get_post('server_id', TRUE);
 		$partner_key = $this->input->get_post('partner_key', TRUE);
 		$code = $this->input->get_post('code', TRUE);
@@ -148,6 +150,7 @@ class Account_wanwan extends CI_Controller
 			$inputParam = json_decode($raw_post_data);
 			
 			$uid = $inputParam->uid;
+			$session_id = $inputParam->session_id;
 			$server_id = $inputParam->server_id;
 			$partner_key = $inputParam->partner_key;
 			$code = $inputParam->code;
@@ -157,6 +160,7 @@ class Account_wanwan extends CI_Controller
 		{
 			$parameter = array(
 					'uid'			=>	$uid,
+					'session_id'	=>	$session_id,
 					'server_id'		=>	$server_id,
 					'partner_key'	=>	$partner_key
 			);
@@ -169,7 +173,7 @@ class Account_wanwan extends CI_Controller
 
 				//向wanwan验证登录并获取uid
 				$params = array(
-						'token'		=>	$uid
+						'token'		=>	$session_id
 				);
 				$paramStr = $this->connector->getQueryString($params);
 				$path = $this->wanwan_server . $this->api_name;
@@ -277,6 +281,13 @@ class Account_wanwan extends CI_Controller
 	{
 		if(is_array($parameter))
 		{
+			foreach($parameter as $key=>$value)
+			{
+				if(empty($value))
+				{
+					unset($parameter[$key]);
+				}
+			}
 			ksort($parameter);
 			array_push($parameter, $this->check_code);
 			
