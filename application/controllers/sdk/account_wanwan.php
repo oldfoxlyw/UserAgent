@@ -6,9 +6,9 @@ class Account_wanwan extends CI_Controller
 	private $wanwan_server = 'http://gop.37wanwan.com/api/';
 	private $api_version = '1.0';
 	private $api_name = 'verifyUser';
-	private $GAME_ID = 1;
-	private $GAME_SECRET = '3049safdlkjwqeroufsafdler';
-	private $VENDOR = '798';
+	private $GAME_ID = 54;
+	private $GAME_SECRET = '9fb644427278b9288c40823318b4aadf';
+	private $VENDOR = '4';
 	
 	public function __construct()
 	{
