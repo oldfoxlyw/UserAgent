@@ -76,7 +76,7 @@ CREATE TABLE IF NOT EXISTS `agent1_account_db`.`account_login_token` (
   `guid` BIGINT NOT NULL,
   `token` CHAR(64) NOT NULL,
   `expire_time` INT NOT NULL,
-  PRIMARY KEY (`guid`, `token`))
+  PRIMARY KEY (`guid`))
 ENGINE = InnoDB;
 
 USE `agent1_adminlog_db` ;

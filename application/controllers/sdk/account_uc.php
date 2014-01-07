@@ -113,17 +113,24 @@ class Account_uc extends CI_Controller
 				$time = time();
 				for($i = 0; $i<count($result); $i++)
 				{
-					$this->mtoken->update($result[$i]->GUID, array(
-							'expire_time'	=>	0
+					$tokenResult = $this->mtoken->read(array(
+							'guid'	=>	$result[$i]->GUID
 					));
-					$hash = do_hash($result[$i]->GUID . $time . mt_rand());
-					$result[$i]->token = $hash;
-					$parameter = array(
-							'guid'			=>	$result[$i]->GUID,
-							'token'			=>	$hash,
-							'expire_time'	=>	$time + 600
-					);
-					$this->mtoken->create($parameter);
+					if(!empty($tokenResult))
+					{
+						$result[$i]->token = $tokenResult[0]->token;
+					}
+					else 
+					{
+						$hash = do_hash($result[$i]->GUID . $time . mt_rand());
+						$result[$i]->token = $hash;
+						$parameter = array(
+								'guid'			=>	$result[$i]->GUID,
+								'token'			=>	$hash,
+								'expire_time'	=>	$time + 365 * 86400
+						);
+						$this->mtoken->create($parameter);
+					}
 				}
 				
 				$json = array(
@@ -260,7 +267,7 @@ class Account_uc extends CI_Controller
 					$parameter = array(
 							'guid'			=>	$guid,
 							'token'			=>	$hash,
-							'expire_time'	=>	$time + 600
+							'expire_time'	=>	$time + 365 * 86400
 					);
 					$this->mtoken->create($parameter);
 					

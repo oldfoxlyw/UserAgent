@@ -176,12 +176,13 @@ class Account extends CI_Controller
 						$user->account_pass = $pass;
 						
 						$time = time();
+
 						$hash = do_hash($guid . $time . mt_rand());
 						$user->token = $hash;
 						$parameter = array(
 								'guid'			=>	$guid,
 								'token'			=>	$hash,
-								'expire_time'	=>	$time + 600
+								'expire_time'	=>	$time + 365 * 86400
 						);
 						$this->mtoken->create($parameter);
 						
