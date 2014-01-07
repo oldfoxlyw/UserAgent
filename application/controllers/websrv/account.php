@@ -680,9 +680,9 @@ class Account extends CI_Controller {
 			$result = $this->mtoken->read($parameter);
 			if(!empty($result))
 			{
-				$result = $result[0];
-				if($result->expire_time > time())
-				{
+// 				$result = $result[0];
+// 				if($result->expire_time > time())
+// 				{
 					$user = $this->web_account->get($guid);
 					$json = array(
 							'success'	=>	true,
@@ -694,14 +694,14 @@ class Account extends CI_Controller {
 							'account_lastlogin'		=>	time()
 					);
 					$this->web_account->update($parameter, $guid);
-				}
-				else
-				{
-					$json = array(
-							'success'	=>	false,
-							'code'		=>	VERIFY_LOGIN_TOKEN_ERROR_EXPIRED
-					);
-				}
+// 				}
+// 				else
+// 				{
+// 					$json = array(
+// 							'success'	=>	false,
+// 							'code'		=>	VERIFY_LOGIN_TOKEN_ERROR_EXPIRED
+// 					);
+// 				}
 			}
 			else
 			{
