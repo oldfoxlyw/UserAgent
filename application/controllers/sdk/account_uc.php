@@ -3,8 +3,8 @@
 class Account_uc extends CI_Controller
 {
 	private $check_code = 'YI7RclFHiSIk4mbz*D9OGstjDN&QkjehA6SvfRj_2awnBUPOy@ITCctHmhhNDJbY';
-// 	private $url = 'http://sdk.g.uc.cn/ss/';
-	private $url = 'http://sdk.test4.g.uc.cn/ss';
+	private $url = 'http://sdk.g.uc.cn/ss/';
+// 	private $url = 'http://sdk.test4.g.uc.cn/ss';
 	private $service = 'ucid.user.sidInfo';
 	private $cpId = 32634;
 	private $gameId = 536890;
