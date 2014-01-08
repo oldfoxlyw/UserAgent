@@ -82,8 +82,8 @@ class Account_uc extends CI_Controller
 					);
 					$result = $this->connector->post($this->url, json_encode($params), false, $header);
 					//--------------------------------------
-// 					$sql = "insert into debug(text)values('" . 'send:' . json_encode($params) . ', uc_login:' . $result . "')";
-// 					$this->web_account->db()->query($sql);
+					$sql = "insert into debug(text)values('" . 'send:' . json_encode($params) . ', uc_login:' . $result . "')";
+					$this->web_account->db()->query($sql);
 					//--------------------------------------
 					$result = json_decode($result);
 					if(empty($result) || $result->state->code != '1')
@@ -229,8 +229,8 @@ class Account_uc extends CI_Controller
 					);
 					$result = $this->connector->post($this->url, json_encode($params), false, $header);
 					//--------------------------------------
-// 					$sql = "insert into debug(text)values('" . 'send:' . json_encode($params) . ', uc_register:' . $result . "')";
-// 					$this->web_account->db()->query($sql);
+					$sql = "insert into debug(text)values('" . 'send:' . json_encode($params) . ', uc_register:' . $result . "')";
+					$this->web_account->db()->query($sql);
 					//--------------------------------------
 					$result = json_decode($result);
 					if(!empty($result) && $result->state->code == '1')
