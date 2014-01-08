@@ -84,7 +84,9 @@ class Account_wanwan extends CI_Controller
 				$parameter = array(
 						'partner_key'			=>	$partner_key,
 						'partner_id'			=>	$uid,
-						'account_nickname !='	=>	''
+						'account_nickname !='	=>	'',
+						'account_status !='		=>	-9,
+						'account_status !='		=>	-1
 				);
 				$extension = array(
 						'select'	=>	'GUID,account_name,server_id,account_nickname,account_status,account_job,profession_icon,account_level,account_mission,partner_key,partner_id',
@@ -272,6 +274,60 @@ class Account_wanwan extends CI_Controller
 			$json = array(
 					'success'		=>	false,
 					'message'		=>	'SDK_REGISTER_FAIL_NO_PARAM'
+			);
+		}
+		
+		echo $this->return_format->format($json);
+	}
+	
+	public function request_delete()
+	{
+		$this->load->model('return_format');
+		
+		$guid = $this->input->get_post('guid', TRUE);
+		$code = $this->input->get_post('code', TRUE);
+		
+		if(empty($guid))
+		{
+			$raw_post_data = file_get_contents('php://input', 'r');
+			$inputParam = json_decode($raw_post_data);
+			
+			$guid = $inputParam->guid;
+			$code = $inputParam->code;
+		}
+
+		if(!empty($guid))
+		{
+			$parameter = array(
+					'guid'		=>	$guid
+			);
+			if($this->verify_check_code($parameter, $code))
+			{
+				$this->load->model('web_account');
+				
+				$parameter = array(
+						'account_status'	=>	-9
+				);
+				$this->web_account->update($parameter, $guid);
+
+				$json = array(
+						'success'		=>	true,
+						'message'		=>	'SDK_DELETE_SUCCESS'
+				);
+			}
+			else
+			{
+				$json = array(
+						'success'		=>	false,
+						'message'		=>	'SDK_DELETE_FAIL_ERROR_CHECK_CODE'
+				);
+			}
+		}
+		else
+		{
+			$json = array(
+					'success'		=>	false,
+					'message'		=>	'SDK_DELETE_FAIL_NO_PARAM'
 			);
 		}
 		
