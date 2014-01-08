@@ -3,8 +3,8 @@
 class Sdk_91_account extends CI_Controller
 {
 	private $url = "http://service.sj.91.com/usercenter/AP.aspx";
-	private $app_id = 102328;
-	private $app_key = "f686c38a3d50f4f91aa6289908a81b8f6662cef0d901af32";
+	private $app_id = 110704;
+	private $app_key = "6c13df7daab1422eb66c784413310f380fb32f822a8aaf02";
 	private $act = 4;
 	
 	public function __construct()

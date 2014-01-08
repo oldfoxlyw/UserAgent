@@ -171,7 +171,7 @@ class Servers extends CI_Controller {
 		{
 			$activate = 1;
 		}
-		$activate = 0;
+// 		$activate = 0;
 		
 		$jsonData = Array(
 			'message'			=>	'SERVER_LIST_SUCCESS',
