@@ -100,8 +100,7 @@ class Account_uc extends CI_Controller
 						'partner_key'			=>	$partner_key,
 						'partner_id'			=>	$uid,
 						'account_nickname !='	=>	'',
-						'account_status !='		=>	-9,
-						'account_status !='		=>	-1
+						'account_status >='		=>	0
 				);
 				$extension = array(
 						'select'	=>	'GUID,account_name,server_id,account_nickname,account_status,account_job,profession_icon,account_level,account_mission,partner_key,partner_id',
