@@ -493,9 +493,10 @@ CREATE TABLE IF NOT EXISTS `agent1_product_db`.`server_list` (
   `server_recommend` TINYINT(1) NOT NULL DEFAULT '0',
   `server_debug` TINYINT NOT NULL DEFAULT 0,
   `partner` CHAR(16) NOT NULL DEFAULT 'default',
-  `server_status` INT(11) NOT NULL DEFAULT '1' COMMENT '0=关闭；1=正常；2=繁忙；3=拥挤',
+  `server_status` INT(11) NOT NULL DEFAULT '1' COMMENT '0=关闭；1=正常；2=繁忙；3=拥挤；9=隐藏',
   `server_new` INT(11) NOT NULL DEFAULT 1 COMMENT '1=新服；0=旧服',
   `special_ip` CHAR(16) NOT NULL DEFAULT '',
+  `server_starttime` INT NOT NULL DEFAULT 0 COMMENT '开服时间',
   `need_activate` TINYINT NOT NULL DEFAULT 1,
   INDEX `server_recommend` (`server_recommend` ASC),
   PRIMARY KEY (`id`),
@@ -721,8 +722,8 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `agent1_product_db`;
-INSERT INTO `agent1_product_db`.`server_list` (`id`, `game_id`, `section_id`, `account_server_id`, `server_name`, `server_ip`, `server_game_ip`, `game_message_ip`, `server_max_player`, `account_count`, `server_language`, `server_sort`, `server_recommend`, `server_debug`, `partner`, `server_status`, `server_new`, `special_ip`, `need_activate`) VALUES (1, 'B', 101, 'A', '红龙女王', '[{\"ip\":\"115.29.195.156\",\"port\":\"8090\"}]', '[{\"ip\":\"112.124.40.93\",\"port\":\"9999\"}]', '', 100000, 0, 'CN', 5, 1, 0, 'default', 1, 1, '', 1);
-INSERT INTO `agent1_product_db`.`server_list` (`id`, `game_id`, `section_id`, `account_server_id`, `server_name`, `server_ip`, `server_game_ip`, `game_message_ip`, `server_max_player`, `account_count`, `server_language`, `server_sort`, `server_recommend`, `server_debug`, `partner`, `server_status`, `server_new`, `special_ip`, `need_activate`) VALUES (2, 'B', 102, 'B', '闪光平原', '[{\"ip\":\"112.124.37.58\",\"port\":\"8090\"}]', '[{\"ip\":\"112.124.40.93\",\"port\":\"9998\"}]', '', 100000, 0, 'CN', 4, 0, 0, 'default', 1, 1, '', 1);
+INSERT INTO `agent1_product_db`.`server_list` (`id`, `game_id`, `section_id`, `account_server_id`, `server_name`, `server_ip`, `server_game_ip`, `game_message_ip`, `server_max_player`, `account_count`, `server_language`, `server_sort`, `server_recommend`, `server_debug`, `partner`, `server_status`, `server_new`, `special_ip`, `server_starttime`, `need_activate`) VALUES (1, 'B', 101, 'A', '红龙女王', '[{\"ip\":\"115.29.195.156\",\"port\":\"8090\"}]', '[{\"ip\":\"112.124.40.93\",\"port\":\"9999\"}]', '', 100000, 0, 'CN', 5, 1, 0, 'default', 1, 1, '', 0, 1);
+INSERT INTO `agent1_product_db`.`server_list` (`id`, `game_id`, `section_id`, `account_server_id`, `server_name`, `server_ip`, `server_game_ip`, `game_message_ip`, `server_max_player`, `account_count`, `server_language`, `server_sort`, `server_recommend`, `server_debug`, `partner`, `server_status`, `server_new`, `special_ip`, `server_starttime`, `need_activate`) VALUES (2, 'B', 102, 'B', '闪光平原', '[{\"ip\":\"112.124.37.58\",\"port\":\"8090\"}]', '[{\"ip\":\"112.124.40.93\",\"port\":\"9998\"}]', '', 100000, 0, 'CN', 4, 0, 0, 'default', 1, 1, '', 0, 1);
 
 COMMIT;
 
