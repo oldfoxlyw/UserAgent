@@ -25,6 +25,15 @@ class Servers extends CI_Controller {
 		$partner	=	$this->input->get_post('partner', TRUE);
 		$mode		=	$this->input->get_post('mode', TRUE);
 		$lang		=	$this->input->get_post('language', TRUE);
+		
+		if($partner != 'default')
+		{
+			$jsonData = Array(
+					'errors'			=>	'服务器尚未开放尽请期待1月10日封测'
+			);
+			echo $this->return_format->format($jsonData, $format);
+			exit();
+		}
 
 		$parameter = array(
 			'order_by'			=>	'server_sort'
