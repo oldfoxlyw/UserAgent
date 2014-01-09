@@ -29,7 +29,7 @@ class Servers extends CI_Controller {
 		if($partner != 'default')
 		{
 			$jsonData = Array(
-					'errors'			=>	'服务器尚未开放尽请期待1月10日封测'
+					'errors'			=>	'服务器尚未开放尽请期待1月10日上午10:50封测'
 			);
 			echo $this->return_format->format($jsonData, $format);
 			exit();
