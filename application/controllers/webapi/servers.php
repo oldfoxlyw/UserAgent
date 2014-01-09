@@ -12,9 +12,9 @@ class Servers extends CI_Controller {
 		
 		if(!empty($serverId))
 		{
-			$this->load->model('websrv/server', 'server');
+			$this->load->model('webapi/mserver', 'server');
 			$this->server->select('game_message_ip');
-			$result = $this->server->getAllResult(array(
+			$result = $this->server->read(array(
 					'account_server_id'		=>	$serverId
 			));
 			
