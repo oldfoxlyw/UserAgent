@@ -10,7 +10,7 @@ class Servers extends CI_Controller {
 		$this->load->model('return_format');
 		$this->load->model('websrv/status', 'status');
 	}
-
+	
 	public function server_list($format = 'json') {
 		$serverIp	=	$this->input->server('SERVER_ADDR');
 		if($serverIp == '122.13.131.55')
@@ -34,7 +34,7 @@ class Servers extends CI_Controller {
 			echo $this->return_format->format($jsonData, $format);
 			exit();
 		}
-
+		
 		$parameter = array(
 			'order_by'			=>	'server_sort'
 		);
