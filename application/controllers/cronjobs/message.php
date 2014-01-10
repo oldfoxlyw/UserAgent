@@ -24,7 +24,7 @@ class Message extends CI_Controller
 		{
 			$server->server_ip = json_decode($server->server_ip);
 			$server->server_ip = $server->server_ip[0];
-			$serverIp[$server->account_server_id] = 'http://' . $server->server_ip->ip . ':' . $server->server_ip->port;
+			$serverIp[$server->account_server_id] = 'http://' . $server->server_ip->lan . ':' . $server->server_ip->port;
 		}
 		
 		$time = time();
@@ -50,17 +50,15 @@ class Message extends CI_Controller
 					$minutesArray = explode(',', $row->minutes);
 					if(in_array('*', $minutesArray) || in_array($minutes, $minutesArray))
 					{
-						$ip = $serverIp[$row->server_id];
-						echo $ip . ', content = ' . $row->content;
-// 						if(!empty($row->content))
-// 						{
-// 							$ip = $serverIp[$row->server_id];
+						if(!empty($row->content))
+						{
+							$ip = $serverIp[$row->server_id];
 							
-// 							$parameter = array(
-// 									'content'			=>	$row->content
-// 							);
-// 							$this->connector->post($ip . '/announcement', $parameter, FALSE);
-// 						}
+							$parameter = array(
+									'content'			=>	$row->content
+							);
+							$this->connector->post($ip . '/announcement', $parameter, FALSE);
+						}
 					}
 				}
 			}
