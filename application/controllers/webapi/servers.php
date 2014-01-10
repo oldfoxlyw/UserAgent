@@ -13,14 +13,12 @@ class Servers extends CI_Controller {
 		if(!empty($serverId))
 		{
 			$this->load->model('webapi/mserver');
-			var_dump($result);
 			$result = $this->mserver->read(array(
 					'account_server_id'		=>	$serverId
 			), array(
 					'select'	=>	'game_message_ip'
 			));
 			
-			var_dump($result);
 			if(!empty($result))
 			{
 				$this->load->helper('array');
@@ -39,7 +37,7 @@ class Servers extends CI_Controller {
 			}
 			else
 			{
-				$result = array();
+				exit('{}');
 			}
 			echo $this->return_format->format($result, $format);
 		}
