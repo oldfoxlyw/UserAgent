@@ -57,7 +57,7 @@ class Message extends CI_Controller
 							$parameter = array(
 									'content'			=>	$row->content
 							);
-							$this->connector->post($ip . '/announcement', $parameter, FALSE);
+							echo $this->connector->post($ip . '/announcement', $parameter, FALSE);
 						}
 					}
 				}
