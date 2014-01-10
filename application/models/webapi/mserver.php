@@ -1,8 +1,7 @@
 <?php
 if (!defined('BASEPATH')) exit('No direct script access allowed');
-require_once('ICrud.php');
 
-class Mserver extends CI_Model implements ICrud
+class Mserver extends CI_Model
 {
 	
 	private $accountTable = 'server_list';
@@ -60,7 +59,10 @@ class Mserver extends CI_Model implements ICrud
 		}
 		if(!empty($extension))
 		{
-			
+			if(!empty($extension['select']))
+			{
+				$this->logdb->select($extension['select']);
+			}
 		}
 		if($limit==0 && $offset==0) {
 			$query = $this->logdb->get($this->accountTable);

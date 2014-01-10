@@ -8,16 +8,19 @@ class Servers extends CI_Controller {
 	}
 	
 	public function server_list($format = 'json') {
-		$serverId = $this->input->post('server_id', TRUE);
+		$serverId = $this->input->get_post('server_id', TRUE);
 		
 		if(!empty($serverId))
 		{
-			$this->load->model('websrv/server', 'server');
-			$this->server->select('game_message_ip');
-			$result = $this->server->read(array(
+			$this->load->model('webapi/mserver');
+			var_dump($result);
+			$result = $this->mserver->read(array(
 					'account_server_id'		=>	$serverId
+			), array(
+					'select'	=>	'game_message_ip'
 			));
 			
+			var_dump($result);
 			if(!empty($result))
 			{
 				$this->load->helper('array');
