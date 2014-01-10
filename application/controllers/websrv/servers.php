@@ -26,7 +26,7 @@ class Servers extends CI_Controller {
 		$mode		=	$this->input->get_post('mode', TRUE);
 		$lang		=	$this->input->get_post('language', TRUE);
 		
-		if($partner != 'default' && $partner != '91')
+		if($partner != 'default')
 		{
 			$jsonData = Array(
 					'errors'			=>	'服务器尚未开放尽请期待1月10日上午10:50封测'
@@ -168,8 +168,14 @@ class Servers extends CI_Controller {
 			$result = array();
 		}
 		
-		$this->load->model('websrv/announcement');
-		$announce = $this->announcement->getAllResult(null, 1);
+		$this->load->model('mannouncement');
+		$parameter = array(
+				'partner_key'	=>	$partner
+		);
+		$extension = array(
+				'order_by'	=>	array('post_time', 'desc')
+		);
+		$announce = $this->mannouncement->read($parameter, $extension, 1, 0);
 		$announce = empty($announce) ? '' : $announce[0];
 		
 		if($partner == 'default')
