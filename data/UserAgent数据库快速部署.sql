@@ -93,12 +93,10 @@ CREATE TABLE IF NOT EXISTS `agent1_adminlog_db`.`log_scc` (
   `log_relative_page_url` VARCHAR(128) NOT NULL,
   `log_relative_parameter` TEXT NOT NULL,
   `log_addition_parameter` TEXT NULL DEFAULT NULL,
-  `log_relative_method` VARCHAR(12) NOT NULL,
   `log_time` DATETIME NOT NULL,
   PRIMARY KEY (`log_id`))
 ENGINE = MyISAM
-AUTO_INCREMENT = 14
-DEFAULT CHARACTER SET = utf8;
+AUTO_INCREMENT = 14;
 
 USE `agent1_funds_flow_db` ;
 
@@ -492,7 +490,7 @@ CREATE TABLE IF NOT EXISTS `agent1_product_db`.`server_list` (
   `server_sort` INT(11) NOT NULL DEFAULT '0',
   `server_recommend` TINYINT(1) NOT NULL DEFAULT '0',
   `server_debug` TINYINT NOT NULL DEFAULT 0,
-  `partner` CHAR(16) NOT NULL DEFAULT 'default',
+  `partner` CHAR(64) NOT NULL DEFAULT 'default',
   `server_status` INT(11) NOT NULL DEFAULT '1' COMMENT '0=关闭；1=正常；2=繁忙；3=拥挤；9=隐藏',
   `server_new` INT(11) NOT NULL DEFAULT 1 COMMENT '1=新服；0=旧服',
   `special_ip` CHAR(16) NOT NULL DEFAULT '',
@@ -567,9 +565,9 @@ CREATE TABLE IF NOT EXISTS `agent1_product_db`.`game_announcement_crontab` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `server_id` CHAR(5) NOT NULL,
   `content` TEXT NOT NULL,
-  `minutes` CHAR(16) NOT NULL,
-  `hour` CHAR(16) NOT NULL,
-  `date` CHAR(16) NOT NULL,
+  `minutes` CHAR(64) NOT NULL,
+  `hour` CHAR(64) NOT NULL,
+  `date` CHAR(64) NOT NULL,
   `starttime` INT NOT NULL,
   `endtime` INT NOT NULL,
   PRIMARY KEY (`id`))
