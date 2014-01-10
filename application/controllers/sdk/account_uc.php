@@ -3,8 +3,8 @@
 class Account_uc extends CI_Controller
 {
 	private $check_code = 'YI7RclFHiSIk4mbz*D9OGstjDN&QkjehA6SvfRj_2awnBUPOy@ITCctHmhhNDJbY';
-	private $url = 'http://sdk.g.uc.cn/ss/';
-// 	private $url = 'http://sdk.test4.g.uc.cn/ss';
+// 	private $url = 'http://sdk.g.uc.cn/ss/';
+	private $url = 'http://sdk.test4.g.uc.cn/ss';
 	private $service = 'ucid.user.sidInfo';
 	private $cpId = 32634;
 	private $gameId = 536890;
@@ -90,7 +90,7 @@ class Account_uc extends CI_Controller
 					{
 						$json = array(
 								'success'		=>	false,
-								'message'		=>	'SDK_LOGIN_FAIL'
+								'errors'		=>	'SDK_LOGIN_FAIL'
 						);
 						exit($this->return_format->format($json));
 					}
@@ -145,7 +145,7 @@ class Account_uc extends CI_Controller
 			{
 				$json = array(
 						'success'		=>	false,
-						'message'		=>	'SDK_LOGIN_FAIL_ERROR_CHECK_CODE'
+						'errors'		=>	'SDK_LOGIN_FAIL_ERROR_CHECK_CODE'
 				);
 			}
 		}
@@ -153,7 +153,7 @@ class Account_uc extends CI_Controller
 		{
 			$json = array(
 					'success'		=>	false,
-					'message'		=>	'SDK_LOGIN_FAIL_NO_PARAM'
+					'errors'		=>	'SDK_LOGIN_FAIL_NO_PARAM'
 			);
 		}
 		
@@ -237,7 +237,7 @@ class Account_uc extends CI_Controller
 					{
 						$json = array(
 								'success'		=>	false,
-								'message'		=>	'SDK_REGISTER_FAIL'
+								'errors'		=>	'SDK_REGISTER_FAIL'
 						);
 						exit($this->return_format->format($json));
 					}
@@ -283,7 +283,7 @@ class Account_uc extends CI_Controller
 				{
 					$json = array(
 							'success'		=>	false,
-							'message'		=>	'SDK_REGISTER_FAIL'
+							'errors'		=>	'SDK_REGISTER_FAIL'
 					);
 				}
 			}
@@ -291,7 +291,7 @@ class Account_uc extends CI_Controller
 			{
 				$json = array(
 						'success'		=>	false,
-						'message'		=>	'SDK_REGISTER_FAIL_ERROR_CHECK_CODE'
+						'errors'		=>	'SDK_REGISTER_FAIL_ERROR_CHECK_CODE'
 				);
 			}
 		}
@@ -299,7 +299,7 @@ class Account_uc extends CI_Controller
 		{
 			$json = array(
 					'success'		=>	false,
-					'message'		=>	'SDK_REGISTER_FAIL_NO_PARAM'
+					'errors'		=>	'SDK_REGISTER_FAIL_NO_PARAM'
 			);
 		}
 		
@@ -345,7 +345,7 @@ class Account_uc extends CI_Controller
 			{
 				$json = array(
 						'success'		=>	false,
-						'message'		=>	'SDK_DELETE_FAIL_ERROR_CHECK_CODE'
+						'errors'		=>	'SDK_DELETE_FAIL_ERROR_CHECK_CODE'
 				);
 			}
 		}
@@ -353,7 +353,7 @@ class Account_uc extends CI_Controller
 		{
 			$json = array(
 					'success'		=>	false,
-					'message'		=>	'SDK_DELETE_FAIL_NO_PARAM'
+					'errors'		=>	'SDK_DELETE_FAIL_NO_PARAM'
 			);
 		}
 		

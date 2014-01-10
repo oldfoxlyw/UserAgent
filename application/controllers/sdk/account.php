@@ -91,7 +91,7 @@ class Account extends CI_Controller
 			{
 				$json = array(
 						'success'		=>	false,
-						'message'		=>	'SDK_LOGIN_FAIL_ERROR_CHECK_CODE'
+						'errors'		=>	'SDK_LOGIN_FAIL_ERROR_CHECK_CODE'
 				);
 			}
 		}
@@ -99,7 +99,7 @@ class Account extends CI_Controller
 		{
 			$json = array(
 					'success'		=>	false,
-					'message'		=>	'SDK_LOGIN_FAIL_NO_PARAM'
+					'errors'		=>	'SDK_LOGIN_FAIL_NO_PARAM'
 			);
 		}
 		
@@ -152,7 +152,7 @@ class Account extends CI_Controller
 // 				{
 // 					$json = array(
 // 							'success'		=>	false,
-// 							'message'		=>	'SDK_REGISTER_FAIL_EXIST'
+// 							'errors'		=>	'SDK_REGISTER_FAIL_EXIST'
 // 					);
 // 				}
 // 				else
@@ -198,7 +198,7 @@ class Account extends CI_Controller
 					{
 						$json = array(
 								'success'		=>	false,
-								'message'		=>	'SDK_REGISTER_FAIL'
+								'errors'		=>	'SDK_REGISTER_FAIL'
 						);
 					}
 // 				}
@@ -207,7 +207,7 @@ class Account extends CI_Controller
 			{
 				$json = array(
 						'success'		=>	false,
-						'message'		=>	'SDK_REGISTER_FAIL_ERROR_CHECK_CODE'
+						'errors'		=>	'SDK_REGISTER_FAIL_ERROR_CHECK_CODE'
 				);
 			}
 		}
@@ -215,7 +215,7 @@ class Account extends CI_Controller
 		{
 			$json = array(
 					'success'		=>	false,
-					'message'		=>	'SDK_REGISTER_FAIL_NO_PARAM'
+					'errors'		=>	'SDK_REGISTER_FAIL_NO_PARAM'
 			);
 		}
 		
@@ -261,7 +261,7 @@ class Account extends CI_Controller
 			{
 				$json = array(
 						'success'		=>	false,
-						'message'		=>	'SDK_DELETE_FAIL_ERROR_CHECK_CODE'
+						'errors'		=>	'SDK_DELETE_FAIL_ERROR_CHECK_CODE'
 				);
 			}
 		}
@@ -269,7 +269,7 @@ class Account extends CI_Controller
 		{
 			$json = array(
 					'success'		=>	false,
-					'message'		=>	'SDK_DELETE_FAIL_NO_PARAM'
+					'errors'		=>	'SDK_DELETE_FAIL_NO_PARAM'
 			);
 		}
 		
