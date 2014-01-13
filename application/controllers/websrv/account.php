@@ -694,6 +694,14 @@ class Account extends CI_Controller {
 							'account_lastlogin'		=>	time()
 					);
 					$this->web_account->update($parameter, $guid);
+
+					$logParameter = array(
+							'log_action'	=>	'ACCOUNT_LOGIN_SUCCESS',
+							'account_guid'	=>	$user->GUID,
+							'account_name'	=>	$user->account_name,
+							'server_id'		=>	$user->server_id
+					);
+					$this->logs->write($logParameter);
 // 				}
 // 				else
 // 				{
