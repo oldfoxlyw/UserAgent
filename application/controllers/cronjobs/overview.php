@@ -87,23 +87,10 @@ class Overview extends CI_Controller
 				$this->accountdb->where ( 'account_regtime <=', $lastTimeEnd );
 				$modifyCount = $this->accountdb->count_all_results ( 'web_account' );
 
-				// 昨日改名用户数
-				$this->logcachedb->where ( 'log_date', $preDate );
-				$this->logcachedb->where ( 'server_id', $row->account_server_id );
-				$this->logcachedb->where ( 'partner_key', $partnerKey );
-				$lastResult = $this->logcachedb->get ( 'log_daily_statistics' );
-				if (! empty ( $lastResult ))
-				{
-					$lastResult = $lastResult->row ();
-					$lastModifyAccount = intval ( $lastResult->modify_account );
-				}
-				else
-				{
-					$lastModifyAccount = 0;
-				}
-
 				// 新改名用户数
-				$modifyNewCount = $modifyCount - $lastModifyAccount;
+				$where = "`server_id` = '{$row->account_server_id}' and `partner_key`='{$partnerKey}' and `account_status`=1 and `account_regtime` >= {$lastTimeStart} and `account_regtime` <= {$lastTimeEnd}";
+				$this->accountdb->where ( $where );
+				$modifyNewCount = $this->accountdb->count_all_results ( 'web_account' );
 
 				// 当天活跃玩家数(登录数)
 				$this->logdb->select( 'log_GUID' );
