@@ -84,6 +84,7 @@ class Overview extends CI_Controller
 				$this->accountdb->where ( 'server_id', $row->account_server_id );
 				$this->accountdb->where ( 'account_status', 1 );
 				$this->accountdb->where ( 'partner_key', $partnerKey );
+				$this->accountdb->where ( 'account_regtime <=', $lastTimeEnd );
 				$modifyCount = $this->accountdb->count_all_results ( 'web_account' );
 
 				// 昨日改名用户数
