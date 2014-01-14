@@ -86,7 +86,7 @@ class Overview extends CI_Controller
 				$this->accountdb->where ( 'partner_key', $partnerKey );
 				$this->accountdb->where ( 'account_regtime <=', $lastTimeEnd );
 				$modifyCount = $this->accountdb->count_all_results ( 'web_account' );
-
+				
 				// 新改名用户数
 				$where = "`server_id` = '{$row->account_server_id}' and `partner_key`='{$partnerKey}' and `account_status`=1 and `account_regtime` >= {$lastTimeStart} and `account_regtime` <= {$lastTimeEnd}";
 				$this->accountdb->where ( $where );
@@ -531,10 +531,175 @@ class Overview extends CI_Controller
 						'level1'					=>	$level1
 				);
 				
-// 				var_dump($parameter);
-// 				exit();
 				$this->logcachedb->insert('log_retention1', $parameter);
 			}
+			
+
+			$partnerKey = $partner->partner_key;
+			
+			//昨日注册数
+			$prevTimeDate = date('Y-m-d', $prevTimeStart);
+			$sql = "SELECT `level_account` FROM `log_retention1` WHERE `log_date`='{$prevTimeDate}' AND `server_id`='{$row->account_server_id}' AND `partner_key`=''";
+			$lastRegisterCount = $this->logcachedb->query ( $sql )->row();
+			if(empty($lastRegisterCount))
+			{
+				$currentLogin = 0;
+				$nextRetention = 0;
+			}
+			else
+			{
+				$lastRegisterCount = $lastRegisterCount->level_account;
+				//今天登录数
+				$sql = "SELECT `log_GUID` FROM `log_account` WHERE `server_id`='{$row->account_server_id}' AND `log_action`='ACCOUNT_LOGIN_SUCCESS' AND `log_time`>={$lastTimeStart} AND `log_time`<={$lastTimeEnd} AND `log_GUID` in (SELECT `GUID` FROM `agent1_account_db`.`web_account` WHERE `server_id`='{$row->account_server_id}' AND `account_regtime`>={$prevTimeStart} AND `account_regtime`<={$prevTimeEnd} AND `account_level`>1) GROUP BY `log_GUID`";
+				$currentLogin = $this->logdb->query($sql)->num_rows();
+					
+				$nextRetention = floor(($currentLogin / $lastRegisterCount) * 10000);
+			}
+			
+			//三天前注册数
+			$thirdTimeDate = date('Y-m-d', $thirdTimeStart);
+			$sql = "SELECT `level_account` FROM `log_retention1` WHERE `log_date`='{$thirdTimeDate}' AND `server_id`='{$row->account_server_id}' AND `partner_key`=''";
+			$thirdRegisterCount = $this->logcachedb->query ( $sql )->row();
+			if(empty($thirdRegisterCount))
+			{
+				$thirdCurrentLogin = 0;
+				$thirdRetention = 0;
+				$thirdCurrentLoginRange = 0;
+				$thirdRetentionRange = 0;
+			}
+			else
+			{
+				$thirdRegisterCount = $thirdRegisterCount->level_account;
+				//点三
+				//今天登录数
+				$sql = "SELECT `log_GUID` FROM `log_account` WHERE `server_id`='{$row->account_server_id}' AND `log_action`='ACCOUNT_LOGIN_SUCCESS' AND `log_time`>={$lastTimeStart} AND `log_time`<={$lastTimeEnd} AND `log_GUID` in (SELECT `GUID` FROM `agent1_account_db`.`web_account` WHERE `server_id`='{$row->account_server_id}' AND `account_regtime`>={$thirdTimeStart} AND `account_regtime`<={$thirdTimeEnd} AND `account_level`>1) GROUP BY `log_GUID`";
+				$thirdCurrentLoginResult = $this->logdb->query($sql);
+				$thirdCurrentLogin = $thirdCurrentLoginResult->num_rows();
+					
+				$thirdRetention = floor(($thirdCurrentLogin / $thirdRegisterCount) * 10000);
+					
+				$thirdCurrentLoginResult = $thirdCurrentLoginResult->result_array();
+				for($i=0; $i<count($thirdCurrentLoginResult); $i++)
+				{
+					$thirdCurrentLoginResult[$i] = $thirdCurrentLoginResult[$i]['log_GUID'];
+				}
+				//区间三
+				//昨天登录
+				$sql = "SELECT `log_GUID` FROM `log_account` WHERE `server_id`='{$row->account_server_id}' AND `log_action`='ACCOUNT_LOGIN_SUCCESS' AND `log_time`>={$prevTimeStart} AND `log_time`<={$prevTimeEnd} AND `log_GUID` in (SELECT `GUID` FROM `agent1_account_db`.`web_account` WHERE `server_id`='{$row->account_server_id}' AND `account_regtime`>={$thirdTimeStart} AND `account_regtime`<={$thirdTimeEnd} AND `account_level`>1) GROUP BY `log_GUID`";
+				$prevCurrentLoginResult = $this->logdb->query($sql)->result_array();
+				for($i=0; $i<count($prevCurrentLoginResult); $i++)
+				{
+					$prevCurrentLoginResult[$i] = $prevCurrentLoginResult[$i]['log_GUID'];
+				}
+					
+				$thirdCurrentLoginRange = array_intersect($thirdCurrentLoginResult, $prevCurrentLoginResult);
+				$thirdCurrentLoginRange = count($thirdCurrentLoginRange);
+					
+				$thirdRetentionRange = floor(($thirdCurrentLoginRange / $thirdRegisterCount) * 10000);
+			}
+			
+			//七天前注册数
+			$sevenTimeDate = date('Y-m-d', $sevenTimeStart);
+			$sql = "SELECT `level_account` FROM `log_retention1` WHERE `log_date`='{$sevenTimeDate}' AND `server_id`='{$row->account_server_id}' AND `partner_key`=''";
+			$sevenRegisterCount = $this->logcachedb->query ( $sql )->row();
+			if(empty($sevenRegisterCount))
+			{
+				$sevenCurrentLogin = 0;
+				$sevenRetention = 0;
+				$sevenCurrentLoginRange = 0;
+				$sevenRetentionRange = 0;
+				$sevenCurrentLoginHuge = 0;
+				$sevenRetentionHuge = 0;
+			}
+			else
+			{
+				$sevenRegisterCount = $sevenRegisterCount->level_account;
+				//点七
+				//六天前登录
+				$sql = "SELECT `log_GUID` FROM `log_account` WHERE `server_id`='{$row->account_server_id}' AND `log_action`='ACCOUNT_LOGIN_SUCCESS' AND `log_time`>={$sixTimeStart} AND `log_time`<={$sixTimeEnd} AND `log_GUID` in (SELECT `GUID` FROM `agent1_account_db`.`web_account` WHERE `server_id`='{$row->account_server_id}' AND `account_regtime`>={$sevenTimeStart} AND `account_regtime`<={$sevenTimeEnd} AND `account_level`>1) GROUP BY `log_GUID`";
+				$sixCurrentLoginResult = $this->logdb->query($sql);
+				$sixCurrentLoginResult = $sixCurrentLoginResult->result_array();
+				for($i=0; $i<count($sixCurrentLoginResult); $i++)
+				{
+					$sixCurrentLoginResult[$i] = $sixCurrentLoginResult[$i]['log_GUID'];
+				}
+				//今天登录数
+				$sql = "SELECT `log_GUID` FROM `log_account` WHERE `server_id`='{$row->account_server_id}' AND `log_action`='ACCOUNT_LOGIN_SUCCESS' AND `log_time`>={$lastTimeStart} AND `log_time`<={$lastTimeEnd} AND `log_GUID` in (SELECT `GUID` FROM `agent1_account_db`.`web_account` WHERE `server_id`='{$row->account_server_id}' AND `account_regtime`>={$sevenTimeStart} AND `account_regtime`<={$sevenTimeEnd} AND `account_level`>1) GROUP BY `log_GUID`";
+				$sevenCurrentLoginResult = $this->logdb->query($sql);
+				$sevenCurrentLoginResult = $sevenCurrentLoginResult->result_array();
+				for($i=0; $i<count($sevenCurrentLoginResult); $i++)
+				{
+					$sevenCurrentLoginResult[$i] = $sevenCurrentLoginResult[$i]['log_GUID'];
+				}
+				
+				$sevenCurrentLogin = array_intersect($sixCurrentLoginResult, $sevenCurrentLoginResult);
+				$sevenCurrentLogin = count($sevenCurrentLogin);
+					
+				$sevenRetention = floor(($sevenCurrentLogin / $sevenRegisterCount) * 10000);
+					
+				//小区间七
+				//第三至今天登录数
+				//今天登录数
+				$sql = "SELECT `log_GUID` FROM `log_account` WHERE `server_id`='{$row->account_server_id}' AND `log_action`='ACCOUNT_LOGIN_SUCCESS' AND `log_time`>={$fiveTimeStart} AND `log_time`<={$lastTimeEnd} AND `log_GUID` in (SELECT `GUID` FROM `agent1_account_db`.`web_account` WHERE `server_id`='{$row->account_server_id}' AND `account_regtime`>={$sevenTimeStart} AND `account_regtime`<={$sevenTimeEnd} AND `account_level`>1) GROUP BY `log_GUID`";
+				$fiveCurrentLoginResult = $this->logdb->query($sql);
+				$fiveCurrentLoginResult = $fiveCurrentLoginResult->result_array();
+				for($i=0; $i<count($fiveCurrentLoginResult); $i++)
+				{
+					$fiveCurrentLoginResult[$i] = $fiveCurrentLoginResult[$i]['log_GUID'];
+				}
+							
+				$sevenCurrentLoginRange = array_intersect($sixCurrentLoginResult, $fiveCurrentLoginResult);
+				$sevenCurrentLoginRange = count($sevenCurrentLoginRange);
+					
+				$sevenRetentionRange = floor(($sevenCurrentLoginRange / $sevenRegisterCount) * 10000);
+					
+				//大区间七
+				$sql = "SELECT `log_GUID` FROM `log_account` WHERE `server_id`='{$row->account_server_id}' AND `log_action`='ACCOUNT_LOGIN_SUCCESS' AND `log_time`>={$sixTimeStart} AND `log_time`<={$lastTimeEnd} AND `log_GUID` in (SELECT `GUID` FROM `agent1_account_db`.`web_account` WHERE `server_id`='{$row->account_server_id}' AND `account_regtime`>={$sevenTimeStart} AND `account_regtime`<={$sevenTimeEnd} AND `account_level`>1) GROUP BY `log_GUID`";
+				$hugeCurrentLoginResult = $this->logdb->query($sql);
+				$hugeCurrentLoginResult = $hugeCurrentLoginResult->result_array();
+				for($i=0; $i<count($hugeCurrentLoginResult); $i++)
+				{
+					$hugeCurrentLoginResult[$i] = $hugeCurrentLoginResult[$i]['log_GUID'];
+				}
+					
+				$sevenCurrentLoginHuge = array_intersect($sixCurrentLoginResult, $hugeCurrentLoginResult);
+				$sevenCurrentLoginHuge = count($sevenCurrentLoginHuge);
+					
+				$sevenRetentionHuge = floor(($sevenCurrentLoginHuge / $sevenRegisterCount) * 10000);
+					
+			}
+			//今天内等级为1的账户数
+			$sql = "SELECT COUNT(*) as `numrows` FROM `web_account` WHERE `account_regtime`>={$prevTimeStart} AND `account_regtime`<={$prevTimeEnd} AND `account_level`=1 AND `server_id`='{$row->account_server_id}'";
+			$level1 = $this->accountdb->query ( $sql )->row();
+			$level1 = $level1->numrows;
+
+			// 等级大于1的帐号
+			$this->accountdb->where ( 'server_id', $row->account_server_id );
+			$this->accountdb->where ( 'account_regtime >=', $lastTimeStart );
+			$this->accountdb->where ( 'account_regtime <=', $lastTimeEnd );
+			$this->accountdb->where ( 'account_level >', 1 );
+			$levelCount = $this->accountdb->count_all_results ( 'web_account' );
+		
+			$parameter = array(
+					'log_date'					=>	date('Y-m-d', $lastTimeStart),
+					'server_id'					=>	$row->account_server_id,
+					'partner_key'				=>	'',
+					'level_account'				=>	$levelCount,
+					'next_current_login'		=>	$currentLogin,
+					'next_retention'			=>	$nextRetention,
+					'third_current_login'		=>	$thirdCurrentLogin,
+					'third_retention'			=>	$thirdRetention,
+					'third_current_login_range'	=>	$thirdCurrentLoginRange,
+					'third_retention_range'		=>	$thirdRetentionRange,
+					'seven_current_login'		=>	$sevenCurrentLogin,
+					'seven_retention'			=>	$sevenRetention,
+					'seven_current_login_range'	=>	$sevenCurrentLoginRange,
+					'seven_retention_range'		=>	$sevenRetentionRange,
+					'seven_current_login_huge'	=>	$sevenCurrentLoginHuge,
+					'seven_retention_huge'		=>	$sevenRetentionHuge,
+					'level1'					=>	$level1
+			);
+			$this->logcachedb->insert('log_retention1', $parameter);
 		}
 	}
 	
