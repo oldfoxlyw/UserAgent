@@ -26,15 +26,15 @@ class Servers extends CI_Controller {
 		$mode		=	$this->input->get_post('mode', TRUE);
 		$lang		=	$this->input->get_post('language', TRUE);
 		
-// 		$ip = $this->input->ip_address();
-// 		if($partner != 'default' && $ip != '119.4.99.205')
-// 		{
-// 			$jsonData = Array(
-// 					'errors'			=>	'《冰火王座》精英封测已于2014年1月15日圆满结束，请耐心等待公测的到来！'
-// 			);
-// 			echo $this->return_format->format($jsonData, $format);
-// 			exit();
-// 		}
+		$ip = $this->input->ip_address();
+		if($partner != 'default' && $ip != '119.4.99.205')
+		{
+			$jsonData = Array(
+					'errors'			=>	'《冰火王座》精英封测已于2014年1月15日圆满结束，请耐心等待公测的到来！'
+			);
+			echo $this->return_format->format($jsonData, $format);
+			exit();
+		}
 		
 		$parameter = array(
 			'order_by'			=>	'server_sort'
