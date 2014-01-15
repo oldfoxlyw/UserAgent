@@ -30,7 +30,7 @@ class Servers extends CI_Controller {
 // 		if($partner != 'default' && $ip != '119.4.99.205')
 // 		{
 // 			$jsonData = Array(
-// 					'errors'			=>	'服务器尚未开放尽请期待1月10日上午10:50封测'
+// 					'errors'			=>	'《冰火王座》精英封测已于2014年1月15日圆满结束，请耐心等待公测的到来！'
 // 			);
 // 			echo $this->return_format->format($jsonData, $format);
 // 			exit();

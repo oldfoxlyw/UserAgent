@@ -193,6 +193,15 @@ class Account extends CI_Controller
 								'result'		=>	$user,
 								'uid'			=>	$uid
 						);
+						
+						$this->load->model('logs');
+						$logParameter = array(
+								'log_action'	=>	'ACCOUNT_REGISTER_SUCCESS',
+								'account_guid'	=>	$user->GUID,
+								'account_name'	=>	$user->account_name,
+								'server_id'		=>	$server_id
+						);
+						$this->logs->write($logParameter);
 					}
 					else
 					{
