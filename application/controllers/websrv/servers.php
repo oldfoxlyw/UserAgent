@@ -26,7 +26,8 @@ class Servers extends CI_Controller {
 		$mode		=	$this->input->get_post('mode', TRUE);
 		$lang		=	$this->input->get_post('language', TRUE);
 		
-// 		if($partner != 'default')
+// 		$ip = $this->input->ip_address();
+// 		if($partner != 'default' && $ip != '119.4.99.205')
 // 		{
 // 			$jsonData = Array(
 // 					'errors'			=>	'服务器尚未开放尽请期待1月10日上午10:50封测'
