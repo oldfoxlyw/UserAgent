@@ -26,7 +26,7 @@ class Servers extends CI_Controller {
 		$mode		=	$this->input->get_post('mode', TRUE);
 		$lang		=	$this->input->get_post('language', TRUE);
 		
-		if($partner != 'default')
+		if($partner != 'default' && $mode != 'all')
 		{
 			$jsonData = Array(
 					'errors'			=>	'《冰火王座》精英封测已于2014年1月15日圆满结束，请耐心等待公测的到来！'
