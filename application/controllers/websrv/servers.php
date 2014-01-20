@@ -178,7 +178,7 @@ class Servers extends CI_Controller {
 		$announce = $this->mannouncement->read($parameter, $extension, 1, 0);
 		$announce = empty($announce) ? '' : $announce[0];
 		
-		if($partner == 'default')
+		if($partner == 'default' || $partner != 'default_full')
 		{
 			$activate = 0;
 		}
