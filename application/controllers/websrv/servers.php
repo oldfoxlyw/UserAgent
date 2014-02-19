@@ -210,6 +210,15 @@ class Servers extends CI_Controller {
 	
 	private function get_temp_hd_list()
 	{
+		$serverIp	=	$this->input->server('SERVER_ADDR');
+		if($serverIp == '122.13.131.55')
+		{
+			$ipFlag = 'ip2';
+		}
+		else //183.60.255.55
+		{
+			$ipFlag = 'ip';
+		}
 		$parameter = array(
 				'account_server_id'		=>	'104'
 		);
@@ -217,16 +226,7 @@ class Servers extends CI_Controller {
 		$this->load->model('websrv/server', 'server');
 		$result = $this->server->getAllResult($parameter);
 		
-		switch($lang) {
-			case 'CN':
-				$lang = 'zh-cn';
-				break;
-			case 'EN':
-				$lang = 'english';
-				break;
-			default:
-				$lang = 'zh-cn';
-		}
+		$lang = 'zh-cn';
 
 		$this->lang->load('server_list', $lang);
 		$this->load->helper('language');
@@ -304,7 +304,7 @@ class Servers extends CI_Controller {
 		
 		$this->load->model('mannouncement');
 		$parameter = array(
-				'partner_key'	=>	$partner
+				'partner_key'	=>	'default_full'
 		);
 		$extension = array(
 				'order_by'	=>	array('post_time', 'desc')
@@ -328,7 +328,7 @@ class Servers extends CI_Controller {
 			'server'			=>	$result,
 			'announce'			=>	$announce
 		);
-		echo $this->return_format->format($jsonData, $format);
+		echo $this->return_format->format($jsonData, 'json');
 	}
 }
 ?>
