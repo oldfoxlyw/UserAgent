@@ -44,6 +44,11 @@ class Servers extends CI_Controller {
 		{
 			$partner = 'default';
 		}
+		else if($partner == 'default_full')
+		{
+			$this->get_temp_hd_list();
+			exit();
+		}
 		else
 		{
 			$parameter['partner'] = $partner;
@@ -184,15 +189,138 @@ class Servers extends CI_Controller {
 		$announce = $this->mannouncement->read($parameter, $extension, 1, 0);
 		$announce = empty($announce) ? '' : $announce[0];
 		
-		if($partner == 'default' || $partner == 'default_full')
+// 		if($partner == 'default' || $partner == 'default_full')
+// 		{
+// 			$activate = 0;
+// 		}
+// 		else
+// 		{
+// 			$activate = 1;
+// 		}
+		$activate = 0;
+		
+		$jsonData = Array(
+			'message'			=>	'SERVER_LIST_SUCCESS',
+			'activate'			=>	$activate,
+			'server'			=>	$result,
+			'announce'			=>	$announce
+		);
+		echo $this->return_format->format($jsonData, $format);
+	}
+	
+	private function get_temp_hd_list()
+	{
+		$parameter = array(
+				'account_server_id'		=>	'104'
+		);
+
+		$this->load->model('websrv/server', 'server');
+		$result = $this->server->getAllResult($parameter);
+		
+		switch($lang) {
+			case 'CN':
+				$lang = 'zh-cn';
+				break;
+			case 'EN':
+				$lang = 'english';
+				break;
+			default:
+				$lang = 'zh-cn';
+		}
+
+		$this->lang->load('server_list', $lang);
+		$this->load->helper('language');
+		$this->load->helper('array');
+		if(!empty($result))
 		{
-			$activate = 0;
+			for($i=0; $i<count($result); $i++)
+			{
+				$serverName = lang('server_list_' . $result[$i]->server_name);
+				if(!empty($serverName)) {
+					$result[$i]->server_name = $serverName;
+				}
+				$result[$i]->server_language = lang('server_list_language_' . $result[$i]->server_language);
+				
+				$result[$i]->server_ip = json_decode($result[$i]->server_ip);
+				if(count($result[$i]->server_ip) > 0)
+				{
+					$result[$i]->server_ip = random_element($result[$i]->server_ip);
+				}
+				else
+				{
+					$result[$i]->server_ip = $result[$i]->server_ip[0];
+				}
+				if(empty($result[$i]->server_ip->$ipFlag))
+				{
+					$result[$i]->server_ip = $result[$i]->server_ip->ip . ':' . $result[$i]->server_ip->port;
+				}
+				else
+				{
+					$result[$i]->server_ip = $result[$i]->server_ip->$ipFlag . ':' . $result[$i]->server_ip->port;
+				}
+	
+				$result[$i]->server_game_ip = json_decode($result[$i]->server_game_ip);
+				if(count($result[$i]->server_game_ip) > 0)
+				{
+					$result[$i]->server_game_ip = random_element($result[$i]->server_game_ip);
+				}
+				else
+				{
+					$result[$i]->server_game_ip = $result[$i]->server_game_ip[0];
+				}
+				$result[$i]->server_game_port = $result[$i]->server_game_ip->port;
+				if(empty($result[$i]->server_game_ip->$ipFlag))
+				{
+					$result[$i]->server_game_ip = $result[$i]->server_game_ip->ip;
+				}
+				else
+				{
+					$result[$i]->server_game_ip = $result[$i]->server_game_ip->$ipFlag;
+				}
+				
+				$result[$i]->game_message_ip = json_decode($result[$i]->game_message_ip);
+				if(count($result[$i]->game_message_ip) > 0)
+				{
+					$result[$i]->game_message_ip = random_element($result[$i]->game_message_ip);
+				}
+				else
+				{
+					$result[$i]->game_message_ip = $result[$i]->game_message_ip[0];
+				}
+				if(empty($result[$i]->game_message_ip->$ipFlag))
+				{
+					$result[$i]->game_message_ip = $result[$i]->game_message_ip->ip . ':' . $result[$i]->game_message_ip->port;
+				}
+				else
+				{
+					$result[$i]->game_message_ip = $result[$i]->game_message_ip->$ipFlag . ':' . $result[$i]->game_message_ip->port;
+				}
+			}
 		}
 		else
 		{
-			$activate = 1;
+			$result = array();
 		}
-// 		$activate = 0;
+		
+		$this->load->model('mannouncement');
+		$parameter = array(
+				'partner_key'	=>	$partner
+		);
+		$extension = array(
+				'order_by'	=>	array('post_time', 'desc')
+		);
+		$announce = $this->mannouncement->read($parameter, $extension, 1, 0);
+		$announce = empty($announce) ? '' : $announce[0];
+		
+// 		if($partner == 'default' || $partner == 'default_full')
+// 		{
+// 			$activate = 0;
+// 		}
+// 		else
+// 		{
+// 			$activate = 1;
+// 		}
+		$activate = 0;
 		
 		$jsonData = Array(
 			'message'			=>	'SERVER_LIST_SUCCESS',
