@@ -27,7 +27,7 @@ class Servers extends CI_Controller {
 		$lang		=	$this->input->get_post('language', TRUE);
 		$ver		=	$this->input->get_post('version', TRUE);
 		
-// 		if($partner != 'default' && $partner != 'default_full' && $mode != 'all')
+// 		if($partner != 'default' && $partner != 'default_full' && $mode != 'debug')
 // 		{
 // 			$jsonData = Array(
 // 					'errors'			=>	'《冰火王座》精英封测已于2014年1月15日圆满结束，请耐心等待公测的到来！'
