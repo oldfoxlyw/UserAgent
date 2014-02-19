@@ -58,10 +58,14 @@ class Servers extends CI_Controller {
 // 			$parameter['server_debug'] = 1;
 			$parameter['server_mode'] = 'all';
 		}
-// 		elseif($mode=='all')
-// 		{
-// 			$parameter['server_mode'] = $mode;
-// 		}
+		elseif($mode=='all')
+		{
+			$jsonData = Array(
+					'errors'			=>	'《冰火王座》精英封测已于2014年1月15日圆满结束，请前往App Store下载最新客户端。'
+			);
+			echo $this->return_format->format($jsonData, $format);
+			exit();
+		}
 		else
 		{
 			$parameter['server_debug'] = 0;
