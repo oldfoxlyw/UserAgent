@@ -25,6 +25,7 @@ class Servers extends CI_Controller {
 		$partner	=	$this->input->get_post('partner', TRUE);
 		$mode		=	$this->input->get_post('mode', TRUE);
 		$lang		=	$this->input->get_post('language', TRUE);
+		$ver		=	$this->input->get_post('version', TRUE);
 		
 // 		if($partner != 'default' && $partner != 'default_full' && $mode != 'all')
 // 		{
@@ -54,12 +55,13 @@ class Servers extends CI_Controller {
 		}
 		elseif($mode=='debug')
 		{
-			$parameter['server_debug'] = 1;
+// 			$parameter['server_debug'] = 1;
+			$parameter['server_mode'] = 'all';
 		}
-		elseif($mode=='all')
-		{
-			$parameter['server_mode'] = $mode;
-		}
+// 		elseif($mode=='all')
+// 		{
+// 			$parameter['server_mode'] = $mode;
+// 		}
 		else
 		{
 			$parameter['server_debug'] = 0;
