@@ -39,6 +39,10 @@ class Message extends CI_Controller
 		
 		$result = $this->mmessage->read($parameter);
 		
+		var_dump($serverIp);
+		var_dump($result);
+		exit();
+		
 		foreach($result as $row)
 		{
 			$dateArray = explode(',', $row->date);
