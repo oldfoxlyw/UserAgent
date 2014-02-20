@@ -39,9 +39,12 @@ class Message extends CI_Controller
 		
 		$result = $this->mmessage->read($parameter);
 		
-		var_dump($serverIp);
-		var_dump($result);
-		exit();
+// 		var_dump($serverIp);
+// 		var_dump($result);
+// 		exit();
+		$minutes = 0;
+		$hour = 0;
+		$date = 0;
 		
 		foreach($result as $row)
 		{
@@ -61,7 +64,8 @@ class Message extends CI_Controller
 							$parameter = array(
 									'content'			=>	$row->content
 							);
-							echo $this->connector->post($ip . '/announcement', $parameter, FALSE);
+							echo $ip . '/announcement';
+// 							echo $this->connector->post($ip . '/announcement', $parameter, FALSE);
 						}
 					}
 				}
