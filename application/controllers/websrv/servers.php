@@ -51,7 +51,12 @@ class Servers extends CI_Controller {
 		}
 		else
 		{
-			$parameter['partner'] = $partner;
+// 			$parameter['partner'] = $partner;
+			$jsonData = Array(
+					'errors'			=>	'《冰火王座》精英封测已于2014年1月15日圆满结束，请前往App Store下载最新客户端。'
+			);
+			echo $this->return_format->format($jsonData, $format);
+			exit();
 		}
 		
 		if($mode===FALSE || empty($mode))
