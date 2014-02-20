@@ -39,13 +39,7 @@ class Message extends CI_Controller
 		
 		$result = $this->mmessage->read($parameter);
 		
-// 		var_dump($serverIp);
-// 		var_dump($result);
-// 		exit();
-		$minutes = 0;
-		$hour = 0;
-		$date = 0;
-		
+		$this->load->model('web_account');
 		foreach($result as $row)
 		{
 			$dateArray = explode(',', $row->date);
@@ -64,8 +58,10 @@ class Message extends CI_Controller
 							$parameter = array(
 									'content'			=>	$row->content
 							);
-							echo $ip . '/announcement';
-// 							echo $this->connector->post($ip . '/announcement', $parameter, FALSE);
+							$data = $this->connector->post($ip . '/announcement', $parameter, FALSE);
+							
+							$sql = "insert into debug(text)values('{$data}')";
+							$this->web_account->db()->query($sql);
 						}
 					}
 				}
