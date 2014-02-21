@@ -341,7 +341,7 @@ class Overview1 extends CI_Controller
 		$partnerResult = $this->mpartner->getAllResult ();
 		
 		$currentTimeStamp = time ();
-		$currentDate = date ( 'Y-m-d', $currentTimeStamp );
+		$currentDate = date ( '2014-02-22', $currentTimeStamp );
 		//昨日
 		$lastTimeStart = strtotime ( $currentDate . ' 00:00:00' ) - 86400;
 		$lastTimeEnd = strtotime ( $currentDate . ' 23:59:59' ) - 86400;
