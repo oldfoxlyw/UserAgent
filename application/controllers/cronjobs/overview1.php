@@ -239,7 +239,6 @@ class Overview1 extends CI_Controller
 					'partner_key' => $partnerKey 
 				);
 				
-				var_dump($parameter);
 // 				$this->logcachedb->insert ( 'log_daily_statistics', $parameter );
 				
 // 				$this->flowover_detail_statistics ( $date, $row->account_server_id, $partnerKey );
@@ -533,7 +532,8 @@ class Overview1 extends CI_Controller
 						'level1'					=>	$level1
 				);
 				
-				$this->logcachedb->insert('log_retention1', $parameter);
+				var_dump($parameter);
+// 				$this->logcachedb->insert('log_retention1', $parameter);
 			}
 			
 
@@ -701,7 +701,7 @@ class Overview1 extends CI_Controller
 					'seven_retention_huge'		=>	$sevenRetentionHuge,
 					'level1'					=>	$level1
 			);
-			$this->logcachedb->insert('log_retention1', $parameter);
+// 			$this->logcachedb->insert('log_retention1', $parameter);
 		}
 	}
 	
