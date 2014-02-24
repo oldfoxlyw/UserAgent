@@ -93,15 +93,8 @@ class Overview extends CI_Controller
 				$modifyNewCount = $this->accountdb->count_all_results ( 'web_account' );
 
 				// 当天活跃玩家数(登录数)
-				$this->logdb->select( 'log_GUID' );
-				$this->logdb->where ( 'log_action', 'ACCOUNT_LOGIN_SUCCESS' );
-				$this->logdb->where ( 'log_time >=', $lastTimeStart );
-				$this->logdb->where ( 'log_time <=', $lastTimeEnd );
-				$this->logdb->where ( 'server_id', $row->account_server_id );
-				$this->logdb->where ( 'partner_key', $partnerKey );
-				$this->logdb->group_by ( 'log_GUID' );
-				$loginCount = $this->logdb->get ( 'log_account' );
-				$loginCount = $loginCount->num_rows();
+				$sql = "SELECT `log_GUID` FROM `log_account` WHERE (`log_action` = 'ACCOUNT_LOGIN_SUCCESS' OR `log_action` = 'ACCOUNT_REGISTER_SUCCESS' OR `log_action` = 'ACCOUNT_DEMO_SUCCESS') AND `log_time` >= {$lastTimeStart} AND `log_time` <= {$lastTimeEnd} AND `server_id` = '{$row->account_server_id}' AND `partner_key` = '{$partnerKey}' GROUP BY `log_GUID`";
+				$loginCount = $this->logdb->query($sql)->num_rows();
 
 				// 活跃玩家数(三天以内登录过游戏的人数)
 				$threeDaysAgoStart = $lastTimeStart - 2 * 86400;
@@ -198,7 +191,7 @@ class Overview extends CI_Controller
 				$rechargeAccount = $rechargeAccount->num_rows();
 				
 				// arpu
-				$arpu = floatval ( number_format ( $rechargeAccount / $activeCount, 2 ) ) * 100;
+				$arpu = floatval ( number_format ( $rechargeAccount / $loginCount, 2 ) ) * 100;
 				
 				// at 平均在线时长
 				$sql = "SELECT SUM(`time`) as `time` FROM `log_rep` WHERE `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}' AND `posttime`>={$lastTimeStart} AND `posttime`<={$lastTimeEnd}";
