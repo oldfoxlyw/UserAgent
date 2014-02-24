@@ -201,7 +201,7 @@ class Overview1 extends CI_Controller
 				$rechargeAccount = $rechargeAccount->num_rows();
 				
 				// arpu
-				$arpu = floatval ( number_format ( $rechargeAccount / $activeCount, 2 ) ) * 100;
+				$arpu = floatval ( number_format ( $rechargeAccount / $loginCount, 2 ) ) * 100;
 				
 				// at 平均在线时长
 				$sql = "SELECT SUM(`time`) as `time` FROM `log_rep` WHERE `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}' AND `posttime`>={$lastTimeStart} AND `posttime`<={$lastTimeEnd}";
