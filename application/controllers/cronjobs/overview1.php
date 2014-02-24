@@ -243,6 +243,8 @@ class Overview1 extends CI_Controller
 					'partner_key' => $partnerKey 
 				);
 				
+				var_dump($parameter);
+				
 // 				$this->logcachedb->insert ( 'log_daily_statistics', $parameter );
 				
 // 				$this->flowover_detail_statistics ( $date, $row->account_server_id, $partnerKey );
