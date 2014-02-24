@@ -93,10 +93,8 @@ class Overview1 extends CI_Controller
 				$modifyNewCount = $this->accountdb->count_all_results ( 'web_account' );
 
 				// 当天活跃玩家数(登录数)
-				$sql = "SELECT COUNT(*) AS `count` FROM `log_account` WHERE (`log_action` = 'ACCOUNT_LOGIN_SUCCESS' OR `log_action` = 'ACCOUNT_REGISTER_SUCCESS' OR `log_action` = 'ACCOUNT_DEMO_SUCCESS') AND `log_time` >= {$lastTimeStart} AND `log_time` <= {$lastTimeEnd} AND `server_id` = '{$row->account_server_id}' AND `partner_key` = '{$partnerKey}' GROUP BY `log_GUID`";
-				$loginCount = $this->logdb->query($sql)->row();
-				exit($this->logdb->last_query());
-				$loginCount = $loginCount->count;
+				$sql = "SELECT `log_GUID` AS `count` FROM `log_account` WHERE (`log_action` = 'ACCOUNT_LOGIN_SUCCESS' OR `log_action` = 'ACCOUNT_REGISTER_SUCCESS' OR `log_action` = 'ACCOUNT_DEMO_SUCCESS') AND `log_time` >= {$lastTimeStart} AND `log_time` <= {$lastTimeEnd} AND `server_id` = '{$row->account_server_id}' AND `partner_key` = '{$partnerKey}' GROUP BY `log_GUID`";
+				$loginCount = $this->logdb->query($sql)->num_rows();
 				
 // 				$this->logdb->select( 'log_GUID' );
 // 				$this->logdb->where ( 'log_action', 'ACCOUNT_LOGIN_SUCCESS' );
