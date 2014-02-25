@@ -89,7 +89,7 @@ class Orders extends CI_Controller {
 							'message'		=>	'ORDERS_ADDED'
 					);
 					$parameter = array(
-							'status'	=>	$appstoreStatus
+							'status'	=>	intval($appstoreStatus)
 					);
 					$this->funds->update($checkSum, $parameter);
 				}
