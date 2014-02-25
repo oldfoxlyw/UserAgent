@@ -91,7 +91,7 @@ class Orders extends CI_Controller {
 					$parameter = array(
 							'status'	=>	intval($appstoreStatus)
 					);
-					$this->funds->update($checkSum, $parameter);
+					$this->funds->update($parameter, $checkSum);
 				}
 				else
 				{
