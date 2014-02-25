@@ -20,7 +20,10 @@ class Orders extends CI_Controller {
 		$itemCount = $this->input->get_post('item_count', TRUE);
 		$serverId = $this->input->get_post('server_id', TRUE);
 		$playerId = $this->input->get_post('player_id', TRUE);
+		$receiptData = $this->input->post('receipt_data', TRUE);
 		$checkSum = $this->input->get_post('checksum', TRUE);
+		
+		$receiptData = empty($receiptData) ? '' : $receiptData;
 		
 		if(!empty($serverId) && !empty($playerId) && !empty($checkSum) && is_numeric($fundsAmount) && is_numeric($itemCount)) {
 			$result = $this->order->get($checkSum);
@@ -52,19 +55,20 @@ class Orders extends CI_Controller {
 					
 					$this->load->model('funds');
 					$parameter = array(
-							'account_guid'				=>	$result->GUID,
-							'account_name'				=>	$result->account_name,
+							'account_guid'			=>	$result->GUID,
+							'account_name'			=>	$result->account_name,
 							'account_nickname'		=>	empty($result->account_nickname) ? '' : $result->account_nickname,
-							'account_id'					=>	$accountId,
-							'server_id'						=>	$serverId,
-							'funds_flow_dir'			=>	'CHECK_IN',
+							'account_id'			=>	$accountId,
+							'server_id'				=>	$serverId,
+							'funds_flow_dir'		=>	'CHECK_IN',
 							'funds_amount'			=>	$fundsAmount,
-							'funds_item_amount'	=>	$itemCount,
-							'funds_item_current'		=>	$currentCash,
-							'funds_time'					=>	$time,
-							'funds_time_local'			=>	date('Y-m-d H:i:s', $time),
-							'funds_type'					=>	1,
-							'partner_key'					=>	$result->partner_key
+							'funds_item_amount'		=>	$itemCount,
+							'funds_item_current'	=>	$currentCash,
+							'funds_time'			=>	$time,
+							'funds_time_local'		=>	date('Y-m-d H:i:s', $time),
+							'funds_type'			=>	1,
+							'partner_key'			=>	$result->partner_key,
+							'receipt_data'			=>	$receiptData
 					);
 					$this->funds->insert($parameter);
 				} else {
