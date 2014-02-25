@@ -26,7 +26,7 @@ class Orders extends CI_Controller {
 		$checkSum = $this->input->get_post('checksum', TRUE);
 		
 		$receiptData = empty($receiptData) ? '' : $receiptData;
-		$isVerified = empty($isVerified) ? 0 : intval($isVerified);
+		$isVerified = empty($isVerified) ? 1 : intval($isVerified);
 		$appstoreStatus = empty($appstoreStatus) ? 0 : intval($appstoreStatus);
 		
 		if(!empty($serverId) && !empty($playerId) && !empty($checkSum) && is_numeric($fundsAmount) && is_numeric($itemCount)) {
