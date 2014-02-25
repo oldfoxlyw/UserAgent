@@ -32,6 +32,14 @@ class Order extends CI_Model {
 		}
 	}
 	
+	public function update($id, $parameter) {
+		if(!empty($id))
+		{
+			$this->fundsdb->where('checksum', $id);
+			$this->fundsdb->update($this->accountTable, $parameter);
+		}
+	}
+	
 	public function addCount($id) {
 		if(!empty($id)) {
 			$this->fundsdb->where('checksum', $id);

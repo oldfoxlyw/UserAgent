@@ -34,7 +34,8 @@ class Orders extends CI_Controller {
 				$parameter = array(
 					'player_id'		=>	$playerId,
 					'server_id'		=>	$serverId,
-					'checksum'		=>	$checkSum
+					'checksum'		=>	$checkSum,
+					'status'		=>	intval($appstoreStatus)
 				);
 				$this->order->insert($parameter);
 				
@@ -82,10 +83,23 @@ class Orders extends CI_Controller {
 					exit();
 				}
 			} else {
-				$this->order->addCount($checkSum);
-				$jsonData = array(
-					'message'		=>	'ORDERS_EXIST'
-				);
+				if($result->status != '0')
+				{
+					$jsonData = array(
+							'message'		=>	'ORDERS_ADDED'
+					);
+					$parameter = array(
+							'status'	=>	$appstoreStatus
+					);
+					$this->funds->update($checkSum, $parameter);
+				}
+				else
+				{
+					$this->order->addCount($checkSum);
+					$jsonData = array(
+						'message'		=>	'ORDERS_EXIST'
+					);
+				}
 			}
 		} else {
 				$jsonData = array(
