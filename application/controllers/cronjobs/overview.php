@@ -160,6 +160,7 @@ class Overview extends CI_Controller
 				$this->fundsdb->where ( 'funds_time <=', $lastTimeEnd );
 				$this->fundsdb->where ( 'server_id', $row->account_server_id );
 				$this->fundsdb->where ( 'partner_key', $partnerKey );
+				$this->fundsdb->where ( 'is_verified', 1 );
 				$ordersCount = $this->fundsdb->count_all_results ( 'funds_checkinout' );
 				
 				// 当天订单总额
@@ -169,6 +170,7 @@ class Overview extends CI_Controller
 				$this->fundsdb->where ( 'funds_time <=', $lastTimeEnd );
 				$this->fundsdb->where ( 'server_id', $row->account_server_id );
 				$this->fundsdb->where ( 'partner_key', $partnerKey );
+				$this->fundsdb->where ( 'is_verified', 1 );
 				$checkResult = $this->fundsdb->get ( 'funds_checkinout' )->row ();
 				$ordersCurrentSum = intval ( $checkResult->funds_amount );
 				
@@ -177,6 +179,7 @@ class Overview extends CI_Controller
 				$this->fundsdb->where ( 'funds_flow_dir', 'CHECK_IN' );
 				$this->fundsdb->where ( 'server_id', $row->account_server_id );
 				$this->fundsdb->where ( 'partner_key', $partnerKey );
+				$this->fundsdb->where ( 'is_verified', 1 );
 				$checkResult = $this->fundsdb->get ( 'funds_checkinout' )->row ();
 				$ordersSum = intval ( $checkResult->funds_amount );
 				
@@ -186,6 +189,7 @@ class Overview extends CI_Controller
 				$this->fundsdb->where ( 'funds_time <=', $lastTimeEnd );
 				$this->fundsdb->where ( 'server_id', $row->account_server_id );
 				$this->fundsdb->where ( 'partner_key', $partnerKey );
+				$this->fundsdb->where ( 'is_verified', 1 );
 				$this->fundsdb->group_by ( 'account_guid' );
 				$rechargeAccount = $this->fundsdb->get ( 'funds_checkinout' );
 				$rechargeAccount = $rechargeAccount->num_rows();

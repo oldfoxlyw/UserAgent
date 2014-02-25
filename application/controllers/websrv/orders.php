@@ -21,9 +21,13 @@ class Orders extends CI_Controller {
 		$serverId = $this->input->get_post('server_id', TRUE);
 		$playerId = $this->input->get_post('player_id', TRUE);
 		$receiptData = $this->input->post('receipt_data', TRUE);
+		$isVerified = $this->input->post('is_verified', TRUE);
+		$appstoreStatus = $this->input->post('status', TRUE);
 		$checkSum = $this->input->get_post('checksum', TRUE);
 		
 		$receiptData = empty($receiptData) ? '' : $receiptData;
+		$isVerified = empty($isVerified) ? 0 : intval($isVerified);
+		$appstoreStatus = empty($appstoreStatus) ? 0 : intval($appstoreStatus);
 		
 		if(!empty($serverId) && !empty($playerId) && !empty($checkSum) && is_numeric($fundsAmount) && is_numeric($itemCount)) {
 			$result = $this->order->get($checkSum);
@@ -32,7 +36,7 @@ class Orders extends CI_Controller {
 				$parameter = array(
 					'player_id'		=>	$playerId,
 					'server_id'		=>	$serverId,
-					'checksum'	=>	$checkSum
+					'checksum'		=>	$checkSum
 				);
 				$this->order->insert($parameter);
 				
@@ -68,7 +72,9 @@ class Orders extends CI_Controller {
 							'funds_time_local'		=>	date('Y-m-d H:i:s', $time),
 							'funds_type'			=>	1,
 							'partner_key'			=>	$result->partner_key,
-							'receipt_data'			=>	$receiptData
+							'receipt_data'			=>	$receiptData,
+							'is_verified'			=>	$isVerified,
+							'appstore_status'		=>	$appstoreStatus
 					);
 					$this->funds->insert($parameter);
 				} else {
