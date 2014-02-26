@@ -31,18 +31,6 @@ class Orders extends CI_Controller {
 			$result = $this->order->get($checkSum);
 			if($result==FALSE)
 			{
-				$parameter = array(
-					'player_id'		=>	$playerId,
-					'server_id'		=>	$serverId,
-					'checksum'		=>	$checkSum,
-					'status'		=>	intval($appstoreStatus)
-				);
-				$this->order->insert($parameter);
-				
-				$jsonData = array(
-					'message'		=>	'ORDERS_ADDED'
-				);
-				
 				$this->load->model('web_account');
 				$result = $this->web_account->get($playerId);
 				if($result != FALSE) {
@@ -74,7 +62,7 @@ class Orders extends CI_Controller {
 							'receipt_data'			=>	$receiptData,
 							'appstore_status'		=>	$appstoreStatus
 					);
-					$this->funds->insert($parameter);
+					$fundsId = $this->funds->insert($parameter);
 				} else {
 					$jsonData = Array(
 							'message'	=>	'RECHARGE_ERROR_NO_ACCOUNT_ID'
@@ -82,12 +70,35 @@ class Orders extends CI_Controller {
 					echo $this->return_format->format($jsonData, $format);
 					exit();
 				}
+				
+				$fundsId = empty($fundsId) ? 0 : $fundsId;
+				$parameter = array(
+					'player_id'		=>	$playerId,
+					'server_id'		=>	$serverId,
+					'checksum'		=>	$checkSum,
+					'status'		=>	intval($appstoreStatus),
+					'funds_id'		=>	$fundsId
+				);
+				$this->order->insert($parameter);
+				
+				$jsonData = array(
+					'message'		=>	'ORDERS_ADDED'
+				);
 			} else {
 				if($result->status != '0')
 				{
 					$jsonData = array(
 							'message'		=>	'ORDERS_ADDED'
 					);
+					
+					if($result->funds_id != '0')
+					{
+						$this->load->model('funds');
+						$parameter = array(
+								'appstore_status'	=>	intval($appstoreStatus)
+						);
+						$this->funds->update($parameter, intval($result->funds_id));
+					}
 					$parameter = array(
 							'status'	=>	intval($appstoreStatus)
 					);

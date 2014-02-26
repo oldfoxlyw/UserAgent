@@ -89,7 +89,8 @@ class Funds extends CI_Model {
 	
 	public function insert($row) {
 		if(!empty($row)) {
-			return $this->fundsdb->insert($this->fundsCheckInOut, $row);
+			$this->fundsdb->insert($this->fundsCheckInOut, $row);
+			return $this->fundsdb->insert_id();
 		} else {
 			return false;
 		}
