@@ -29,7 +29,6 @@ class Orders extends CI_Controller {
 		
 		if(!empty($serverId) && !empty($playerId) && !empty($checkSum) && is_numeric($fundsAmount) && is_numeric($itemCount)) {
 			$result = $this->order->get($checkSum);
-			$result = $result[0];
 			if($result==FALSE)
 			{
 				$this->load->model('web_account');

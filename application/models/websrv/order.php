@@ -23,7 +23,7 @@ class Order extends CI_Model {
 			$this->fundsdb->where('checksum', $id);
 			$result = $this->fundsdb->get($this->accountTable);
 			if($result->num_rows() > 0) {
-				return $result->result();
+				return $result->row();
 			} else {
 				return false;
 			}
