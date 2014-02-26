@@ -85,6 +85,8 @@ class Orders extends CI_Controller {
 					'message'		=>	'ORDERS_ADDED'
 				);
 			} else {
+				var_dump($result);
+				exit();
 				if($result->status != '0')
 				{
 					$jsonData = array(
