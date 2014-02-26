@@ -20,8 +20,8 @@ class Orders extends CI_Controller {
 		$itemCount = $this->input->get_post('item_count', TRUE);
 		$serverId = $this->input->get_post('server_id', TRUE);
 		$playerId = $this->input->get_post('player_id', TRUE);
-		$receiptData = $this->input->post('receipt_data', TRUE);
-		$appstoreStatus = $this->input->post('status', TRUE);
+		$receiptData = $this->input->get_post('receipt_data', TRUE);
+		$appstoreStatus = $this->input->get_post('status', TRUE);
 		$checkSum = $this->input->get_post('checksum', TRUE);
 		
 		$receiptData = empty($receiptData) ? '' : $receiptData;
