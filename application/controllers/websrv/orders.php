@@ -95,7 +95,10 @@ class Orders extends CI_Controller {
 					{
 						$this->load->model('funds');
 						$parameter = array(
-								'appstore_status'	=>	intval($appstoreStatus)
+								'funds_amount'			=>	$fundsAmount,
+								'funds_item_amount'		=>	$itemCount,
+								'funds_item_current'	=>	$currentCash,
+								'appstore_status'		=>	intval($appstoreStatus)
 						);
 						$this->funds->update($parameter, intval($result->funds_id));
 					}
