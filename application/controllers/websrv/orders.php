@@ -22,7 +22,7 @@ class Orders extends CI_Controller {
 		$playerId = $this->input->get_post('player_id', TRUE);
 		$receiptData = $this->input->get_post('receipt_data', TRUE);
 		$appstoreStatus = $this->input->get_post('status', TRUE);
-		$deviceId = $this->input->get_post('device_id', TRUE);
+		$deviceId = $this->input->get_post('unique_identifier', TRUE);
 		$checkSum = $this->input->get_post('checksum', TRUE);
 		
 		$receiptData = empty($receiptData) ? '' : $receiptData;
