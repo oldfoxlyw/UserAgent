@@ -59,6 +59,9 @@ class Server extends CI_Model {
 			if(!empty($parameter['partner'])) {
 				$this->productdb->like('partner', $parameter['partner']);
 			}
+			if(!empty($parameter['version'])) {
+				$this->productdb->like('version', $parameter['version']);
+			}
 			if(!empty($parameter['special_ip']))
 			{
 				$this->productdb->where('special_ip', $parameter['special_ip']);

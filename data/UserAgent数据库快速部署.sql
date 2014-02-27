@@ -64,7 +64,7 @@ CREATE TABLE IF NOT EXISTS `agent1_account_db`.`web_account` (
   INDEX `account_name` (`account_name` ASC, `account_pass` ASC, `server_id` ASC),
   INDEX `partner_id` (`partner_key` ASC, `partner_id` ASC))
 ENGINE = MyISAM
-AUTO_INCREMENT = 200110091006909;
+AUTO_INCREMENT = 200100191006909;
 
 
 -- -----------------------------------------------------
@@ -122,6 +122,8 @@ CREATE TABLE IF NOT EXISTS `agent1_funds_flow_db`.`funds_checkinout` (
   `funds_time_local` DATETIME NOT NULL,
   `funds_type` INT(11) NOT NULL DEFAULT '1' COMMENT '1=游戏内充值 0=GM手动调整',
   `partner_key` CHAR(16) NOT NULL DEFAULT 'default',
+  `receipt_data` TEXT NOT NULL,
+  `appstore_status` INT NOT NULL,
   PRIMARY KEY (`funds_id`),
   INDEX `account_guid` (`account_name` ASC),
   INDEX `account_id` (`account_id` ASC),
@@ -129,8 +131,7 @@ CREATE TABLE IF NOT EXISTS `agent1_funds_flow_db`.`funds_checkinout` (
   INDEX `funds_flow_dir` (`funds_flow_dir` ASC),
   INDEX `funds_time` (`funds_time` ASC))
 ENGINE = MyISAM
-AUTO_INCREMENT = 188
-DEFAULT CHARACTER SET = utf8;
+AUTO_INCREMENT = 188;
 
 
 -- -----------------------------------------------------
@@ -144,12 +145,13 @@ CREATE TABLE IF NOT EXISTS `agent1_funds_flow_db`.`funds_order` (
   `server_id` CHAR(1) NOT NULL,
   `checksum` CHAR(64) NOT NULL,
   `check_count` INT(11) NOT NULL,
+  `status` INT NOT NULL,
+  `funds_id` INT NOT NULL,
   `posttime` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `checksum_2` (`checksum` ASC))
 ENGINE = MyISAM
-AUTO_INCREMENT = 188
-DEFAULT CHARACTER SET = utf8;
+AUTO_INCREMENT = 188;
 
 USE `agent1_log_db` ;
 
@@ -491,6 +493,7 @@ CREATE TABLE IF NOT EXISTS `agent1_product_db`.`server_list` (
   `server_recommend` TINYINT(1) NOT NULL DEFAULT '0',
   `server_debug` TINYINT NOT NULL DEFAULT 0,
   `partner` CHAR(64) NOT NULL DEFAULT 'default',
+  `version` CHAR(64) NOT NULL,
   `server_status` INT(11) NOT NULL DEFAULT '1' COMMENT '0=关闭；1=正常；2=繁忙；3=拥挤；9=隐藏',
   `server_new` INT(11) NOT NULL DEFAULT 1 COMMENT '1=新服；0=旧服',
   `special_ip` CHAR(16) NOT NULL DEFAULT '',
@@ -720,8 +723,8 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `agent1_product_db`;
-INSERT INTO `agent1_product_db`.`server_list` (`id`, `game_id`, `section_id`, `account_server_id`, `server_name`, `server_ip`, `server_game_ip`, `game_message_ip`, `server_max_player`, `account_count`, `server_language`, `server_sort`, `server_recommend`, `server_debug`, `partner`, `server_status`, `server_new`, `special_ip`, `server_starttime`, `need_activate`) VALUES (1, 'B', 101, 'A', '红龙女王', '[{\"ip\":\"115.29.195.156\",\"port\":\"8090\"}]', '[{\"ip\":\"112.124.40.93\",\"port\":\"9999\"}]', '', 100000, 0, 'CN', 5, 1, 0, 'default', 1, 1, '', 0, 1);
-INSERT INTO `agent1_product_db`.`server_list` (`id`, `game_id`, `section_id`, `account_server_id`, `server_name`, `server_ip`, `server_game_ip`, `game_message_ip`, `server_max_player`, `account_count`, `server_language`, `server_sort`, `server_recommend`, `server_debug`, `partner`, `server_status`, `server_new`, `special_ip`, `server_starttime`, `need_activate`) VALUES (2, 'B', 102, 'B', '闪光平原', '[{\"ip\":\"112.124.37.58\",\"port\":\"8090\"}]', '[{\"ip\":\"112.124.40.93\",\"port\":\"9998\"}]', '', 100000, 0, 'CN', 4, 0, 0, 'default', 1, 1, '', 0, 1);
+INSERT INTO `agent1_product_db`.`server_list` (`id`, `game_id`, `section_id`, `account_server_id`, `server_name`, `server_ip`, `server_game_ip`, `game_message_ip`, `server_max_player`, `account_count`, `server_language`, `server_sort`, `server_recommend`, `server_debug`, `partner`, `version`, `server_status`, `server_new`, `special_ip`, `server_starttime`, `need_activate`) VALUES (1, 'B', 101, 'A', '红龙女王', '[{\"ip\":\"115.29.195.156\",\"port\":\"8090\"}]', '[{\"ip\":\"112.124.40.93\",\"port\":\"9999\"}]', '', 100000, 0, 'CN', 5, 1, 0, 'default', NULL, 1, 1, '', 0, 1);
+INSERT INTO `agent1_product_db`.`server_list` (`id`, `game_id`, `section_id`, `account_server_id`, `server_name`, `server_ip`, `server_game_ip`, `game_message_ip`, `server_max_player`, `account_count`, `server_language`, `server_sort`, `server_recommend`, `server_debug`, `partner`, `version`, `server_status`, `server_new`, `special_ip`, `server_starttime`, `need_activate`) VALUES (2, 'B', 102, 'B', '闪光平原', '[{\"ip\":\"112.124.37.58\",\"port\":\"8090\"}]', '[{\"ip\":\"112.124.40.93\",\"port\":\"9998\"}]', '', 100000, 0, 'CN', 4, 0, 0, 'default', NULL, 1, 1, '', 0, 1);
 
 COMMIT;
 

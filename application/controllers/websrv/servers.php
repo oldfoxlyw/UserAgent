@@ -25,7 +25,7 @@ class Servers extends CI_Controller {
 		$partner	=	$this->input->get_post('partner', TRUE);
 		$mode		=	$this->input->get_post('mode', TRUE);
 		$lang		=	$this->input->get_post('language', TRUE);
-		$ver		=	$this->input->get_post('version', TRUE);
+		$ver		=	$this->input->get_post('client_version', TRUE);
 		
 // 		if($partner != 'default' && $partner != 'default_full' && $mode != 'debug')
 // 		{
@@ -57,10 +57,15 @@ class Servers extends CI_Controller {
 			echo $this->return_format->format($jsonData, $format);
 			exit();
 		}
-// 		else
-// 		{
-// 			$parameter['partner'] = $partner;
-// 		}
+		else
+		{
+			$parameter['partner'] = $partner;
+		}
+		
+		if(!empty($ver) && $ver == '1.1')
+		{
+			$this->get_temp_version_list();
+		}
 		
 		if($mode===FALSE || empty($mode))
 		{
@@ -229,6 +234,129 @@ class Servers extends CI_Controller {
 		}
 		$parameter = array(
 				'account_server_id'		=>	'104'
+		);
+
+		$this->load->model('websrv/server', 'server');
+		$result = $this->server->getAllResult($parameter);
+		
+		$lang = 'zh-cn';
+
+		$this->lang->load('server_list', $lang);
+		$this->load->helper('language');
+		$this->load->helper('array');
+		if(!empty($result))
+		{
+			for($i=0; $i<count($result); $i++)
+			{
+				$serverName = lang('server_list_' . $result[$i]->server_name);
+				if(!empty($serverName)) {
+					$result[$i]->server_name = $serverName;
+				}
+				$result[$i]->server_language = lang('server_list_language_' . $result[$i]->server_language);
+				
+				$result[$i]->server_ip = json_decode($result[$i]->server_ip);
+				if(count($result[$i]->server_ip) > 0)
+				{
+					$result[$i]->server_ip = random_element($result[$i]->server_ip);
+				}
+				else
+				{
+					$result[$i]->server_ip = $result[$i]->server_ip[0];
+				}
+				if(empty($result[$i]->server_ip->$ipFlag))
+				{
+					$result[$i]->server_ip = $result[$i]->server_ip->ip . ':' . $result[$i]->server_ip->port;
+				}
+				else
+				{
+					$result[$i]->server_ip = $result[$i]->server_ip->$ipFlag . ':' . $result[$i]->server_ip->port;
+				}
+	
+				$result[$i]->server_game_ip = json_decode($result[$i]->server_game_ip);
+				if(count($result[$i]->server_game_ip) > 0)
+				{
+					$result[$i]->server_game_ip = random_element($result[$i]->server_game_ip);
+				}
+				else
+				{
+					$result[$i]->server_game_ip = $result[$i]->server_game_ip[0];
+				}
+				$result[$i]->server_game_port = $result[$i]->server_game_ip->port;
+				if(empty($result[$i]->server_game_ip->$ipFlag))
+				{
+					$result[$i]->server_game_ip = $result[$i]->server_game_ip->ip;
+				}
+				else
+				{
+					$result[$i]->server_game_ip = $result[$i]->server_game_ip->$ipFlag;
+				}
+				
+				$result[$i]->game_message_ip = json_decode($result[$i]->game_message_ip);
+				if(count($result[$i]->game_message_ip) > 0)
+				{
+					$result[$i]->game_message_ip = random_element($result[$i]->game_message_ip);
+				}
+				else
+				{
+					$result[$i]->game_message_ip = $result[$i]->game_message_ip[0];
+				}
+				if(empty($result[$i]->game_message_ip->$ipFlag))
+				{
+					$result[$i]->game_message_ip = $result[$i]->game_message_ip->ip . ':' . $result[$i]->game_message_ip->port;
+				}
+				else
+				{
+					$result[$i]->game_message_ip = $result[$i]->game_message_ip->$ipFlag . ':' . $result[$i]->game_message_ip->port;
+				}
+			}
+		}
+		else
+		{
+			$result = array();
+		}
+		
+		$this->load->model('mannouncement');
+		$parameter = array(
+				'partner_key'	=>	'default_full'
+		);
+		$extension = array(
+				'order_by'	=>	array('post_time', 'desc')
+		);
+		$announce = $this->mannouncement->read($parameter, $extension, 1, 0);
+		$announce = empty($announce) ? '' : $announce[0];
+		
+// 		if($partner == 'default' || $partner == 'default_full')
+// 		{
+// 			$activate = 0;
+// 		}
+// 		else
+// 		{
+// 			$activate = 1;
+// 		}
+		$activate = 0;
+		
+		$jsonData = Array(
+			'message'			=>	'SERVER_LIST_SUCCESS',
+			'activate'			=>	$activate,
+			'server'			=>	$result,
+			'announce'			=>	$announce
+		);
+		echo $this->return_format->format($jsonData, 'json');
+	}
+	
+	private function get_temp_version_list()
+	{
+		$serverIp	=	$this->input->server('SERVER_ADDR');
+		if($serverIp == '122.13.131.55')
+		{
+			$ipFlag = 'ip2';
+		}
+		else //183.60.255.55
+		{
+			$ipFlag = 'ip';
+		}
+		$parameter = array(
+				'account_server_id'		=>	'103'
 		);
 
 		$this->load->model('websrv/server', 'server');
