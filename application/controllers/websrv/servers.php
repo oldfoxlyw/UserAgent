@@ -65,6 +65,7 @@ class Servers extends CI_Controller {
 		if(!empty($ver) && $ver == '1.1')
 		{
 			$this->get_temp_version_list();
+			exit();
 		}
 		
 		if($mode===FALSE || empty($mode))
