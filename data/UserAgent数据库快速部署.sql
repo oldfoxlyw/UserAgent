@@ -124,6 +124,7 @@ CREATE TABLE IF NOT EXISTS `agent1_funds_flow_db`.`funds_checkinout` (
   `partner_key` CHAR(16) NOT NULL DEFAULT 'default',
   `receipt_data` TEXT NOT NULL,
   `appstore_status` INT NOT NULL,
+  `appstore_device_id` CHAR(64) NOT NULL,
   PRIMARY KEY (`funds_id`),
   INDEX `account_guid` (`account_name` ASC),
   INDEX `account_id` (`account_id` ASC),
