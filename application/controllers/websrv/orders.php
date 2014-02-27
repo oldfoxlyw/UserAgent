@@ -22,10 +22,12 @@ class Orders extends CI_Controller {
 		$playerId = $this->input->get_post('player_id', TRUE);
 		$receiptData = $this->input->get_post('receipt_data', TRUE);
 		$appstoreStatus = $this->input->get_post('status', TRUE);
+		$deviceId = $this->input->get_post('device_id', TRUE);
 		$checkSum = $this->input->get_post('checksum', TRUE);
 		
 		$receiptData = empty($receiptData) ? '' : $receiptData;
 		$appstoreStatus = empty($appstoreStatus) ? 0 : intval($appstoreStatus);
+		$deviceId = empty($deviceId) ? '' : $deviceId;
 		
 		if(!empty($serverId) && !empty($playerId) && !empty($checkSum) && is_numeric($fundsAmount) && is_numeric($itemCount)) {
 			$result = $this->order->get($checkSum);
@@ -60,7 +62,8 @@ class Orders extends CI_Controller {
 							'funds_type'			=>	1,
 							'partner_key'			=>	$result->partner_key,
 							'receipt_data'			=>	$receiptData,
-							'appstore_status'		=>	$appstoreStatus
+							'appstore_status'		=>	$appstoreStatus,
+							'appstore_device_id'	=>	$deviceId
 					);
 					$fundsId = $this->funds->insert($parameter);
 				} else {
