@@ -198,7 +198,14 @@ class Overview extends CI_Controller
 				$rechargeAccount = $rechargeAccount->num_rows();
 				
 				// arpu
-				$arpu = floatval ( number_format ( $rechargeAccount / $loginCount, 2 ) ) * 100;
+				if($loginCount > 0)
+				{
+					$arpu = floatval ( number_format ( $rechargeAccount / $loginCount, 2 ) ) * 100;
+				}
+				else
+				{
+					$arpu = 0;
+				}
 				
 				// at 平均在线时长
 				$sql = "SELECT SUM(`time`) as `time` FROM `log_rep` WHERE `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}' AND `posttime`>={$lastTimeStart} AND `posttime`<={$lastTimeEnd}";
@@ -213,7 +220,14 @@ class Overview extends CI_Controller
 					$sql = "SELECT * FROM `log_rep` WHERE `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}' AND `posttime`>={$lastTimeStart} AND `posttime`<={$lastTimeEnd}";
 					//$sql .= " GROUP BY `player_id`";
 					$atCount = $this->logdb->query($sql)->num_rows();
-					$at = $atSum / $atCount;
+					if($atCount > 0)
+					{
+						$at = $atSum / $atCount;
+					}
+					else
+					{
+						$at = 0;
+					}
 				}
 				
 				$parameter = array (
