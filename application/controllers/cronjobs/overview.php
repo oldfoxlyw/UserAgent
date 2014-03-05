@@ -20,7 +20,6 @@ class Overview extends CI_Controller
 	public function statistics()
 	{
 		set_time_limit(1800);
-		error_reporting(E_ALL);
 		
 		$this->load->model ( 'websrv/server' );
 		$serverResult = $this->server->getAllResult ();
