@@ -20,6 +20,7 @@ class Web_account extends CI_Model {
 			$this->accountdb->where('account_pass', $userPass);
 			$this->accountdb->where('server_id', $serverId);
 			$query = $this->accountdb->get($this->accountTable);
+			exit($this->accountdb->last_query());
 			if($query->num_rows() > 0) {
 				return $query->row();
 			} else {
