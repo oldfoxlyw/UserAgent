@@ -15,6 +15,8 @@ class Overview extends CI_Controller
 		$this->logcachedb = $this->load->database ( 'log_cachedb', true );
 		$this->logdb = $this->load->database ( 'logdb', true );
 		$this->fundsdb = $this->load->database ( 'fundsdb', true );
+		
+		set_time_limit(1800);
 	}
 
 	public function statistics()
