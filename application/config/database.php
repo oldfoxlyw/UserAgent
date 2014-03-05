@@ -47,7 +47,7 @@
 $active_group = 'accountdb';
 $active_record = TRUE;
 
-$db['webdb']['hostname'] = '10.18.234.52';
+$db['webdb']['hostname'] = '127.0.0.1';
 $db['webdb']['username'] = 'root';
 $db['webdb']['password'] = '84@41%%wi96^4';
 $db['webdb']['database'] = 'agent1_web_db';
@@ -63,7 +63,7 @@ $db['webdb']['swap_pre'] = '';
 $db['webdb']['autoinit'] = TRUE;
 $db['webdb']['stricton'] = FALSE;
 
-$db['accountdb']['hostname'] = '10.18.234.52';
+$db['accountdb']['hostname'] = '127.0.0.1';
 $db['accountdb']['username'] = 'root';
 $db['accountdb']['password'] = '84@41%%wi96^4';
 $db['accountdb']['database'] = 'agent1_account_db';
@@ -79,7 +79,7 @@ $db['accountdb']['swap_pre'] = '';
 $db['accountdb']['autoinit'] = TRUE;
 $db['accountdb']['stricton'] = FALSE;
 
-$db['productdb']['hostname'] = '10.18.234.52';
+$db['productdb']['hostname'] = '127.0.0.1';
 $db['productdb']['username'] = 'root';
 $db['productdb']['password'] = '84@41%%wi96^4';
 $db['productdb']['database'] = 'agent1_product_db';
@@ -95,7 +95,7 @@ $db['productdb']['swap_pre'] = '';
 $db['productdb']['autoinit'] = TRUE;
 $db['productdb']['stricton'] = FALSE;
 
-$db['fundsdb']['hostname'] = '10.18.234.52';
+$db['fundsdb']['hostname'] = '127.0.0.1';
 $db['fundsdb']['username'] = 'root';
 $db['fundsdb']['password'] = '84@41%%wi96^4';
 $db['fundsdb']['database'] = 'agent1_funds_flow_db';
@@ -111,7 +111,7 @@ $db['fundsdb']['swap_pre'] = '';
 $db['fundsdb']['autoinit'] = TRUE;
 $db['fundsdb']['stricton'] = FALSE;
 
-$db['logdb']['hostname'] = '10.18.234.52';
+$db['logdb']['hostname'] = '127.0.0.1';
 $db['logdb']['username'] = 'root';
 $db['logdb']['password'] = '84@41%%wi96^4';
 $db['logdb']['database'] = 'agent1_log_db_201203';
@@ -127,7 +127,7 @@ $db['logdb']['swap_pre'] = '';
 $db['logdb']['autoinit'] = TRUE;
 $db['logdb']['stricton'] = FALSE;
 
-$db['log_cachedb']['hostname'] = '10.18.234.52';
+$db['log_cachedb']['hostname'] = '127.0.0.1';
 $db['log_cachedb']['username'] = 'root';
 $db['log_cachedb']['password'] = '84@41%%wi96^4';
 $db['log_cachedb']['database'] = 'agent1_log_db';
