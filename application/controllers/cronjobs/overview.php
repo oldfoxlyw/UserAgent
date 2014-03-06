@@ -22,7 +22,9 @@ class Overview extends CI_Controller
 	public function statistics()
 	{
 		$this->load->model ( 'websrv/server' );
-		$serverResult = $this->server->getAllResult ();
+		$serverResult = $this->server->getAllResult (array(
+				'server_debug'	=>	0
+		));
 		
 		$this->load->model ( 'websrv/mpartner' );
 		$partnerResult = $this->mpartner->getAllResult ();
