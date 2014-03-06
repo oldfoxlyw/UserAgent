@@ -69,6 +69,7 @@ class Message1 extends CI_Controller
 									'content'			=>	$row->content
 							);
 							$data = $this->connector->post($ip . '/announcement', $parameter, FALSE);
+							echo $data;
 							
 							$sql = "insert into debug(text)values('url=" . $ip . '/announcement, content=' . $row->content . ", return={$data}')";
 							$this->web_account->db()->query($sql);
