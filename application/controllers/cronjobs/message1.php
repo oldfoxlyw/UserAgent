@@ -26,16 +26,16 @@ class Message1 extends CI_Controller
 			$server->server_ip = $server->server_ip[0];
 			if(intval($server->account_server_id) >= 103)
 			{
-				$serverIp[$server->account_server_id] = 'http://' . $server->server_ip->ip . ':8089';
+				$serverIp[strval($server->account_server_id)] = 'http://' . $server->server_ip->ip . ':8089';
 			}
 			else
 			{
-				$serverIp[$server->account_server_id] = 'http://' . $server->server_ip->lan . ':' . $server->server_ip->port;
+				$serverIp[strval($server->account_server_id)] = 'http://' . $server->server_ip->lan . ':' . $server->server_ip->port;
 			}
 		}
 		
 		var_dump($serverIp);
-		$ip = $serverIp['104'];
+		$ip = $serverIp["104"];
 		$parameter = array(
 				'content'			=>	'由于在线人数过多，服务器即将进行紧急停机维护，预计时间持续10分钟，服务器重启后将全服补偿20绿钻，敬请谅解'
 		);
@@ -68,7 +68,7 @@ class Message1 extends CI_Controller
 					{
 						if(!empty($row->content))
 						{
-							$ip = $serverIp[$row->server_id];
+							$ip = $serverIp[strval($row->server_id)];
 							
 							$parameter = array(
 									'content'			=>	$row->content
