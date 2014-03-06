@@ -104,7 +104,14 @@ class Servers1 extends CI_Controller {
 		}
 		$jsonData->server[$next]->server_recommend = 1;
 		
-		$nextServer = $next + 1;
+		if($next >= 2)
+		{
+			$nextServer = 0;
+		}
+		else
+		{
+			$nextServer = $next + 1;
+		}
 		$sql = "UPDATE `server_balance_check` SET `next_active` = 1 WHERE `server_id`={$nextServer}";
 		$productdb->query($sql);
 		$sql = "UPDATE `server_balance_check` SET `next_active` = 0 WHERE `server_id`={$next}";
