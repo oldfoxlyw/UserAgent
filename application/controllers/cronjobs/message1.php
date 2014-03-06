@@ -35,6 +35,12 @@ class Message1 extends CI_Controller
 		}
 		
 		var_dump($serverIp);
+		$ip = $serverIp['104'];
+		$parameter = array(
+				'content'			=>	'由于在线人数过多，服务器即将进行紧急停机维护，预计时间持续10分钟，服务器重启后将全服补偿20绿钻，敬请谅解'
+		);
+		$data = $this->connector->post($ip . '/announcement', $parameter, FALSE);
+		exit();
 		
 		$time = time();
 		$minutes = intval(date('i', $time));
