@@ -109,7 +109,7 @@ class Servers2 extends CI_Controller {
 		{
 			$jsonData->server[$i]->server_recommend = 0;
 			$ipArray = json_decode($jsonData->server[$i]->server_ip);
-			$ip = random_element($result[$i]->server_ip);
+			$ip = random_element($ipArray);
 			var_dump($ip);
 			$jsonData->server[$i]->server_ip = $ip->ip;
 		}
