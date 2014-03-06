@@ -22,7 +22,9 @@ class Overview extends CI_Controller
 		set_time_limit(1800);
 		
 		$this->load->model ( 'websrv/server' );
-		$serverResult = $this->server->getAllResult ();
+		$serverResult = $this->server->getAllResult (array(
+				'server_debug'	=>	0
+		));
 		
 		$this->load->model ( 'websrv/mpartner' );
 		$partnerResult = $this->mpartner->getAllResult ();
