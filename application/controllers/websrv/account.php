@@ -396,7 +396,7 @@ class Account extends CI_Controller {
 	}
 	
 	public function demo($format = 'json') {
-		$server_id = $this->input->get_post('partner', TRUE);
+		$server_id = $this->input->get_post('server_id', TRUE);
 		$partner = $this->input->get_post('partner', TRUE);
 
 		if(empty($partner))
