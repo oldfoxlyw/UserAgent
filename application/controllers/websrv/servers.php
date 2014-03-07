@@ -142,7 +142,7 @@ class Servers extends CI_Controller {
 		}
 		else
 		{
-			$nextServer = $next + 1;
+			$nextServer = $next + 2;
 		}
 		//3\4\5\6
 // 		if($next >= 3)
