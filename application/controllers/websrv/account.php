@@ -396,6 +396,7 @@ class Account extends CI_Controller {
 	}
 	
 	public function demo($format = 'json') {
+		$server_id = $this->input->get_post('server_id', TRUE);
 		$partner = $this->input->get_post('partner', TRUE);
 
 		if(empty($partner))
@@ -409,19 +410,22 @@ class Account extends CI_Controller {
 		$name = 'Guest' . substr($guid, 0, 6);
 		$pass = substr(do_hash($this->guid->newGuid()->toString(), 'md5'), 0, 8);
 		
-		$this->load->model('websrv/server', 'server');
-		$parameter = array(
-			'server_recommend'		=>	'1'
-		);
-		$result = $this->server->getAllResult($parameter);
-		if($result!=FALSE) {
-			$server_id = $result[0]->account_server_id;
-		} else {
+		if(empty($server_id))
+		{
+			$this->load->model('websrv/server', 'server');
 			$parameter = array(
-				'order_by'				=>	'server_sort'
+				'server_recommend'		=>	'1'
 			);
 			$result = $this->server->getAllResult($parameter);
-			$server_id = $result[0]->account_server_id;
+			if($result!=FALSE) {
+				$server_id = $result[0]->account_server_id;
+			} else {
+				$parameter = array(
+					'order_by'				=>	'server_sort'
+				);
+				$result = $this->server->getAllResult($parameter);
+				$server_id = $result[0]->account_server_id;
+			}
 		}
 		if(!empty($name) && !empty($pass) && !empty($server_id))
 		{
