@@ -127,9 +127,9 @@ class Servers extends CI_Controller {
 		$jsonData->server[$next]->server_recommend = 1;
 		
 		//3\4
-		if($next >= 1)
+		if($next >= 2)
 		{
-			$nextServer = 0;
+			$nextServer = 1;
 		}
 		else
 		{
