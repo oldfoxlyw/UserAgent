@@ -127,14 +127,14 @@ class Servers extends CI_Controller {
 		$jsonData->server[$next]->server_recommend = 1;
 		
 		//3\4
-// 		if($next >= 1)
-// 		{
-// 			$nextServer = 0;
-// 		}
-// 		else
-// 		{
-// 			$nextServer = $next + 1;
-// 		}
+		if($next >= 1)
+		{
+			$nextServer = 0;
+		}
+		else
+		{
+			$nextServer = $next + 1;
+		}
 		//3\4\5
 // 		if($next >= 2)
 // 		{
@@ -145,14 +145,14 @@ class Servers extends CI_Controller {
 // 			$nextServer = $next + 1;
 // 		}
 		//3\4\5\6
-		if($next >= 3)
-		{
-			$nextServer = 0;
-		}
-		else
-		{
-			$nextServer = $next + 1;
-		}
+// 		if($next >= 3)
+// 		{
+// 			$nextServer = 0;
+// 		}
+// 		else
+// 		{
+// 			$nextServer = $next + 1;
+// 		}
 		//3\4\5\6\7
 // 		if($next >= 4)
 // 		{
