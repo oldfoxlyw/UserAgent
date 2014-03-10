@@ -56,8 +56,8 @@ class Account_kuaiyong extends CI_Controller
 					);
 					$result = $this->connector->post($this->url, $params, false);
 					//--------------------------------------
-					$sql = "insert into debug(text)values('" . 'md5:' . $this->app_key . $session_id . ', send:' . json_encode($params) . ', login:' . $result . "')";
-					$this->web_account->db()->query($sql);
+// 					$sql = "insert into debug(text)values('" . 'md5:' . $this->app_key . $session_id . ', send:' . json_encode($params) . ', login:' . $result . "')";
+// 					$this->web_account->db()->query($sql);
 					//--------------------------------------
 					$result = json_decode($result);
 					if(empty($result) || empty($result->data->guid))
@@ -182,8 +182,8 @@ class Account_kuaiyong extends CI_Controller
 					);
 					$result = $this->connector->post($this->url, $params, false);
 					//--------------------------------------
-					$sql = "insert into debug(text)values('" . 'send:' . json_encode($params) . ', register:' . $result . "')";
-					$this->web_account->db()->query($sql);
+// 					$sql = "insert into debug(text)values('" . 'send:' . json_encode($params) . ', register:' . $result . "')";
+// 					$this->web_account->db()->query($sql);
 					//--------------------------------------
 					$result = json_decode($result);
 					if(empty($result) || empty($result->data->guid))
