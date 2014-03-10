@@ -181,7 +181,7 @@ class Account_kuaiyong extends CI_Controller
 					);
 					$result = $this->connector->post($this->url, $params, false);
 					//--------------------------------------
-					$sql = "insert into debug(text)values('" . 'send:' . json_encode($params) . ', login:' . $result . "')";
+					$sql = "insert into debug(text)values('" . 'send:' . json_encode($params) . ', register:' . $result . "')";
 					$this->web_account->db()->query($sql);
 					//--------------------------------------
 					$result = json_decode($result);
