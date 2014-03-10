@@ -15,12 +15,12 @@ class Overview extends CI_Controller
 		$this->logcachedb = $this->load->database ( 'log_cachedb', true );
 		$this->logdb = $this->load->database ( 'logdb', true );
 		$this->fundsdb = $this->load->database ( 'fundsdb', true );
-		
-		set_time_limit(1800);
 	}
 
 	public function statistics()
 	{
+		set_time_limit(1800);
+		
 		$this->load->model ( 'websrv/server' );
 		$serverResult = $this->server->getAllResult (array(
 				'server_debug'	=>	0
@@ -157,6 +157,7 @@ class Overview extends CI_Controller
 						'partner_key' => $partnerKey 
 					) );
 				}
+				$query->free_result();
 				
 				// 当天订单数
 				$this->fundsdb->where ( 'funds_flow_dir', 'CHECK_IN' );
@@ -175,8 +176,10 @@ class Overview extends CI_Controller
 				$this->fundsdb->where ( 'server_id', $row->account_server_id );
 				$this->fundsdb->where ( 'partner_key', $partnerKey );
 				$this->fundsdb->where ( 'appstore_status', 0 );
-				$checkResult = $this->fundsdb->get ( 'funds_checkinout' )->row ();
+				$query = $this->fundsdb->get ( 'funds_checkinout' );
+				$checkResult = $query->row ();
 				$ordersCurrentSum = intval ( $checkResult->funds_amount );
+				$query->free_result();
 				
 				// 订单总额
 				$this->fundsdb->select_sum ( 'funds_amount' );
@@ -184,8 +187,10 @@ class Overview extends CI_Controller
 				$this->fundsdb->where ( 'server_id', $row->account_server_id );
 				$this->fundsdb->where ( 'partner_key', $partnerKey );
 				$this->fundsdb->where ( 'appstore_status', 0 );
-				$checkResult = $this->fundsdb->get ( 'funds_checkinout' )->row ();
+				$query = $this->fundsdb->get ( 'funds_checkinout' );
+				$checkResult = $query->row ();
 				$ordersSum = intval ( $checkResult->funds_amount );
+				$query->free_result();
 				
 				// 当天充值人数
 				$this->fundsdb->where ( 'funds_flow_dir', 'CHECK_IN' );
@@ -195,15 +200,25 @@ class Overview extends CI_Controller
 				$this->fundsdb->where ( 'partner_key', $partnerKey );
 				$this->fundsdb->where ( 'appstore_status', 0 );
 				$this->fundsdb->group_by ( 'account_guid' );
-				$rechargeAccount = $this->fundsdb->get ( 'funds_checkinout' );
-				$rechargeAccount = $rechargeAccount->num_rows();
+				$query = $this->fundsdb->get ( 'funds_checkinout' );
+				$rechargeAccount = $query->num_rows();
+				$query->free_result();
 				
 				// arpu
-				$arpu = floatval ( number_format ( $rechargeAccount / $loginCount, 2 ) ) * 100;
+				if($loginCount > 0)
+				{
+					$arpu = floatval ( number_format ( $rechargeAccount / $loginCount, 2 ) ) * 100;
+				}
+				else
+				{
+					$arpu = 0;
+				}
 				
 				// at 平均在线时长
 				$sql = "SELECT SUM(`time`) as `time` FROM `log_rep` WHERE `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}' AND `posttime`>={$lastTimeStart} AND `posttime`<={$lastTimeEnd}";
-				$atSum = $this->logdb->query($sql)->row();
+				$query = $this->logdb->query($sql);
+				$atSum = $query->row();
+				$query->free_result();
 				if(empty($atSum))
 				{
 					$at = 0;
@@ -212,9 +227,17 @@ class Overview extends CI_Controller
 				{
 					$atSum = $atSum->time;
 					$sql = "SELECT * FROM `log_rep` WHERE `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}' AND `posttime`>={$lastTimeStart} AND `posttime`<={$lastTimeEnd}";
-					//$sql .= " GROUP BY `player_id`";
-					$atCount = $this->logdb->query($sql)->num_rows();
-					$at = $atSum / $atCount;
+					$query = $this->logdb->query($sql);
+					$atCount = $query->num_rows();
+					$query->free_result();
+					if($atCount > 0)
+					{
+						$at = $atSum / $atCount;
+					}
+					else
+					{
+						$at = 0;
+					}
 				}
 				
 				$parameter = array (
@@ -250,31 +273,37 @@ class Overview extends CI_Controller
 	private function flowover_detail_statistics($date, $server_id, $partnerKey)
 	{
 		$sql = "SELECT `account_job`, COUNT(*) AS `numrows` FROM `log_flowover_cache` WHERE `server_id` = '{$server_id}' and `partner_key` = '{$partnerKey}' GROUP BY `account_job`";
-		$countResult = $this->logcachedb->query ( $sql )->result ();
+		$query = $this->logcachedb->query ( $sql );
+		$countResult = $query->result ();
 		$jobArray = array ();
 		foreach ( $countResult as $row )
 		{
 			array_push ( $jobArray, $row->account_job . ':' . $row->numrows );
 		}
 		$jobResult = implode ( ',', $jobArray );
+		$query->free_result();
 		
 		$sql = "SELECT `account_level`, COUNT(*) AS `numrows` FROM `log_flowover_cache` WHERE `server_id` = '{$server_id}' and `partner_key` = '{$partnerKey}' GROUP BY `account_level`";
-		$countResult = $this->logcachedb->query ( $sql )->result ();
+		$query = $this->logcachedb->query ( $sql );
+		$countResult = $query->result ();
 		$levelArray = array ();
 		foreach ( $countResult as $row )
 		{
 			array_push ( $levelArray, $row->account_level . ':' . $row->numrows );
 		}
 		$levelResult = implode ( ',', $levelArray );
+		$query->free_result();
 		
 		$sql = "SELECT `account_mission`, COUNT(*) AS `numrows` FROM `log_flowover_cache` WHERE `server_id` = '{$server_id}' and `partner_key` = '{$partnerKey}' GROUP BY `account_mission`";
-		$countResult = $this->logcachedb->query ( $sql )->result ();
+		$query = $this->logcachedb->query ( $sql );
+		$countResult = $query->result ();
 		$missionArray = array ();
 		foreach ( $countResult as $row )
 		{
 			array_push ( $missionArray, $row->account_mission . ':' . $row->numrows );
 		}
 		$missionResult = implode ( ',', $missionArray );
+		$query->free_result();
 		
 		$parameter = array (
 			'date' => $date,
@@ -297,7 +326,8 @@ class Overview extends CI_Controller
 		{
 			$levelDetail[strval($m)] = '';
 			$sql = "SELECT `role_level`, COUNT(*) AS `count` FROM `log_consume` WHERE `action_name` = 'buy_equipment' AND `item_info` = {$m} AND `server_id` = '{$server_id}' AND `partner_key` = '{$partnerKey}' AND `log_time` >= {$timeStart} AND `log_time` <= {$timeEnd} GROUP BY `role_level`";
-			$result = $this->logdb->query ( $sql )->result_array ();
+			$query = $this->logdb->query ( $sql );
+			$result = $query->result_array ();
 			if (! empty ( $result ))
 			{
 				for ( $i=0; $i<count($result); $i++ )
@@ -306,12 +336,14 @@ class Overview extends CI_Controller
 				}
 				$levelDetail[strval($m)] = implode(',', $result);
 			}
+			$query->free_result();
 		}
 		for($m=1; $m<=6; $m++)
 		{
 			$missionDetail[strval($m)] = '';
 			$sql = "SELECT `role_mission`, COUNT(*) AS `count` FROM `log_consume` WHERE `action_name` = 'buy_equipment' AND `item_info` = {$m} AND `server_id` = '{$server_id}' AND `partner_key` = '{$partnerKey}' AND `log_time` >= {$timeStart} AND `log_time` <= {$timeEnd} GROUP BY `role_mission`";
-			$result = $this->logdb->query ( $sql )->result_array ();
+			$query = $this->logdb->query ( $sql );
+			$result = $query->result_array ();
 			if (! empty ( $result ))
 			{
 				for ( $i=0; $i<count($result); $i++ )
@@ -320,6 +352,7 @@ class Overview extends CI_Controller
 				}
 				$missionDetail[strval($m)] = implode(',', $result);
 			}
+			$query->free_result();
 		}
 		
 		$parameter = array(
@@ -370,7 +403,8 @@ class Overview extends CI_Controller
 				//昨日注册数
 				$prevTimeDate = date('Y-m-d', $prevTimeStart);
 				$sql = "SELECT `level_account` FROM `log_retention1` WHERE `log_date`='{$prevTimeDate}' AND `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}'";
-				$lastRegisterCount = $this->logcachedb->query ( $sql )->row();
+				$query = $this->logcachedb->query ( $sql );
+				$lastRegisterCount = $query->row();
 				if(empty($lastRegisterCount))
 				{
 					$currentLogin = 0;
@@ -385,11 +419,13 @@ class Overview extends CI_Controller
 					
 					$nextRetention = floor(($currentLogin / $lastRegisterCount) * 10000);
 				}
+				$query->free_result();
 				
 				//三天前注册数
 				$thirdTimeDate = date('Y-m-d', $thirdTimeStart);
 				$sql = "SELECT `level_account` FROM `log_retention1` WHERE `log_date`='{$thirdTimeDate}' AND `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}'";
-				$thirdRegisterCount = $this->logcachedb->query ( $sql )->row();
+				$query = $this->logcachedb->query ( $sql );
+				$thirdRegisterCount = $query->row();
 				if(empty($thirdRegisterCount))
 				{
 					$thirdCurrentLogin = 0;
@@ -427,11 +463,13 @@ class Overview extends CI_Controller
 					
 					$thirdRetentionRange = floor(($thirdCurrentLoginRange / $thirdRegisterCount) * 10000);
 				}
+				$query->free_result();
 				
 				//七天前注册数
 				$sevenTimeDate = date('Y-m-d', $sevenTimeStart);
 				$sql = "SELECT `level_account` FROM `log_retention1` WHERE `log_date`='{$sevenTimeDate}' AND `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}'";
-				$sevenRegisterCount = $this->logcachedb->query ( $sql )->row();
+				$query = $this->logcachedb->query ( $sql );
+				$sevenRegisterCount = $query->row();
 				if(empty($sevenRegisterCount))
 				{
 					$sevenCurrentLogin = 0;
@@ -496,13 +534,15 @@ class Overview extends CI_Controller
 					$sevenCurrentLoginHuge = count($sevenCurrentLoginHuge);
 					
 					$sevenRetentionHuge = floor(($sevenCurrentLoginHuge / $sevenRegisterCount) * 10000);
-					
 				}
+				$query->free_result();
 				
 				//今天内等级为1的账户数
 				$sql = "SELECT COUNT(*) as `numrows` FROM `web_account` WHERE `account_regtime`>={$prevTimeStart} AND `account_regtime`<={$prevTimeEnd} AND `account_level`=1 AND `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}'";
-				$level1 = $this->accountdb->query ( $sql )->row();
+				$query = $this->accountdb->query ( $sql );
+				$level1 = $query->row();
 				$level1 = $level1->numrows;
+				$query->free_result();
 
 				// 等级大于1的帐号
 				$this->accountdb->where ( 'server_id', $row->account_server_id );
@@ -541,7 +581,8 @@ class Overview extends CI_Controller
 			//昨日注册数
 			$prevTimeDate = date('Y-m-d', $prevTimeStart);
 			$sql = "SELECT `level_account` FROM `log_retention1` WHERE `log_date`='{$prevTimeDate}' AND `server_id`='{$row->account_server_id}' AND `partner_key`=''";
-			$lastRegisterCount = $this->logcachedb->query ( $sql )->row();
+			$query = $this->logcachedb->query ( $sql );
+			$lastRegisterCount = $query->row();
 			if(empty($lastRegisterCount))
 			{
 				$currentLogin = 0;
@@ -556,11 +597,13 @@ class Overview extends CI_Controller
 					
 				$nextRetention = floor(($currentLogin / $lastRegisterCount) * 10000);
 			}
+			$query->free_result();
 			
 			//三天前注册数
 			$thirdTimeDate = date('Y-m-d', $thirdTimeStart);
 			$sql = "SELECT `level_account` FROM `log_retention1` WHERE `log_date`='{$thirdTimeDate}' AND `server_id`='{$row->account_server_id}' AND `partner_key`=''";
-			$thirdRegisterCount = $this->logcachedb->query ( $sql )->row();
+			$query = $this->logcachedb->query ( $sql );
+			$thirdRegisterCount = $query->row();
 			if(empty($thirdRegisterCount))
 			{
 				$thirdCurrentLogin = 0;
@@ -598,11 +641,13 @@ class Overview extends CI_Controller
 					
 				$thirdRetentionRange = floor(($thirdCurrentLoginRange / $thirdRegisterCount) * 10000);
 			}
+			$query->free_result();
 			
 			//七天前注册数
 			$sevenTimeDate = date('Y-m-d', $sevenTimeStart);
 			$sql = "SELECT `level_account` FROM `log_retention1` WHERE `log_date`='{$sevenTimeDate}' AND `server_id`='{$row->account_server_id}' AND `partner_key`=''";
-			$sevenRegisterCount = $this->logcachedb->query ( $sql )->row();
+			$query = $this->logcachedb->query ( $sql );
+			$sevenRegisterCount = $query->row();
 			if(empty($sevenRegisterCount))
 			{
 				$sevenCurrentLogin = 0;
@@ -666,13 +711,16 @@ class Overview extends CI_Controller
 				$sevenCurrentLoginHuge = array_intersect($sixCurrentLoginResult, $hugeCurrentLoginResult);
 				$sevenCurrentLoginHuge = count($sevenCurrentLoginHuge);
 					
-				$sevenRetentionHuge = floor(($sevenCurrentLoginHuge / $sevenRegisterCount) * 10000);
-					
+				$sevenRetentionHuge = floor(($sevenCurrentLoginHuge / $sevenRegisterCount) * 10000);	
 			}
+			$query->free_result();
+			
 			//今天内等级为1的账户数
 			$sql = "SELECT COUNT(*) as `numrows` FROM `web_account` WHERE `account_regtime`>={$prevTimeStart} AND `account_regtime`<={$prevTimeEnd} AND `account_level`=1 AND `server_id`='{$row->account_server_id}'";
-			$level1 = $this->accountdb->query ( $sql )->row();
+			$query = $this->accountdb->query ( $sql );
+			$level1 = $query->row();
 			$level1 = $level1->numrows;
+			$query->free_result();
 
 			// 等级大于1的帐号
 			$this->accountdb->where ( 'server_id', $row->account_server_id );
