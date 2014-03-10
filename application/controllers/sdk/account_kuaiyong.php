@@ -52,11 +52,11 @@ class Account_kuaiyong extends CI_Controller
 					//向kuaiyong验证登录并获取uid
 					$params = array(
 							'tokenKey'		=>	$session_id,
-							'Sign'			=>	$sign
+							'sign'			=>	$sign
 					);
 					$result = $this->connector->post($this->url, $params, false);
 					//--------------------------------------
-					$sql = "insert into debug(text)values('" . 'send:' . json_encode($params) . ', login:' . $result . "')";
+					$sql = "insert into debug(text)values('" . 'md5:' . $this->app_key . $session_id . ', send:' . json_encode($params) . ', login:' . $result . "')";
 					$this->web_account->db()->query($sql);
 					//--------------------------------------
 					$result = json_decode($result);
