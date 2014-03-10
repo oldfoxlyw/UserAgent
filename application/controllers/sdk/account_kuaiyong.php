@@ -1,14 +1,10 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Account_wanwan extends CI_Controller
+class Account_kuaiyong extends CI_Controller
 {
-	private $check_code = 'YI7RclFHiSIk4mbz*D9OGstjDN&QkjehA6SvfRj_2awnBUPOy@ITCctHmhhNDJbY';
-	private $wanwan_server = 'http://gop.37wanwan.com/api/';
-	private $api_version = '1.0';
-	private $api_name = 'verifyUser';
-	private $GAME_ID = 54;
-	private $GAME_SECRET = '9fb644427278b9288c40823318b4aadf';
-	private $VENDOR = 'Shenzhen Shidai Top Mobile Game Interactive Technology Co.Ltd';
+	private $url = 'http://f_signin.bppstore.com/loginCheck.php';
+	private $app_id = 'com.digiarty.godworldKuaiYong';
+	private $app_key = '927c9a3983efccd848dfebfeb3910db0';
 	
 	public function __construct()
 	{
@@ -51,27 +47,19 @@ class Account_wanwan extends CI_Controller
 				
 				if(empty($uid))
 				{
-					//向wanwan验证登录并获取uid
+					$sign = md5($this->app_key . $session_id);
+					//向kuaiyong验证登录并获取uid
 					$params = array(
-							'token'		=>	$session_id
+							'tokenKey'		=>	$session_id,
+							'Sign'			=>	$sign
 					);
-					$paramStr = $this->connector->getQueryString($params);
-					$path = $this->wanwan_server . $this->api_name;
-					$timestamp = date('D, d M Y H:i:s') . ' GMT';
-					$sign = md5("{$timestamp}:{$this->api_name}:{$paramStr}:{$this->GAME_SECRET}");
-					$auth = "{$this->VENDOR} {$this->GAME_ID}:{$sign}";
-					$header = array(
-							'Date:' . $timestamp,
-							'Accept:application/json; version=' . $this->api_version,
-							'Authentication:' . $auth
-					);
-					$result = $this->connector->post($path, $params, false, $header);
+					$result = $this->connector->post($this->url, $params, false);
 					//--------------------------------------
-// 					$sql = "insert into debug(text)values('" . 'send:' . json_encode($params) . ', login:' . $result . "')";
-// 					$this->web_account->db()->query($sql);
+					$sql = "insert into debug(text)values('" . 'send:' . json_encode($params) . ', login:' . $result . "')";
+					$this->web_account->db()->query($sql);
 					//--------------------------------------
 					$result = json_decode($result);
-					if(empty($result) || empty($result->usergameid))
+					if(empty($result) || empty($result->data->guid))
 					{
 						$json = array(
 								'success'		=>	false,
@@ -79,7 +67,7 @@ class Account_wanwan extends CI_Controller
 						);
 						exit($this->return_format->format($json));
 					}
-					$uid = $result->usergameid;
+					$uid = $result->data->guid;
 				}
 				$parameter = array(
 						'partner_key'			=>	$partner_key,
@@ -185,36 +173,27 @@ class Account_wanwan extends CI_Controller
 				
 				if(empty($uid))
 				{
-					//向wanwan验证登录并获取uid
+					$sign = md5($this->app_key . $session_id);
+					//向kuaiyong验证登录并获取uid
 					$params = array(
-							'token'		=>	$session_id
+							'tokenKey'		=>	$session_id,
+							'Sign'			=>	$sign
 					);
-					$paramStr = $this->connector->getQueryString($params);
-					$path = $this->wanwan_server . $this->api_name;
-					$timestamp = date('D, d M Y H:i:s') . ' GMT';
-					$sign = md5("{$timestamp}:{$this->api_name}:{$paramStr}:{$this->GAME_SECRET}");
-					$auth = "{$this->VENDOR} {$this->GAME_ID}:{$sign}";
-					$header = array(
-							'Date:' . $timestamp,
-							'Accept:application/json; version=' . $this->api_version,
-							'Authentication:' . $auth
-					);
-					$result = $this->connector->post($path, $params, false, $header);
+					$result = $this->connector->post($this->url, $params, false);
 					//--------------------------------------
-// 					$sql = "insert into debug(text)values('" . 'send:' . json_encode($params) . ', register:' . $result . "')";
-// 					$this->web_account->db()->query($sql);
+					$sql = "insert into debug(text)values('" . 'send:' . json_encode($params) . ', login:' . $result . "')";
+					$this->web_account->db()->query($sql);
 					//--------------------------------------
 					$result = json_decode($result);
-					if(empty($result) || empty($result->usergameid))
+					if(empty($result) || empty($result->data->guid))
 					{
 						$json = array(
 								'success'		=>	false,
-								'errors'		=>	'SDK_REGISTER_FAIL'
+								'errors'		=>	'SDK_LOGIN_FAIL'
 						);
 						exit($this->return_format->format($json));
-						
 					}
-					$uid = $result->usergameid;
+					$uid = $result->data->guid;
 				}
 				$name = strtolower(do_hash($this->guid->toString(), 'md5'));
 				$pass = $name;
