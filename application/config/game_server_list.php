@@ -222,7 +222,7 @@ $config ['game_server_list1'] = array (
 								) 
 						),
 						'server_game_ip' => '183.60.255.63',
-						'game_message_ip' => '10.18.234.62:9899',
+						'game_message_ip' => '10.18.234.63:9899',
 						'server_max_player' => '100000',
 						'account_count' => '0',
 						'server_language' => '中文',
