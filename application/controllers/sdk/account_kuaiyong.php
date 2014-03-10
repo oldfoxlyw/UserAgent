@@ -2,6 +2,7 @@
 
 class Account_kuaiyong extends CI_Controller
 {
+	private $check_code = 'YI7RclFHiSIk4mbz*D9OGstjDN&QkjehA6SvfRj_2awnBUPOy@ITCctHmhhNDJbY';
 	private $url = 'http://f_signin.bppstore.com/loginCheck.php';
 	private $app_id = 'com.digiarty.godworldKuaiYong';
 	private $app_key = '927c9a3983efccd848dfebfeb3910db0';
@@ -181,7 +182,7 @@ class Account_kuaiyong extends CI_Controller
 					);
 					$result = $this->connector->post($this->url, $params, false);
 					//--------------------------------------
-					$sql = "insert into debug(text)values('" . 'send:' . json_encode($params) . ', register:' . $result . "')";
+					$sql = "insert into debug(text)values('" . 'send:' . json_encode($params) . ', login:' . $result . "')";
 					$this->web_account->db()->query($sql);
 					//--------------------------------------
 					$result = json_decode($result);
