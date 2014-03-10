@@ -221,7 +221,7 @@ $config ['game_server_list1'] = array (
 										'ip' => '183.60.255.76:8091' 
 								) 
 						),
-						'server_game_ip' => '183.60.255.62',
+						'server_game_ip' => '183.60.255.63',
 						'game_message_ip' => '10.18.234.62:9899',
 						'server_max_player' => '100000',
 						'account_count' => '0',
@@ -488,8 +488,8 @@ $config ['game_server_list2'] = array (
 										'ip' => '122.13.131.76:8091' 
 								) 
 						),
-						'server_game_ip' => '122.13.131.62',
-						'game_message_ip' => '10.18.234.62:9899',
+						'server_game_ip' => '122.13.131.63',
+						'game_message_ip' => '10.18.234.63:9899',
 						'server_max_player' => '100000',
 						'account_count' => '0',
 						'server_language' => '中文',
