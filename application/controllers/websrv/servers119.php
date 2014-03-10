@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Servers extends CI_Controller {
+class Servers119 extends CI_Controller {
 	private $root_path = null;
 	
 	public function __construct() {
@@ -105,8 +105,8 @@ class Servers extends CI_Controller {
 		$this->load->helper('array');
 		for($i = 0; $i<count($jsonData['server']); $i++)
 		{
-			$jsonData['server'][$i]->server_recommend = 0;
-			$ipArray = json_decode($jsonData['server'][$i]['server_ip']);
+			$jsonData['server'][$i]['server_recommend'] = 0;
+			$ipArray = $jsonData['server'][$i]['server_ip'];
 			$ip = random_element($ipArray);
 			$jsonData['server'][$i]['server_ip'] = $ip['ip'];
 		}
