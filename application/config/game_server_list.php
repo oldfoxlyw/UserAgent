@@ -1,5 +1,4 @@
 <?php
-
 if (! defined ( 'BASEPATH' ))
 	exit ( 'No direct script access allowed' );
 
@@ -425,14 +424,7 @@ $config ['game_server_list2'] = array (
 						'section_id' => '111',
 						'account_server_id' => '107',
 						'server_name' => '深渊领主(07)',
-						'server_ip' => array (
-								0 => array (
-										'ip' => '58.68.251.51:8091' 
-								),
-								1 => array (
-										'ip' => '58.68.251.44:8092' 
-								) 
-						),
+						'server_ip' => '[{"ip":"58.68.251.51:8091"},{"ip":"58.68.251.44:8092"}]',
 						'server_game_ip' => '58.68.251.52',
 						'game_message_ip' => '10.68.237.99:9899',
 						'server_max_player' => '100000',
@@ -456,14 +448,7 @@ $config ['game_server_list2'] = array (
 						'section_id' => '112',
 						'account_server_id' => '108',
 						'server_name' => '混沌龙神(08)',
-						'server_ip' => array (
-								0 => array (
-										'ip' => '58.68.251.53:8091' 
-								),
-								1 => array (
-										'ip' => '58.68.251.46:8092' 
-								) 
-						),
+						'server_ip' => '[{"ip":"58.68.251.53:8091"},{"ip":"58.68.251.46:8092"}]',
 						'server_game_ip' => '58.68.251.54',
 						'game_message_ip' => '10.68.237.101:9899',
 						'server_max_player' => '100000',
@@ -487,29 +472,7 @@ $config ['game_server_list2'] = array (
 						'section_id' => '110',
 						'account_server_id' => '106',
 						'server_name' => '破碎巫灵(06)',
-						'server_ip' => array (
-								0 => array (
-										'ip' => '58.68.251.49:8091' 
-								),
-								1 => array (
-										'ip' => '58.68.251.69:8091' 
-								),
-								2 => array (
-										'ip' => '58.68.251.49:8091' 
-								),
-								3 => array (
-										'ip' => '58.68.251.69:8091' 
-								),
-								4 => array (
-										'ip' => '58.68.251.69:8091' 
-								),
-								5 => array (
-										'ip' => '58.68.251.49:8091' 
-								),
-								6 => array (
-										'ip' => '58.68.251.61:8091' 
-								) 
-						),
+						'server_ip' => '[{"ip": "58.68.251.49:8091"},{"ip": "58.68.251.69:8091"},{"ip": "58.68.251.49:8091"},{"ip": "58.68.251.69:8091"},{"ip": "58.68.251.69:8091"},{"ip": "58.68.251.49:8091"},{"ip": "58.68.251.61:8091"}]',
 						'server_game_ip' => '58.68.251.50',
 						'game_message_ip' => '10.68.237.97:9899',
 						'server_max_player' => '100000',
@@ -533,17 +496,7 @@ $config ['game_server_list2'] = array (
 						'section_id' => '109',
 						'account_server_id' => '105',
 						'server_name' => '皇家守卫(05)',
-						'server_ip' => array (
-								0 => array (
-										'ip' => '58.68.251.47:8091' 
-								),
-								1 => array (
-										'ip' => '58.68.251.48:8091' 
-								),
-								2 => array (
-										'ip' => '58.68.251.54:8091' 
-								) 
-						),
+						'server_ip' => '[{"ip": "58.68.251.47:8091"},{"ip": "58.68.251.48:8091"},{"ip": "58.68.251.54:8091"}]',
 						'server_game_ip' => '58.68.251.48',
 						'game_message_ip' => '10.68.237.95:9899',
 						'server_max_player' => '100000',
@@ -567,14 +520,7 @@ $config ['game_server_list2'] = array (
 						'section_id' => '108',
 						'account_server_id' => '104',
 						'server_name' => '地狱咆哮(04)',
-						'server_ip' => array (
-								0 => array (
-										'ip' => '58.68.251.45:8091' 
-								),
-								1 => array (
-										'ip' => '58.68.251.52:8091' 
-								) 
-						),
+						'server_ip' => '[{"ip": "58.68.251.45:8091"},{"ip": "58.68.251.52:8091"}]',
 						'server_game_ip' => '58.68.251.46',
 						'game_message_ip' => '10.68.237.93:9899',
 						'server_max_player' => '100000',
@@ -598,14 +544,7 @@ $config ['game_server_list2'] = array (
 						'section_id' => '107',
 						'account_server_id' => '103',
 						'server_name' => '圣歌骑士(03)',
-						'server_ip' => array (
-								0 => array (
-										'ip' => '58.68.251.43:8091' 
-								),
-								1 => array (
-										'ip' => '58.68.251.50:8091' 
-								) 
-						),
+						'server_ip' => '[{"ip":"58.68.251.43:8091"},{"ip":"58.68.251.50:8091"}]',
 						'server_game_ip' => '58.68.251.44',
 						'game_message_ip' => '10.68.237.91:9899',
 						'server_max_player' => '100000',
@@ -629,12 +568,8 @@ $config ['game_server_list2'] = array (
 						'section_id' => '104',
 						'account_server_id' => '102',
 						'server_name' => '战争平原(02)',
-						'server_ip' => array (
-								0 => array (
-										'ip' => '183.60.255.76:8091' 
-								) 
-						),
-						'server_game_ip' => '183.60.255.62',
+						'server_ip' => '[{"ip":"122.13.131.76:8091"}]',
+						'server_game_ip' => '122.13.131.62',
 						'game_message_ip' => '10.18.234.62:8788',
 						'server_max_player' => '100000',
 						'account_count' => '0',
@@ -657,12 +592,8 @@ $config ['game_server_list2'] = array (
 						'section_id' => '103',
 						'account_server_id' => '101',
 						'server_name' => '暮光之翼(01)',
-						'server_ip' => array (
-								0 => array (
-										'ip' => '183.60.255.57:8091' 
-								) 
-						),
-						'server_game_ip' => '183.60.255.54',
+						'server_ip' => '[{"ip":"122.13.131.57:8091"}]',
+						'server_game_ip' => '122.13.131.54',
 						'game_message_ip' => '10.18.234.53:8788',
 						'server_max_player' => '100000',
 						'account_count' => '0',
@@ -705,7 +636,7 @@ $config ['game_server_list2'] = array (
 活动所属服务器：所有服务器
 活动开启时间：2014.3.7（永久开启）
 领奖方式：礼包界面可领
-活动规则：玩家等级到达30级既可免费领取的礼包，包含800绿钻等高级奖励，快速武装自己吧！
+活动规则：玩家等级到达30级既可免费领取的礼包，包含800绿钻等高级奖励，快速武装自己吧！ 
 
 新增礼包：45级战神礼包
 活动所属服务器：所有服务器
@@ -759,17 +690,17 @@ $config ['game_server_list2'] = array (
 领奖方式：冲级成功后手动领奖
 活动规则：参与活动后,48小时内升级到23级，即可领取奖励。
 
-活动五：开服限时抢红包
+活动五：开服限时抢红包 
 活动开启时间：上午12点-下午2点，下午7点-9点
 领奖方式：直接领取
 活动规则：玩家在活动开始后，点击抢红包既可获得奖励。
 
-活动六：午夜狂欢抢宝石
+活动六：午夜狂欢抢宝石 
 活动开启时间：晚上11点55分-12点05分
 领奖方式：直接领取
 活动规则：玩家在活动开始后，点击抢宝石就有可能随机获得1阶宝石。
 
-活动七：黄金国度的交易
+活动七：黄金国度的交易 
 活动开启时间：全天
 领奖方式：兑换获得
 活动规则：活动开始后，可以使用绿钻兑换超多数量的金币！
@@ -795,7 +726,7 @@ $config ['game_server_list2'] = array (
 活动规则：击败爱神，赢得试炼的成功，并有机率获得绝版爱神祝福戒指。
 
 
-每日活动内容：
+每日活动内容： 
 
 活动一：每日挑战世界BOSS
 活动开启时间：每天上午12点，下午3点，晚上7点（活动持续1小时）
