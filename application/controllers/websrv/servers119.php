@@ -106,9 +106,9 @@ class Servers119 extends CI_Controller {
 		for($i = 0; $i<count($jsonData['server']); $i++)
 		{
 			$jsonData['server'][$i]['server_recommend'] = 0;
-			$ipArray = json_decode($jsonData['server'][$i]['server_ip']);
+			$ipArray = $jsonData['server'][$i]['server_ip'];
 			$ip = random_element($ipArray);
-			$jsonData['server'][$i]['server_ip'] = $ip->ip;
+			$jsonData['server'][$i]['server_ip'] = $ip['ip'];
 		}
 		$jsonData['server'][$next]['server_recommend'] = 1;
 		
