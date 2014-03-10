@@ -177,6 +177,9 @@ class Servers119 extends CI_Controller {
 		$sql = "UPDATE `server_balance_check` SET `next_active` = 0 WHERE `server_id`={$next}";
 		$productdb->query($sql);
 		
+		$announcement = $this->config->item('game_announcement');
+		$jsonData = array_merge($jsonData, $announcement);
+		
 		echo $this->return_format->format($jsonData, $format);
 	}
 	
