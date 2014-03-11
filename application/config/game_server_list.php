@@ -49,6 +49,9 @@ $config ['game_server_list1'] = array (
 								),
 								1 => array (
 										'ip' => '58.68.251.46:8092' 
+								),
+								2 => array (
+										'ip' => '58.68.251.48:8092' 
 								) 
 						),
 						'server_game_ip' => '58.68.251.54',
@@ -313,7 +316,10 @@ $config ['game_server_list2'] = array (
 								),
 								1 => array (
 										'ip' => '58.68.251.46:8092' 
-								) 
+								),
+								2 => array (
+										'ip' => '58.68.251.48:8092' 
+								)  
 						),
 						'server_game_ip' => '58.68.251.54',
 						'game_message_ip' => '10.68.237.101:9899',
