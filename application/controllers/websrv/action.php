@@ -14,6 +14,7 @@ class Action extends CI_Controller
 		$inputParam = json_decode($raw_post_data);
 		$playerId = $inputParam->player_id;
 		$roleId = $inputParam->role_id;
+		$serverId = $inputParam->server_id;
 		$nickname = $inputParam->nickname;
 		$logId = $inputParam->log_id;
 		$content = $inputParam->log_content;
@@ -25,11 +26,13 @@ class Action extends CI_Controller
 		
 		if(!empty($playerId) && !empty($content))
 		{
+			$serverId = empty($serverId) ? '' : $serverId;
 			$this->load->model('maction_mall');
 			$parameter = array(
 					'player_id'		=>	$playerId,
 					'role_id'		=>	$roleId,
 					'nickname'		=>	$nickname,
+					'server_id'		=>	$serverId
 					'content'		=>	$content,
 					'posttime'		=>	time()
 			);
