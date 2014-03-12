@@ -2,6 +2,7 @@
 if (! defined ( 'BASEPATH' ))
 	exit ( 'No direct script access allowed' );
 
+//电信列表
 $config ['game_server_list1'] = array (
 		'message' => 'SERVER_LIST_SUCCESS',
 		'activate' => 0,
@@ -281,6 +282,7 @@ $config ['game_server_list1'] = array (
 		)
 );
 
+//联通列表
 $config ['game_server_list2'] = array (
 		'message' => 'SERVER_LIST_SUCCESS',
 		'activate' => 0,
