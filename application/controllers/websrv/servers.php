@@ -98,13 +98,11 @@ class Servers extends CI_Controller {
 		}
 		
 		$productdb = $this->load->database('productdb', TRUE);
-		$sql = "SELECT `server_id` FROM `server_balance_check` WHERE `next_active` = 1";
+		$sql = "SELECT `server_id`, `count`, `max_count` FROM `server_balance_check` WHERE `next_active` = 1";
 		$next = $productdb->query($sql)->row();
 		$maxCount = intval($next->max_count);
 		$count = intval($next->count);
 		$next = intval($next->server_id);
-		echo $maxCount;
-		echo $count;
 
 		$this->load->helper('array');
 		for($i = 0; $i<count($jsonData['server']); $i++)
@@ -170,7 +168,6 @@ class Servers extends CI_Controller {
 		}
 		else
 		{
-			echo 'current count+1';
 			$sql = "UPDATE `server_balance_check` SET `count` = `count` + 1 WHERE `server_id`={$next}";
 			$productdb->query($sql);
 		}
