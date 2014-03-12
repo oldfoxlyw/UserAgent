@@ -7,6 +7,160 @@ $config ['game_server_list1'] = array (
 		'activate' => 0,
 		'server' => array (
 				array (
+						'id' => '12',
+						'game_id' => 'B',
+						'section_id' => '112',
+						'account_server_id' => '108',
+						'server_name' => '混沌龙神(08)',
+						'server_ip' => array (
+								0 => array (
+										'ip' => '58.68.251.53:8091' 
+								),
+								1 => array (
+										'ip' => '58.68.251.46:8092' 
+								),
+								2 => array (
+										'ip' => '58.68.251.48:8092' 
+								),
+								3 => array (
+										'ip' => '58.68.251.46:8092' 
+								),
+								4 => array (
+										'ip' => '58.68.251.48:8092' 
+								),
+								5 => array (
+										'ip' => '58.68.251.46:8092' 
+								),
+								6 => array (
+										'ip' => '58.68.251.48:8092' 
+								)
+						),
+						'server_game_ip' => '58.68.251.54',
+						'game_message_ip' => '10.68.237.101:9899',
+						'server_max_player' => '100000',
+						'account_count' => '0',
+						'server_language' => '中文',
+						'server_sort' => '10',
+						'server_recommend' => '0',
+						'server_debug' => '0',
+						'partner' => 'default,default_full,91,17173,pp,Downjoy,zq,uc',
+						'version' => '',
+						'server_status' => '1',
+						'server_new' => '1',
+						'special_ip' => '',
+						'need_activate' => '0',
+						'server_starttime' => '0',
+						'server_game_port' => '9999' 
+				),
+				array (
+						'id' => '11',
+						'game_id' => 'B',
+						'section_id' => '111',
+						'account_server_id' => '107',
+						'server_name' => '深渊领主(07)',
+						'server_ip' => array (
+								0 => array (
+										'ip' => '58.68.251.51:8091' 
+								),
+								1 => array (
+										'ip' => '58.68.251.44:8092' 
+								) 
+						),
+						'server_game_ip' => '58.68.251.52',
+						'game_message_ip' => '10.68.237.99:9899',
+						'server_max_player' => '100000',
+						'account_count' => '0',
+						'server_language' => '中文',
+						'server_sort' => '11',
+						'server_recommend' => '0',
+						'server_debug' => '0',
+						'partner' => 'default,default_full,91,17173,pp,Downjoy,zq,uc',
+						'version' => '',
+						'server_status' => '1',
+						'server_new' => '1',
+						'special_ip' => '',
+						'need_activate' => '0',
+						'server_starttime' => '0',
+						'server_game_port' => '9999' 
+				),
+				array (
+						'id' => '10',
+						'game_id' => 'B',
+						'section_id' => '110',
+						'account_server_id' => '106',
+						'server_name' => '破碎巫灵(06)',
+						'server_ip' => array (
+								0 => array (
+										'ip' => '58.68.251.49:8091' 
+								),
+								1 => array (
+										'ip' => '58.68.251.69:8091' 
+								),
+								2 => array (
+										'ip' => '58.68.251.49:8091' 
+								),
+								3 => array (
+										'ip' => '58.68.251.69:8091' 
+								),
+								4 => array (
+										'ip' => '58.68.251.69:8091' 
+								),
+								5 => array (
+										'ip' => '58.68.251.49:8091' 
+								),
+								6 => array (
+										'ip' => '58.68.251.61:8091' 
+								) 
+						),
+						'server_game_ip' => '58.68.251.50',
+						'game_message_ip' => '10.68.237.97:9899',
+						'server_max_player' => '100000',
+						'account_count' => '0',
+						'server_language' => '中文',
+						'server_sort' => '9',
+						'server_recommend' => '0',
+						'server_debug' => '0',
+						'partner' => 'default,default_full,91,17173,pp,Downjoy,zq,uc',
+						'version' => '',
+						'server_status' => '1',
+						'server_new' => '1',
+						'special_ip' => '',
+						'need_activate' => '0',
+						'server_starttime' => '0',
+						'server_game_port' => '9999' 
+				),
+				array (
+						'id' => '9',
+						'game_id' => 'B',
+						'section_id' => '109',
+						'account_server_id' => '105',
+						'server_name' => '皇家守卫(05)',
+						'server_ip' => array (
+								0 => array (
+										'ip' => '58.68.251.47:8091' 
+								),
+								1 => array (
+										'ip' => '58.68.251.54:8091' 
+								) 
+						),
+						'server_game_ip' => '58.68.251.48',
+						'game_message_ip' => '10.68.237.95:9899',
+						'server_max_player' => '100000',
+						'account_count' => '0',
+						'server_language' => '中文',
+						'server_sort' => '8',
+						'server_recommend' => '0',
+						'server_debug' => '0',
+						'partner' => 'default,default_full,91,17173,pp,Downjoy,zq,uc',
+						'version' => '',
+						'server_status' => '1',
+						'server_new' => '1',
+						'special_ip' => '',
+						'need_activate' => '0',
+						'server_starttime' => '0',
+						'server_game_port' => '9999' 
+				),
+				array (
 						'id' => '8',
 						'game_id' => 'B',
 						'section_id' => '108',
@@ -123,38 +277,14 @@ $config ['game_server_list1'] = array (
 						'need_activate' => '0',
 						'server_starttime' => '0',
 						'server_game_port' => '8888' 
-				),
-				array (
-						'id' => '11',
-						'game_id' => 'B',
-						'section_id' => '111',
-						'account_server_id' => '107',
-						'server_name' => '深渊领主(07)',
-						'server_ip' => array (
-								0 => array (
-										'ip' => '58.68.251.51:8091' 
-								),
-								1 => array (
-										'ip' => '58.68.251.44:8092' 
-								) 
-						),
-						'server_game_ip' => '58.68.251.52',
-						'game_message_ip' => '10.68.237.99:9899',
-						'server_max_player' => '100000',
-						'account_count' => '0',
-						'server_language' => '中文',
-						'server_sort' => '11',
-						'server_recommend' => '0',
-						'server_debug' => '0',
-						'partner' => 'default,default_full,91,17173,pp,Downjoy,zq,uc',
-						'version' => '',
-						'server_status' => '1',
-						'server_new' => '1',
-						'special_ip' => '',
-						'need_activate' => '0',
-						'server_starttime' => '0',
-						'server_game_port' => '9999' 
-				),
+				)
+		)
+);
+
+$config ['game_server_list2'] = array (
+		'message' => 'SERVER_LIST_SUCCESS',
+		'activate' => 0,
+		'server' => array (
 				array (
 						'id' => '12',
 						'game_id' => 'B',
@@ -182,7 +312,7 @@ $config ['game_server_list1'] = array (
 								),
 								6 => array (
 										'ip' => '58.68.251.48:8092' 
-								)
+								)  
 						),
 						'server_game_ip' => '58.68.251.54',
 						'game_message_ip' => '10.68.237.101:9899',
@@ -190,6 +320,37 @@ $config ['game_server_list1'] = array (
 						'account_count' => '0',
 						'server_language' => '中文',
 						'server_sort' => '10',
+						'server_recommend' => '0',
+						'server_debug' => '0',
+						'partner' => 'default,default_full,91,17173,pp,Downjoy,zq,uc',
+						'version' => '',
+						'server_status' => '1',
+						'server_new' => '1',
+						'special_ip' => '',
+						'need_activate' => '0',
+						'server_starttime' => '0',
+						'server_game_port' => '9999' 
+				),
+				array (
+						'id' => '11',
+						'game_id' => 'B',
+						'section_id' => '111',
+						'account_server_id' => '107',
+						'server_name' => '深渊领主(07)',
+						'server_ip' => array (
+								0 => array (
+										'ip' => '58.68.251.51:8091' 
+								),
+								1 => array (
+										'ip' => '58.68.251.44:8092' 
+								) 
+						),
+						'server_game_ip' => '58.68.251.52',
+						'game_message_ip' => '10.68.237.99:9899',
+						'server_max_player' => '100000',
+						'account_count' => '0',
+						'server_language' => '中文',
+						'server_sort' => '11',
 						'server_recommend' => '0',
 						'server_debug' => '0',
 						'partner' => 'default,default_full,91,17173,pp,Downjoy,zq,uc',
@@ -277,14 +438,7 @@ $config ['game_server_list1'] = array (
 						'need_activate' => '0',
 						'server_starttime' => '0',
 						'server_game_port' => '9999' 
-				)
-		)
-);
-
-$config ['game_server_list2'] = array (
-		'message' => 'SERVER_LIST_SUCCESS',
-		'activate' => 0,
-		'server' => array (
+				),
 				array (
 						'id' => '8',
 						'game_id' => 'B',
@@ -402,160 +556,6 @@ $config ['game_server_list2'] = array (
 						'need_activate' => '0',
 						'server_starttime' => '0',
 						'server_game_port' => '8888' 
-				),
-				array (
-						'id' => '11',
-						'game_id' => 'B',
-						'section_id' => '111',
-						'account_server_id' => '107',
-						'server_name' => '深渊领主(07)',
-						'server_ip' => array (
-								0 => array (
-										'ip' => '58.68.251.51:8091' 
-								),
-								1 => array (
-										'ip' => '58.68.251.44:8092' 
-								) 
-						),
-						'server_game_ip' => '58.68.251.52',
-						'game_message_ip' => '10.68.237.99:9899',
-						'server_max_player' => '100000',
-						'account_count' => '0',
-						'server_language' => '中文',
-						'server_sort' => '11',
-						'server_recommend' => '0',
-						'server_debug' => '0',
-						'partner' => 'default,default_full,91,17173,pp,Downjoy,zq,uc',
-						'version' => '',
-						'server_status' => '1',
-						'server_new' => '1',
-						'special_ip' => '',
-						'need_activate' => '0',
-						'server_starttime' => '0',
-						'server_game_port' => '9999' 
-				),
-				array (
-						'id' => '12',
-						'game_id' => 'B',
-						'section_id' => '112',
-						'account_server_id' => '108',
-						'server_name' => '混沌龙神(08)',
-						'server_ip' => array (
-								0 => array (
-										'ip' => '58.68.251.53:8091' 
-								),
-								1 => array (
-										'ip' => '58.68.251.46:8092' 
-								),
-								2 => array (
-										'ip' => '58.68.251.48:8092' 
-								),
-								3 => array (
-										'ip' => '58.68.251.46:8092' 
-								),
-								4 => array (
-										'ip' => '58.68.251.48:8092' 
-								),
-								5 => array (
-										'ip' => '58.68.251.46:8092' 
-								),
-								6 => array (
-										'ip' => '58.68.251.48:8092' 
-								)  
-						),
-						'server_game_ip' => '58.68.251.54',
-						'game_message_ip' => '10.68.237.101:9899',
-						'server_max_player' => '100000',
-						'account_count' => '0',
-						'server_language' => '中文',
-						'server_sort' => '10',
-						'server_recommend' => '0',
-						'server_debug' => '0',
-						'partner' => 'default,default_full,91,17173,pp,Downjoy,zq,uc',
-						'version' => '',
-						'server_status' => '1',
-						'server_new' => '1',
-						'special_ip' => '',
-						'need_activate' => '0',
-						'server_starttime' => '0',
-						'server_game_port' => '9999' 
-				),
-				array (
-						'id' => '10',
-						'game_id' => 'B',
-						'section_id' => '110',
-						'account_server_id' => '106',
-						'server_name' => '破碎巫灵(06)',
-						'server_ip' => array (
-								0 => array (
-										'ip' => '58.68.251.49:8091' 
-								),
-								1 => array (
-										'ip' => '58.68.251.69:8091' 
-								),
-								2 => array (
-										'ip' => '58.68.251.49:8091' 
-								),
-								3 => array (
-										'ip' => '58.68.251.69:8091' 
-								),
-								4 => array (
-										'ip' => '58.68.251.69:8091' 
-								),
-								5 => array (
-										'ip' => '58.68.251.49:8091' 
-								),
-								6 => array (
-										'ip' => '58.68.251.61:8091' 
-								) 
-						),
-						'server_game_ip' => '58.68.251.50',
-						'game_message_ip' => '10.68.237.97:9899',
-						'server_max_player' => '100000',
-						'account_count' => '0',
-						'server_language' => '中文',
-						'server_sort' => '9',
-						'server_recommend' => '0',
-						'server_debug' => '0',
-						'partner' => 'default,default_full,91,17173,pp,Downjoy,zq,uc',
-						'version' => '',
-						'server_status' => '1',
-						'server_new' => '1',
-						'special_ip' => '',
-						'need_activate' => '0',
-						'server_starttime' => '0',
-						'server_game_port' => '9999' 
-				),
-				array (
-						'id' => '9',
-						'game_id' => 'B',
-						'section_id' => '109',
-						'account_server_id' => '105',
-						'server_name' => '皇家守卫(05)',
-						'server_ip' => array (
-								0 => array (
-										'ip' => '58.68.251.47:8091' 
-								),
-								1 => array (
-										'ip' => '58.68.251.54:8091' 
-								) 
-						),
-						'server_game_ip' => '58.68.251.48',
-						'game_message_ip' => '10.68.237.95:9899',
-						'server_max_player' => '100000',
-						'account_count' => '0',
-						'server_language' => '中文',
-						'server_sort' => '8',
-						'server_recommend' => '0',
-						'server_debug' => '0',
-						'partner' => 'default,default_full,91,17173,pp,Downjoy,zq,uc',
-						'version' => '',
-						'server_status' => '1',
-						'server_new' => '1',
-						'special_ip' => '',
-						'need_activate' => '0',
-						'server_starttime' => '0',
-						'server_game_port' => '9999' 
 				)
 		)
 );
