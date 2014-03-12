@@ -49,7 +49,22 @@ $config ['game_server_list1'] = array (
 								),
 								1 => array (
 										'ip' => '58.68.251.46:8092' 
-								) 
+								),
+								2 => array (
+										'ip' => '58.68.251.48:8092' 
+								),
+								3 => array (
+										'ip' => '58.68.251.46:8092' 
+								),
+								4 => array (
+										'ip' => '58.68.251.48:8092' 
+								),
+								5 => array (
+										'ip' => '58.68.251.46:8092' 
+								),
+								6 => array (
+										'ip' => '58.68.251.48:8092' 
+								)
 						),
 						'server_game_ip' => '58.68.251.54',
 						'game_message_ip' => '10.68.237.101:9899',
@@ -125,9 +140,6 @@ $config ['game_server_list1'] = array (
 										'ip' => '58.68.251.47:8091' 
 								),
 								1 => array (
-										'ip' => '58.68.251.48:8091' 
-								),
-								2 => array (
 										'ip' => '58.68.251.54:8091' 
 								) 
 						),
@@ -221,8 +233,8 @@ $config ['game_server_list1'] = array (
 										'ip' => '183.60.255.76:8091' 
 								) 
 						),
-						'server_game_ip' => '183.60.255.62',
-						'game_message_ip' => '10.18.234.62:8788',
+						'server_game_ip' => '183.60.255.63',
+						'game_message_ip' => '10.18.234.63:9899',
 						'server_max_player' => '100000',
 						'account_count' => '0',
 						'server_language' => '中文',
@@ -236,7 +248,7 @@ $config ['game_server_list1'] = array (
 						'special_ip' => '',
 						'need_activate' => '0',
 						'server_starttime' => '0',
-						'server_game_port' => '8888' 
+						'server_game_port' => '9999' 
 				),
 				7 => array (
 						'id' => '3',
@@ -316,7 +328,22 @@ $config ['game_server_list2'] = array (
 								),
 								1 => array (
 										'ip' => '58.68.251.46:8092' 
-								) 
+								),
+								2 => array (
+										'ip' => '58.68.251.48:8092' 
+								),
+								3 => array (
+										'ip' => '58.68.251.46:8092' 
+								),
+								4 => array (
+										'ip' => '58.68.251.48:8092' 
+								),
+								5 => array (
+										'ip' => '58.68.251.46:8092' 
+								),
+								6 => array (
+										'ip' => '58.68.251.48:8092' 
+								)  
 						),
 						'server_game_ip' => '58.68.251.54',
 						'game_message_ip' => '10.68.237.101:9899',
@@ -392,9 +419,6 @@ $config ['game_server_list2'] = array (
 										'ip' => '58.68.251.47:8091' 
 								),
 								1 => array (
-										'ip' => '58.68.251.48:8091' 
-								),
-								2 => array (
 										'ip' => '58.68.251.54:8091' 
 								) 
 						),
@@ -488,8 +512,8 @@ $config ['game_server_list2'] = array (
 										'ip' => '122.13.131.76:8091' 
 								) 
 						),
-						'server_game_ip' => '122.13.131.62',
-						'game_message_ip' => '10.18.234.62:8788',
+						'server_game_ip' => '122.13.131.63',
+						'game_message_ip' => '10.18.234.63:9899',
 						'server_max_player' => '100000',
 						'account_count' => '0',
 						'server_language' => '中文',
@@ -503,7 +527,7 @@ $config ['game_server_list2'] = array (
 						'special_ip' => '',
 						'need_activate' => '0',
 						'server_starttime' => '0',
-						'server_game_port' => '8888' 
+						'server_game_port' => '9999' 
 				),
 				7 => array (
 						'id' => '3',
