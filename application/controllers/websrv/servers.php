@@ -163,7 +163,7 @@ class Servers extends CI_Controller {
 	// 		}
 			$sql = "UPDATE `server_balance_check` SET `next_active` = 1 WHERE `server_id`={$nextServer}";
 			$productdb->query($sql);
-			$sql = "UPDATE `server_balance_check` SET `count` = 0, `next_active` = 0 WHERE `server_id`={$next}";
+			$sql = "UPDATE `server_balance_check` SET `count` = 1, `next_active` = 0 WHERE `server_id`={$next}";
 			$productdb->query($sql);
 		}
 		else
