@@ -45,7 +45,7 @@ class Action extends CI_Controller
 					'player_id'		=>	$playerId,
 					'role_id'		=>	$roleId,
 					'nickname'		=>	$nickname,
-					'server_id'		=>	$serverId
+					'server_id'		=>	$serverId,
 					'content'		=>	$content,
 					'posttime'		=>	time()
 			);
