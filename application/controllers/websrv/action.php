@@ -26,7 +26,20 @@ class Action extends CI_Controller
 		
 		if(!empty($playerId) && !empty($content))
 		{
-			$serverId = empty($serverId) ? '' : $serverId;
+			// $serverId = empty($serverId) ? '' : $serverId;
+			if(empty($serverId))
+			{
+				$this->load->model('web_account');
+				$account = $this->web_account->get($playerId);
+				if(!empty($account))
+				{
+					$serverId = $account->server_id;
+				}
+				else
+				{
+					$serverId = '';
+				}
+			}
 			$this->load->model('maction_mall');
 			$parameter = array(
 					'player_id'		=>	$playerId,
