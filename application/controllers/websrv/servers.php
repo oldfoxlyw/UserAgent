@@ -610,5 +610,11 @@ class Servers extends CI_Controller {
 		);
 		echo $this->return_format->format($jsonData, 'json');
 	}
+
+	public function announcement()
+	{
+		$server_id = $this->input->get_post('server_id', TRUE);
+		$partner = $this->input->get_post('partner', TRUE);
+	}
 }
 ?>
