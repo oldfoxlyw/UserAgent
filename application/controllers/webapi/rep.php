@@ -93,6 +93,12 @@ class Rep extends CI_Controller
 		}
 		echo $this->return_format->format($jsonData, $format);
 	}
+
+	public function report_online_count()
+	{
+		$serverId = $this->input->post('server_id', TRUE);
+		$count = $this->input->post('count', TRUE);
+	}
 }
 
 ?>
