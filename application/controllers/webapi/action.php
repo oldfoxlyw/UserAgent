@@ -12,6 +12,7 @@ class Action extends CI_Controller
 	{
 		$playerId = $this->input->get_post('player_id', TRUE);
 		$roleId = $this->input->get_post('role_id', TRUE);
+		$serverId = $this->input->get_post('server_id', TRUE);
 		$nickname = $this->input->get_post('nickname', TRUE);
 
 		$this->load->model('maction_mall');

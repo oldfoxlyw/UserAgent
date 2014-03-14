@@ -207,7 +207,7 @@ class Overview extends CI_Controller
 				// arpu
 				if($loginCount > 0)
 				{
-					$arpu = floatval ( number_format ( $rechargeAccount / $loginCount, 2 ) ) * 100;
+					$arpu = floatval ( number_format ( $rechargeAccount / $activeCount, 2 ) ) * 100;
 				}
 				else
 				{

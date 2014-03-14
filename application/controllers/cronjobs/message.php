@@ -60,15 +60,30 @@ class Message extends CI_Controller
 					{
 						if(!empty($row->content))
 						{
-							$ip = $serverIp[$row->server_id];
-							
-							$parameter = array(
-									'content'			=>	$row->content
-							);
-							$data = $this->connector->post($ip . '/announcement', $parameter, FALSE);
-							
-// 							$sql = "insert into debug(text)values('url=" . $ip . '/announcement, content=' . $row->content . ", return={$data}')";
-// 							$this->web_account->db()->query($sql);
+							if($row->server_id == 'all')
+							{
+								$parameter = array(
+										'content'		=>	$row->content
+								);
+								
+								//各服轮询发送
+								foreach($serverIp as $ip)
+								{
+									$data = $this->connector->post($ip . '/announcement', $parameter, FALSE);
+								}
+							}
+							else
+							{
+								$ip = $serverIp[$row->server_id];
+								
+								$parameter = array(
+										'content'			=>	$row->content
+								);
+								$data = $this->connector->post($ip . '/announcement', $parameter, FALSE);
+								
+	// 							$sql = "insert into debug(text)values('url=" . $ip . '/announcement, content=' . $row->content . ", return={$data}')";
+	// 							$this->web_account->db()->query($sql);
+							}
 						}
 					}
 				}
