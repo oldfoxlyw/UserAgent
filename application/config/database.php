@@ -63,7 +63,7 @@ $db['webdb']['swap_pre'] = '';
 $db['webdb']['autoinit'] = TRUE;
 $db['webdb']['stricton'] = FALSE;
 
-$db['accountdb']['hostname'] = '127.0.0.1';
+$db['accountdb']['hostname'] = '10.18.234.54';
 $db['accountdb']['username'] = 'root';
 $db['accountdb']['password'] = '84@41%%wi96^4';
 $db['accountdb']['database'] = 'agent1_account_db';
@@ -79,7 +79,7 @@ $db['accountdb']['swap_pre'] = '';
 $db['accountdb']['autoinit'] = TRUE;
 $db['accountdb']['stricton'] = FALSE;
 
-$db['productdb']['hostname'] = '127.0.0.1';
+$db['productdb']['hostname'] = '10.18.234.54';
 $db['productdb']['username'] = 'root';
 $db['productdb']['password'] = '84@41%%wi96^4';
 $db['productdb']['database'] = 'agent1_product_db';
