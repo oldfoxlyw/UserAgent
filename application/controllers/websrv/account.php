@@ -58,6 +58,7 @@ class Account extends CI_Controller {
 				$logParameter = array(
 					'log_action'	=>	'ACCOUNT_LOGIN_SUCCESS',
 					'account_guid'	=>	$user->GUID,
+					'device_id'		=>	$user->device_id,
 					'account_name'	=>	$user->account_name,
 					'server_id'		=>	$server_id
 				);
