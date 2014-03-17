@@ -633,6 +633,18 @@ class Servers extends CI_Controller {
 	{
 		$server_id = $this->input->get_post('server_id', TRUE);
 		$partner = $this->input->get_post('partner', TRUE);
+
+		$db = $this->load->database('productdb', TRUE);
+
+		$sql = "SELECT * FROM `game_announcement` WHERE `partner_key` LIKE '%{$partner}%' AND `server_id` = '{$server_id}'";
+		$announce = $db->query($sql)->result();
+
+		$announce = empty($announce) ? '' : $announce[0];
+		
+		$jsonData = Array(
+			'announce'			=>	$announce
+		);
+		echo $this->return_format->format($jsonData, 'json');
 	}
 }
 ?>
