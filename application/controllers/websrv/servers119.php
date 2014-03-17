@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Servers911 extends CI_Controller {
+class Servers119 extends CI_Controller {
 	private $root_path = null;
 	
 	public function __construct() {

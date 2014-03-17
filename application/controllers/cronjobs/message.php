@@ -65,6 +65,8 @@ class Message extends CI_Controller
 								$parameter = array(
 										'content'		=>	$row->content
 								);
+								
+								//各服轮询发送
 								foreach($serverIp as $ip)
 								{
 									$data = $this->connector->post($ip . '/announcement', $parameter, FALSE);
