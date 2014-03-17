@@ -206,6 +206,24 @@ class Servers extends CI_Controller {
 				{
 					$result[$i]->const_server_ip = $result[$i]->const_server_ip->$ipFlag . ':' . $result[$i]->const_server_ip->port;
 				}
+
+				$result[$i]->voice_server_ip = json_decode($result[$i]->voice_server_ip);
+				if(count($result[$i]->voice_server_ip) > 0)
+				{
+					$result[$i]->voice_server_ip = random_element($result[$i]->voice_server_ip);
+				}
+				else
+				{
+					$result[$i]->voice_server_ip = $result[$i]->voice_server_ip[0];
+				}
+				if(empty($result[$i]->voice_server_ip->$ipFlag))
+				{
+					$result[$i]->voice_server_ip = $result[$i]->voice_server_ip->ip . ':' . $result[$i]->voice_server_ip->port;
+				}
+				else
+				{
+					$result[$i]->voice_server_ip = $result[$i]->voice_server_ip->$ipFlag . ':' . $result[$i]->voice_server_ip->port;
+				}
 			}
 		}
 		else
