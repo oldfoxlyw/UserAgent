@@ -101,6 +101,7 @@ class Account extends CI_Controller {
 		$level = $this->input->get_post('level', TRUE);
 		$mission = $this->input->get_post('mission', TRUE);
 		$nickname = $this->input->get_post('nickname', TRUE);
+		$device_id = $this->input->get_post('device_id', TRUE);
 		
 		if(!empty($guid) && (!empty($job) || !empty($face) || !empty($level) || !empty($mission) || !empty($nickname)))
 		{
@@ -118,6 +119,9 @@ class Account extends CI_Controller {
 			}
 			if(!empty($nickname)) {
 				$parameter['account_nickname'] = $nickname;
+			}
+			if(!empty($device_id)) {
+				$parameter['device_id'] = $device_id;
 			}
 			$this->web_account->update($parameter, $guid);
 
