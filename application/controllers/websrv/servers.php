@@ -636,7 +636,7 @@ class Servers extends CI_Controller {
 
 		$db = $this->load->database('productdb', TRUE);
 
-		$sql = "SELECT * FROM `game_announcement` WHERE `partner_key` LIKE '%{$partner}%' AND `server_id` = '{$server_id}'";
+		$sql = "SELECT * FROM `game_announcement` WHERE `partner_key` LIKE '%{$partner}%' AND (`server_id` = '{$server_id}' OR `server_id` = 'all')";
 		$announce = $db->query($sql)->result();
 
 		$announce = empty($announce) ? '' : $announce[0];
