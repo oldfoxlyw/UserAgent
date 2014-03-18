@@ -63,7 +63,8 @@ class Account extends CI_Controller {
 					'account_guid'	=>	$user->GUID,
 					'device_id'		=>	empty($device_id) ? $user->device_id : $device_id,
 					'account_name'	=>	$user->account_name,
-					'server_id'		=>	$server_id
+					'server_id'		=>	$server_id,
+					'partner_key'	=>	$user->partner_key
 				);
 				$this->logs->write($logParameter);
 			} else {
@@ -242,7 +243,8 @@ class Account extends CI_Controller {
 						'device_id'		=>	$device_id,
 						'account_name'	=>	$user->account_name,
 						'server_id'		=>	$server_id,
-						'device_id'		=>	$device_id
+						'device_id'		=>	$device_id,
+						'partner_key'	=>	$partner
 					);
 					$this->logs->write($logParameter);
 				} else {
@@ -257,7 +259,8 @@ class Account extends CI_Controller {
 						'account_guid'	=>	'',
 						'device_id'		=>	$device_id,
 						'account_name'	=>	$name,
-						'server_id'		=>	$server_id
+						'server_id'		=>	$server_id,
+						'partner_key'	=>	$partner
 					);
 					$this->logs->write($logParameter);
 				}
@@ -273,7 +276,8 @@ class Account extends CI_Controller {
 					'account_guid'	=>	'',
 					'device_id'		=>	$device_id,
 					'account_name'	=>	$name,
-					'server_id'		=>	$server_id
+					'server_id'		=>	$server_id,
+					'partner_key'	=>	$partner
 				);
 				$this->logs->write($logParameter);
 			}
@@ -478,7 +482,8 @@ class Account extends CI_Controller {
 						'account_guid'	=>	$user->GUID,
 						'device_id'		=>	$device_id,
 						'account_name'	=>	$user->account_name,
-						'server_id'		=>	$server_id
+						'server_id'		=>	$server_id,
+						'partner_key'	=>	$partner
 					);
 					$this->logs->write($logParameter);
 				} else {
@@ -493,7 +498,8 @@ class Account extends CI_Controller {
 						'account_guid'	=>	'',
 						'device_id'		=>	$device_id,
 						'account_name'	=>	$name,
-						'server_id'		=>	$server_id
+						'server_id'		=>	$server_id,
+						'partner_key'	=>	$partner
 					);
 					$this->logs->write($logParameter);
 				}
@@ -727,7 +733,8 @@ class Account extends CI_Controller {
 							'log_action'	=>	'ACCOUNT_LOGIN_SUCCESS',
 							'account_guid'	=>	$user->GUID,
 							'account_name'	=>	$user->account_name,
-							'server_id'		=>	$user->server_id
+							'server_id'		=>	$user->server_id,
+							'partner_key'	=>	$user->partner_key
 					);
 					$this->logs->write($logParameter);
 // 				}
