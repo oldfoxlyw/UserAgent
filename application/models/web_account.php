@@ -58,18 +58,20 @@ class Web_account extends CI_Model {
 			$parameter['pass'] = $this->encrypt_pass($parameter['pass']);
 			$parameter['status'] = ($parameter['status'] == 0 || $parameter['status'] == 1) ? $parameter['status'] : 1;
 			$parameter['partner'] = empty($parameter['partner']) ? 'default' : $parameter['partner'];
+			$parameter['device_id'] = empty($parameter['device_id']) ? '' : $parameter['device_id'];
 			$time = time();
 			$insertArray = array(
-				'account_name'					=>	$parameter['name'],
-				'account_pass'					=>	$parameter['pass'],
-				'server_id'							=>	$parameter['server_id'],
-				'account_email'					=>	$parameter['email'],
-				'account_pass_question'	=>	$parameter['question'],
+				'account_name'				=>	$parameter['name'],
+				'account_pass'				=>	$parameter['pass'],
+				'server_id'					=>	$parameter['server_id'],
+				'account_email'				=>	$parameter['email'],
+				'account_pass_question'		=>	$parameter['question'],
 				'account_pass_answer'		=>	$parameter['answer'],
-				'account_regtime'				=>	$time,
+				'account_regtime'			=>	$time,
 				'account_lastlogin'			=>	$time,
-				'account_status'				=>	$parameter['status'],
-				'partner_key'						=>	$parameter['partner']
+				'account_status'			=>	$parameter['status'],
+				'partner_key'				=>	$parameter['partner'],
+				'device_id'					=>	$parameter['device_id']
 			);
 			if($this->accountdb->insert($this->accountTable, $insertArray)) {
 				return $this->accountdb->insert_id();
