@@ -190,7 +190,7 @@ class Servers extends CI_Controller {
 			$ipFlag = 'ip';
 		}
 		$parameter = array(
-				'account_server_id'		=>	'110'
+				'account_server_id'		=>	'98'
 		);
 
 		$this->load->model('websrv/server', 'server');
