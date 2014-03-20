@@ -634,6 +634,16 @@ class Servers extends CI_Controller {
 		$server_id = $this->input->get_post('server_id', TRUE);
 		$partner = $this->input->get_post('partner', TRUE);
 
+		if(empty($server_id) || empty($partner))
+		{
+			$raw_post_data = file_get_contents('php://input', 'r');
+			$inputParam = json_decode($raw_post_data);
+			
+			$server_id = $inputParam->server_id;
+			$partner = $inputParam->partner;
+			$code = $inputParam->code;
+		}
+
 		$db = $this->load->database('productdb', TRUE);
 
 		$sql = "SELECT * FROM `game_announcement` WHERE `partner_key` LIKE '%{$partner}%' AND (`server_id` = '{$server_id}' OR `server_id` = 'all')";
