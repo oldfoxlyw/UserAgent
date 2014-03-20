@@ -431,7 +431,7 @@ class Account extends CI_Controller {
 		$this->load->library('guid');
 		$this->load->helper('security');
 		$guid = do_hash($this->guid->toString(), 'md5');
-		$name = 'Guest' . substr($guid, 0, 11);
+		$name = 'G' . substr($guid, 0, 11);
 		$pass = substr(do_hash($this->guid->newGuid()->toString(), 'md5'), 0, 8);
 		
 		if(empty($server_id))
