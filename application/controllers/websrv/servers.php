@@ -69,7 +69,7 @@ class Servers extends CI_Controller {
 			$parameter['partner'] = $partner;
 		}
 		
-		if(!empty($ver) && $ver == '1.1')
+		if(!empty($ver) && $ver == '1.2' && $mode == 'pub')
 		{
 			$this->get_temp_version_list();
 			exit();
