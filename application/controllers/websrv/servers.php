@@ -97,13 +97,13 @@ class Servers extends CI_Controller {
 			$parameter['server_debug'] = 0;
 		}
 		
-		$productdb = $this->load->database('productdb', TRUE);
-		$sql = "SELECT `server_id`, `count`, `max_count` FROM `server_balance_check` WHERE `next_active` = 1";
-		$next = $productdb->query($sql)->row();
-		$maxCount = intval($next->max_count);
-		$count = intval($next->count);
-		$next = intval($next->server_id);
-
+		// $productdb = $this->load->database('productdb', TRUE);
+		// $sql = "SELECT `server_id`, `count`, `max_count` FROM `server_balance_check` WHERE `next_active` = 1";
+		// $next = $productdb->query($sql)->row();
+		// $maxCount = intval($next->max_count);
+		// $count = intval($next->count);
+		// $next = intval($next->server_id);
+		$next = 0;
 		$this->load->helper('array');
 		for($i = 0; $i<count($jsonData['server']); $i++)
 		{
@@ -113,7 +113,7 @@ class Servers extends CI_Controller {
 			$jsonData['server'][$i]['server_ip'] = $ip['ip'];
 		}
 		$jsonData['server'][$next]['server_recommend'] = 1;
-		
+/*
 		if($count >= $maxCount)
 		{
 			//3\4
@@ -171,7 +171,7 @@ class Servers extends CI_Controller {
 			$sql = "UPDATE `server_balance_check` SET `count` = `count` + 1 WHERE `server_id`={$next}";
 			$productdb->query($sql);
 		}
-		
+*/
 		$announcement = $this->config->item('game_announcement');
 		$jsonData = array_merge($jsonData, $announcement);
 		
