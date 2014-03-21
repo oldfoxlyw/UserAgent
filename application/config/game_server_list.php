@@ -8,6 +8,146 @@ $config ['game_server_list1'] = array (
 		'activate' => 0,
 		'server' => array (
 				array (
+						'id' => '13',
+						'game_id' => 'B',
+						'section_id' => '113',
+						'account_server_id' => '109',
+						'server_name' => '风暴剑圣(09)',
+						'server_ip' => array (
+								0 => array (
+										'ip' => '58.68.251.44:8091' 
+								)
+						),
+						'server_game_ip' => '58.68.251.43',
+						'game_message_ip' => '10.68.237.90:9899',
+						'server_max_player' => '100000',
+						'account_count' => '0',
+						'server_language' => '中文',
+						'server_sort' => '12',
+						'server_recommend' => '0',
+						'server_debug' => '0',
+						'partner' => 'default,default_full,91,17173,pp,Downjoy,zq,uc',
+						'version' => '',
+						'server_status' => '1',
+						'server_new' => '1',
+						'special_ip' => '',
+						'need_activate' => '0',
+						'server_starttime' => '0',
+						'server_game_port' => '9999' 
+				),
+				array (
+						'id' => '12',
+						'game_id' => 'B',
+						'section_id' => '112',
+						'account_server_id' => '108',
+						'server_name' => '混沌龙神(08)',
+						'server_ip' => array (
+								0 => array (
+										'ip' => '58.68.251.53:8091' 
+								)
+						),
+						'server_game_ip' => '58.68.251.54',
+						'game_message_ip' => '10.68.237.101:9899',
+						'server_max_player' => '100000',
+						'account_count' => '0',
+						'server_language' => '中文',
+						'server_sort' => '10',
+						'server_recommend' => '0',
+						'server_debug' => '0',
+						'partner' => 'default,default_full,91,17173,pp,Downjoy,zq,uc',
+						'version' => '',
+						'server_status' => '1',
+						'server_new' => '1',
+						'special_ip' => '',
+						'need_activate' => '0',
+						'server_starttime' => '0',
+						'server_game_port' => '9999' 
+				),
+				array (
+						'id' => '11',
+						'game_id' => 'B',
+						'section_id' => '111',
+						'account_server_id' => '107',
+						'server_name' => '深渊领主(07)',
+						'server_ip' => array (
+								0 => array (
+										'ip' => '58.68.251.51:8091' 
+								)
+						),
+						'server_game_ip' => '58.68.251.52',
+						'game_message_ip' => '10.68.237.99:9899',
+						'server_max_player' => '100000',
+						'account_count' => '0',
+						'server_language' => '中文',
+						'server_sort' => '11',
+						'server_recommend' => '0',
+						'server_debug' => '0',
+						'partner' => 'default,default_full,91,17173,pp,Downjoy,zq,uc',
+						'version' => '',
+						'server_status' => '1',
+						'server_new' => '1',
+						'special_ip' => '',
+						'need_activate' => '0',
+						'server_starttime' => '0',
+						'server_game_port' => '9999' 
+				),
+				array (
+						'id' => '10',
+						'game_id' => 'B',
+						'section_id' => '110',
+						'account_server_id' => '106',
+						'server_name' => '破碎巫灵(06)',
+						'server_ip' => array (
+								0 => array (
+										'ip' => '58.68.251.49:8091' 
+								)
+						),
+						'server_game_ip' => '58.68.251.50',
+						'game_message_ip' => '10.68.237.97:9899',
+						'server_max_player' => '100000',
+						'account_count' => '0',
+						'server_language' => '中文',
+						'server_sort' => '9',
+						'server_recommend' => '0',
+						'server_debug' => '0',
+						'partner' => 'default,default_full,91,17173,pp,Downjoy,zq,uc',
+						'version' => '',
+						'server_status' => '1',
+						'server_new' => '1',
+						'special_ip' => '',
+						'need_activate' => '0',
+						'server_starttime' => '0',
+						'server_game_port' => '9999' 
+				),
+				array (
+						'id' => '9',
+						'game_id' => 'B',
+						'section_id' => '109',
+						'account_server_id' => '105',
+						'server_name' => '皇家守卫(05)',
+						'server_ip' => array (
+								0 => array (
+										'ip' => '58.68.251.47:8091' 
+								)
+						),
+						'server_game_ip' => '58.68.251.48',
+						'game_message_ip' => '10.68.237.95:9899',
+						'server_max_player' => '100000',
+						'account_count' => '0',
+						'server_language' => '中文',
+						'server_sort' => '8',
+						'server_recommend' => '0',
+						'server_debug' => '0',
+						'partner' => 'default,default_full,91,17173,pp,Downjoy,zq,uc',
+						'version' => '',
+						'server_status' => '1',
+						'server_new' => '1',
+						'special_ip' => '',
+						'need_activate' => '0',
+						'server_starttime' => '0',
+						'server_game_port' => '9999' 
+				),
+				array (
 						'id' => '8',
 						'game_id' => 'B',
 						'section_id' => '108',
@@ -16,10 +156,7 @@ $config ['game_server_list1'] = array (
 						'server_ip' => array (
 								0 => array (
 										'ip' => '58.68.251.45:8091' 
-								),
-								1 => array (
-										'ip' => '58.68.251.52:8091' 
-								) 
+								)
 						),
 						'server_game_ip' => '58.68.251.46',
 						'game_message_ip' => '10.68.237.93:9899',
@@ -47,10 +184,7 @@ $config ['game_server_list1'] = array (
 						'server_ip' => array (
 								0 => array (
 										'ip' => '58.68.251.43:8091' 
-								),
-								1 => array (
-										'ip' => '58.68.251.50:8091' 
-								) 
+								)
 						),
 						'server_game_ip' => '58.68.251.44',
 						'game_message_ip' => '10.68.237.91:9899',
@@ -92,160 +226,6 @@ $config ['game_server_list1'] = array (
 						'version' => '',
 						'server_status' => '1',
 						'server_new' => '0',
-						'special_ip' => '',
-						'need_activate' => '0',
-						'server_starttime' => '0',
-						'server_game_port' => '9999' 
-				),
-				array (
-						'id' => '12',
-						'game_id' => 'B',
-						'section_id' => '112',
-						'account_server_id' => '108',
-						'server_name' => '混沌龙神(08)',
-						'server_ip' => array (
-								0 => array (
-										'ip' => '58.68.251.53:8091' 
-								),
-								1 => array (
-										'ip' => '58.68.251.46:8092' 
-								),
-								2 => array (
-										'ip' => '58.68.251.48:8092' 
-								),
-								3 => array (
-										'ip' => '58.68.251.46:8092' 
-								),
-								4 => array (
-										'ip' => '58.68.251.48:8092' 
-								),
-								5 => array (
-										'ip' => '58.68.251.46:8092' 
-								),
-								6 => array (
-										'ip' => '58.68.251.48:8092' 
-								)
-						),
-						'server_game_ip' => '58.68.251.54',
-						'game_message_ip' => '10.68.237.101:9899',
-						'server_max_player' => '100000',
-						'account_count' => '0',
-						'server_language' => '中文',
-						'server_sort' => '10',
-						'server_recommend' => '0',
-						'server_debug' => '0',
-						'partner' => 'default,default_full,91,17173,pp,Downjoy,zq,uc',
-						'version' => '',
-						'server_status' => '1',
-						'server_new' => '1',
-						'special_ip' => '',
-						'need_activate' => '0',
-						'server_starttime' => '0',
-						'server_game_port' => '9999' 
-				),
-				array (
-						'id' => '11',
-						'game_id' => 'B',
-						'section_id' => '111',
-						'account_server_id' => '107',
-						'server_name' => '深渊领主(07)',
-						'server_ip' => array (
-								0 => array (
-										'ip' => '58.68.251.51:8091' 
-								),
-								1 => array (
-										'ip' => '58.68.251.44:8092' 
-								) 
-						),
-						'server_game_ip' => '58.68.251.52',
-						'game_message_ip' => '10.68.237.99:9899',
-						'server_max_player' => '100000',
-						'account_count' => '0',
-						'server_language' => '中文',
-						'server_sort' => '11',
-						'server_recommend' => '0',
-						'server_debug' => '0',
-						'partner' => 'default,default_full,91,17173,pp,Downjoy,zq,uc',
-						'version' => '',
-						'server_status' => '1',
-						'server_new' => '1',
-						'special_ip' => '',
-						'need_activate' => '0',
-						'server_starttime' => '0',
-						'server_game_port' => '9999' 
-				),
-				array (
-						'id' => '10',
-						'game_id' => 'B',
-						'section_id' => '110',
-						'account_server_id' => '106',
-						'server_name' => '破碎巫灵(06)',
-						'server_ip' => array (
-								0 => array (
-										'ip' => '58.68.251.49:8091' 
-								),
-								1 => array (
-										'ip' => '58.68.251.69:8091' 
-								),
-								2 => array (
-										'ip' => '58.68.251.49:8091' 
-								),
-								3 => array (
-										'ip' => '58.68.251.69:8091' 
-								),
-								4 => array (
-										'ip' => '58.68.251.69:8091' 
-								),
-								5 => array (
-										'ip' => '58.68.251.49:8091' 
-								),
-								6 => array (
-										'ip' => '58.68.251.61:8091' 
-								) 
-						),
-						'server_game_ip' => '58.68.251.50',
-						'game_message_ip' => '10.68.237.97:9899',
-						'server_max_player' => '100000',
-						'account_count' => '0',
-						'server_language' => '中文',
-						'server_sort' => '9',
-						'server_recommend' => '0',
-						'server_debug' => '0',
-						'partner' => 'default,default_full,91,17173,pp,Downjoy,zq,uc',
-						'version' => '',
-						'server_status' => '1',
-						'server_new' => '1',
-						'special_ip' => '',
-						'need_activate' => '0',
-						'server_starttime' => '0',
-						'server_game_port' => '9999' 
-				),
-				array (
-						'id' => '9',
-						'game_id' => 'B',
-						'section_id' => '109',
-						'account_server_id' => '105',
-						'server_name' => '皇家守卫(05)',
-						'server_ip' => array (
-								0 => array (
-										'ip' => '58.68.251.47:8091' 
-								),
-								1 => array (
-										'ip' => '58.68.251.54:8091' 
-								) 
-						),
-						'server_game_ip' => '58.68.251.48',
-						'game_message_ip' => '10.68.237.95:9899',
-						'server_max_player' => '100000',
-						'account_count' => '0',
-						'server_language' => '中文',
-						'server_sort' => '8',
-						'server_recommend' => '0',
-						'server_debug' => '0',
-						'partner' => 'default,default_full,91,17173,pp,Downjoy,zq,uc',
-						'version' => '',
-						'server_status' => '1',
-						'server_new' => '1',
 						'special_ip' => '',
 						'need_activate' => '0',
 						'server_starttime' => '0',
@@ -296,10 +276,7 @@ $config ['game_server_list2'] = array (
 						'server_ip' => array (
 								0 => array (
 										'ip' => '58.68.251.45:8091' 
-								),
-								1 => array (
-										'ip' => '58.68.251.52:8091' 
-								) 
+								)
 						),
 						'server_game_ip' => '58.68.251.46',
 						'game_message_ip' => '10.68.237.93:9899',
@@ -327,10 +304,7 @@ $config ['game_server_list2'] = array (
 						'server_ip' => array (
 								0 => array (
 										'ip' => '58.68.251.43:8091' 
-								),
-								1 => array (
-										'ip' => '58.68.251.50:8091' 
-								) 
+								)
 						),
 						'server_game_ip' => '58.68.251.44',
 						'game_message_ip' => '10.68.237.91:9899',
@@ -386,25 +360,7 @@ $config ['game_server_list2'] = array (
 						'server_ip' => array (
 								0 => array (
 										'ip' => '58.68.251.53:8091' 
-								),
-								1 => array (
-										'ip' => '58.68.251.46:8092' 
-								),
-								2 => array (
-										'ip' => '58.68.251.48:8092' 
-								),
-								3 => array (
-										'ip' => '58.68.251.46:8092' 
-								),
-								4 => array (
-										'ip' => '58.68.251.48:8092' 
-								),
-								5 => array (
-										'ip' => '58.68.251.46:8092' 
-								),
-								6 => array (
-										'ip' => '58.68.251.48:8092' 
-								)  
+								) 
 						),
 						'server_game_ip' => '58.68.251.54',
 						'game_message_ip' => '10.68.237.101:9899',
@@ -432,10 +388,7 @@ $config ['game_server_list2'] = array (
 						'server_ip' => array (
 								0 => array (
 										'ip' => '58.68.251.51:8091' 
-								),
-								1 => array (
-										'ip' => '58.68.251.44:8092' 
-								) 
+								)
 						),
 						'server_game_ip' => '58.68.251.52',
 						'game_message_ip' => '10.68.237.99:9899',
@@ -463,25 +416,7 @@ $config ['game_server_list2'] = array (
 						'server_ip' => array (
 								0 => array (
 										'ip' => '58.68.251.49:8091' 
-								),
-								1 => array (
-										'ip' => '58.68.251.69:8091' 
-								),
-								2 => array (
-										'ip' => '58.68.251.49:8091' 
-								),
-								3 => array (
-										'ip' => '58.68.251.69:8091' 
-								),
-								4 => array (
-										'ip' => '58.68.251.69:8091' 
-								),
-								5 => array (
-										'ip' => '58.68.251.49:8091' 
-								),
-								6 => array (
-										'ip' => '58.68.251.61:8091' 
-								) 
+								)
 						),
 						'server_game_ip' => '58.68.251.50',
 						'game_message_ip' => '10.68.237.97:9899',
@@ -509,10 +444,7 @@ $config ['game_server_list2'] = array (
 						'server_ip' => array (
 								0 => array (
 										'ip' => '58.68.251.47:8091' 
-								),
-								1 => array (
-										'ip' => '58.68.251.54:8091' 
-								) 
+								)
 						),
 						'server_game_ip' => '58.68.251.48',
 						'game_message_ip' => '10.68.237.95:9899',
@@ -566,31 +498,29 @@ $config['game_announcement'] = array(
 		'announce' => array (
 				'id' => '1',
 				'summary' => '亲爱的玩家们：
-　2014年最火爆的大型手游《冰火王座》，自周四（3月6号）开放限免以来持续火爆。为了让大家能有一个更好更顺畅的游戏体验，现决定于3月8日21：00再次紧急加开二组新服务器：7区【深渊领主】、8区【混沌龙神】，欢迎各位友友加入，体验不一样的掌上魔兽手游！
+　 3月21日上午10点，冰火王座荣耀9服-风暴剑圣，强力开启，还在为没有第一时间占领王城，称霸擂台而苦恼吗？冰火诚邀各位新玩家，共同加入，征战新服！再创辉煌！
+   为感谢各位新老玩家，我们将同步开启丰富的活动，详情参见官方网站！
 
 　　冰火官方QQ群：三群：226081754  二群：344293160  一群：38820749',
 				'content' => '亲爱的玩家们：
-　2014年最火爆的大型手游《冰火王座》，自周四（3月6号）开放限免以来持续火爆。为了让大家能有一个更好更顺畅的游戏体验，现决定于3月8日21：00再次紧急加开二组新服务器：7区【深渊领主】、8区【混沌龙神】，欢迎各位友友加入，体验不一样的掌上魔兽手游！
+　 3月21日上午10点，冰火王座荣耀9服-风暴剑圣，强力开启，还在为没有第一时间占领王城，称霸擂台而苦恼吗？冰火诚邀各位新玩家，共同加入，征战新服！再创辉煌！
+   为感谢各位新老玩家，我们将同步开启丰富的活动，详情参见官方网站！
 
 　　冰火官方QQ群：三群：226081754  二群：344293160  一群：38820749   
 　　　　　　　　　 
-　累计充值的奖励已通过邮件全服发放完毕，请玩家检查系统邮箱中的邮件，点击礼包图标既可领取，如果出现无法领取的情况，请重新登录游戏即可解决。
- 
+
 
 近期活动与礼包内容：
 
-新增活动：3.15感恩消费者
+活动信息：每日签到送福利活动结束
 所属服务器：全服务器
-开启时间：2014.3.15当天
-领取方式：活动界面可领
-相关说明：为了感谢玩家从冰火王座开服以来的热情支持，2014年3月15日会开启感恩消费者的活动，玩家在登陆游戏后可在活动界面领取感恩礼包，礼包中将包含绿钻，大量金币，数种三阶宝石和高级药水的奖励。今后还请大家多多关照哟！
-
-新增礼包：大幅度提升登陆奖励
-所属服务器：全服务器
-开启时间：2014.3.7（永久开启）
-领取方式：礼包界面可领
-相关说明：为了回馈玩家对游戏的热情，以及对游戏提出的各种建议和帮助，所以大幅度提升每日登陆奖励幅度，以表示我们对玩家由衷的感谢，以后还会逐步提升奖励的数量，请广大玩家继续支持冰火王座！
-
+调整时间：2014.3.21
+相关说明：每日签到送福利活动圆满结束，同时将通过邮件系统，向所有玩家赠送“绿钻礼包”，里面将包含300绿钻，感谢大家对游戏的热情支持。
+非vip：第一天登陆游戏送10绿钻，第二天到第七天登陆送30绿钻。
+vip1：在非vip的领取数量基础上额外多领取20绿钻。
+vip2: 在非vip的领取数量基础上额外多领取30绿钻。
+vip3以上: 在非vip的领取数量基础上额外多领取50绿钻。
+ 
 新增礼包：30级勇士礼包
 所属服务器：全服务器
 开启时间：2014.3.7（永久开启）
