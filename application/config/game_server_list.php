@@ -8,84 +8,28 @@ $config ['game_server_list1'] = array (
 		'activate' => 0,
 		'server' => array (
 				array (
-						'id' => '8',
+						'id' => '13',
 						'game_id' => 'B',
-						'section_id' => '108',
-						'account_server_id' => '104',
-						'server_name' => '地狱咆哮(04)',
+						'section_id' => '113',
+						'account_server_id' => '109',
+						'server_name' => '风暴剑圣(09)',
 						'server_ip' => array (
 								0 => array (
-										'ip' => '58.68.251.45:8091' 
+										'ip' => '58.68.251.44:8091' 
 								)
 						),
-						'server_game_ip' => '58.68.251.46',
-						'game_message_ip' => '10.68.237.93:9899',
+						'server_game_ip' => '58.68.251.43',
+						'game_message_ip' => '10.68.237.90:9899',
 						'server_max_player' => '100000',
 						'account_count' => '0',
 						'server_language' => '中文',
-						'server_sort' => '7',
+						'server_sort' => '12',
 						'server_recommend' => '0',
 						'server_debug' => '0',
 						'partner' => 'default,default_full,91,17173,pp,Downjoy,zq,uc',
 						'version' => '',
 						'server_status' => '1',
-						'server_new' => '0',
-						'special_ip' => '',
-						'need_activate' => '0',
-						'server_starttime' => '0',
-						'server_game_port' => '9999' 
-				),
-				array (
-						'id' => '7',
-						'game_id' => 'B',
-						'section_id' => '107',
-						'account_server_id' => '103',
-						'server_name' => '圣歌骑士(03)',
-						'server_ip' => array (
-								0 => array (
-										'ip' => '58.68.251.43:8091' 
-								)
-						),
-						'server_game_ip' => '58.68.251.44',
-						'game_message_ip' => '10.68.237.91:9899',
-						'server_max_player' => '100000',
-						'account_count' => '0',
-						'server_language' => '中文',
-						'server_sort' => '6',
-						'server_recommend' => '1',
-						'server_debug' => '0',
-						'partner' => 'default,default_full,91,17173,pp,Downjoy,zq,uc',
-						'version' => '',
-						'server_status' => '1',
-						'server_new' => '0',
-						'special_ip' => '',
-						'need_activate' => '0',
-						'server_starttime' => '0',
-						'server_game_port' => '9999' 
-				),
-				array (
-						'id' => '4',
-						'game_id' => 'B',
-						'section_id' => '104',
-						'account_server_id' => '102',
-						'server_name' => '战争平原(02)',
-						'server_ip' => array (
-								0 => array (
-										'ip' => '183.60.255.76:8091' 
-								) 
-						),
-						'server_game_ip' => '183.60.255.63',
-						'game_message_ip' => '10.18.234.63:9899',
-						'server_max_player' => '100000',
-						'account_count' => '0',
-						'server_language' => '中文',
-						'server_sort' => '5',
-						'server_recommend' => '0',
-						'server_debug' => '0',
-						'partner' => 'default,default_full,91,17173,pp,Downjoy,zq,uc',
-						'version' => '',
-						'server_status' => '1',
-						'server_new' => '0',
+						'server_new' => '1',
 						'special_ip' => '',
 						'need_activate' => '0',
 						'server_starttime' => '0',
@@ -198,6 +142,90 @@ $config ['game_server_list1'] = array (
 						'version' => '',
 						'server_status' => '1',
 						'server_new' => '1',
+						'special_ip' => '',
+						'need_activate' => '0',
+						'server_starttime' => '0',
+						'server_game_port' => '9999' 
+				),
+				array (
+						'id' => '8',
+						'game_id' => 'B',
+						'section_id' => '108',
+						'account_server_id' => '104',
+						'server_name' => '地狱咆哮(04)',
+						'server_ip' => array (
+								0 => array (
+										'ip' => '58.68.251.45:8091' 
+								)
+						),
+						'server_game_ip' => '58.68.251.46',
+						'game_message_ip' => '10.68.237.93:9899',
+						'server_max_player' => '100000',
+						'account_count' => '0',
+						'server_language' => '中文',
+						'server_sort' => '7',
+						'server_recommend' => '0',
+						'server_debug' => '0',
+						'partner' => 'default,default_full,91,17173,pp,Downjoy,zq,uc',
+						'version' => '',
+						'server_status' => '1',
+						'server_new' => '0',
+						'special_ip' => '',
+						'need_activate' => '0',
+						'server_starttime' => '0',
+						'server_game_port' => '9999' 
+				),
+				array (
+						'id' => '7',
+						'game_id' => 'B',
+						'section_id' => '107',
+						'account_server_id' => '103',
+						'server_name' => '圣歌骑士(03)',
+						'server_ip' => array (
+								0 => array (
+										'ip' => '58.68.251.43:8091' 
+								)
+						),
+						'server_game_ip' => '58.68.251.44',
+						'game_message_ip' => '10.68.237.91:9899',
+						'server_max_player' => '100000',
+						'account_count' => '0',
+						'server_language' => '中文',
+						'server_sort' => '6',
+						'server_recommend' => '1',
+						'server_debug' => '0',
+						'partner' => 'default,default_full,91,17173,pp,Downjoy,zq,uc',
+						'version' => '',
+						'server_status' => '1',
+						'server_new' => '0',
+						'special_ip' => '',
+						'need_activate' => '0',
+						'server_starttime' => '0',
+						'server_game_port' => '9999' 
+				),
+				array (
+						'id' => '4',
+						'game_id' => 'B',
+						'section_id' => '104',
+						'account_server_id' => '102',
+						'server_name' => '战争平原(02)',
+						'server_ip' => array (
+								0 => array (
+										'ip' => '183.60.255.76:8091' 
+								) 
+						),
+						'server_game_ip' => '183.60.255.63',
+						'game_message_ip' => '10.18.234.63:9899',
+						'server_max_player' => '100000',
+						'account_count' => '0',
+						'server_language' => '中文',
+						'server_sort' => '5',
+						'server_recommend' => '0',
+						'server_debug' => '0',
+						'partner' => 'default,default_full,91,17173,pp,Downjoy,zq,uc',
+						'version' => '',
+						'server_status' => '1',
+						'server_new' => '0',
 						'special_ip' => '',
 						'need_activate' => '0',
 						'server_starttime' => '0',
