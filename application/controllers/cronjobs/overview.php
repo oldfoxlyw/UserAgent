@@ -17,14 +17,24 @@ class Overview extends CI_Controller
 		$this->fundsdb = $this->load->database ( 'fundsdb', true );
 	}
 
-	public function statistics()
+	public function statistics($server_id)
 	{
 		set_time_limit(1800);
-		
+
 		$this->load->model ( 'websrv/server' );
-		$serverResult = $this->server->getAllResult (array(
-				'server_debug'	=>	0
-		));
+		if(!empty($server_id))
+		{
+			$parameter = array(
+					'server_id'		=>	$server_id
+			);
+		}
+		else
+		{
+			$parameter = array(
+					'server_debug'	=>	0
+			);
+		}
+		$serverResult = $this->server->getAllResult ($parameter);
 		
 		$this->load->model ( 'websrv/mpartner' );
 		$partnerResult = $this->mpartner->getAllResult ();
@@ -104,6 +114,9 @@ class Overview extends CI_Controller
 				$threeDaysAgoStart = $lastTimeStart - 2 * 86400;
 				$sql = "SELECT `log_GUID` FROM `log_account` WHERE (`log_action` = 'ACCOUNT_LOGIN_SUCCESS' OR `log_action` = 'ACCOUNT_REGISTER_SUCCESS' OR `log_action` = 'ACCOUNT_DEMO_SUCCESS') AND `log_time` >= {$threeDaysAgoStart} AND `log_time` <= {$lastTimeEnd} AND `server_id` = '{$row->account_server_id}' AND `partner_key` = '{$partnerKey}' GROUP BY `log_GUID`";
 				$activeCount = $this->logdb->query($sql)->num_rows();
+
+				//DAU
+				$dau = $loginCount - $regNewCount;
 				
 				// 回流玩家数(超过一周没有登录但最近有登录的玩家数)
 				$this->logcachedb->where ( 'server_id', $row->account_server_id );
@@ -249,6 +262,7 @@ class Overview extends CI_Controller
 					'modify_new_account' => $modifyNewCount,
 					'login_account' => $loginCount,
 					'active_account' => $activeCount,
+					'dau' => $dau,
 					'flowover_account' => $flowoverCount,
 					'reflow_account' => $reflowCount,
 					'orders_current_sum' => $ordersCurrentSum,
