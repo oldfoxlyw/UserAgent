@@ -18,6 +18,9 @@ class Account extends CI_Controller {
 		$accountName	=	$this->input->get_post('account_name', TRUE);
 		$accountPass	=	$this->input->get_post('account_pass', TRUE);
 		$server_id		=	$this->input->get_post('server_id', TRUE);
+		$device_id		=	$this->input->get_post('device_id', TRUE);
+
+		$device_id = empty($device_id) ? '' : $device_id;
 		
 		if(!empty($accountName) && !empty($accountPass) && !empty($server_id))
 		{
@@ -58,8 +61,10 @@ class Account extends CI_Controller {
 				$logParameter = array(
 					'log_action'	=>	'ACCOUNT_LOGIN_SUCCESS',
 					'account_guid'	=>	$user->GUID,
+					'device_id'		=>	empty($device_id) ? $user->device_id : $device_id,
 					'account_name'	=>	$user->account_name,
-					'server_id'		=>	$server_id
+					'server_id'		=>	$server_id,
+					'partner_key'	=>	$user->partner_key
 				);
 				$this->logs->write($logParameter);
 			} else {
@@ -72,6 +77,7 @@ class Account extends CI_Controller {
 				$logParameter = array(
 					'log_action'	=>	'ACCOUNT_LOGIN_FAIL',
 					'account_guid'	=>	'',
+					'device_id'		=>	$device_id,
 					'account_name'	=>	$accountName,
 					'server_id'		=>	$server_id
 				);
@@ -101,6 +107,7 @@ class Account extends CI_Controller {
 		$level = $this->input->get_post('level', TRUE);
 		$mission = $this->input->get_post('mission', TRUE);
 		$nickname = $this->input->get_post('nickname', TRUE);
+		$device_id = $this->input->get_post('device_id', TRUE);
 		
 		if(!empty($guid) && (!empty($job) || !empty($face) || !empty($level) || !empty($mission) || !empty($nickname)))
 		{
@@ -118,6 +125,9 @@ class Account extends CI_Controller {
 			}
 			if(!empty($nickname)) {
 				$parameter['account_nickname'] = $nickname;
+			}
+			if(!empty($device_id)) {
+				$parameter['device_id'] = $device_id;
 			}
 			$this->web_account->update($parameter, $guid);
 
@@ -172,14 +182,16 @@ class Account extends CI_Controller {
 		$accountEmail=	$this->input->get_post('account_email', TRUE);
 		$server_id	=	$this->input->get_post('server_id', TRUE);
 		$question	=	$this->input->get_post('account_question', TRUE);
-		$answer	=	$this->input->get_post('account_answer', TRUE);
+		$answer		=	$this->input->get_post('account_answer', TRUE);
 		$partner	=	$this->input->get_post('partner', TRUE);
+		$device_id	=	$this->input->get_post('device_id', TRUE);
 		
 		$partner = empty($partner) ? 'default' : $partner;
 		$accountEmail = $accountEmail===FALSE ? '' : $accountEmail;
 		$country = $country===FALSE ? '' : $country;
 		$question = $question===FALSE ? '' : $question;
 		$answer = $answer===FALSE ? '' : $answer;
+		$device_id = empty($device_id) ? '' : $device_id;
 		
 		if(!empty($name) && !empty($pass) && !empty($server_id))
 		{
@@ -208,8 +220,9 @@ class Account extends CI_Controller {
 					'question'	=>	$question,
 					'answer'	=>	$answer,
 					'server_id'	=>	$server_id,
-					'status'		=>	1,
-					'partner'	=>	$partner
+					'status'	=>	1,
+					'partner'	=>	$partner,
+					'device_id'	=>	$device_id
 				);
 				$guid = $this->web_account->register($parameter);
 				if(!empty($guid)) {
@@ -227,8 +240,11 @@ class Account extends CI_Controller {
 					$logParameter = array(
 						'log_action'	=>	'ACCOUNT_REGISTER_SUCCESS',
 						'account_guid'	=>	$user->GUID,
+						'device_id'		=>	$device_id,
 						'account_name'	=>	$user->account_name,
-						'server_id'		=>	$server_id
+						'server_id'		=>	$server_id,
+						'device_id'		=>	$device_id,
+						'partner_key'	=>	$partner
 					);
 					$this->logs->write($logParameter);
 				} else {
@@ -241,8 +257,10 @@ class Account extends CI_Controller {
 					$logParameter = array(
 						'log_action'	=>	'ACCOUNT_REGISTER_FAIL',
 						'account_guid'	=>	'',
+						'device_id'		=>	$device_id,
 						'account_name'	=>	$name,
-						'server_id'		=>	$server_id
+						'server_id'		=>	$server_id,
+						'partner_key'	=>	$partner
 					);
 					$this->logs->write($logParameter);
 				}
@@ -256,8 +274,10 @@ class Account extends CI_Controller {
 				$logParameter = array(
 					'log_action'	=>	'ACCOUNT_REGISTER_FAIL_DUPLICATE',
 					'account_guid'	=>	'',
+					'device_id'		=>	$device_id,
 					'account_name'	=>	$name,
-					'server_id'		=>	$server_id
+					'server_id'		=>	$server_id,
+					'partner_key'	=>	$partner
 				);
 				$this->logs->write($logParameter);
 			}
@@ -271,6 +291,7 @@ class Account extends CI_Controller {
 			$logParameter = array(
 				'log_action'	=>	'ACCOUNT_REGISTER_ERROR_NO_PARAM',
 				'account_guid'	=>	'',
+				'device_id'		=>	$device_id,
 				'account_name'	=>	''
 			);
 			$this->logs->write($logParameter);
@@ -398,6 +419,9 @@ class Account extends CI_Controller {
 	public function demo($format = 'json') {
 		$server_id = $this->input->get_post('server_id', TRUE);
 		$partner = $this->input->get_post('partner', TRUE);
+		$device_id = $this->input->get_post('device_id', TRUE);
+
+		$device_id = empty($device_id) ? '' : $device_id;
 
 		if(empty($partner))
 		{
@@ -407,7 +431,7 @@ class Account extends CI_Controller {
 		$this->load->library('guid');
 		$this->load->helper('security');
 		$guid = do_hash($this->guid->toString(), 'md5');
-		$name = 'Guest' . substr($guid, 0, 12);
+		$name = 'G' . substr($guid, 0, 11);
 		$pass = substr(do_hash($this->guid->newGuid()->toString(), 'md5'), 0, 8);
 		
 		if(empty($server_id))
@@ -435,8 +459,9 @@ class Account extends CI_Controller {
 					'pass'		=>	$pass,
 					'email'		=>	'',
 					'server_id'	=>	$server_id,
-					'status'		=>	0,
-					'partner'	=>	$partner
+					'status'	=>	0,
+					'partner'	=>	$partner,
+					'device_id'	=>	$device_id
 				);
 				$guid = $this->web_account->register($parameter);
 				if(!empty($guid)) {
@@ -455,8 +480,10 @@ class Account extends CI_Controller {
 					$logParameter = array(
 						'log_action'	=>	'ACCOUNT_DEMO_SUCCESS',
 						'account_guid'	=>	$user->GUID,
+						'device_id'		=>	$device_id,
 						'account_name'	=>	$user->account_name,
-						'server_id'		=>	$server_id
+						'server_id'		=>	$server_id,
+						'partner_key'	=>	$partner
 					);
 					$this->logs->write($logParameter);
 				} else {
@@ -469,8 +496,10 @@ class Account extends CI_Controller {
 					$logParameter = array(
 						'log_action'	=>	'ACCOUNT_DEMO_FAIL',
 						'account_guid'	=>	'',
+						'device_id'		=>	$device_id,
 						'account_name'	=>	$name,
-						'server_id'		=>	$server_id
+						'server_id'		=>	$server_id,
+						'partner_key'	=>	$partner
 					);
 					$this->logs->write($logParameter);
 				}
@@ -484,6 +513,7 @@ class Account extends CI_Controller {
 				$logParameter = array(
 					'log_action'	=>	'ACCOUNT_DEMO_FAIL_DUPLICATE',
 					'account_guid'	=>	'',
+					'device_id'		=>	$device_id,
 					'account_name'	=>	$name,
 					'server_id'		=>	$server_id
 				);
@@ -703,7 +733,8 @@ class Account extends CI_Controller {
 							'log_action'	=>	'ACCOUNT_LOGIN_SUCCESS',
 							'account_guid'	=>	$user->GUID,
 							'account_name'	=>	$user->account_name,
-							'server_id'		=>	$user->server_id
+							'server_id'		=>	$user->server_id,
+							'partner_key'	=>	$user->partner_key
 					);
 					$this->logs->write($logParameter);
 // 				}

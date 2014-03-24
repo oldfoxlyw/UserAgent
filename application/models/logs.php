@@ -18,12 +18,14 @@ class logs extends CI_Model {
 			$relativeParameter		=	json_encode($_REQUEST);
 			$row = array(
 				'log_GUID'				=>	$parameter['account_guid'],
+				'device_id'				=>	empty($parameter['device_id']) ? '' : $parameter['device_id'],
 				'log_account_name'		=>	$parameter['account_name'],
 				'log_action'			=>	$parameter['log_action'],
 				'log_parameter'			=>	$relativeParameter,
-				'log_time'		=>	time(),
+				'log_time'				=>	time(),
 				'log_ip'				=>	$requestIp,
-				'server_id'				=>	empty($parameter['server_id']) ? '' : $parameter['server_id']
+				'server_id'				=>	empty($parameter['server_id']) ? '' : $parameter['server_id'],
+				'partner_key'			=>	empty($parameter['partner_key']) ? 'default' : $parameter['partner_key']
 			);
 			$this->logdb->insert($this->accountTable, $row);
 		}

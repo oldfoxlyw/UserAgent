@@ -69,7 +69,7 @@ class Servers extends CI_Controller {
 			$parameter['partner'] = $partner;
 		}
 		
-		if(!empty($ver) && $ver == '1.1')
+		if(!empty($ver) && $ver == '1.2' && $mode == 'pub')
 		{
 			$this->get_temp_version_list();
 			exit();
@@ -97,13 +97,13 @@ class Servers extends CI_Controller {
 			$parameter['server_debug'] = 0;
 		}
 		
-		$productdb = $this->load->database('productdb', TRUE);
-		$sql = "SELECT `server_id`, `count`, `max_count` FROM `server_balance_check` WHERE `next_active` = 1";
-		$next = $productdb->query($sql)->row();
-		$maxCount = intval($next->max_count);
-		$count = intval($next->count);
-		$next = intval($next->server_id);
-
+		// $productdb = $this->load->database('productdb', TRUE);
+		// $sql = "SELECT `server_id`, `count`, `max_count` FROM `server_balance_check` WHERE `next_active` = 1";
+		// $next = $productdb->query($sql)->row();
+		// $maxCount = intval($next->max_count);
+		// $count = intval($next->count);
+		// $next = intval($next->server_id);
+		$next = 0;
 		$this->load->helper('array');
 		for($i = 0; $i<count($jsonData['server']); $i++)
 		{
@@ -113,7 +113,7 @@ class Servers extends CI_Controller {
 			$jsonData['server'][$i]['server_ip'] = $ip['ip'];
 		}
 		$jsonData['server'][$next]['server_recommend'] = 1;
-		
+/*
 		if($count >= $maxCount)
 		{
 			//3\4
@@ -171,7 +171,7 @@ class Servers extends CI_Controller {
 			$sql = "UPDATE `server_balance_check` SET `count` = `count` + 1 WHERE `server_id`={$next}";
 			$productdb->query($sql);
 		}
-		
+*/
 		$announcement = $this->config->item('game_announcement');
 		$jsonData = array_merge($jsonData, $announcement);
 		
@@ -190,7 +190,7 @@ class Servers extends CI_Controller {
 			$ipFlag = 'ip';
 		}
 		$parameter = array(
-				'account_server_id'		=>	'110'
+				'account_server_id'		=>	'98'
 		);
 
 		$this->load->model('websrv/server', 'server');
@@ -264,6 +264,42 @@ class Servers extends CI_Controller {
 				else
 				{
 					$result[$i]->game_message_ip = $result[$i]->game_message_ip->$ipFlag . ':' . $result[$i]->game_message_ip->port;
+				}
+
+				$result[$i]->const_server_ip = json_decode($result[$i]->const_server_ip);
+				if(count($result[$i]->const_server_ip) > 0)
+				{
+					$result[$i]->const_server_ip = random_element($result[$i]->const_server_ip);
+				}
+				else
+				{
+					$result[$i]->const_server_ip = $result[$i]->const_server_ip[0];
+				}
+				if(empty($result[$i]->const_server_ip->$ipFlag))
+				{
+					$result[$i]->const_server_ip = $result[$i]->const_server_ip->ip . ':' . $result[$i]->const_server_ip->port;
+				}
+				else
+				{
+					$result[$i]->const_server_ip = $result[$i]->const_server_ip->$ipFlag . ':' . $result[$i]->const_server_ip->port;
+				}
+
+				$result[$i]->voice_server_ip = json_decode($result[$i]->voice_server_ip);
+				if(count($result[$i]->voice_server_ip) > 0)
+				{
+					$result[$i]->voice_server_ip = random_element($result[$i]->voice_server_ip);
+				}
+				else
+				{
+					$result[$i]->voice_server_ip = $result[$i]->voice_server_ip[0];
+				}
+				if(empty($result[$i]->voice_server_ip->$ipFlag))
+				{
+					$result[$i]->voice_server_ip = $result[$i]->voice_server_ip->ip . ':' . $result[$i]->voice_server_ip->port;
+				}
+				else
+				{
+					$result[$i]->voice_server_ip = $result[$i]->voice_server_ip->$ipFlag . ':' . $result[$i]->voice_server_ip->port;
 				}
 			}
 		}
@@ -313,7 +349,7 @@ class Servers extends CI_Controller {
 			$ipFlag = 'ip';
 		}
 		$parameter = array(
-				'account_server_id'		=>	'109'
+				'account_server_id'		=>	'99'
 		);
 
 		$this->load->model('websrv/server', 'server');
@@ -387,6 +423,42 @@ class Servers extends CI_Controller {
 				else
 				{
 					$result[$i]->game_message_ip = $result[$i]->game_message_ip->$ipFlag . ':' . $result[$i]->game_message_ip->port;
+				}
+
+				$result[$i]->const_server_ip = json_decode($result[$i]->const_server_ip);
+				if(count($result[$i]->const_server_ip) > 0)
+				{
+					$result[$i]->const_server_ip = random_element($result[$i]->const_server_ip);
+				}
+				else
+				{
+					$result[$i]->const_server_ip = $result[$i]->const_server_ip[0];
+				}
+				if(empty($result[$i]->const_server_ip->$ipFlag))
+				{
+					$result[$i]->const_server_ip = $result[$i]->const_server_ip->ip . ':' . $result[$i]->const_server_ip->port;
+				}
+				else
+				{
+					$result[$i]->const_server_ip = $result[$i]->const_server_ip->$ipFlag . ':' . $result[$i]->const_server_ip->port;
+				}
+
+				$result[$i]->voice_server_ip = json_decode($result[$i]->voice_server_ip);
+				if(count($result[$i]->voice_server_ip) > 0)
+				{
+					$result[$i]->voice_server_ip = random_element($result[$i]->voice_server_ip);
+				}
+				else
+				{
+					$result[$i]->voice_server_ip = $result[$i]->voice_server_ip[0];
+				}
+				if(empty($result[$i]->voice_server_ip->$ipFlag))
+				{
+					$result[$i]->voice_server_ip = $result[$i]->voice_server_ip->ip . ':' . $result[$i]->voice_server_ip->port;
+				}
+				else
+				{
+					$result[$i]->voice_server_ip = $result[$i]->voice_server_ip->$ipFlag . ':' . $result[$i]->voice_server_ip->port;
 				}
 			}
 		}
@@ -436,7 +508,7 @@ class Servers extends CI_Controller {
 			$ipFlag = 'ip';
 		}
 		$parameter = array(
-				'account_server_id'		=>	'109'
+				'account_server_id'		=>	'97'
 		);
 
 		$this->load->model('websrv/server', 'server');
@@ -510,6 +582,42 @@ class Servers extends CI_Controller {
 				else
 				{
 					$result[$i]->game_message_ip = $result[$i]->game_message_ip->$ipFlag . ':' . $result[$i]->game_message_ip->port;
+				}
+
+				$result[$i]->const_server_ip = json_decode($result[$i]->const_server_ip);
+				if(count($result[$i]->const_server_ip) > 0)
+				{
+					$result[$i]->const_server_ip = random_element($result[$i]->const_server_ip);
+				}
+				else
+				{
+					$result[$i]->const_server_ip = $result[$i]->const_server_ip[0];
+				}
+				if(empty($result[$i]->const_server_ip->$ipFlag))
+				{
+					$result[$i]->const_server_ip = $result[$i]->const_server_ip->ip . ':' . $result[$i]->const_server_ip->port;
+				}
+				else
+				{
+					$result[$i]->const_server_ip = $result[$i]->const_server_ip->$ipFlag . ':' . $result[$i]->const_server_ip->port;
+				}
+
+				$result[$i]->voice_server_ip = json_decode($result[$i]->voice_server_ip);
+				if(count($result[$i]->voice_server_ip) > 0)
+				{
+					$result[$i]->voice_server_ip = random_element($result[$i]->voice_server_ip);
+				}
+				else
+				{
+					$result[$i]->voice_server_ip = $result[$i]->voice_server_ip[0];
+				}
+				if(empty($result[$i]->voice_server_ip->$ipFlag))
+				{
+					$result[$i]->voice_server_ip = $result[$i]->voice_server_ip->ip . ':' . $result[$i]->voice_server_ip->port;
+				}
+				else
+				{
+					$result[$i]->voice_server_ip = $result[$i]->voice_server_ip->$ipFlag . ':' . $result[$i]->voice_server_ip->port;
 				}
 			}
 		}
