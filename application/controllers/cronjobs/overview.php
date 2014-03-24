@@ -17,14 +17,24 @@ class Overview extends CI_Controller
 		$this->fundsdb = $this->load->database ( 'fundsdb', true );
 	}
 
-	public function statistics()
+	public function statistics($server_id)
 	{
-		set_time_limit(3600);
-		
+		set_time_limit(1800);
+
 		$this->load->model ( 'websrv/server' );
-		$serverResult = $this->server->getAllResult (array(
-				'server_debug'	=>	0
-		));
+		if(!empty($server_id))
+		{
+			$parameter = array(
+					'account_server_id'		=>	$server_id
+			);
+		}
+		else
+		{
+			$parameter = array(
+					'server_debug'	=>	0
+			);
+		}
+		$serverResult = $this->server->getAllResult ($parameter);
 		
 		$this->load->model ( 'websrv/mpartner' );
 		$partnerResult = $this->mpartner->getAllResult ();
@@ -96,16 +106,17 @@ class Overview extends CI_Controller
 				$this->accountdb->where ( $where );
 				$modifyNewCount = $this->accountdb->count_all_results ( 'web_account' );
 
-				// 当天活跃玩家数(登录数)
+				// 当天登录数
 				$sql = "SELECT `log_GUID` FROM `log_account` WHERE (`log_action` = 'ACCOUNT_LOGIN_SUCCESS' OR `log_action` = 'ACCOUNT_REGISTER_SUCCESS' OR `log_action` = 'ACCOUNT_DEMO_SUCCESS') AND `log_time` >= {$lastTimeStart} AND `log_time` <= {$lastTimeEnd} AND `server_id` = '{$row->account_server_id}' AND `partner_key` = '{$partnerKey}' GROUP BY `log_GUID`";
-				$query = $this->logdb->query($sql);
-				$loginCount = $query->num_rows();
-				$query->free_result();
+				$loginCount = $this->logdb->query($sql)->num_rows();
 
 				// 活跃玩家数(三天以内登录过游戏的人数)
 				$threeDaysAgoStart = $lastTimeStart - 2 * 86400;
 				$sql = "SELECT `log_GUID` FROM `log_account` WHERE (`log_action` = 'ACCOUNT_LOGIN_SUCCESS' OR `log_action` = 'ACCOUNT_REGISTER_SUCCESS' OR `log_action` = 'ACCOUNT_DEMO_SUCCESS') AND `log_time` >= {$threeDaysAgoStart} AND `log_time` <= {$lastTimeEnd} AND `server_id` = '{$row->account_server_id}' AND `partner_key` = '{$partnerKey}' GROUP BY `log_GUID`";
 				$activeCount = $this->logdb->query($sql)->num_rows();
+
+				//DAU
+				$dau = $loginCount - $regNewCount;
 				
 				// 回流玩家数(超过一周没有登录但最近有登录的玩家数)
 				$this->logcachedb->where ( 'server_id', $row->account_server_id );
@@ -117,7 +128,6 @@ class Overview extends CI_Controller
 				{
 					array_push ( $flowoverCacheResult, $guid->guid );
 				}
-				$query->free_result();
 				$reflowCount = 0;
 				if (! empty ( $guidArray ))
 				{
@@ -158,7 +168,6 @@ class Overview extends CI_Controller
 					) );
 				}
 				$query->free_result();
-				unset($flowoverResult);
 				
 				// 当天订单数
 				$this->fundsdb->where ( 'funds_flow_dir', 'CHECK_IN' );
@@ -253,6 +262,7 @@ class Overview extends CI_Controller
 					'modify_new_account' => $modifyNewCount,
 					'login_account' => $loginCount,
 					'active_account' => $activeCount,
+					'dau' => $dau,
 					'flowover_account' => $flowoverCount,
 					'reflow_account' => $reflowCount,
 					'orders_current_sum' => $ordersCurrentSum,
@@ -283,7 +293,6 @@ class Overview extends CI_Controller
 		}
 		$jobResult = implode ( ',', $jobArray );
 		$query->free_result();
-		unset($countResult);
 		
 		$sql = "SELECT `account_level`, COUNT(*) AS `numrows` FROM `log_flowover_cache` WHERE `server_id` = '{$server_id}' and `partner_key` = '{$partnerKey}' GROUP BY `account_level`";
 		$query = $this->logcachedb->query ( $sql );
@@ -295,7 +304,6 @@ class Overview extends CI_Controller
 		}
 		$levelResult = implode ( ',', $levelArray );
 		$query->free_result();
-		unset($countResult);
 		
 		$sql = "SELECT `account_mission`, COUNT(*) AS `numrows` FROM `log_flowover_cache` WHERE `server_id` = '{$server_id}' and `partner_key` = '{$partnerKey}' GROUP BY `account_mission`";
 		$query = $this->logcachedb->query ( $sql );
@@ -307,7 +315,6 @@ class Overview extends CI_Controller
 		}
 		$missionResult = implode ( ',', $missionArray );
 		$query->free_result();
-		unset($countResult);
 		
 		$parameter = array (
 			'date' => $date,
@@ -341,7 +348,6 @@ class Overview extends CI_Controller
 				$levelDetail[strval($m)] = implode(',', $result);
 			}
 			$query->free_result();
-			unset($result);
 		}
 		for($m=1; $m<=6; $m++)
 		{
@@ -358,7 +364,6 @@ class Overview extends CI_Controller
 				$missionDetail[strval($m)] = implode(',', $result);
 			}
 			$query->free_result();
-			unset($result);
 		}
 		
 		$parameter = array(
