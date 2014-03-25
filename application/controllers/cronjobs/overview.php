@@ -25,7 +25,7 @@ class Overview extends CI_Controller
 		if(!empty($server_id))
 		{
 			$parameter = array(
-					'server_id'		=>	$server_id
+					'account_server_id'		=>	$server_id
 			);
 		}
 		else
@@ -215,9 +215,9 @@ class Overview extends CI_Controller
 				$query->free_result();
 				
 				// arpu
-				if($loginCount > 0)
+				if($dau > 0)
 				{
-					$arpu = floatval ( number_format ( $rechargeAccount / $activeCount, 2 ) ) * 100;
+					$arpu = floatval ( number_format ( $rechargeAccount / $dau, 2 ) ) * 100;
 				}
 				else
 				{
