@@ -217,7 +217,7 @@ class Overview extends CI_Controller
 				// arpu
 				if($dau > 0)
 				{
-					$arpu = floatval ( number_format ( $rechargeAccount / $dau, 2 ) ) * 100;
+					$arpu = floatval ( number_format ( $rechargeAccount / $dau, 4 ) ) * 10000;
 				}
 				else
 				{
