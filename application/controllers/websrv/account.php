@@ -108,6 +108,7 @@ class Account extends CI_Controller {
 		$mission = $this->input->get_post('mission', TRUE);
 		$nickname = $this->input->get_post('nickname', TRUE);
 		$device_id = $this->input->get_post('device_id', TRUE);
+		$ad_id = $this->input->get_post('ad_id', TRUE);
 		
 		if(!empty($guid) && (!empty($job) || !empty($face) || !empty($level) || !empty($mission) || !empty($nickname)))
 		{
@@ -128,6 +129,10 @@ class Account extends CI_Controller {
 			}
 			if(!empty($device_id)) {
 				$parameter['device_id'] = $device_id;
+			}
+			if(!empty($ad_id))
+			{
+				$parameter['ad_id'] = $ad_id;
 			}
 			$this->web_account->update($parameter, $guid);
 
@@ -420,8 +425,10 @@ class Account extends CI_Controller {
 		$server_id = $this->input->get_post('server_id', TRUE);
 		$partner = $this->input->get_post('partner', TRUE);
 		$device_id = $this->input->get_post('device_id', TRUE);
+		$ad_id = $this->input->get_post('ad_id', TRUE);
 
 		$device_id = empty($device_id) ? '' : $device_id;
+		$ad_id = empty($ad_id) ? '' : $ad_id;
 
 		if(empty($partner))
 		{
