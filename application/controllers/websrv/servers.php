@@ -49,7 +49,7 @@ class Servers extends CI_Controller {
 			$this->get_temp_hd_list();
 			exit();
 		}
-		else if($partner != 'default' && $partner != 'arab')
+		else if($partner != 'default' && $partner != 'arab_default')
 		{
 			$this->get_sdk_debug_list();
 			exit();
