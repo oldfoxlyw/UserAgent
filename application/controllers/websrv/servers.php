@@ -277,7 +277,7 @@ class Servers extends CI_Controller {
 			$ipFlag = 'ip';
 		}
 		$parameter = array(
-				'account_server_id'		=>	'100'
+				'account_server_id'		=>	'96'
 		);
 
 		$this->load->model('websrv/server', 'server');
