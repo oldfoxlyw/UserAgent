@@ -79,6 +79,21 @@ CREATE TABLE IF NOT EXISTS `agent1_account_db`.`account_login_token` (
   PRIMARY KEY (`guid`))
 ENGINE = InnoDB;
 
+
+-- -----------------------------------------------------
+-- Table `agent1_account_db`.`sdk_login_token`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `agent1_account_db`.`sdk_login_token` ;
+
+CREATE TABLE IF NOT EXISTS `agent1_account_db`.`sdk_login_token` (
+  `guid` BIGINT NOT NULL,
+  `partner` CHAR(16) NOT NULL,
+  `token` CHAR(64) NOT NULL,
+  `refresh_token` CHAR(64) NOT NULL DEFAULT '',
+  `expire_time` INT NOT NULL,
+  PRIMARY KEY (`guid`, `partner`))
+ENGINE = InnoDB;
+
 USE `agent1_adminlog_db` ;
 
 -- -----------------------------------------------------
