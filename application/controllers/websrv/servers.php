@@ -57,6 +57,7 @@ class Servers extends CI_Controller {
 		elseif($partner == 'arab_default')
 		{
 			$this->get_sdk_debug_list('96');
+			exit();
 		}
 		elseif($partner != 'default')
 		{
