@@ -58,14 +58,14 @@ class Account_360 extends CI_Controller
 				);
 				$result = $this->connector->get($this->url, $params, false);
 				//--------------------------------------
-					$sql = "insert into debug(text)values('" . 'md5:' . $this->app_key . $session_id . ', send:' . json_encode($params) . ', login:' . $result . "')";
-					$this->web_account->db()->query($sql);
+				$sql = "insert into debug(text)values('send:'" . json_encode($params) . ', login:' . $result . "')";
+				$this->web_account->db()->query($sql);
 				//--------------------------------------
 				$result = json_decode($result);
 				if(empty($result) || empty($result->access_token))
 				{
 					$json = array(
-							'success'		=>	false,
+							'success'		=>	0,
 							'errors'		=>	'SDK_LOGIN_FAIL'
 					);
 					exit($this->return_format->format($json));
@@ -82,7 +82,7 @@ class Account_360 extends CI_Controller
 				if(empty($info) || empty($info->id))
 				{
 					$json = array(
-							'success'		=>	false,
+							'success'		=>	0,
 							'errors'		=>	'SDK_LOGIN_FAIL'
 					);
 					exit($this->return_format->format($json));
@@ -102,38 +102,42 @@ class Account_360 extends CI_Controller
 				{
 					$result = array();
 				}
-
-				$tokenResult = $this->msdktoken->read(array(
-						'guid'		=>	$result[0]->GUID,
-						'partner'	=>	$partner_key
-				));
-				if(!empty($tokenResult))
+				else
 				{
-					$result[0]->access_token = $tokenResult[0]->token;
+					$tokenResult = $this->msdktoken->read(array(
+							'guid'		=>	$result[0]->GUID,
+							'partner'	=>	$partner_key
+					));
+					if(!empty($tokenResult))
+					{
+						$result[0]->access_token = $tokenResult[0]->token;
+					}
+					else 
+					{
+						$parameter = array(
+								'guid'			=>	$result[0]->GUID,
+								'partner'		=>	$partner_key,
+								'token'			=>	$access_token,
+								'refresh_token'	=>	$refresh_token,
+								'expire_time'	=>	$expire_time
+						);
+						$this->msdktoken->create($parameter);
+					}
 				}
-				else 
-				{
-					$parameter = array(
-							'guid'			=>	$result[0]->GUID,
-							'partner'		=>	$partner_key,
-							'token'			=>	$access_token,
-							'refresh_token'	=>	$refresh_token,
-							'expire_time'	=>	$expire_time
-					);
-					$this->msdktoken->create($parameter);
-				}
-				
+					
 				$json = array(
-						'success'		=>	true,
+						'success'		=>	1,
 						'message'		=>	'SDK_LOGIN_SUCCESS',
-						'result'		=>	$result,
-						'uid'			=>	$uid
+						'access_token'	=>	$access_token,
+						'refresh_token'	=>	$refresh_token,
+						'uid'			=>	$uid,
+						'result'		=>	$result
 				);
 			}
 			else
 			{
 				$json = array(
-						'success'		=>	false,
+						'success'		=>	0,
 						'errors'		=>	'SDK_LOGIN_FAIL_ERROR_CHECK_CODE'
 				);
 			}
@@ -141,7 +145,7 @@ class Account_360 extends CI_Controller
 		else
 		{
 			$json = array(
-					'success'		=>	false,
+					'success'		=>	0,
 					'errors'		=>	'SDK_LOGIN_FAIL_NO_PARAM'
 			);
 		}
@@ -154,28 +158,27 @@ class Account_360 extends CI_Controller
 		$this->load->model('return_format');
 		
 		$uid = $this->input->get_post('uid', TRUE);
-		$session_id = $this->input->get_post('session_id', TRUE);
 		$server_id = $this->input->get_post('server_id', TRUE);
-		$partner_key = $this->input->get_post('partner_key', TRUE);
+		$access_token = $this->input->get_post('access_token', TRUE);
+		$refresh_token = $this->input->get_post('refresh_token', TRUE);
+		$expire_time = $this->input->get_post('expire_time', TRUE);
 		$code = $this->input->get_post('code', TRUE);
 		
-		if(empty($uid) || empty($server_id) || empty($partner_key))
+		if(empty($uid) || empty($server_id))
 		{
 			$raw_post_data = file_get_contents('php://input', 'r');
 			$inputParam = json_decode($raw_post_data);
 			
 			$uid = $inputParam->uid;
-			$session_id = $inputParam->session_id;
 			$server_id = $inputParam->server_id;
-			$partner_key = $inputParam->partner_key;
 			$code = $inputParam->code;
 		}
 		
-		if(!empty($server_id) && !empty($partner_key))
+		if(!empty($uid) && !empty($server_id) && !empty($access_token) && !empty($refresh_token))
 		{
+			$partner_key = 'qihu360';
 			$parameter = array(
 					'uid'			=>	$uid,
-					'session_id'	=>	$session_id,
 					'server_id'		=>	$server_id,
 					'partner_key'	=>	$partner_key
 			);
@@ -185,32 +188,8 @@ class Account_360 extends CI_Controller
 				$this->load->helper('security');
 				$this->load->model('web_account');
 				$this->load->model('webapi/connector');
-				$this->load->model('mtoken');
+				$this->load->model('msdktoken');
 				
-				if(empty($uid))
-				{
-					$sign = md5($this->app_key . $session_id);
-					//向kuaiyong验证登录并获取uid
-					$params = array(
-							'tokenKey'		=>	$session_id,
-							'Sign'			=>	$sign
-					);
-					$result = $this->connector->post($this->url, $params, false);
-					//--------------------------------------
-// 					$sql = "insert into debug(text)values('" . 'send:' . json_encode($params) . ', register:' . $result . "')";
-// 					$this->web_account->db()->query($sql);
-					//--------------------------------------
-					$result = json_decode($result);
-					if(empty($result) || empty($result->data->guid))
-					{
-						$json = array(
-								'success'		=>	false,
-								'errors'		=>	'SDK_LOGIN_FAIL'
-						);
-						exit($this->return_format->format($json));
-					}
-					$uid = $result->data->guid;
-				}
 				$name = strtolower(do_hash($this->guid->toString(), 'md5'));
 				$pass = $name;
 				$name = 'P' . $name;
@@ -230,23 +209,23 @@ class Account_360 extends CI_Controller
 					unset($user->account_secret_key);
 					$user->account_pass = $pass;
 					
+					$expire_time = empty($expire_time) ? time() + 365 * 86400 : $expire_time
 					$time = time();
-					$hash = do_hash($guid . $time . mt_rand());
-					$user->token = $hash;
 					$parameter = array(
 							'guid'			=>	$guid,
-							'token'			=>	$hash,
-							'expire_time'	=>	$time + 365 * 86400
+							'partner'		=>	$partner_key,
+							'token'			=>	$access_token,
+							'refresh_token'	=>	$refresh_token,
+							'expire_time'	=>	$expire_time
 					);
-					$this->mtoken->create($parameter);
+					$this->msdktoken->create($parameter);
 					
 					$json = array(
-							'success'		=>	true,
+							'success'		=>	1,
 							'message'		=>	'SDK_REGISTER_SUCCESS',
-							'result'		=>	$user,
-							'uid'			=>	$uid
+							'result'		=>	$user
 					);
-						
+					
 					$this->load->model('logs');
 					$logParameter = array(
 							'log_action'	=>	'ACCOUNT_REGISTER_SUCCESS',
@@ -259,7 +238,7 @@ class Account_360 extends CI_Controller
 				else
 				{
 					$json = array(
-							'success'		=>	false,
+							'success'		=>	0,
 							'errors'		=>	'SDK_REGISTER_FAIL'
 					);
 				}
@@ -267,7 +246,7 @@ class Account_360 extends CI_Controller
 			else
 			{
 				$json = array(
-						'success'		=>	false,
+						'success'		=>	0,
 						'errors'		=>	'SDK_REGISTER_FAIL_ERROR_CHECK_CODE'
 				);
 			}
@@ -275,7 +254,7 @@ class Account_360 extends CI_Controller
 		else
 		{
 			$json = array(
-					'success'		=>	false,
+					'success'		=>	0,
 					'errors'		=>	'SDK_REGISTER_FAIL_NO_PARAM'
 			);
 		}
