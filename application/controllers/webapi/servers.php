@@ -34,6 +34,17 @@ class Servers extends CI_Controller {
 					$result->game_message_ip = $result->game_message_ip[0];
 				}
 				$result->game_message_ip = $result->game_message_ip->ip . ':' . $result->game_message_ip->port;
+				
+				$result->cross_server_ip = json_decode($result->cross_server_ip);
+				if(count($result->cross_server_ip) > 0)
+				{
+					$result->cross_server_ip = random_element($result->cross_server_ip);
+				}
+				else
+				{
+					$result->cross_server_ip = $result->cross_server_ip[0];
+				}
+				$result->cross_server_ip = $result->cross_server_ip->ip . ':' . $result->cross_server_ip->port;
 			}
 			else
 			{

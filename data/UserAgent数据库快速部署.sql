@@ -2,767 +2,614 @@ SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
-DROP SCHEMA IF EXISTS `agent1_account_db` ;
-CREATE SCHEMA IF NOT EXISTS `agent1_account_db` DEFAULT CHARACTER SET utf8 ;
-DROP SCHEMA IF EXISTS `agent1_adminlog_db` ;
-CREATE SCHEMA IF NOT EXISTS `agent1_adminlog_db` DEFAULT CHARACTER SET utf8 ;
-DROP SCHEMA IF EXISTS `agent1_funds_flow_db` ;
-CREATE SCHEMA IF NOT EXISTS `agent1_funds_flow_db` DEFAULT CHARACTER SET utf8 ;
-DROP SCHEMA IF EXISTS `agent1_log_db` ;
-CREATE SCHEMA IF NOT EXISTS `agent1_log_db` DEFAULT CHARACTER SET utf8 ;
-DROP SCHEMA IF EXISTS `agent1_log_db_201203` ;
-CREATE SCHEMA IF NOT EXISTS `agent1_log_db_201203` DEFAULT CHARACTER SET utf8 ;
-DROP SCHEMA IF EXISTS `agent1_product_db` ;
-CREATE SCHEMA IF NOT EXISTS `agent1_product_db` DEFAULT CHARACTER SET utf8 ;
-DROP SCHEMA IF EXISTS `agent1_web_db` ;
-CREATE SCHEMA IF NOT EXISTS `agent1_web_db` DEFAULT CHARACTER SET utf8 ;
-USE `agent1_account_db` ;
+DROP SCHEMA IF EXISTS `pulse_db_web` ;
+CREATE SCHEMA IF NOT EXISTS `pulse_db_web` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ;
+DROP SCHEMA IF EXISTS `pulse_db_log` ;
+CREATE SCHEMA IF NOT EXISTS `pulse_db_log` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ;
+USE `pulse_db_web` ;
 
 -- -----------------------------------------------------
--- Table `agent1_account_db`.`account_added_game`
+-- Table `pulse_db_web`.`pulse_products`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `agent1_account_db`.`account_added_game` ;
+DROP TABLE IF EXISTS `pulse_db_web`.`pulse_products` ;
 
-CREATE TABLE IF NOT EXISTS `agent1_account_db`.`account_added_game` (
-  `GUID` CHAR(36) NOT NULL,
-  `game_id` CHAR(10) NOT NULL,
-  PRIMARY KEY (`GUID`, `game_id`))
-ENGINE = MyISAM
-DEFAULT CHARACTER SET = utf8;
-
-
--- -----------------------------------------------------
--- Table `agent1_account_db`.`web_account`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `agent1_account_db`.`web_account` ;
-
-CREATE TABLE IF NOT EXISTS `agent1_account_db`.`web_account` (
-  `GUID` BIGINT(20) NOT NULL AUTO_INCREMENT,
-  `account_name` CHAR(64) NOT NULL,
-  `account_pass` CHAR(32) NOT NULL,
-  `server_id` CHAR(6) NOT NULL,
-  `account_nickname` CHAR(16) NOT NULL DEFAULT '',
-  `account_email` CHAR(32) NULL DEFAULT NULL,
-  `account_pass_question` CHAR(4) NULL DEFAULT NULL,
-  `account_pass_answer` CHAR(4) NULL DEFAULT NULL,
-  `account_point` INT(11) NOT NULL DEFAULT '0',
-  `account_regtime` INT(11) NOT NULL DEFAULT '0',
-  `account_lastlogin` INT(11) NOT NULL DEFAULT '0',
-  `account_currentlogin` INT(11) NOT NULL DEFAULT '0',
-  `account_lastip` CHAR(16) NULL DEFAULT NULL,
-  `account_currentip` CHAR(16) NULL DEFAULT NULL,
-  `account_status` TINYINT(4) NOT NULL DEFAULT '1' COMMENT '1=正常 0=试玩 -1=封停',
-  `account_activity` INT(11) NOT NULL DEFAULT '0',
-  `account_job` CHAR(16) NULL DEFAULT '',
-  `profession_icon` CHAR(32) NOT NULL DEFAULT '',
-  `account_level` INT NOT NULL DEFAULT 0,
-  `account_mission` BIGINT NOT NULL DEFAULT 0,
-  `partner_key` CHAR(16) NOT NULL DEFAULT 'default',
-  `partner_id` CHAR(32) NOT NULL DEFAULT '',
-  `closure_endtime` INT NOT NULL DEFAULT 0,
-  PRIMARY KEY (`GUID`),
-  INDEX `account_name` (`account_name` ASC, `account_pass` ASC, `server_id` ASC),
-  INDEX `partner_id` (`partner_key` ASC, `partner_id` ASC))
-ENGINE = MyISAM
-AUTO_INCREMENT = 200100191006909;
+CREATE TABLE IF NOT EXISTS `pulse_db_web`.`pulse_products` (
+  `product_id` INT NOT NULL AUTO_INCREMENT,
+  `product_name` CHAR(16) NOT NULL COMMENT '游戏名称',
+  `product_category` CHAR(16) NOT NULL COMMENT '游戏类型',
+  `product_comment` TEXT NOT NULL COMMENT '游戏描述',
+  `product_url_website` CHAR(128) NOT NULL COMMENT '游戏官网链接',
+  `product_url_entry` CHAR(128) NOT NULL COMMENT '游戏入口链接',
+  `product_status` ENUM('PUBLIC','BETA','HOT','CLOSE') NOT NULL DEFAULT 'PUBLIC',
+  `product_recommand` TINYINT NOT NULL DEFAULT 1,
+  `product_sort` INT NOT NULL DEFAULT 0,
+  `product_exchange_rate` INT NOT NULL COMMENT '1元人民币能兑换多少游戏币',
+  `product_currency_name` CHAR(8) NOT NULL,
+  `product_server_role` CHAR(64) NOT NULL COMMENT '获取角色列表的接口',
+  `product_server_recharge` CHAR(64) NOT NULL COMMENT '充值的接口',
+  `product_key` CHAR(32) NOT NULL,
+  PRIMARY KEY (`product_id`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 1001;
 
 
 -- -----------------------------------------------------
--- Table `agent1_account_db`.`account_login_token`
+-- Table `pulse_db_web`.`pulse_serverlist`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `agent1_account_db`.`account_login_token` ;
+DROP TABLE IF EXISTS `pulse_db_web`.`pulse_serverlist` ;
 
-CREATE TABLE IF NOT EXISTS `agent1_account_db`.`account_login_token` (
-  `guid` BIGINT NOT NULL,
-  `token` CHAR(64) NOT NULL,
-  `expire_time` INT NOT NULL,
-  PRIMARY KEY (`guid`))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `agent1_account_db`.`sdk_login_token`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `agent1_account_db`.`sdk_login_token` ;
-
-CREATE TABLE IF NOT EXISTS `agent1_account_db`.`sdk_login_token` (
-  `guid` BIGINT NOT NULL,
-  `partner` CHAR(16) NOT NULL,
-  `token` CHAR(64) NOT NULL,
-  `refresh_token` CHAR(64) NOT NULL DEFAULT '',
-  `expire_time` INT NOT NULL,
-  PRIMARY KEY (`guid`, `partner`))
-ENGINE = InnoDB;
-
-USE `agent1_adminlog_db` ;
-
--- -----------------------------------------------------
--- Table `agent1_adminlog_db`.`log_scc`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `agent1_adminlog_db`.`log_scc` ;
-
-CREATE TABLE IF NOT EXISTS `agent1_adminlog_db`.`log_scc` (
-  `log_id` INT(11) NOT NULL AUTO_INCREMENT,
-  `log_type` VARCHAR(64) NOT NULL,
-  `log_user` TEXT NULL DEFAULT NULL,
-  `log_relative_page_url` VARCHAR(128) NOT NULL,
-  `log_relative_parameter` TEXT NOT NULL,
-  `log_addition_parameter` TEXT NULL DEFAULT NULL,
-  `log_time` DATETIME NOT NULL,
-  PRIMARY KEY (`log_id`))
-ENGINE = MyISAM
-AUTO_INCREMENT = 14;
-
-USE `agent1_funds_flow_db` ;
-
--- -----------------------------------------------------
--- Table `agent1_funds_flow_db`.`funds_checkinout`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `agent1_funds_flow_db`.`funds_checkinout` ;
-
-CREATE TABLE IF NOT EXISTS `agent1_funds_flow_db`.`funds_checkinout` (
-  `funds_id` INT(11) NOT NULL AUTO_INCREMENT,
-  `account_guid` BIGINT(20) NOT NULL,
-  `account_name` CHAR(64) NOT NULL,
-  `account_nickname` CHAR(32) NOT NULL,
-  `account_id` CHAR(16) NOT NULL,
-  `game_id` CHAR(5) NOT NULL,
-  `server_id` CHAR(5) NOT NULL,
-  `server_section` CHAR(5) NOT NULL,
-  `funds_flow_dir` ENUM('CHECK_IN','CHECK_OUT') NOT NULL,
-  `funds_amount` INT(11) NOT NULL,
-  `funds_item_amount` INT(11) NOT NULL,
-  `funds_item_current` INT(11) NOT NULL,
-  `funds_time` INT(11) NOT NULL,
-  `funds_time_local` DATETIME NOT NULL,
-  `funds_type` INT(11) NOT NULL DEFAULT '1' COMMENT '1=游戏内充值 0=GM手动调整',
-  `partner_key` CHAR(16) NOT NULL DEFAULT 'default',
-  `receipt_data` TEXT NOT NULL,
-  `appstore_status` INT NOT NULL,
-  `appstore_device_id` CHAR(64) NOT NULL,
-  PRIMARY KEY (`funds_id`),
-  INDEX `account_guid` (`account_name` ASC),
-  INDEX `account_id` (`account_id` ASC),
-  INDEX `game_id` (`game_id` ASC, `server_id` ASC, `server_section` ASC),
-  INDEX `funds_flow_dir` (`funds_flow_dir` ASC),
-  INDEX `funds_time` (`funds_time` ASC))
-ENGINE = MyISAM
-AUTO_INCREMENT = 188;
-
-
--- -----------------------------------------------------
--- Table `agent1_funds_flow_db`.`funds_order`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `agent1_funds_flow_db`.`funds_order` ;
-
-CREATE TABLE IF NOT EXISTS `agent1_funds_flow_db`.`funds_order` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `player_id` CHAR(22) NOT NULL,
-  `server_id` CHAR(1) NOT NULL,
-  `checksum` CHAR(64) NOT NULL,
-  `check_count` INT(11) NOT NULL,
-  `status` INT NOT NULL,
-  `funds_id` INT NOT NULL,
-  `posttime` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  UNIQUE INDEX `checksum_2` (`checksum` ASC))
-ENGINE = MyISAM
-AUTO_INCREMENT = 188;
-
-USE `agent1_log_db` ;
-
--- -----------------------------------------------------
--- Table `agent1_log_db`.`log_daily_statistics`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `agent1_log_db`.`log_daily_statistics` ;
-
-CREATE TABLE IF NOT EXISTS `agent1_log_db`.`log_daily_statistics` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `log_date` DATE NOT NULL,
-  `server_id` CHAR(8) NOT NULL,
-  `server_name` CHAR(16) NOT NULL,
-  `reg_account` INT(11) NOT NULL,
-  `reg_new_account` INT(11) NOT NULL,
-  `valid_account` INT(11) NOT NULL COMMENT '无效用户：等级等于1级以及没有注册角色的帐号',
-  `level_account` INT(11) NOT NULL,
-  `modify_account` INT(11) NOT NULL COMMENT '持有注册帐号的用户',
-  `modify_new_account` INT(11) NOT NULL,
-  `login_account` INT(11) NOT NULL,
-  `old_login_account` INT NOT NULL COMMENT '当天登录的老用户',
-  `active_account` INT(11) NOT NULL DEFAULT '0' COMMENT '活跃用户，三天内登陆过游戏的人数',
-  `flowover_account` INT(11) NOT NULL DEFAULT '0' COMMENT '流失用户，超过一周没有登录游戏的人数',
-  `reflow_account` INT NOT NULL DEFAULT 0,
-  `orders_current_sum` INT(11) NOT NULL COMMENT '当天订单总额',
-  `orders_num` INT(11) NOT NULL,
-  `orders_sum` INT(11) NOT NULL,
-  `arpu` INT(11) NOT NULL COMMENT '充值率',
-  `recharge_account` INT(11) NOT NULL COMMENT '当天充值人数',
-  `order_count` INT(11) NOT NULL COMMENT '订单数',
-  `partner_key` CHAR(16) NOT NULL DEFAULT 'default',
-  `at` INT NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE INDEX `log_date` (`log_date` ASC, `server_id` ASC))
-ENGINE = MyISAM
-AUTO_INCREMENT = 101;
-
-
--- -----------------------------------------------------
--- Table `agent1_log_db`.`log_flowover_cache`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `agent1_log_db`.`log_flowover_cache` ;
-
-CREATE TABLE IF NOT EXISTS `agent1_log_db`.`log_flowover_cache` (
-  `guid` BIGINT NOT NULL,
-  `server_id` CHAR(8) NOT NULL,
-  `partner_key` CHAR(16) NOT NULL DEFAULT 'default',
-  `account_job` CHAR(16) NOT NULL,
-  `account_level` INT NOT NULL,
-  `account_mission` BIGINT NOT NULL,
-  PRIMARY KEY (`guid`, `server_id`, `partner_key`))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `agent1_log_db`.`log_flowover_detail`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `agent1_log_db`.`log_flowover_detail` ;
-
-CREATE TABLE IF NOT EXISTS `agent1_log_db`.`log_flowover_detail` (
-  `date` DATE NOT NULL,
-  `server_id` CHAR(8) NOT NULL,
-  `partner_key` CHAR(16) NOT NULL DEFAULT 'default',
-  `job` TEXT NOT NULL,
-  `level` TEXT NOT NULL,
-  `mission` TEXT NOT NULL,
-  PRIMARY KEY (`date`, `server_id`, `partner_key`))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `agent1_log_db`.`log_online_count`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `agent1_log_db`.`log_online_count` ;
-
-CREATE TABLE IF NOT EXISTS `agent1_log_db`.`log_online_count` (
-  `server_id` CHAR(8) NOT NULL,
-  `partner_key` CHAR(16) NOT NULL,
-  `log_date` DATE NOT NULL,
-  `log_hour` INT NOT NULL DEFAULT 0,
-  `log_count` INT NOT NULL DEFAULT 0,
-  PRIMARY KEY (`server_id`, `partner_key`, `log_date`, `log_hour`))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `agent1_log_db`.`log_buy_equipment_detail`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `agent1_log_db`.`log_buy_equipment_detail` ;
-
-CREATE TABLE IF NOT EXISTS `agent1_log_db`.`log_buy_equipment_detail` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `date` DATE NOT NULL,
-  `server_id` CHAR(8) NOT NULL,
-  `partner_key` CHAR(16) NOT NULL,
-  `level_detail` TEXT NOT NULL,
-  `mission_detail` TEXT NOT NULL,
-  PRIMARY KEY (`id`))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `agent1_log_db`.`log_retention`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `agent1_log_db`.`log_retention` ;
-
-CREATE TABLE IF NOT EXISTS `agent1_log_db`.`log_retention` (
-  `log_date` DATE NOT NULL,
-  `server_id` CHAR(5) NOT NULL,
-  `partner_key` CHAR(16) NOT NULL,
-  `prev_register` INT NOT NULL DEFAULT 0,
-  `prev_current_login` INT NOT NULL DEFAULT 0,
-  `next_retention` INT NOT NULL DEFAULT 0,
-  `third_register` INT NOT NULL DEFAULT 0,
-  `third_current_login` INT NOT NULL DEFAULT 0,
-  `third_retention` INT NOT NULL DEFAULT 0,
-  `seven_register` INT NOT NULL DEFAULT 0,
-  `seven_current_login` INT NOT NULL DEFAULT 0,
-  `seven_retention` INT NOT NULL DEFAULT 0,
-  `level1` INT NOT NULL DEFAULT 0,
-  PRIMARY KEY (`log_date`, `server_id`, `partner_key`))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `agent1_log_db`.`log_funds_hours`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `agent1_log_db`.`log_funds_hours` ;
-
-CREATE TABLE IF NOT EXISTS `agent1_log_db`.`log_funds_hours` (
-  `log_date` DATE NOT NULL,
-  `log_hour` INT NOT NULL,
-  `server_id` CHAR(5) NOT NULL,
-  `partner_key` CHAR(16) NOT NULL,
-  `funds_sum` INT NOT NULL DEFAULT 0,
-  PRIMARY KEY (`log_date`, `server_id`, `log_hour`, `partner_key`))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `agent1_log_db`.`log_retention1`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `agent1_log_db`.`log_retention1` ;
-
-CREATE TABLE IF NOT EXISTS `agent1_log_db`.`log_retention1` (
-  `log_date` DATE NOT NULL,
-  `server_id` CHAR(5) NOT NULL,
-  `partner_key` CHAR(16) NOT NULL,
-  `level_account` INT NOT NULL DEFAULT 0 COMMENT '有效用户数',
-  `next_current_login` INT NOT NULL DEFAULT 0 COMMENT '次日登录',
-  `next_retention` INT NOT NULL DEFAULT 0 COMMENT '次日留存',
-  `third_current_login` INT NOT NULL DEFAULT 0 COMMENT '点三登录',
-  `third_retention` INT NOT NULL DEFAULT 0 COMMENT '点三留存',
-  `third_current_login_range` INT NOT NULL DEFAULT 0 COMMENT '连续三日登录',
-  `third_retention_range` INT NOT NULL DEFAULT 0,
-  `seven_current_login` INT NOT NULL DEFAULT 0,
-  `seven_retention` INT NOT NULL DEFAULT 0,
-  `seven_current_login_range` INT NOT NULL DEFAULT 0 COMMENT '小区间七日登录',
-  `seven_retention_range` INT NOT NULL DEFAULT 0 COMMENT '小区间七日留存率',
-  `seven_current_login_huge` INT NOT NULL DEFAULT 0 COMMENT '大区间7日登录',
-  `seven_retention_huge` INT NOT NULL DEFAULT 0 COMMENT '大区间七日留存',
-  `level1` INT NOT NULL DEFAULT 0,
-  PRIMARY KEY (`log_date`, `server_id`, `partner_key`))
-ENGINE = InnoDB;
-
-USE `agent1_log_db_201203` ;
-
--- -----------------------------------------------------
--- Table `agent1_log_db_201203`.`log_account`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `agent1_log_db_201203`.`log_account` ;
-
-CREATE TABLE IF NOT EXISTS `agent1_log_db_201203`.`log_account` (
-  `log_id` INT(11) NOT NULL AUTO_INCREMENT,
-  `log_GUID` CHAR(36) NOT NULL,
-  `log_account_name` CHAR(64) NULL DEFAULT NULL,
-  `log_action` CHAR(64) NOT NULL,
-  `log_parameter` TEXT NULL DEFAULT NULL,
-  `log_time` INT(11) NOT NULL,
-  `log_ip` CHAR(24) NOT NULL,
-  `server_id` CHAR(5) NOT NULL,
-  `partner_key` CHAR(16) NOT NULL DEFAULT 'default',
-  PRIMARY KEY (`log_id`),
-  INDEX `log_GUID` USING BTREE (`log_GUID` ASC),
-  INDEX `log_account_name` USING BTREE (`log_account_name` ASC),
-  INDEX `log_action` USING BTREE (`log_action` ASC),
-  INDEX `game_id` (`server_id` ASC))
-ENGINE = MyISAM
-AUTO_INCREMENT = 2068;
-
-
--- -----------------------------------------------------
--- Table `agent1_log_db_201203`.`log_consume`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `agent1_log_db_201203`.`log_consume` ;
-
-CREATE TABLE IF NOT EXISTS `agent1_log_db_201203`.`log_consume` (
-  `log_id` INT(11) NOT NULL AUTO_INCREMENT,
-  `player_id` BIGINT NOT NULL,
-  `role_id` BIGINT NOT NULL,
-  `role_level` INT NOT NULL DEFAULT 0,
-  `role_mission` CHAR(16) NOT NULL,
-  `action_name` CHAR(64) NOT NULL,
-  `current_gold` INT NOT NULL,
-  `spend_gold` INT NOT NULL,
-  `current_special_gold` INT(11) NOT NULL,
-  `spend_special_gold` INT(11) NOT NULL,
-  `item_name` CHAR(64) NOT NULL,
-  `item_info` TEXT NOT NULL,
-  `item_type` INT NOT NULL,
-  `item_level` INT NOT NULL DEFAULT 0 COMMENT '装备等级',
-  `item_value` INT NOT NULL DEFAULT 0 COMMENT '装备品质\n1=普通 2=绿色 3=蓝色 4=紫色',
-  `item_job` CHAR(16) NOT NULL DEFAULT '' COMMENT '装备需求的职业\n1=战士 2=猎手 3=潜行者 4=法师',
-  `log_time` INT(11) NOT NULL,
-  `server_id` CHAR(5) NOT NULL,
-  `partner_key` CHAR(16) NOT NULL DEFAULT 'default',
-  PRIMARY KEY (`log_id`),
-  INDEX `player_id` (`player_id` ASC),
-  INDEX `item_name` (`item_name` ASC),
-  INDEX `server_id` (`server_id` ASC))
-ENGINE = MyISAM;
-
-
--- -----------------------------------------------------
--- Table `agent1_log_db_201203`.`equipment_name`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `agent1_log_db_201203`.`equipment_name` ;
-
-CREATE TABLE IF NOT EXISTS `agent1_log_db_201203`.`equipment_name` (
-  `equipment_name` CHAR(16) NOT NULL,
-  `type` INT NOT NULL,
-  PRIMARY KEY (`equipment_name`),
-  INDEX `type` (`type` ASC))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `agent1_log_db_201203`.`log_api`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `agent1_log_db_201203`.`log_api` ;
-
-CREATE TABLE IF NOT EXISTS `agent1_log_db_201203`.`log_api` (
-  `log_id` INT(11) NOT NULL AUTO_INCREMENT,
-  `log_GUID` CHAR(36) NOT NULL,
-  `log_account_name` CHAR(64) NULL DEFAULT NULL,
-  `log_action` CHAR(64) NOT NULL,
-  `log_parameter` TEXT NULL DEFAULT NULL,
-  `log_time` INT(11) NOT NULL,
-  `log_ip` CHAR(24) NOT NULL,
-  `server_id` CHAR(5) NOT NULL,
-  `partner_key` CHAR(16) NOT NULL DEFAULT 'default',
-  PRIMARY KEY (`log_id`),
-  INDEX `log_GUID` USING BTREE (`log_GUID` ASC),
-  INDEX `log_account_name` USING BTREE (`log_account_name` ASC),
-  INDEX `log_action` USING BTREE (`log_action` ASC),
-  INDEX `game_id` (`server_id` ASC))
-ENGINE = MyISAM
-AUTO_INCREMENT = 2068
-DEFAULT CHARACTER SET = utf8;
-
-
--- -----------------------------------------------------
--- Table `agent1_log_db_201203`.`log_rep`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `agent1_log_db_201203`.`log_rep` ;
-
-CREATE TABLE IF NOT EXISTS `agent1_log_db_201203`.`log_rep` (
-  `id` BIGINT NOT NULL AUTO_INCREMENT,
-  `server_id` CHAR(5) NOT NULL,
-  `player_id` BIGINT NOT NULL,
-  `type` INT NOT NULL,
-  `time` INT NOT NULL,
-  `profession` CHAR(16) NOT NULL,
-  `nickname` CHAR(20) NOT NULL,
-  `posttime` INT NOT NULL,
-  `partner_key` CHAR(16) NOT NULL,
-  PRIMARY KEY (`id`))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `agent1_log_db_201203`.`log_action_mall`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `agent1_log_db_201203`.`log_action_mall` ;
-
-CREATE TABLE IF NOT EXISTS `agent1_log_db_201203`.`log_action_mall` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `player_id` BIGINT NOT NULL,
-  `role_id` BIGINT NOT NULL,
-  `nickname` CHAR(16) NOT NULL,
-  `content` TEXT NOT NULL,
-  `posttime` INT NOT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `player_id` (`player_id` ASC))
-ENGINE = InnoDB;
-
-USE `agent1_product_db` ;
-
--- -----------------------------------------------------
--- Table `agent1_product_db`.`game_product`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `agent1_product_db`.`game_product` ;
-
-CREATE TABLE IF NOT EXISTS `agent1_product_db`.`game_product` (
-  `game_id` CHAR(5) NOT NULL,
-  `game_name` CHAR(64) NOT NULL,
-  `game_version` CHAR(16) NOT NULL,
-  `game_platform` ENUM('web','ios','android') NULL DEFAULT 'ios',
-  `auth_key` CHAR(128) NOT NULL,
-  `game_pic_small` TEXT NULL DEFAULT NULL,
-  `game_pic_middium` TEXT NULL DEFAULT NULL,
-  `game_pic_big` TEXT NULL DEFAULT NULL,
-  `game_download_iphone` TEXT NULL DEFAULT NULL,
-  `game_download_ipad` TEXT NULL DEFAULT NULL,
-  `game_status` TINYINT(4) NOT NULL DEFAULT '0' COMMENT '0=正式,1=内测,2=公测',
-  PRIMARY KEY (`game_id`))
-ENGINE = MyISAM
-DEFAULT CHARACTER SET = utf8;
-
-
--- -----------------------------------------------------
--- Table `agent1_product_db`.`server_list`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `agent1_product_db`.`server_list` ;
-
-CREATE TABLE IF NOT EXISTS `agent1_product_db`.`server_list` (
-  `id` INT NOT NULL,
-  `game_id` CHAR(5) NOT NULL,
-  `section_id` INT NOT NULL,
-  `account_server_id` CHAR(5) NOT NULL,
+CREATE TABLE IF NOT EXISTS `pulse_db_web`.`pulse_serverlist` (
+  `product_id` INT NOT NULL,
+  `server_id` INT NOT NULL,
   `server_name` CHAR(32) NOT NULL,
-  `server_ip` TEXT NOT NULL,
-  `server_game_ip` TEXT NOT NULL,
-  `game_message_ip` TEXT NOT NULL,
-  `const_server_ip` TEXT NOT NULL,
-  `voice_server_ip` TEXT NOT NULL,
-  `cross_server_ip` TEXT NOT NULL,
-  `server_max_player` INT(11) NOT NULL DEFAULT '0',
-  `account_count` INT(11) NOT NULL DEFAULT '0',
-  `server_language` CHAR(16) NOT NULL DEFAULT 'CN',
-  `server_sort` INT(11) NOT NULL DEFAULT '0',
-  `server_recommend` TINYINT(1) NOT NULL DEFAULT '0',
-  `server_debug` TINYINT NOT NULL DEFAULT 0,
-  `partner` CHAR(64) NOT NULL DEFAULT 'default',
-  `version` CHAR(64) NOT NULL,
-  `server_status` INT(11) NOT NULL DEFAULT '1' COMMENT '0=关闭；1=正常；2=繁忙；3=拥挤；9=隐藏',
-  `server_new` INT(11) NOT NULL DEFAULT 1 COMMENT '1=新服；0=旧服',
-  `special_ip` CHAR(16) NOT NULL DEFAULT '',
-  `server_starttime` INT NOT NULL DEFAULT 0 COMMENT '开服时间',
-  `need_activate` TINYINT NOT NULL DEFAULT 1,
-  INDEX `server_recommend` (`server_recommend` ASC),
-  PRIMARY KEY (`id`),
-  UNIQUE INDEX `unique_id` (`game_id` ASC, `account_server_id` ASC, `server_name` ASC, `special_ip` ASC))
-ENGINE = MyISAM;
-
-
--- -----------------------------------------------------
--- Table `agent1_product_db`.`server_status`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `agent1_product_db`.`server_status` ;
-
-CREATE TABLE IF NOT EXISTS `agent1_product_db`.`server_status` (
-  `server_status` INT(11) NOT NULL,
-  `message` TEXT NOT NULL,
-  `redirectUrl` TEXT NOT NULL)
-ENGINE = MyISAM
-DEFAULT CHARACTER SET = utf8;
-
-
--- -----------------------------------------------------
--- Table `agent1_product_db`.`game_announcement`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `agent1_product_db`.`game_announcement` ;
-
-CREATE TABLE IF NOT EXISTS `agent1_product_db`.`game_announcement` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `summary` TEXT NOT NULL,
-  `content` TEXT NOT NULL,
-  `post_time` INT NOT NULL,
-  PRIMARY KEY (`id`))
+  `server_time_start` INT NOT NULL,
+  `server_status` ENUM('NORMAL','HOT','CLOSE') NOT NULL DEFAULT 'NORMAL',
+  `server_web_url` CHAR(64) NOT NULL,
+  `server_game_ip` CHAR(16) NOT NULL,
+  `server_game_port` CHAR(10) NOT NULL,
+  `server_service_url` CHAR(64) NOT NULL,
+  `product_name` CHAR(16) NOT NULL,
+  `server_type` TINYINT NOT NULL DEFAULT 1 COMMENT '1=正式服\n0=测试服',
+  PRIMARY KEY (`product_id`, `server_id`))
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `agent1_product_db`.`game_autosend_message`
+-- Table `pulse_db_web`.`pulse_news`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `agent1_product_db`.`game_autosend_message` ;
+DROP TABLE IF EXISTS `pulse_db_web`.`pulse_news` ;
 
-CREATE TABLE IF NOT EXISTS `agent1_product_db`.`game_autosend_message` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `content` TEXT NOT NULL,
-  `is_auto_send` TINYINT NOT NULL DEFAULT 1,
-  `pattern` CHAR(32) NOT NULL,
-  PRIMARY KEY (`id`))
+CREATE TABLE IF NOT EXISTS `pulse_db_web`.`pulse_news` (
+  `news_id` INT NOT NULL AUTO_INCREMENT,
+  `news_title` CHAR(64) NOT NULL,
+  `product_id` INT NOT NULL,
+  `product_name` CHAR(16) NOT NULL,
+  `news_category` CHAR(16) NOT NULL,
+  `news_content` MEDIUMTEXT NOT NULL,
+  `news_posttime` INT NOT NULL,
+  PRIMARY KEY (`news_id`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 1000;
+
+
+-- -----------------------------------------------------
+-- Table `pulse_db_web`.`pulse_account`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `pulse_db_web`.`pulse_account` ;
+
+CREATE TABLE IF NOT EXISTS `pulse_db_web`.`pulse_account` (
+  `account_id` BIGINT NOT NULL AUTO_INCREMENT,
+  `account_name` CHAR(32) NOT NULL,
+  `account_pass` CHAR(64) NOT NULL,
+  `account_email` CHAR(64) NOT NULL,
+  `account_mobile` CHAR(32) NOT NULL,
+  `account_nickname` CHAR(16) NOT NULL,
+  `account_sex` TINYINT NOT NULL DEFAULT 1,
+  `account_birthday` INT NOT NULL DEFAULT 0,
+  `account_country` CHAR(32) NOT NULL,
+  `account_city` CHAR(32) NOT NULL,
+  `account_job` CHAR(32) NOT NULL,
+  `account_regtime` INT NOT NULL,
+  `account_lastlogin` INT NOT NULL,
+  `ucenter_uid` INT NOT NULL DEFAULT 0,
+  `account_cash` INT NOT NULL DEFAULT 0 COMMENT '剩余平台币',
+  `account_recharge` INT NOT NULL DEFAULT 0 COMMENT '累计充值',
+  `partner` INT NOT NULL DEFAULT 0,
+  PRIMARY KEY (`account_id`),
+  INDEX `account_name` (`account_name` ASC, `account_pass` ASC),
+  INDEX `ucenter_uid` (`ucenter_uid` ASC))
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `agent1_product_db`.`game_code`
+-- Table `pulse_db_web`.`pulse_activity`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `agent1_product_db`.`game_code` ;
+DROP TABLE IF EXISTS `pulse_db_web`.`pulse_activity` ;
 
-CREATE TABLE IF NOT EXISTS `agent1_product_db`.`game_code` (
-  `code` CHAR(8) NOT NULL,
-  `comment` CHAR(16) NOT NULL,
-  `disabled` TINYINT NOT NULL DEFAULT 0,
+CREATE TABLE IF NOT EXISTS `pulse_db_web`.`pulse_activity` (
+  `activity_id` INT NOT NULL AUTO_INCREMENT,
+  `activity_name` CHAR(32) NOT NULL,
+  `activity_url` CHAR(128) NOT NULL,
+  `activity_loop` TINYINT NOT NULL DEFAULT 1,
+  `activity_looptype` INT NOT NULL DEFAULT 1 COMMENT 'activity_looptype\n0=不重复\n1=每天\n2=每周\n3=每月',
+  `activity_time_start` INT NOT NULL,
+  `activity_time_end` INT NOT NULL,
+  `product_id` INT NOT NULL,
+  PRIMARY KEY (`activity_id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `pulse_db_web`.`pulse_log`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `pulse_db_web`.`pulse_log` ;
+
+CREATE TABLE IF NOT EXISTS `pulse_db_web`.`pulse_log` (
+  `log_id` BIGINT NOT NULL AUTO_INCREMENT,
+  `log_type` CHAR(32) NOT NULL,
+  `log_account_name` CHAR(32) NOT NULL,
+  `log_uri` CHAR(128) NOT NULL,
+  `log_method` CHAR(8) NOT NULL,
+  `log_parameter` TEXT NOT NULL,
+  `log_time_local` DATETIME NOT NULL,
+  `partner` INT NOT NULL DEFAULT 0,
+  PRIMARY KEY (`log_id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `pulse_db_web`.`pulse_feed`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `pulse_db_web`.`pulse_feed` ;
+
+CREATE TABLE IF NOT EXISTS `pulse_db_web`.`pulse_feed` (
+  `feed_id` BIGINT NOT NULL AUTO_INCREMENT,
+  `account_id` BIGINT NOT NULL,
+  `product_id` INT NOT NULL,
+  `server_id` INT NOT NULL,
+  `feed_time` INT NOT NULL,
+  PRIMARY KEY (`feed_id`),
+  INDEX `account_id` (`account_id` ASC))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `pulse_db_web`.`pulse_mail_template`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `pulse_db_web`.`pulse_mail_template` ;
+
+CREATE TABLE IF NOT EXISTS `pulse_db_web`.`pulse_mail_template` (
+  `template_id` INT NOT NULL AUTO_INCREMENT,
+  `template_name` CHAR(64) NOT NULL,
+  `template_subject` CHAR(64) NOT NULL,
+  `template_content` TEXT NOT NULL,
+  `smtp_host` CHAR(16) NOT NULL,
+  `smtp_user` CHAR(32) NOT NULL,
+  `smtp_pass` CHAR(32) NOT NULL,
+  `smtp_from` VARCHAR(64) NOT NULL,
+  `smtp_fromName` VARCHAR(64) NOT NULL,
+  PRIMARY KEY (`template_id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `pulse_db_web`.`pulse_mail_bind`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `pulse_db_web`.`pulse_mail_bind` ;
+
+CREATE TABLE IF NOT EXISTS `pulse_db_web`.`pulse_mail_bind` (
+  `code` CHAR(32) NOT NULL,
+  `account_id` BIGINT NOT NULL,
+  `account_email` CHAR(64) NOT NULL,
+  `expire_time` INT NOT NULL,
+  `bind_validate` TINYINT NOT NULL DEFAULT 0,
   PRIMARY KEY (`code`))
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `agent1_product_db`.`game_announcement_crontab`
+-- Table `pulse_db_web`.`pulse_coupon`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `agent1_product_db`.`game_announcement_crontab` ;
+DROP TABLE IF EXISTS `pulse_db_web`.`pulse_coupon` ;
 
-CREATE TABLE IF NOT EXISTS `agent1_product_db`.`game_announcement_crontab` (
+CREATE TABLE IF NOT EXISTS `pulse_db_web`.`pulse_coupon` (
+  `coupon_content` CHAR(32) NOT NULL,
+  `product_id` INT NOT NULL COMMENT '适用于哪个游戏',
+  `coupon_type` TINYINT NOT NULL DEFAULT 0 COMMENT '礼券类型\n0=现金礼券\n1=道具礼券',
+  `coupon_detail` CHAR(128) NOT NULL COMMENT 'JSON格式\n如果coupon_type=0\ncoupon_detail={value:10}\n\n如果coupon_type=1\ncoupon_detail={[{id:1002, value:1}, {id:1003, value:2}]}',
+  `coupon_expire_time` INT NOT NULL,
+  `coupon_inuse` TINYINT NOT NULL DEFAULT 0,
+  PRIMARY KEY (`coupon_content`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `pulse_db_web`.`pulse_account_coupon`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `pulse_db_web`.`pulse_account_coupon` ;
+
+CREATE TABLE IF NOT EXISTS `pulse_db_web`.`pulse_account_coupon` (
+  `account_id` BIGINT NOT NULL,
+  `coupon_content` CHAR(32) NOT NULL,
+  `post_time` INT NOT NULL,
+  `expire_time` INT NOT NULL,
+  PRIMARY KEY (`account_id`, `coupon_content`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `pulse_db_web`.`pulse_appeal`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `pulse_db_web`.`pulse_appeal` ;
+
+CREATE TABLE IF NOT EXISTS `pulse_db_web`.`pulse_appeal` (
+  `appeal_id` BIGINT NOT NULL AUTO_INCREMENT,
+  `appeal_category` CHAR(16) NOT NULL,
+  `account_id` BIGINT NOT NULL COMMENT '发布者ID',
+  `account_name` CHAR(32) NOT NULL COMMENT '申诉的帐号',
+  `appeal_content` TEXT NOT NULL,
+  `appeal_posttime` INT NOT NULL,
+  `appeal_reply` TEXT NOT NULL,
+  `appeal_reply_posttime` INT NOT NULL,
+  `appeal_status` TINYINT NOT NULL DEFAULT 0,
+  PRIMARY KEY (`appeal_id`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 10020153001;
+
+
+-- -----------------------------------------------------
+-- Table `pulse_db_web`.`pulse_server_log`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `pulse_db_web`.`pulse_server_log` ;
+
+CREATE TABLE IF NOT EXISTS `pulse_db_web`.`pulse_server_log` (
+  `product_id` INT NOT NULL,
+  `account_id` BIGINT NOT NULL,
+  `server_id` INT NOT NULL,
+  `updatetime` INT NOT NULL,
+  PRIMARY KEY (`product_id`, `account_id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `pulse_db_web`.`pulse_role_count`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `pulse_db_web`.`pulse_role_count` ;
+
+CREATE TABLE IF NOT EXISTS `pulse_db_web`.`pulse_role_count` (
+  `product_id` INT NOT NULL,
+  `account_id` BIGINT NOT NULL,
+  `server_id` INT NOT NULL,
+  `count` INT NOT NULL,
+  PRIMARY KEY (`product_id`, `account_id`, `server_id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `pulse_db_web`.`pulse_screenshot`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `pulse_db_web`.`pulse_screenshot` ;
+
+CREATE TABLE IF NOT EXISTS `pulse_db_web`.`pulse_screenshot` (
+  `screenshot_id` INT NOT NULL AUTO_INCREMENT,
+  `product_id` INT NOT NULL,
+  `product_name` CHAR(16) NOT NULL,
+  `screenshot_title` CHAR(64) NOT NULL,
+  `screenshot_content` TEXT NOT NULL,
+  `screenshot_posttime` INT NOT NULL,
+  `screenshot_pic_url` TEXT NOT NULL,
+  PRIMARY KEY (`screenshot_id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `pulse_db_web`.`pulse_admin`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `pulse_db_web`.`pulse_admin` ;
+
+CREATE TABLE IF NOT EXISTS `pulse_db_web`.`pulse_admin` (
+  `admin_id` INT NOT NULL AUTO_INCREMENT,
+  `admin_name` CHAR(32) NOT NULL,
+  `admin_pass` CHAR(64) NOT NULL,
+  `admin_regtime` INT NOT NULL,
+  `admin_lastlogin` INT NOT NULL DEFAULT 0,
+  `admin_level` INT NOT NULL DEFAULT 10,
+  `role_id` INT NOT NULL,
+  `role_name` CHAR(16) NOT NULL,
+  `custom_permission` TEXT NOT NULL,
+  PRIMARY KEY (`admin_id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `pulse_db_web`.`pulse_admin_role`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `pulse_db_web`.`pulse_admin_role` ;
+
+CREATE TABLE IF NOT EXISTS `pulse_db_web`.`pulse_admin_role` (
+  `role_id` INT NOT NULL AUTO_INCREMENT,
+  `role_name` CHAR(16) NOT NULL,
+  `role_level` INT NOT NULL DEFAULT 10,
+  `role_permission` TEXT NOT NULL,
+  PRIMARY KEY (`role_id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `pulse_db_web`.`pulse_role`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `pulse_db_web`.`pulse_role` ;
+
+CREATE TABLE IF NOT EXISTS `pulse_db_web`.`pulse_role` (
+  `product_id` INT NOT NULL,
+  `server_id` INT NOT NULL,
+  `partner` INT NOT NULL,
+  `account_id` BIGINT NOT NULL,
+  `role_id` BIGINT NOT NULL,
+  `nickname` CHAR(32) NOT NULL,
+  `level` INT NOT NULL,
+  `last_mission` CHAR(36) NOT NULL,
+  `login_time` INT NOT NULL,
+  `order_count` INT NOT NULL DEFAULT 0 COMMENT '累计付费次数',
+  `order_sum` INT NOT NULL DEFAULT 0 COMMENT '累计充值金额（分为单位）',
+  PRIMARY KEY (`product_id`, `server_id`, `account_id`, `role_id`, `partner`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `pulse_db_web`.`pulse_partner`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `pulse_db_web`.`pulse_partner` ;
+
+CREATE TABLE IF NOT EXISTS `pulse_db_web`.`pulse_partner` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `server_id` CHAR(5) NOT NULL,
-  `content` TEXT NOT NULL,
-  `minutes` CHAR(64) NOT NULL,
-  `hour` CHAR(64) NOT NULL,
-  `date` CHAR(64) NOT NULL,
-  `starttime` INT NOT NULL,
-  `endtime` INT NOT NULL,
+  `name` CHAR(16) NOT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 1001;
+
+USE `pulse_db_log` ;
+
+-- -----------------------------------------------------
+-- Table `pulse_db_log`.`log_account_role`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `pulse_db_log`.`log_account_role` ;
+
+CREATE TABLE IF NOT EXISTS `pulse_db_log`.`log_account_role` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `account_id` BIGINT NOT NULL,
+  `role_id` BIGINT NOT NULL DEFAULT 0,
+  `product_id` INT NOT NULL,
+  `server_id` INT NOT NULL DEFAULT 0,
+  `terminal_type` TINYINT NOT NULL DEFAULT 1 COMMENT '终端类型\n1=PC登录\n2=Mobile登录\n3=网页登录',
+  `partner` INT NOT NULL DEFAULT 0,
+  `action_type` INT NOT NULL COMMENT '1=登录\n2=注册',
+  `log_time` INT NOT NULL,
+  `log_ip` CHAR(20) NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `role_id` (`account_id` ASC, `role_id` ASC, `product_id` ASC, `server_id` ASC, `terminal_type` ASC, `partner` ASC),
+  INDEX `action_type` (`action_type` ASC),
+  INDEX `sts` (`product_id` ASC, `server_id` ASC, `terminal_type` ASC, `partner` ASC, `action_type` ASC, `log_time` ASC),
+  INDEX `unique_role_id` (`role_id` ASC))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `pulse_db_log`.`log_product_common`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `pulse_db_log`.`log_product_common` ;
+
+CREATE TABLE IF NOT EXISTS `pulse_db_log`.`log_product_common` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `log_date` DATE NOT NULL,
+  `product_id` INT NOT NULL,
+  `server_id` INT NOT NULL,
+  `terminal_type` TINYINT NOT NULL COMMENT '终端类型\n0=总数\n1=PC登录\n2=Mobile登录\n3=网页登录',
+  `partner` INT NOT NULL,
+  `count_register` INT NOT NULL COMMENT '日注册用户数',
+  `count_register_new` INT NOT NULL COMMENT '日新增注册用户数',
+  `count_ulogin` INT NOT NULL COMMENT '日独立登录数',
+  `count_login` INT NOT NULL COMMENT '日登录次数（有重复）',
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
-USE `agent1_web_db` ;
 
 -- -----------------------------------------------------
--- Table `agent1_web_db`.`scc_config`
+-- Table `pulse_db_log`.`log_product_consume`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `agent1_web_db`.`scc_config` ;
+DROP TABLE IF EXISTS `pulse_db_log`.`log_product_consume` ;
 
-CREATE TABLE IF NOT EXISTS `agent1_web_db`.`scc_config` (
-  `config_id` INT(11) NOT NULL AUTO_INCREMENT,
-  `config_name` VARCHAR(45) NOT NULL,
-  `config_close_scc` TINYINT(1) NOT NULL DEFAULT '0',
-  `config_close_reason` TEXT NOT NULL,
-  `config_selected` TINYINT(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`config_id`))
-ENGINE = MyISAM
-AUTO_INCREMENT = 2
-DEFAULT CHARACTER SET = utf8;
-
-
--- -----------------------------------------------------
--- Table `agent1_web_db`.`scc_mail_autosend`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `agent1_web_db`.`scc_mail_autosend` ;
-
-CREATE TABLE IF NOT EXISTS `agent1_web_db`.`scc_mail_autosend` (
-  `auto_id` INT(11) NOT NULL AUTO_INCREMENT,
-  `auto_template_id` INT(11) NOT NULL,
-  `auto_actived` TINYINT(1) NOT NULL DEFAULT '1',
-  `auto_name` TEXT NULL DEFAULT NULL,
-  PRIMARY KEY (`auto_id`))
-ENGINE = MyISAM
-DEFAULT CHARACTER SET = utf8;
-
-
--- -----------------------------------------------------
--- Table `agent1_web_db`.`scc_mail_template`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `agent1_web_db`.`scc_mail_template` ;
-
-CREATE TABLE IF NOT EXISTS `agent1_web_db`.`scc_mail_template` (
-  `template_id` INT(11) NOT NULL AUTO_INCREMENT,
-  `template_name` TEXT NULL DEFAULT NULL,
-  `template_content` TEXT NOT NULL,
-  `template_auto_send` TINYINT(4) NULL DEFAULT NULL,
-  `template_subject` TEXT NULL DEFAULT NULL,
-  `template_reader` VARCHAR(45) NULL DEFAULT NULL,
-  `smtp_host` VARCHAR(20) NOT NULL DEFAULT '67.228.209.12',
-  `smtp_user` VARCHAR(45) NOT NULL DEFAULT 'contact@macxdvd.com',
-  `smtp_pass` VARCHAR(45) NOT NULL DEFAULT 'cont333999',
-  `smtp_from` VARCHAR(45) NOT NULL DEFAULT 'contact@macxdvd.com',
-  `smtp_fromName` VARCHAR(45) NOT NULL DEFAULT 'contact@macxdvd.com',
-  PRIMARY KEY (`template_id`))
-ENGINE = MyISAM
-DEFAULT CHARACTER SET = utf8;
-
-
--- -----------------------------------------------------
--- Table `agent1_web_db`.`scc_permission`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `agent1_web_db`.`scc_permission` ;
-
-CREATE TABLE IF NOT EXISTS `agent1_web_db`.`scc_permission` (
-  `permission_id` INT(11) NOT NULL,
-  `permission_name` VARCHAR(24) NOT NULL,
-  `permission_list` TEXT NOT NULL,
-  PRIMARY KEY (`permission_id`))
-ENGINE = MyISAM
-DEFAULT CHARACTER SET = utf8;
-
-
--- -----------------------------------------------------
--- Table `agent1_web_db`.`scc_user`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `agent1_web_db`.`scc_user` ;
-
-CREATE TABLE IF NOT EXISTS `agent1_web_db`.`scc_user` (
-  `GUID` VARCHAR(36) NOT NULL,
-  `user_name` VARCHAR(16) NOT NULL,
-  `user_pass` VARCHAR(64) NOT NULL,
-  `user_permission` INT(11) NOT NULL DEFAULT '1',
-  `permission_name` CHAR(16) NOT NULL,
-  `user_founder` TINYINT(1) NOT NULL DEFAULT '0',
-  `user_freezed` TINYINT(4) NOT NULL DEFAULT '0',
-  `additional_permission` TEXT NOT NULL,
-  `user_fromwhere` CHAR(16) NOT NULL DEFAULT 'default',
-  PRIMARY KEY (`GUID`))
-ENGINE = MyISAM
-DEFAULT CHARACTER SET = utf8;
-
-
--- -----------------------------------------------------
--- Table `agent1_web_db`.`scc_partner`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `agent1_web_db`.`scc_partner` ;
-
-CREATE TABLE IF NOT EXISTS `agent1_web_db`.`scc_partner` (
-  `partner_key` CHAR(16) NOT NULL,
-  PRIMARY KEY (`partner_key`))
+CREATE TABLE IF NOT EXISTS `pulse_db_log`.`log_product_consume` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `log_date` DATE NOT NULL,
+  `product_id` INT NOT NULL,
+  `server_id` INT NOT NULL,
+  `order_type` TINYINT NOT NULL COMMENT '充值渠道：0=总数 1=paypal 999=平台直充',
+  `partner` INT NOT NULL,
+  `sum_order` INT NOT NULL COMMENT '订单总额',
+  `count_upaid` INT NOT NULL COMMENT '日付费用户数（去重）',
+  `arpu` INT NOT NULL COMMENT '销售金额/付费用户数(付费一次，重复不计)',
+  `login_arpu` INT NOT NULL DEFAULT 0 COMMENT '登录用户付费转化率\n付费用户/登录用户',
+  `register_arpu` INT NOT NULL DEFAULT 0 COMMENT '新增注册用户付费转化率\n付费用户/注册用户',
+  `all_arpu` INT NOT NULL,
+  PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
-USE `agent1_web_db` ;
 
 -- -----------------------------------------------------
--- Placeholder table for view `agent1_web_db`.`scc_auto_template`
+-- Table `pulse_db_log`.`log_order`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `agent1_web_db`.`scc_auto_template` (`template_id` INT, `template_name` INT, `template_content` INT, `template_subject` INT, `template_reader` INT, `smtp_host` INT, `smtp_user` INT, `smtp_pass` INT, `smtp_from` INT, `smtp_fromName` INT, `auto_id` INT, `auto_template_id` INT, `auto_actived` INT, `auto_name` INT);
+DROP TABLE IF EXISTS `pulse_db_log`.`log_order` ;
+
+CREATE TABLE IF NOT EXISTS `pulse_db_log`.`log_order` (
+  `order_id` BIGINT NOT NULL AUTO_INCREMENT,
+  `account_id` BIGINT NOT NULL,
+  `partner` INT NOT NULL,
+  `order_cash` INT NOT NULL COMMENT '以分为单位',
+  `account_cash` INT NOT NULL COMMENT '累计充值金额',
+  `account_fromwhere` INT NOT NULL,
+  `order_type` INT NOT NULL DEFAULT 1 COMMENT '充值渠道：1=paypal',
+  `order_time` INT NOT NULL,
+  PRIMARY KEY (`order_id`))
+ENGINE = InnoDB;
+
 
 -- -----------------------------------------------------
--- Placeholder table for view `agent1_web_db`.`scc_user_permission`
+-- Table `pulse_db_log`.`log_order_game`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `agent1_web_db`.`scc_user_permission` (`GUID` INT, `user_name` INT, `user_pass` INT, `user_permission` INT, `user_founder` INT, `user_freezed` INT, `additional_permission` INT, `user_fromwhere` INT, `permission_id` INT, `permission_name` INT, `permission_list` INT);
+DROP TABLE IF EXISTS `pulse_db_log`.`log_order_game` ;
+
+CREATE TABLE IF NOT EXISTS `pulse_db_log`.`log_order_game` (
+  `order_id` BIGINT NOT NULL AUTO_INCREMENT,
+  `account_id` BIGINT NOT NULL,
+  `role_id` INT NOT NULL,
+  `product_id` INT NOT NULL,
+  `server_id` INT NOT NULL,
+  `partner` INT NOT NULL,
+  `order_cash` INT NOT NULL COMMENT '金额（分为单位）',
+  `gold_count` INT NOT NULL COMMENT '增加的游戏币数量',
+  `account_cash` INT NOT NULL COMMENT '剩余平台币',
+  `order_time` INT NOT NULL,
+  `order_type` INT NOT NULL DEFAULT 999 COMMENT '充值渠道：1=paypal 999=平台直充',
+  PRIMARY KEY (`order_id`))
+ENGINE = InnoDB;
+
 
 -- -----------------------------------------------------
--- View `agent1_web_db`.`scc_auto_template`
+-- Table `pulse_db_log`.`log_consume`
 -- -----------------------------------------------------
-DROP VIEW IF EXISTS `agent1_web_db`.`scc_auto_template` ;
-DROP TABLE IF EXISTS `agent1_web_db`.`scc_auto_template`;
-USE `agent1_web_db`;
-CREATE  OR REPLACE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `agent1_web_db`.`scc_auto_template` AS select `agent1_web_db`.`scc_mail_template`.`template_id` AS `template_id`,`agent1_web_db`.`scc_mail_template`.`template_name` AS `template_name`,`agent1_web_db`.`scc_mail_template`.`template_content` AS `template_content`,`agent1_web_db`.`scc_mail_template`.`template_subject` AS `template_subject`,`agent1_web_db`.`scc_mail_template`.`template_reader` AS `template_reader`,`agent1_web_db`.`scc_mail_template`.`smtp_host` AS `smtp_host`,`agent1_web_db`.`scc_mail_template`.`smtp_user` AS `smtp_user`,`agent1_web_db`.`scc_mail_template`.`smtp_pass` AS `smtp_pass`,`agent1_web_db`.`scc_mail_template`.`smtp_from` AS `smtp_from`,`agent1_web_db`.`scc_mail_template`.`smtp_fromName` AS `smtp_fromName`,`agent1_web_db`.`scc_mail_autosend`.`auto_id` AS `auto_id`,`agent1_web_db`.`scc_mail_autosend`.`auto_template_id` AS `auto_template_id`,`agent1_web_db`.`scc_mail_autosend`.`auto_actived` AS `auto_actived`,`agent1_web_db`.`scc_mail_autosend`.`auto_name` AS `auto_name` from (`agent1_web_db`.`scc_mail_template` join `agent1_web_db`.`scc_mail_autosend`) where (`agent1_web_db`.`scc_mail_autosend`.`auto_template_id` = `agent1_web_db`.`scc_mail_template`.`template_id`);
+DROP TABLE IF EXISTS `pulse_db_log`.`log_consume` ;
+
+CREATE TABLE IF NOT EXISTS `pulse_db_log`.`log_consume` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `account_id` BIGINT NOT NULL,
+  `role_id` BIGINT NOT NULL,
+  `product_id` INT NOT NULL,
+  `server_id` INT NOT NULL,
+  `partner` INT NOT NULL,
+  `currency_type` TINYINT NOT NULL COMMENT '货币种类\n0=普通游戏币\n1=付费游戏币',
+  `currency_current` INT NOT NULL,
+  `currency_change` INT NOT NULL,
+  `item_name` CHAR(64) NOT NULL,
+  `item_type` TINYINT NOT NULL,
+  `time` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `role_id` (`account_id` ASC, `role_id` ASC, `product_id` ASC, `server_id` ASC, `partner` ASC, `currency_type` ASC))
+ENGINE = InnoDB;
+
 
 -- -----------------------------------------------------
--- View `agent1_web_db`.`scc_user_permission`
+-- Table `pulse_db_log`.`log_online_count_detail`
 -- -----------------------------------------------------
-DROP VIEW IF EXISTS `agent1_web_db`.`scc_user_permission` ;
-DROP TABLE IF EXISTS `agent1_web_db`.`scc_user_permission`;
-USE `agent1_web_db`;
-CREATE  OR REPLACE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `agent1_web_db`.`scc_user_permission` AS select `a`.`GUID` AS `GUID`,`a`.`user_name` AS `user_name`,`a`.`user_pass` AS `user_pass`,`a`.`user_permission` AS `user_permission`,`a`.`user_founder` AS `user_founder`,`a`.`user_freezed` AS `user_freezed`,`a`.`additional_permission` AS `additional_permission`,`a`.`user_fromwhere` AS `user_fromwhere`,`b`.`permission_id` AS `permission_id`,`b`.`permission_name` AS `permission_name`,`b`.`permission_list` AS `permission_list` from (`agent1_web_db`.`scc_user` `a` join `agent1_web_db`.`scc_permission` `b`) where (`a`.`user_permission` = `b`.`permission_id`);
+DROP TABLE IF EXISTS `pulse_db_log`.`log_online_count_detail` ;
+
+CREATE TABLE IF NOT EXISTS `pulse_db_log`.`log_online_count_detail` (
+  `product_id` INT NOT NULL,
+  `server_id` INT NOT NULL,
+  `date` DATE NOT NULL,
+  `hour` INT NOT NULL,
+  `minutes` INT NOT NULL,
+  `count` INT NOT NULL,
+  PRIMARY KEY (`date`, `product_id`, `server_id`, `hour`, `minutes`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `pulse_db_log`.`log_online_avg_daily`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `pulse_db_log`.`log_online_avg_daily` ;
+
+CREATE TABLE IF NOT EXISTS `pulse_db_log`.`log_online_avg_daily` (
+  `id` BIGINT NOT NULL,
+  `date` DATE NOT NULL,
+  `product_id` INT NOT NULL,
+  `server_id` INT NOT NULL,
+  `hour` INT NOT NULL,
+  `count` INT NOT NULL DEFAULT 0,
+  `arpu` INT NOT NULL DEFAULT 0 COMMENT '平均在线ARPU',
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `pulse_db_log`.`log_online_max_daily`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `pulse_db_log`.`log_online_max_daily` ;
+
+CREATE TABLE IF NOT EXISTS `pulse_db_log`.`log_online_max_daily` (
+  `id` BIGINT NOT NULL,
+  `date` DATE NOT NULL,
+  `product_id` INT NOT NULL,
+  `server_id` INT NOT NULL,
+  `hour` INT NOT NULL,
+  `count` INT NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `pulse_db_log`.`log_function_click_count`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `pulse_db_log`.`log_function_click_count` ;
+
+CREATE TABLE IF NOT EXISTS `pulse_db_log`.`log_function_click_count` (
+  `func_name` CHAR(16) NOT NULL,
+  `count` BIGINT NOT NULL DEFAULT 0,
+  PRIMARY KEY (`func_name`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `pulse_db_log`.`log_product_order_count`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `pulse_db_log`.`log_product_order_count` ;
+
+CREATE TABLE IF NOT EXISTS `pulse_db_log`.`log_product_order_count` (
+  `role_id` BIGINT NOT NULL,
+  `date` DATE NOT NULL,
+  `count` INT NOT NULL,
+  PRIMARY KEY (`role_id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `pulse_db_log`.`log_product_paid_count`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `pulse_db_log`.`log_product_paid_count` ;
+
+CREATE TABLE IF NOT EXISTS `pulse_db_log`.`log_product_paid_count` (
+  `log_date` DATE NOT NULL,
+  `account_id` BIGINT NOT NULL,
+  `product_id` BIGINT NOT NULL,
+  `server_id` INT NOT NULL,
+  `partner` INT NOT NULL,
+  `role_id` BIGINT NOT NULL,
+  `count` INT NOT NULL COMMENT '日付费次数',
+  `sum` INT NOT NULL,
+  PRIMARY KEY (`log_date`, `account_id`, `product_id`, `server_id`, `partner`, `role_id`))
+ENGINE = InnoDB;
+
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
 -- -----------------------------------------------------
--- Data for table `agent1_product_db`.`game_product`
+-- Data for table `pulse_db_web`.`pulse_products`
 -- -----------------------------------------------------
 START TRANSACTION;
-USE `agent1_product_db`;
-INSERT INTO `agent1_product_db`.`game_product` (`game_id`, `game_name`, `game_version`, `game_platform`, `auth_key`, `game_pic_small`, `game_pic_middium`, `game_pic_big`, `game_download_iphone`, `game_download_ipad`, `game_status`) VALUES ('B', '战神Online', '1.0.0', 'ios', '467022354ac09e8dd2233acbbde1db7fa9j8ekk7', '', '', '', '', '', 0);
+USE `pulse_db_web`;
+INSERT INTO `pulse_db_web`.`pulse_products` (`product_id`, `product_name`, `product_category`, `product_comment`, `product_url_website`, `product_url_entry`, `product_status`, `product_recommand`, `product_sort`, `product_exchange_rate`, `product_currency_name`, `product_server_role`, `product_server_recharge`, `product_key`) VALUES (1001, '星际移民2.0', 'ARPG科幻页游', '星际移民', 'http://localhost:8080/pulse/ss2', 'http://localhost:8080/pulse/ss2/entry', 'PUBLIC', 1, 0, 1, '暗能水晶', '', '', '');
 
 COMMIT;
 
 
 -- -----------------------------------------------------
--- Data for table `agent1_web_db`.`scc_permission`
+-- Data for table `pulse_db_web`.`pulse_admin`
 -- -----------------------------------------------------
 START TRANSACTION;
-USE `agent1_web_db`;
-INSERT INTO `agent1_web_db`.`scc_permission` (`permission_id`, `permission_name`, `permission_list`) VALUES (999, '超级管理员', 'All');
+USE `pulse_db_web`;
+INSERT INTO `pulse_db_web`.`pulse_admin` (`admin_id`, `admin_name`, `admin_pass`, `admin_regtime`, `admin_lastlogin`, `admin_level`, `role_id`, `role_name`, `custom_permission`) VALUES (1, 'johnnyeven', 'b40714d351a35e8f0d2f15ee977da4a9f5a7e2cd', 0, 0, 9999, 1, '创建者', 'all');
 
 COMMIT;
 
 
 -- -----------------------------------------------------
--- Data for table `agent1_web_db`.`scc_user`
+-- Data for table `pulse_db_web`.`pulse_admin_role`
 -- -----------------------------------------------------
 START TRANSACTION;
-USE `agent1_web_db`;
-INSERT INTO `agent1_web_db`.`scc_user` (`GUID`, `user_name`, `user_pass`, `user_permission`, `permission_name`, `user_founder`, `user_freezed`, `additional_permission`, `user_fromwhere`) VALUES ('D2EF3D9D-2022-B1B1-C211-88CAEDFAAB8E', 'johnnyeven', 'b40714d351a35e8f0d2f15ee977da4a9f5a7e2cd', 999, '超级管理员', 1, 0, '', 'default');
+USE `pulse_db_web`;
+INSERT INTO `pulse_db_web`.`pulse_admin_role` (`role_id`, `role_name`, `role_level`, `role_permission`) VALUES (1, '创建者', 9999, 'all');
 
 COMMIT;
 
 
 -- -----------------------------------------------------
--- Data for table `agent1_web_db`.`scc_partner`
+-- Data for table `pulse_db_web`.`pulse_partner`
 -- -----------------------------------------------------
 START TRANSACTION;
-USE `agent1_web_db`;
-INSERT INTO `agent1_web_db`.`scc_partner` (`partner_key`) VALUES ('default');
+USE `pulse_db_web`;
+INSERT INTO `pulse_db_web`.`pulse_partner` (`id`, `name`) VALUES (1, 'default');
 
 COMMIT;
 
