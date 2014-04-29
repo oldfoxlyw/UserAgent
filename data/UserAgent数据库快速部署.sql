@@ -502,6 +502,9 @@ CREATE TABLE IF NOT EXISTS `agent1_product_db`.`server_list` (
   `server_ip` TEXT NOT NULL,
   `server_game_ip` TEXT NOT NULL,
   `game_message_ip` TEXT NOT NULL,
+  `const_server_ip` TEXT NOT NULL,
+  `voice_server_ip` TEXT NOT NULL,
+  `cross_server_ip` TEXT NOT NULL,
   `server_max_player` INT(11) NOT NULL DEFAULT '0',
   `account_count` INT(11) NOT NULL DEFAULT '0',
   `server_language` CHAR(16) NOT NULL DEFAULT 'CN',
@@ -730,17 +733,6 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 START TRANSACTION;
 USE `agent1_product_db`;
 INSERT INTO `agent1_product_db`.`game_product` (`game_id`, `game_name`, `game_version`, `game_platform`, `auth_key`, `game_pic_small`, `game_pic_middium`, `game_pic_big`, `game_download_iphone`, `game_download_ipad`, `game_status`) VALUES ('B', '战神Online', '1.0.0', 'ios', '467022354ac09e8dd2233acbbde1db7fa9j8ekk7', '', '', '', '', '', 0);
-
-COMMIT;
-
-
--- -----------------------------------------------------
--- Data for table `agent1_product_db`.`server_list`
--- -----------------------------------------------------
-START TRANSACTION;
-USE `agent1_product_db`;
-INSERT INTO `agent1_product_db`.`server_list` (`id`, `game_id`, `section_id`, `account_server_id`, `server_name`, `server_ip`, `server_game_ip`, `game_message_ip`, `server_max_player`, `account_count`, `server_language`, `server_sort`, `server_recommend`, `server_debug`, `partner`, `version`, `server_status`, `server_new`, `special_ip`, `server_starttime`, `need_activate`) VALUES (1, 'B', 101, 'A', '红龙女王', '[{\"ip\":\"115.29.195.156\",\"port\":\"8090\"}]', '[{\"ip\":\"112.124.40.93\",\"port\":\"9999\"}]', '', 100000, 0, 'CN', 5, 1, 0, 'default', NULL, 1, 1, '', 0, 1);
-INSERT INTO `agent1_product_db`.`server_list` (`id`, `game_id`, `section_id`, `account_server_id`, `server_name`, `server_ip`, `server_game_ip`, `game_message_ip`, `server_max_player`, `account_count`, `server_language`, `server_sort`, `server_recommend`, `server_debug`, `partner`, `version`, `server_status`, `server_new`, `special_ip`, `server_starttime`, `need_activate`) VALUES (2, 'B', 102, 'B', '闪光平原', '[{\"ip\":\"112.124.37.58\",\"port\":\"8090\"}]', '[{\"ip\":\"112.124.40.93\",\"port\":\"9998\"}]', '', 100000, 0, 'CN', 4, 0, 0, 'default', NULL, 1, 1, '', 0, 1);
 
 COMMIT;
 
