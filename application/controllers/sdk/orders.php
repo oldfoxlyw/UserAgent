@@ -26,6 +26,7 @@ class Orders extends CI_Controller
 			if(!empty($result))
 			{
 				$this->load->model('funds');
+				$time = time();
 				$parameter = array(
 					'account_guid'			=>	$result->GUID,
 					'account_name'			=>	$result->account_name,
@@ -101,10 +102,13 @@ class Orders extends CI_Controller
 					);
 					$this->web_account->update($parameter, $account_id);
 
+					$time = time();
 					$parameter = array(
 						'funds_amount'			=>	$fundsAmount,
 						'funds_item_amount'		=>	$itemCount,
 						'funds_item_current'	=>	$currentCash,
+						'funds_time'			=>	$time,
+						'funds_time_local'		=>	date('Y-m-d H:i:s', $time),
 						'appstore_status'		=>	0
 					);
 					$this->funds->update($parameter, $funds_id);
