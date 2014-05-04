@@ -84,7 +84,7 @@ class Orders extends CI_Controller
 			$this->load->model('funds');
 			$result = $this->funds->get($funds_id);
 
-			if($result->appstore_status != '1')
+			if($result->appstore_status != '0')
 			{
 				$account_id = $result->account_id;
 
@@ -105,7 +105,7 @@ class Orders extends CI_Controller
 						'funds_amount'			=>	$fundsAmount,
 						'funds_item_amount'		=>	$itemCount,
 						'funds_item_current'	=>	$currentCash,
-						'appstore_status'		=>	1
+						'appstore_status'		=>	0
 					);
 					$this->funds->update($parameter, $funds_id);
 					$json = array(
@@ -136,7 +136,7 @@ class Orders extends CI_Controller
 				'message'		=>	'PARAM_ERROR'
 			);
 		}
-		
+
 		echo $this->return_format->format($json);
 	}
 }
