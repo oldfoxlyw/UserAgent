@@ -27,22 +27,22 @@ class Orders extends CI_Controller
 			{
 				$this->load->model('funds');
 				$parameter = array(
-						'account_guid'			=>	$result->GUID,
-						'account_name'			=>	$result->account_name,
-						'account_nickname'		=>	empty($result->account_nickname) ? '' : $result->account_nickname,
-						'account_id'			=>	$playerId,
-						'server_id'				=>	$serverId,
-						'funds_flow_dir'		=>	'CHECK_IN',
-						'funds_amount'			=>	0,
-						'funds_item_amount'		=>	0,
-						'funds_item_current'	=>	0,
-						'funds_time'			=>	$time,
-						'funds_time_local'		=>	date('Y-m-d H:i:s', $time),
-						'funds_type'			=>	1,
-						'partner_key'			=>	$result->partner_key,
-						'receipt_data'			=>	'',
-						'appstore_status'		=>	-1,
-						'appstore_device_id'	=>	$deviceId
+					'account_guid'			=>	$result->GUID,
+					'account_name'			=>	$result->account_name,
+					'account_nickname'		=>	empty($result->account_nickname) ? '' : $result->account_nickname,
+					'account_id'			=>	$playerId,
+					'server_id'				=>	$serverId,
+					'funds_flow_dir'		=>	'CHECK_IN',
+					'funds_amount'			=>	0,
+					'funds_item_amount'		=>	0,
+					'funds_item_current'	=>	0,
+					'funds_time'			=>	$time,
+					'funds_time_local'		=>	date('Y-m-d H:i:s', $time),
+					'funds_type'			=>	1,
+					'partner_key'			=>	$result->partner_key,
+					'receipt_data'			=>	'',
+					'appstore_status'		=>	-1,
+					'appstore_device_id'	=>	$deviceId
 				);
 				$fundsId = $this->funds->insert($parameter);
 
@@ -55,7 +55,7 @@ class Orders extends CI_Controller
 			else
 			{
 				$json = array(
-					'success'		=>	0;
+					'success'		=>	0,
 					'message'		=>	'ACCOUNT_NOT_EXIST'
 				);
 			}
@@ -63,7 +63,7 @@ class Orders extends CI_Controller
 		else
 		{
 			$json = array(
-				'success'		=>	0;
+				'success'		=>	0,
 				'message'		=>	'PARAM_ERROR'
 			);
 		}
@@ -77,7 +77,7 @@ class Orders extends CI_Controller
 
 		$fundsAmount = $this->input->get_post('funds_amount', TRUE);
 		$itemCount = $this->input->get_post('item_count', TRUE);
-		$funds_id = $this->input->get_post('order_id', TRUE)
+		$funds_id = $this->input->get_post('order_id', TRUE);
 
 		if(!empty($funds_id) && !empty($fundsAmount) && !empty($itemCount))
 		{
@@ -116,7 +116,7 @@ class Orders extends CI_Controller
 				else
 				{
 					$json = array(
-						'success'		=>	0;
+						'success'		=>	0,
 						'message'		=>	'ACCOUNT_NOT_EXIST'
 					);
 				}
