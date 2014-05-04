@@ -13,13 +13,14 @@ class Orders extends CI_Controller
 	{
 		$this->load->model('return_format');
 
+		$order_id = $this->input->get_post('order_id', TRUE);
 		$serverId = $this->input->get_post('server_id', TRUE);
 		$playerId = $this->input->get_post('player_id', TRUE);
 		$deviceId = $this->input->get_post('unique_identifier', TRUE);
 
 		$deviceId = empty($deviceId) ? '' : $deviceId;
 
-		if(!empty($serverId) && !empty($playerId))
+		if(!empty($serverId) && !empty($playerId) && !empty($order_id))
 		{
 			$this->load->model('web_account');
 			$result = $this->web_account->get($playerId);
@@ -43,7 +44,8 @@ class Orders extends CI_Controller
 					'partner_key'			=>	$result->partner_key,
 					'receipt_data'			=>	'',
 					'appstore_status'		=>	-1,
-					'appstore_device_id'	=>	$deviceId
+					'appstore_device_id'	=>	$deviceId,
+					'order_id'				=>	$order_id
 				);
 				$fundsId = $this->funds->insert($parameter);
 
@@ -78,15 +80,16 @@ class Orders extends CI_Controller
 
 		$fundsAmount = $this->input->get_post('funds_amount', TRUE);
 		$itemCount = $this->input->get_post('item_count', TRUE);
-		$funds_id = $this->input->get_post('order_id', TRUE);
+		$order_id = $this->input->get_post('order_id', TRUE);
 
-		if(!empty($funds_id) && !empty($fundsAmount) && !empty($itemCount))
+		if(!empty($order_id) && !empty($fundsAmount) && !empty($itemCount))
 		{
 			$this->load->model('funds');
-			$result = $this->funds->get($funds_id);
+			$result = $this->funds->getByOrder($order_id);
 
 			if($result->appstore_status != '0')
 			{
+				$funds_id = $result->funds_id;
 				$account_id = $result->account_id;
 
 				$this->load->model('web_account');
