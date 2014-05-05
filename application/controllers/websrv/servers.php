@@ -76,7 +76,7 @@ class Servers extends CI_Controller {
 		
 		if(!empty($ver) && $ver == '1.2' && $mode == 'pub')
 		{
-			$this->get_sdk_debug_list('99');
+			$this->get_sdk_debug_list('95');
 			exit();
 		}
 		
