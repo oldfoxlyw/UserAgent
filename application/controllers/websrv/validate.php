@@ -101,6 +101,7 @@ class Validate extends CI_Controller
 	public function promotion_code($format = 'json')
 	{
 		$code = $this->input->get_post('code', TRUE);
+		$code = strtoupper($code);
 
 		$this->load->model('mcode');
 		$this->load->model('logs');
