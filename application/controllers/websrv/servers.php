@@ -236,7 +236,7 @@ class Servers extends CI_Controller {
 13.添加含附件邮件以及角色删除的二次确认
 
 
-                                     部落的号角在呼唤，体内的兽血已沸腾!战斗吧，勇士!',
+部落的号角在呼唤，体内的兽血已沸腾!战斗吧，勇士!',
 					'post_time' => '1394121601',
 					'partner_key' => 'default,default_full,91,17173,pp,Downjoy,zq,uc'
 				)
@@ -754,7 +754,7 @@ class Servers extends CI_Controller {
 13.添加含附件邮件以及角色删除的二次确认
 
 
-                                     部落的号角在呼唤，体内的兽血已沸腾!战斗吧，勇士!',
+部落的号角在呼唤，体内的兽血已沸腾!战斗吧，勇士!',
 					'post_time' => '1394121601',
 					'partner_key' => 'default,default_full,91,17173,pp,Downjoy,zq,uc'
 				)
