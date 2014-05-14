@@ -187,8 +187,8 @@ class Servers extends CI_Controller {
 			$announcement = array(
 				'announce' => array (
 					'id' => '1',
-					'summary' => '                                               《冰火王座》版本号：1.2
-                                                  越狱上架，活动不停
+					'summary' => '《冰火王座》版本号：1.2
+越狱上架，活动不停
 
 1.充值即送四星随从，以及配套VIP随从装备
 2.新增等级礼包，升级绿钻送不停
@@ -212,8 +212,8 @@ class Servers extends CI_Controller {
 
 
                                      部落的号角在呼唤，体内的兽血已沸腾!战斗吧，勇士!',
-					'content' => '                                               《冰火王座》版本号：1.2
-                                                  越狱上架，活动不停
+					'content' => '《冰火王座》版本号：1.2
+越狱上架，活动不停
 
 1.充值即送四星随从，以及配套VIP随从装备
 2.新增等级礼包，升级绿钻送不停
@@ -705,8 +705,8 @@ class Servers extends CI_Controller {
 			$announcement = array(
 				'announce' => array (
 					'id' => '1',
-					'summary' => '                                               《冰火王座》版本号：1.2
-                                                  越狱上架，活动不停
+					'summary' => '《冰火王座》版本号：1.2
+越狱上架，活动不停
 
 1.充值即送四星随从，以及配套VIP随从装备
 2.新增等级礼包，升级绿钻送不停
@@ -730,8 +730,8 @@ class Servers extends CI_Controller {
 
 
                                      部落的号角在呼唤，体内的兽血已沸腾!战斗吧，勇士!',
-					'content' => '                                               《冰火王座》版本号：1.2
-                                                  越狱上架，活动不停
+					'content' => '《冰火王座》版本号：1.2
+越狱上架，活动不停
 
 1.充值即送四星随从，以及配套VIP随从装备
 2.新增等级礼包，升级绿钻送不停
