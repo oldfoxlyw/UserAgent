@@ -57,7 +57,10 @@ class Servers_new extends CI_Controller {
 			$ip = random_element($ipArray);
 			$jsonData['server'][$i]['server_ip'] = $ip['ip'];
 		}
-		$jsonData['server'][$next]['server_recommend'] = 1;
+		if(is_array($jsonData['server']))
+		{
+			$jsonData['server'][$next]['server_recommend'] = 1;
+		}
 
 		$announcement = $this->config->item('game_announcement');
 		$jsonData = array_merge($jsonData, $announcement);
