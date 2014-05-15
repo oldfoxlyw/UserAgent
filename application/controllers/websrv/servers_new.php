@@ -47,6 +47,10 @@ class Servers_new extends CI_Controller {
 			$this->get_sdk_debug_list('99');
 			exit();
 		}
+		else
+		{
+			$jsonData = array();
+		}
 
 		$next = 0;
 		$this->load->helper('array');
