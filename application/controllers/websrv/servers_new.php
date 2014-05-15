@@ -25,7 +25,6 @@ class Servers_new extends CI_Controller {
 			$this->load->config('server_list_default');
 			
 			$serverIp	=	$this->input->server('SERVER_ADDR');
-			exit($serverIp);
 			if($serverIp == '122.13.131.55')
 			{
 				//3\4\5\6\7\8
