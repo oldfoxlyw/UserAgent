@@ -3,7 +3,7 @@ if (! defined ( 'BASEPATH' ))
 	exit ( 'No direct script access allowed' );
 
 //电信列表
-$config ['game_server_list1'] = array (
+$config ['game_server_list'] = array (
 		'message' => 'SERVER_LIST_SUCCESS',
 		'activate' => 0,
 		'server' => array (
