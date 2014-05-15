@@ -59,6 +59,11 @@ class Servers_new extends CI_Controller {
 			$jsonData['server'][$i]['server_ip'] = $ip['ip'];
 		}
 		$jsonData['server'][$next]['server_recommend'] = 1;
+
+		$announcement = $this->config->item('game_announcement');
+		$jsonData = array_merge($jsonData, $announcement);
+		
+		echo $this->return_format->format($jsonData, $format);
 	}
 	
 	private function get_sdk_debug_list($id = '97')
