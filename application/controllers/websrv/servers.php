@@ -20,6 +20,12 @@ class Servers extends CI_Controller {
 			$this->get_sdk_debug_list('96');
 			exit();
 		}
+		elseif($partner == 'test_default')
+		{
+			$this->load->config('server_list_sdk');
+
+			$jsonData = $this->config->item('game_server_list');
+		}
 		elseif($mode == 'pub' && ($partner == 'default' || $partner == 'default_full') && $ver != '1.2')
 		{
 			$this->load->config('server_list_default');
