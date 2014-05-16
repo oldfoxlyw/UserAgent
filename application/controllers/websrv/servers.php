@@ -20,11 +20,11 @@ class Servers extends CI_Controller {
 			$this->get_sdk_debug_list('96');
 			exit();
 		}
-		elseif($partner == 'test_default')
-		{
-			$this->load->config('server_list_sdk');
-			$jsonData = $this->config->item('game_server_list');
-		}
+		// elseif($partner == 'test_default')
+		// {
+		// 	$this->load->config('server_list_sdk');
+		// 	$jsonData = $this->config->item('game_server_list');
+		// }
 		elseif($mode == 'pub' && ($partner == 'default' || $partner == 'default_full') && $ver != '1.2')
 		{
 			$this->load->config('server_list_default');
@@ -40,13 +40,15 @@ class Servers extends CI_Controller {
 				//3\4\5\6\7\8
 				$jsonData = $this->config->item('game_server_list1');
 			}
+
+			$type = 'appstore';
 		}
 		elseif($mode == 'pub' && $partner != 'default' && $partner != 'default_full' && $ver == '1.2')
 		{
 			$this->load->config('server_list_sdk');
 			$jsonData = $this->config->item('game_server_list');
-			// $this->get_sdk_debug_list('97');
-			// exit();
+
+			$type = 'sdk';
 		}
 		elseif(!empty($ver) && $ver == '1.2' && $mode == 'pub' && ($partner == 'default' || $partner == 'default_full'))
 		{
@@ -57,6 +59,13 @@ class Servers extends CI_Controller {
 		{
 			$jsonData = array();
 		}
+
+		// $productdb = $this->load->database('productdb', TRUE);
+		// $sql = "SELECT `server_id`, `count`, `max_count` FROM `server_balance_check` WHERE `next_active` = 1 AND `type`='{$type}'";
+		// $next = $productdb->query($sql)->row();
+		// $maxCount = intval($next->max_count);
+		// $count = intval($next->count);
+		// $next = intval($next->server_id);
 
 		$next = 0;
 		$this->load->helper('array');
@@ -71,6 +80,27 @@ class Servers extends CI_Controller {
 		{
 			$jsonData['server'][$next]['server_recommend'] = 1;
 		}
+
+		// if($count >= $maxCount)
+		// {
+		// 	if($next >= 1)
+		// 	{
+		// 		$nextServer = 0;
+		// 	}
+		// 	else
+		// 	{
+		// 		$nextServer = $next + 1;
+		// 	}
+		// 	$sql = "UPDATE `server_balance_check` SET `next_active` = 1 WHERE `next`={$nextServer}";
+		// 	$productdb->query($sql);
+		// 	$sql = "UPDATE `server_balance_check` SET `count` = 1, `next_active` = 0 WHERE `next`={$next}";
+		// 	$productdb->query($sql);
+		// }
+		// else
+		// {
+		// 	$sql = "UPDATE `server_balance_check` SET `count` = `count` + 1 WHERE `next`={$next}";
+		// 	$productdb->query($sql);
+		// }
 
 		$announcement = $this->config->item('game_announcement');
 		$jsonData = array_merge($jsonData, $announcement);
