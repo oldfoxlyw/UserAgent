@@ -23,7 +23,6 @@ class Servers extends CI_Controller {
 		elseif($partner == 'test_default')
 		{
 			$this->load->config('server_list_sdk');
-
 			$jsonData = $this->config->item('game_server_list');
 		}
 		elseif($mode == 'pub' && ($partner == 'default' || $partner == 'default_full') && $ver != '1.2')
@@ -44,11 +43,10 @@ class Servers extends CI_Controller {
 		}
 		elseif($mode == 'pub' && $partner != 'default' && $partner != 'default_full' && $ver == '1.2')
 		{
-			// $this->load->config('server_list_sdk');
-
-			// $jsonData = $this->config->item('game_server_list');
-			$this->get_sdk_debug_list('97');
-			exit();
+			$this->load->config('server_list_sdk');
+			$jsonData = $this->config->item('game_server_list');
+			// $this->get_sdk_debug_list('97');
+			// exit();
 		}
 		elseif(!empty($ver) && $ver == '1.2' && $mode == 'pub' && ($partner == 'default' || $partner == 'default_full'))
 		{
