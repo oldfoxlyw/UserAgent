@@ -171,7 +171,7 @@ class Overview extends CI_Controller
 				
 				// 当天订单数
 				$this->fundsdb->where ( 'funds_flow_dir', 'CHECK_IN' );
-				$this->fundsdb->where ( 'funds_time >', $lastTimeStart );
+				$this->fundsdb->where ( 'funds_time >=', $lastTimeStart );
 				$this->fundsdb->where ( 'funds_time <=', $lastTimeEnd );
 				$this->fundsdb->where ( 'server_id', $row->account_server_id );
 				$this->fundsdb->where ( 'partner_key', $partnerKey );
@@ -181,7 +181,7 @@ class Overview extends CI_Controller
 				// 当天订单总额
 				$this->fundsdb->select_sum ( 'funds_amount' );
 				$this->fundsdb->where ( 'funds_flow_dir', 'CHECK_IN' );
-				$this->fundsdb->where ( 'funds_time >', $lastTimeStart );
+				$this->fundsdb->where ( 'funds_time >=', $lastTimeStart );
 				$this->fundsdb->where ( 'funds_time <=', $lastTimeEnd );
 				$this->fundsdb->where ( 'server_id', $row->account_server_id );
 				$this->fundsdb->where ( 'partner_key', $partnerKey );
@@ -204,7 +204,7 @@ class Overview extends CI_Controller
 				
 				// 当天充值人数
 				$this->fundsdb->where ( 'funds_flow_dir', 'CHECK_IN' );
-				$this->fundsdb->where ( 'funds_time >', $lastTimeStart );
+				$this->fundsdb->where ( 'funds_time >=', $lastTimeStart );
 				$this->fundsdb->where ( 'funds_time <=', $lastTimeEnd );
 				$this->fundsdb->where ( 'server_id', $row->account_server_id );
 				$this->fundsdb->where ( 'partner_key', $partnerKey );
