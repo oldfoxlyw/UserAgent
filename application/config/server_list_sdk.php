@@ -7,7 +7,6 @@ $config ['game_server_list'] = array (
 		'message' => 'SERVER_LIST_SUCCESS',
 		'activate' => 0,
 		'server' => array (
-				/*
 				array (
 						'id' => '15',
 						'game_id' => 'B',
@@ -38,7 +37,6 @@ $config ['game_server_list'] = array (
 						'server_starttime' => '0',
 						'server_game_port' => '9999' 
 				),
-				*/
 				array (
 						'id' => '14',
 						'game_id' => 'B',
