@@ -170,13 +170,15 @@ CREATE TABLE IF NOT EXISTS `agent1_log_db`.`log_daily_statistics` (
   `server_name` CHAR(16) NOT NULL,
   `reg_account` INT(11) NOT NULL,
   `reg_new_account` INT(11) NOT NULL,
-  `valid_account` INT(11) NOT NULL COMMENT '无效用户：等级等于1级以及没有注册角色的帐号',
+  `valid_account` INT(11) NOT NULL COMMENT '等级大于等于1级的帐号',
+  `valid_new_account` INT(11) NOT NULL,
   `level_account` INT(11) NOT NULL,
   `modify_account` INT(11) NOT NULL COMMENT '持有注册帐号的用户',
   `modify_new_account` INT(11) NOT NULL,
   `login_account` INT(11) NOT NULL,
   `old_login_account` INT NOT NULL COMMENT '当天登录的老用户',
   `active_account` INT(11) NOT NULL DEFAULT '0' COMMENT '活跃用户，三天内登陆过游戏的人数',
+  `dau` INT(11) NOT NULL,
   `flowover_account` INT(11) NOT NULL DEFAULT '0' COMMENT '流失用户，超过一周没有登录游戏的人数',
   `reflow_account` INT NOT NULL DEFAULT 0,
   `orders_current_sum` INT(11) NOT NULL COMMENT '当天订单总额',
@@ -186,7 +188,7 @@ CREATE TABLE IF NOT EXISTS `agent1_log_db`.`log_daily_statistics` (
   `recharge_account` INT(11) NOT NULL COMMENT '当天充值人数',
   `order_count` INT(11) NOT NULL COMMENT '订单数',
   `partner_key` CHAR(16) NOT NULL DEFAULT 'default',
-  `at` INT NOT NULL,
+  `at` INT(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `log_date` (`log_date` ASC, `server_id` ASC))
 ENGINE = MyISAM
@@ -556,7 +558,7 @@ DROP TABLE IF EXISTS `agent1_product_db`.`game_code` ;
 
 CREATE TABLE IF NOT EXISTS `agent1_product_db`.`game_code` (
   `code` CHAR(8) NOT NULL,
-  `comment` CHAR(16) NOT NULL,
+  `comment` CHAR(16) NOT NULL DEFAULT '',
   `disabled` TINYINT NOT NULL DEFAULT 0,
   PRIMARY KEY (`code`))
 ENGINE = InnoDB;
