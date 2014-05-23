@@ -727,7 +727,7 @@ class Account extends CI_Controller {
 					$user = $this->web_account->get($guid);
 					$json = array(
 							'success'	=>	true,
-							'code'		=>	LOGIN_TOKEN_SUCCESS,
+							'code'		=>	VERIFY_LOGIN_TOKEN_SUCCESS,
 							'user'		=>	$user
 					);
 					
