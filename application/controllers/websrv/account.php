@@ -63,6 +63,7 @@ class Account extends CI_Controller {
 					'account_guid'	=>	$user->GUID,
 					'device_id'		=>	empty($device_id) ? $user->device_id : $device_id,
 					'account_name'	=>	$user->account_name,
+					'account_level'	=>	$user->account_level,
 					'server_id'		=>	$server_id,
 					'partner_key'	=>	$user->partner_key
 				);
