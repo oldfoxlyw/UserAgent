@@ -741,6 +741,7 @@ class Account extends CI_Controller {
 							'log_action'	=>	'ACCOUNT_LOGIN_SUCCESS',
 							'account_guid'	=>	$user->GUID,
 							'account_name'	=>	$user->account_name,
+							'account_level'	=>	$user->account_level,
 							'server_id'		=>	$user->server_id,
 							'partner_key'	=>	$user->partner_key
 					);
