@@ -869,5 +869,23 @@ class Overview extends CI_Controller
 			}
 		}
 	}
+
+	public function fixProblem()
+	{
+		$sql = "select * from `log_daily_statistics` where log_date >= 2014-05-16";
+		$query = $this->logcachedb->query($sql);
+		$result = $query->result();
+		foreach($result as $row)
+		{
+			$startTime = strtotime($row->log_date . " 00:00:00");
+			$endTime = strtotime($row->log_date . " 23:59:59");
+			
+			$sql = "SELECT `log_GUID` FROM `log_account` WHERE (`log_action` = 'ACCOUNT_LOGIN_SUCCESS' OR `log_action` = 'ACCOUNT_REGISTER_SUCCESS' OR `log_action` = 'ACCOUNT_DEMO_SUCCESS') AND `log_time` >= {$startTime} AND `log_time` <= {$endTime} AND `server_id` = '{$row->server_id}' AND `partner_key` = '{$row->partner_key}' AND `log_account_level` > 1 GROUP BY `log_GUID`";
+			$loginValidCount = $this->logdb->query($sql)->num_rows();
+
+			$sql = "UPDATE `log_daily_statistics` SET `login_account_valid`={$loginValidCount} WHERE `id`={$row->id}";
+			echo $sql;
+		}
+	}
 }
 ?>
