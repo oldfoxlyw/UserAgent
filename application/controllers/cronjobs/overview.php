@@ -895,7 +895,7 @@ class Overview extends CI_Controller
 			}
 
 			$parameter = array(
-					'dar'		=>	$dau,
+					'dau'		=>	$dau,
 					'arpu'		=>	$arpu
 			);
 			$this->logcachedb->where('id', $row->id);
