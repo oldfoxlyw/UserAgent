@@ -885,6 +885,7 @@ class Overview extends CI_Controller
 
 			$sql = "UPDATE `log_daily_statistics` SET `login_account_valid`={$loginValidCount} WHERE `id`={$row->id}";
 			echo $sql;
+			break;
 		}
 	}
 }
