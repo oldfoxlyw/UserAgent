@@ -898,8 +898,9 @@ class Overview extends CI_Controller
 					'dau'		=>	$dau,
 					'arpu'		=>	$arpu
 			);
-			$this->logcachedb->where('id', $row->id);
-			$this->logcachedb->update('log_daily_statistics', $parameter);
+			var_dump($parameter);
+			// $this->logcachedb->where('id', $row->id);
+			// $this->logcachedb->update('log_daily_statistics', $parameter);
 		}
 	}
 }
