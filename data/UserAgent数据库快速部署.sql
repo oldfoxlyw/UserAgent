@@ -191,6 +191,7 @@ CREATE TABLE IF NOT EXISTS `agent1_log_db`.`log_daily_statistics` (
   `server_name` CHAR(16) NOT NULL,
   `reg_account` INT(11) NOT NULL DEFAULT 0,
   `reg_new_account` INT(11) NOT NULL DEFAULT 0,
+  `reg_new_account_valid` INT(11) NOT NULL DEFAULT 0,
   `valid_account` INT(11) NOT NULL DEFAULT 0 COMMENT '等级大于等于1级的帐号',
   `valid_new_account` INT(11) NOT NULL DEFAULT 0,
   `level_account` INT(11) NOT NULL DEFAULT 0,
