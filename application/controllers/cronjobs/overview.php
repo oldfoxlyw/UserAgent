@@ -877,31 +877,26 @@ class Overview extends CI_Controller
 		$result = $query->result();
 		foreach($result as $row)
 		{
-			if($row->server_id != '200')
+			if($row->server_id != '200' && $row->server_id != '201')
 			{
 				continue;
 			}
 			$startTime = strtotime($row->log_date . " 00:00:00");
 			$endTime = strtotime($row->log_date . " 23:59:59");
 			
-			// $dau = $row->login_account_valid - $row->valid_new_account;
-			// if($dau > 0)
-			// {
-			// 	$arpu = floatval ( number_format ( $row->recharge_account / $dau, 4 ) ) * 10000;
-			// }
-			// else
-			// {
-			// 	$arpu = 0;
-			// }
-
-			$this->accountdb->where ( 'server_id', $row->server_id );
-			$this->accountdb->where ( 'partner_key', $partner_key );
-			$this->accountdb->where ( 'account_regtime <=', $endTime );
-			$this->accountdb->where ( 'account_level >', 0 );
-			$validCount = $this->accountdb->count_all_results ( 'web_account' );
+			$dau = $row->login_account_valid - $row->valid_new_account;
+			if($dau > 0)
+			{
+				$arpu = floatval ( number_format ( $row->recharge_account / $dau, 4 ) ) * 10000;
+			}
+			else
+			{
+				$arpu = 0;
+			}
 
 			$parameter = array(
-					'valid_account'		=>	$validCount
+					'dar'		=>	$dau,
+					'arpu'		=>	$arpu
 			);
 			$this->logcachedb->where('id', $row->id);
 			$this->logcachedb->update('log_daily_statistics', $parameter);
