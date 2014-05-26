@@ -872,7 +872,7 @@ class Overview extends CI_Controller
 
 	public function fixProblem()
 	{
-		$sql = "select * from `log_daily_statistics` where log_date >= 2014-05-16";
+		$sql = "select * from `log_daily_statistics` where log_date >= '2014-05-16'";
 		$query = $this->logcachedb->query($sql);
 		$result = $query->result();
 		foreach($result as $row)
