@@ -884,8 +884,8 @@ class Overview extends CI_Controller
 			$loginValidCount = $this->logdb->query($sql)->num_rows();
 
 			$sql = "UPDATE `log_daily_statistics` SET `login_account_valid`={$loginValidCount} WHERE `id`={$row->id}";
+			$this->logcachedb->query($sql);
 			echo $sql;
-			break;
 		}
 	}
 }
