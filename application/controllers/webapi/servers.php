@@ -42,5 +42,23 @@ class Servers extends CI_Controller {
 			echo $this->return_format->format($result, $format);
 		}
 	}
+
+	/*
+	给爱立德公司调用的专用接口
+	*/
+	public function get_list($format = 'json')
+	{
+		$this->load->model('webapi/mserver');
+
+		$sql = "SELECT `account_server_id` AS `serv_id`, `server_name` AS `serv_name` FROM `server_list` WHERE `server_status` != 9";
+		$result = $this->mserver->query($sql);
+
+		$jsonData = array(
+			'err_code'		=>	0,
+			'serv'			=>	$result
+		);
+
+		echo $this->return_format->format($jsonData, $format);
+	}
 }
 ?>
