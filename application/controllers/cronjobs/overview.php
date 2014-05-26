@@ -119,7 +119,7 @@ class Overview extends CI_Controller
 				$loginCount = $this->logdb->query($sql)->num_rows();
 
 				// 当天有效登录数
-				$sql = "SELECT `log_GUID` FROM `log_account` WHERE (`log_action` = 'ACCOUNT_LOGIN_SUCCESS' OR `log_action` = 'ACCOUNT_REGISTER_SUCCESS' OR `log_action` = 'ACCOUNT_DEMO_SUCCESS') AND `log_time` >= {$lastTimeStart} AND `log_time` <= {$lastTimeEnd} AND `server_id` = '{$row->account_server_id}' AND `partner_key` = '{$partnerKey}' AND `log_account_level` > 1 GROUP BY `log_GUID`";
+				$sql = "SELECT `log_GUID` FROM `log_account` WHERE (`log_action` = 'ACCOUNT_LOGIN_SUCCESS' OR `log_action` = 'ACCOUNT_REGISTER_SUCCESS' OR `log_action` = 'ACCOUNT_DEMO_SUCCESS') AND `log_time` >= {$lastTimeStart} AND `log_time` <= {$lastTimeEnd} AND `server_id` = '{$row->account_server_id}' AND `partner_key` = '{$partnerKey}' AND `log_account_level` > 0 GROUP BY `log_GUID`";
 				$loginValidCount = $this->logdb->query($sql)->num_rows();
 
 				// 活跃玩家数(三天以内登录过游戏的人数)
