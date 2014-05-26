@@ -707,8 +707,8 @@ class Account extends CI_Controller {
 	{
 		$this->load->model('return_format');
 		
-		$guid = $this->input->post('guid', TRUE);
-		$token = $this->input->post('token', TRUE);
+		$guid = $this->input->get_post('guid', TRUE);
+		$token = $this->input->get_post('token', TRUE);
 		
 		if(!empty($guid) && !empty($token))
 		{
@@ -741,6 +741,7 @@ class Account extends CI_Controller {
 							'log_action'	=>	'ACCOUNT_LOGIN_SUCCESS',
 							'account_guid'	=>	$user->GUID,
 							'account_name'	=>	$user->account_name,
+							'account_level'	=>	$user->account_level,
 							'server_id'		=>	$user->server_id,
 							'partner_key'	=>	$user->partner_key
 					);

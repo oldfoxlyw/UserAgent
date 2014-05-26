@@ -85,6 +85,14 @@ class Overview extends CI_Controller
 				// $this->accountdb->where ( 'account_regtime <=', $lastTimeEnd );
 				$this->accountdb->where ( 'account_level >', 0 );
 				$validCount = $this->accountdb->count_all_results ( 'web_account' );
+				
+				// 新有效帐号（建立角色的帐号）
+				$this->accountdb->where ( 'server_id', $row->account_server_id );
+				$this->accountdb->where ( 'partner_key', $partnerKey );
+				$this->accountdb->where ( 'account_regtime >=', $lastTimeStart );
+				$this->accountdb->where ( 'account_regtime <=', $lastTimeEnd );
+				$this->accountdb->where ( 'account_level >', 0 );
+				$validNewCount = $this->accountdb->count_all_results ( 'web_account' );
 
 				// 等级大于1的帐号
 				$this->accountdb->where ( 'server_id', $row->account_server_id );
@@ -261,6 +269,7 @@ class Overview extends CI_Controller
 					'reg_account' => $registerCount,
 					'reg_new_account' => $regNewCount,
 					'valid_account' => $validCount,
+					'valid_new_account' => $validNewCount,
 					'level_account' => $levelCount,
 					'modify_account' => $modifyCount,
 					'modify_new_account' => $modifyNewCount,

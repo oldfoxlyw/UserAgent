@@ -26,7 +26,7 @@ class logs extends CI_Model {
 				'log_time'				=>	time(),
 				'log_ip'				=>	$requestIp,
 				'server_id'				=>	empty($parameter['server_id']) ? '' : $parameter['server_id'],
-				'partner_key'			=>	empty($parameter['partner_key']) ? 'default' : $parameter['partner_key']
+				'partner_key'			=>	empty($parameter['partner_key']) ? '' : $parameter['partner_key']
 			);
 			$this->logdb->insert($this->accountTable, $row);
 		}

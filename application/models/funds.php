@@ -87,6 +87,20 @@ class Funds extends CI_Model {
 		}
 	}
 	
+	public function getByOrder($id) {
+		if(!empty($id)) {
+			$this->fundsdb->where('order_id', $id);
+			$query = $this->fundsdb->get($this->fundsCheckInOut);
+			if($query->num_rows() > 0) {
+				return $query->row();
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
+	}
+	
 	public function insert($row) {
 		if(!empty($row)) {
 			$this->fundsdb->insert($this->fundsCheckInOut, $row);

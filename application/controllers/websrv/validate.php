@@ -97,6 +97,60 @@ class Validate extends CI_Controller
 			echo $this->return_format->format($jsonData, $format);
 		}
 	}
+	
+	public function promotion_code($format = 'json')
+	{
+		$code = $this->input->get_post('code', TRUE);
+		$code = strtoupper($code);
+
+		$this->load->model('mcode');
+		$this->load->model('logs');
+		
+		$parameter = array(
+				'code'		=>	$code
+		);
+		$result = $this->mcode->read($parameter);
+		
+		if(!empty($result))
+		{
+			$result = $result[0];
+			if($result->disabled != '1')
+			{
+				$parameter = array(
+						'disabled'	=>	1
+				);
+				$this->mcode->update($code, $parameter);
+				
+				$jsonData = array(
+						'success'		=>	1,
+						'message'		=>	'PROMOTION_SUCCESS'
+				);
+
+				$logParameter = array(
+						'account_guid'	=>	$code,
+						'account_name'	=>	'',
+						'log_action'	=>	'PROMOTION_SUCCESS'
+				);
+				$this->logs->write_api($logParameter);
+			}
+			else
+			{
+				$jsonData = array(
+						'success'		=>	0,
+						'message'		=>	'PROMOTION_FAIL_USED'
+				);
+			}
+		}
+		else
+		{
+			$jsonData = array(
+					'success'		=>	0,
+					'message'		=>	'PROMOTION_FAIL_NOT_EXIST'
+			);
+		}
+
+		echo $this->return_format->format($jsonData, $format);
+	}
 }
 
 ?>
