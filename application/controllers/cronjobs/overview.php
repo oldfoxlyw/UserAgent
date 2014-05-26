@@ -884,10 +884,10 @@ class Overview extends CI_Controller
 			$startTime = strtotime($row->log_date . " 00:00:00");
 			$endTime = strtotime($row->log_date . " 23:59:59");
 			
-			$this->accountdb->where ( 'server_id', $row->account_server_id );
-			$this->accountdb->where ( 'partner_key', $partnerKey );
-			$this->accountdb->where ( 'account_regtime >=', $lastTimeStart );
-			$this->accountdb->where ( 'account_regtime <=', $lastTimeEnd );
+			$this->accountdb->where ( 'server_id', $row->server_id );
+			$this->accountdb->where ( 'partner_key', $row->partner_key );
+			$this->accountdb->where ( 'account_regtime >=', $startTime );
+			$this->accountdb->where ( 'account_regtime <=', $endTime );
 			$this->accountdb->where ( 'account_level >', 0 );
 			$validNewCount = $this->accountdb->count_all_results ( 'web_account' );
 
