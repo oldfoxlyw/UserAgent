@@ -884,14 +884,10 @@ class Overview extends CI_Controller
 			$startTime = strtotime($row->log_date . " 00:00:00");
 			$endTime = strtotime($row->log_date . " 23:59:59");
 			
-			$this->accountdb->where ( 'server_id', $row->server_id );
-			$this->accountdb->where ( 'partner_key', $row->partner_key );
-			$this->accountdb->where ( 'account_regtime >=', $startTime );
-			$this->accountdb->where ( 'account_regtime <=', $endTime );
-			$this->accountdb->where ( 'account_level >', 0 );
-			$validNewCount = $this->accountdb->count_all_results ( 'web_account' );
+			$sql = "SELECT `log_GUID` FROM `log_account` WHERE `log_action` = 'ACCOUNT_LOGIN_SUCCESS' AND `log_time` >= {$startTime} AND `log_time` <= {$endTime} AND `server_id` = '{$row->server_id}' AND `partner_key` = '{$row->partner_key}' AND `log_account_level` > 0 GROUP BY `log_GUID`";
+			$loginValidCount = $this->logdb->query($sql)->num_rows();
 
-			$sql = "UPDATE `log_daily_statistics` SET `valid_new_account`={$validNewCount} WHERE `id`={$row->id}";
+			$sql = "UPDATE `log_daily_statistics` SET `login_account_valid`={$loginValidCount} WHERE `id`={$row->id}";
 			$this->logcachedb->query($sql);
 			echo $sql;
 		}
