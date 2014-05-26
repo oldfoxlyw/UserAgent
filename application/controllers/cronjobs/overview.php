@@ -110,6 +110,10 @@ class Overview extends CI_Controller
 				$sql = "SELECT `log_GUID` FROM `log_account` WHERE (`log_action` = 'ACCOUNT_LOGIN_SUCCESS' OR `log_action` = 'ACCOUNT_REGISTER_SUCCESS' OR `log_action` = 'ACCOUNT_DEMO_SUCCESS') AND `log_time` >= {$lastTimeStart} AND `log_time` <= {$lastTimeEnd} AND `server_id` = '{$row->account_server_id}' AND `partner_key` = '{$partnerKey}' GROUP BY `log_GUID`";
 				$loginCount = $this->logdb->query($sql)->num_rows();
 
+				// 当天登录数
+				$sql = "SELECT `log_GUID` FROM `log_account` WHERE (`log_action` = 'ACCOUNT_LOGIN_SUCCESS' OR `log_action` = 'ACCOUNT_REGISTER_SUCCESS' OR `log_action` = 'ACCOUNT_DEMO_SUCCESS') AND `log_time` >= {$lastTimeStart} AND `log_time` <= {$lastTimeEnd} AND `server_id` = '{$row->account_server_id}' AND `partner_key` = '{$partnerKey}' WHERE `log_account_level` > 0 GROUP BY `log_GUID`";
+				$loginValidCount = $this->logdb->query($sql)->num_rows();
+
 				// 活跃玩家数(三天以内登录过游戏的人数)
 				$threeDaysAgoStart = $lastTimeStart - 2 * 86400;
 				$sql = "SELECT `log_GUID` FROM `log_account` WHERE (`log_action` = 'ACCOUNT_LOGIN_SUCCESS' OR `log_action` = 'ACCOUNT_REGISTER_SUCCESS' OR `log_action` = 'ACCOUNT_DEMO_SUCCESS') AND `log_time` >= {$threeDaysAgoStart} AND `log_time` <= {$lastTimeEnd} AND `server_id` = '{$row->account_server_id}' AND `partner_key` = '{$partnerKey}' GROUP BY `log_GUID`";
@@ -261,6 +265,7 @@ class Overview extends CI_Controller
 					'modify_account' => $modifyCount,
 					'modify_new_account' => $modifyNewCount,
 					'login_account' => $loginCount,
+					'login_account_valid' => $loginValidCount,
 					'active_account' => $activeCount,
 					'dau' => $dau,
 					'flowover_account' => $flowoverCount,
