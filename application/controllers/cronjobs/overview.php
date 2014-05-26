@@ -884,12 +884,19 @@ class Overview extends CI_Controller
 			$startTime = strtotime($row->log_date . " 00:00:00");
 			$endTime = strtotime($row->log_date . " 23:59:59");
 			
-			$sql = "SELECT `log_GUID` FROM `log_account` WHERE `log_action` = 'ACCOUNT_LOGIN_SUCCESS' AND `log_time` >= {$startTime} AND `log_time` <= {$endTime} AND `server_id` = '{$row->server_id}' AND `partner_key` = '{$row->partner_key}' AND `log_account_level` > 0 GROUP BY `log_GUID`";
-			$loginValidCount = $this->logdb->query($sql)->num_rows();
-			echo $sql . '<br>';
+			$dau = $row->login_account_valid - $row->valid_new_account;
+			if($dau > 0)
+			{
+				$arpu = floatval ( number_format ( $row->recharge_account / $dau, 4 ) ) * 10000;
+			}
+			else
+			{
+				$arpu = 0;
+			}
 
 			$parameter = array(
-					'login_account_valid'		=>	$loginValidCount
+					'dar'		=>	$dau,
+					'arpu'		=>	$arpu
 			);
 			$this->logcachedb->where('id', $row->id);
 			$this->logcachedb->update('log_daily_statistics', $parameter);
