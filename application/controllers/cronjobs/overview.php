@@ -886,10 +886,11 @@ class Overview extends CI_Controller
 			
 			$sql = "SELECT `log_GUID` FROM `log_account` WHERE `log_action` = 'ACCOUNT_LOGIN_SUCCESS' AND `log_time` >= {$startTime} AND `log_time` <= {$endTime} AND `server_id` = '{$row->server_id}' AND `partner_key` = '{$row->partner_key}' AND `log_account_level` > 0 GROUP BY `log_GUID`";
 			$loginValidCount = $this->logdb->query($sql)->num_rows();
-
+			echo $sql . '<br>';
+			
 			$sql = "UPDATE `log_daily_statistics` SET `login_account_valid`={$loginValidCount} WHERE `id`={$row->id}";
 			$this->logcachedb->query($sql);
-			echo $sql;
+			echo $sql . '<br>';
 		}
 	}
 }
