@@ -877,6 +877,10 @@ class Overview extends CI_Controller
 		$result = $query->result();
 		foreach($result as $row)
 		{
+			if($row->server_id != '200' && $row->server_id != '201')
+			{
+				continue;
+			}
 			$startTime = strtotime($row->log_date . " 00:00:00");
 			$endTime = strtotime($row->log_date . " 23:59:59");
 			
