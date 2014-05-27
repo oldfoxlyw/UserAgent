@@ -82,7 +82,7 @@ class Overview extends CI_Controller
 				$this->accountdb->where ( 'server_id', $row->account_server_id );
 				$this->accountdb->where ( 'partner_key', $partnerKey );
 				// $this->accountdb->where ( 'account_regtime >=', $lastTimeStart );
-				// $this->accountdb->where ( 'account_regtime <=', $lastTimeEnd );
+				$this->accountdb->where ( 'account_regtime <=', $lastTimeEnd );
 				$this->accountdb->where ( 'account_level >', 0 );
 				$validCount = $this->accountdb->count_all_results ( 'web_account' );
 				
@@ -884,19 +884,25 @@ class Overview extends CI_Controller
 			$startTime = strtotime($row->log_date . " 00:00:00");
 			$endTime = strtotime($row->log_date . " 23:59:59");
 			
-			$dau = $row->login_account_valid - $row->valid_new_account;
-			if($dau > 0)
-			{
-				$arpu = floatval ( number_format ( $row->recharge_account / $dau, 4 ) ) * 10000;
-			}
-			else
-			{
-				$arpu = 0;
-			}
+			// 有效帐号（建立角色的帐号）
+			$this->accountdb->where ( 'server_id', $row->server_id );
+			$this->accountdb->where ( 'partner_key', $row->server_id );
+			// $this->accountdb->where ( 'account_regtime >=', $lastTimeStart );
+			$this->accountdb->where ( 'account_regtime <=', $endTime );
+			$this->accountdb->where ( 'account_level >', 0 );
+			$validCount = $this->accountdb->count_all_results ( 'web_account' );
+			// $dau = $row->login_account_valid - $row->valid_new_account;
+			// if($dau > 0)
+			// {
+			// 	$arpu = floatval ( number_format ( $row->recharge_account / $dau, 4 ) ) * 10000;
+			// }
+			// else
+			// {
+			// 	$arpu = 0;
+			// }
 
 			$parameter = array(
-					'dau'		=>	$dau,
-					'arpu'		=>	$arpu
+					'valid_account'		=>	$validCount
 			);
 			$this->logcachedb->where('id', $row->id);
 			$this->logcachedb->update('log_daily_statistics', $parameter);
