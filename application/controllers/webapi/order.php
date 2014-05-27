@@ -13,7 +13,7 @@ class Orders extends CI_Controller {
 	public function init($format = 'json')
 	{
 		$server_id = $this->input->get_post('serv_id', TRUE);
-		$nickname = $this->input->get_post('player_id', TRUE);
+		$player_id = $this->input->get_post('player_id', TRUE);
 		$order_id = $this->input->get_post('order_id', TRUE);
 		$amount = $this->input->get_post('money', TRUE);
 		$create_time = $this->input->get_post('create_time', TRUE);
@@ -23,7 +23,47 @@ class Orders extends CI_Controller {
 		$check = md5(implode('', $check));
 		if($sign == $check)
 		{
-			
+			$this->load->model('maccount');
+
+			$parameter = array(
+				'GUID'			=>	$player_id
+			);
+			$result = $this->maccount->read($parameter);
+
+			if(!empty($result))
+			{
+				$account = $result[0];
+
+				$this->load->model('morder');
+				$parameter = array(
+					'account_guid'		=>	$account->GUID,
+					'account_name'		=>	$account->account_name,
+					'account_nickname'	=>	$account->account_nickname,
+					'server_id'			=>	$server_id,
+					'funds_flow_dir'	=>	'CHECK_IN',
+					'funds_amount'		=>	floatval($amount) * 100,
+					'funds_time'		=>	$create_time,
+					'funds_time_local'	=>	date('Y-m-d H:i:s', $create_time),
+					'funds_type'		=>	1,
+					'partner_key'		=>	'arab_sdk',
+					'appstore_status'	=>	-1,
+					'order_id'			=>	$order_id
+				);
+				$id = $this->morder->create($parameter);
+
+				$jsonData = array(
+					'err_code'		=>	0,
+					'desc'			=>	'success',
+					'order_id'		=>	$id
+				);
+			}
+			else
+			{
+				$jsonData = array(
+					'err_code'		=>	1,
+					'desc'			=>	'Account not exist'
+				);
+			}
 		}
 		else
 		{
@@ -32,6 +72,71 @@ class Orders extends CI_Controller {
 				'desc'				=>	'sign invalid'
 			);
 		}
+
+		echo $this->return_format->format($jsonData, $format);
+	}
+
+	public function notify($format = 'json')
+	{
+		$player_id = $this->input->get_post('player_id', TRUE);
+		$apporderid = $this->input->get_post('apporderid', TRUE);
+		$appmoney = $this->input->get_post('appmoney', TRUE);
+		$money = $this->input->get_post('money', TRUE);
+		$createtime = $this->input->get_post('createtime', TRUE);
+		$sign = $this->input->get_post('sign', TRUE);
+
+		$check = array($this->appkey . $player_id . $apporderid . $appmoney . $money . $createtime . $this->appkey);
+		$check = md5(implode('', $check));
+		if($sign == $check)
+		{
+			$this->load->model('maccount');
+
+			$parameter = array(
+				'GUID'			=>	$player_id
+			);
+			$result = $this->maccount->read($parameter);
+
+			if(!empty($result))
+			{
+				$account = $result[0];
+
+				$this->load->model('mserver');
+				$parameter = array(
+					'account_server_id'		=>	$account->server_id
+				);
+				$result = $this->mserver->read($parameter);
+
+				if(!empty($result))
+				{
+					$server = $result[0];
+
+					//通知对应服务器
+				}
+				else
+				{
+					$jsonData = array(
+						'err_code'		=>	1,
+						'desc'			=>	'Server not exist'
+					);
+				}
+			}
+			else
+			{
+				$jsonData = array(
+					'err_code'		=>	1,
+					'desc'			=>	'Account not exist'
+				);
+			}
+		}
+		else
+		{
+			$jsonData = array(
+				'err_code'			=>	1,
+				'desc'				=>	'sign invalid'
+			);
+		}
+
+		echo $this->return_format->format($jsonData, $format);
 	}
 }
 ?>

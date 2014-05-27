@@ -699,6 +699,7 @@ class Account extends CI_Controller {
 
 				$jsonData = array(
 					'err_code'			=>	0,
+					'player_id'			=>	$result->GUID,
 					'usr_name'			=>	$nickname,
 					'usr_rank'			=>	$result->account_level
 				);

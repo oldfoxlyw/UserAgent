@@ -36,7 +36,7 @@ class Morder extends CI_Model implements ICrud
 		{
 			if($this->logdb->insert($this->accountTable, $row))
 			{
-				return true;
+				return $this->logdb->insert_id();
 			}
 			else
 			{
