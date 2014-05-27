@@ -674,6 +674,10 @@ class Account extends CI_Controller {
 			$this->logs->write($logParameter);
 		}
 	}
+
+	/*
+	爱立德专用帐号验证接口
+	*/
 }
 
 /* End of file welcome.php */
