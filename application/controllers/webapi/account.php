@@ -678,6 +678,49 @@ class Account extends CI_Controller {
 	/*
 	爱立德专用帐号验证接口
 	*/
+	public function check($format = 'json')
+	{
+		$server_id = $this->input->get_post('serv_id', TRUE);
+		$nickname = $this->input->get_post('usr_id', TRUE);
+
+		if(!empty($server_id) && !empty($nickname))
+		{
+			$this->load->model('maccount');
+
+			$parameter = array(
+				'server_id'			=>	$server_id,
+				'account_nickname'	=>	$nickname
+			);
+			$result = $this->maccount->read($parameter);
+
+			if(!empty($result))
+			{
+				$result = $result[0];
+
+				$jsonData = array(
+					'err_code'			=>	0,
+					'usr_name'			=>	$nickname,
+					'usr_rank'			=>	$result->account_level
+				);
+			}
+			else
+			{
+				$jsonData = array(
+					'err_code'			=>	1,
+					'desc'				=>	'Account not exist'
+				);
+			}
+		}
+		else
+		{
+			$jsonData = array(
+				'err_code'			=>	0,
+				'desc'				=>	'invalid params'
+			);
+		}
+
+		echo $this->return_format->format($jsonData, $format);
+	}
 }
 
 /* End of file welcome.php */
