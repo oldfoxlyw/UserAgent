@@ -89,49 +89,97 @@ class Orders extends CI_Controller {
 		$check = md5(implode('', $check));
 		if($sign == $check)
 		{
-			$this->load->model('maccount');
+			$this->load->model('morder');
 
 			$parameter = array(
-				'GUID'			=>	$player_id
+				'funds_id'		=>	$apporderid
 			);
-			$result = $this->maccount->read($parameter);
-
+			$result = $this->morder->read($parameter);
 			if(!empty($result))
 			{
-				$account = $result[0];
+				$order = $result[0];
 
-				$this->load->model('mserver');
-				$parameter = array(
-					'account_server_id'		=>	$account->server_id
-				);
-				$result = $this->mserver->read($parameter);
-
-				if(!empty($result))
+				if($order->appstore_status != '0')
 				{
-					$server = $result[0];
+					$this->load->model('maccount');
 
-					//通知对应服务器
+					$parameter = array(
+						'GUID'			=>	$player_id
+					);
+					$result = $this->maccount->read($parameter);
+
+					if(!empty($result))
+					{
+						$account = $result[0];
+
+						$this->load->model('mserver');
+						$parameter = array(
+							'account_server_id'		=>	$account->server_id
+						);
+						$result = $this->mserver->read($parameter);
+
+						if(!empty($result))
+						{
+							$server = $result[0];
+
+							$server = json_decode($server->server_ip);
+							$url = 'http://' . $server->ip . ':' . $server->port . '/platform_payment_notification';
+
+							//通知对应服务器
+							$this->load->model('connector');
+							$parameter = array(
+								'billno'	=>	$apporderid,
+								'nickname'	=>	$account->account_nickname,
+								'pay_money'	=>	$money
+							);
+							$this->connector->post($url, $parameter);
+
+							$parameter = array(
+								'appstore_status'	=>	0
+							);
+							$this->morder->update($apporderid, $parameter);
+
+							$jsonData = array(
+								'success'		=>	1,
+								'desc'			=>	$order->order_id
+							);
+						}
+						else
+						{
+							$jsonData = array(
+								'success'		=>	0,
+								'desc'			=>	'Server not exist'
+							);
+						}
+					}
+					else
+					{
+						$jsonData = array(
+							'success'		=>	0,
+							'desc'			=>	'Account not exist'
+						);
+					}
 				}
 				else
 				{
 					$jsonData = array(
-						'err_code'		=>	1,
-						'desc'			=>	'Server not exist'
+						'success'		=>	0,
+						'desc'			=>	'Order already completed'
 					);
 				}
 			}
 			else
 			{
 				$jsonData = array(
-					'err_code'		=>	1,
-					'desc'			=>	'Account not exist'
+					'success'		=>	0,
+					'desc'			=>	'Order not exist'
 				);
 			}
 		}
 		else
 		{
 			$jsonData = array(
-				'err_code'			=>	1,
+				'success'			=>	0,
 				'desc'				=>	'sign invalid'
 			);
 		}
