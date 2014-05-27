@@ -8,11 +8,11 @@ $config ['game_server_list'] = array (
 		'activate' => 0,
 		'server' => array (
 				array (
-						'id' => '15',
+						'id' => '20',
 						'game_id' => 'B',
-						'section_id' => '115',
-						'account_server_id' => '201',
-						'server_name' => '恶魔王爵（2）',
+						'section_id' => '96',
+						'account_server_id' => '96',
+						'server_name' => '阿拉伯语测试服',
 						'server_ip' => array (
 								0 => array (
 										'ip' => '58.68.251.62:8091' 
