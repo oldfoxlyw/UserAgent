@@ -886,7 +886,7 @@ class Overview extends CI_Controller
 			
 			// 有效帐号（建立角色的帐号）
 			$this->accountdb->where ( 'server_id', $row->server_id );
-			$this->accountdb->where ( 'partner_key', $row->server_id );
+			$this->accountdb->where ( 'partner_key', $row->partner_key );
 			// $this->accountdb->where ( 'account_regtime >=', $lastTimeStart );
 			$this->accountdb->where ( 'account_regtime <=', $endTime );
 			$this->accountdb->where ( 'account_level >', 0 );
