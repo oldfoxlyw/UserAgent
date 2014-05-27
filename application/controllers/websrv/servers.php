@@ -282,6 +282,7 @@ class Servers extends CI_Controller {
 	private function get_temp_hd_list()
 	{
 		$serverIp	=	$this->input->server('SERVER_ADDR');
+		$partner	=	$this->input->get_post('partner', TRUE);
 		if($serverIp == '122.13.131.55')
 		{
 			$ipFlag = 'ip2';
@@ -429,7 +430,7 @@ class Servers extends CI_Controller {
 		
 		$this->load->model('mannouncement');
 		$parameter = array(
-				'partner_key'	=>	'default_full'
+				'partner_key'	=>	$partner
 		);
 		$extension = array(
 				'order_by'	=>	array('post_time', 'desc')
@@ -459,6 +460,7 @@ class Servers extends CI_Controller {
 	private function get_temp_version_list()
 	{
 		$serverIp	=	$this->input->server('SERVER_ADDR');
+		$partner	=	$this->input->get_post('partner', TRUE);
 		if($serverIp == '122.13.131.55')
 		{
 			$ipFlag = 'ip2';
@@ -606,7 +608,7 @@ class Servers extends CI_Controller {
 		
 		$this->load->model('mannouncement');
 		$parameter = array(
-				'partner_key'	=>	'default_full'
+				'partner_key'	=>	$partner
 		);
 		$extension = array(
 				'order_by'	=>	array('post_time', 'desc')
@@ -636,6 +638,7 @@ class Servers extends CI_Controller {
 	private function get_sdk_debug_list($id)
 	{
 		$serverIp	=	$this->input->server('SERVER_ADDR');
+		$partner	=	$this->input->get_post('partner', TRUE);
 		if($serverIp == '122.13.131.55')
 		{
 			$ipFlag = 'ip2';
@@ -783,7 +786,7 @@ class Servers extends CI_Controller {
 		
 		$this->load->model('mannouncement');
 		$parameter = array(
-				'partner_key'	=>	'default_full'
+				'partner_key'	=>	$partner
 		);
 		$extension = array(
 				'order_by'	=>	array('post_time', 'desc')
