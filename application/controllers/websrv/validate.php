@@ -151,6 +151,62 @@ class Validate extends CI_Controller
 
 		echo $this->return_format->format($jsonData, $format);
 	}
+
+	public function get_code()
+	{
+		$server_id = $this->input->post('server_id', TRUE);
+		$channel = $this->input->post('channel', TRUE);
+
+		if(!empty($server_id) && !empty($channel))
+		{
+			$this->load->model('mcode');
+			$this->load->model('logs');
+
+			$parameter = array(
+				'comment'		=>	$channel,
+				'disabled'		=>	0,
+				'server_id'		=>	$server_id
+			);
+			$result = $this->mcode->read($parameter, null, 1);
+
+			if(!empty($result))
+			{
+				$result = $result[0];
+
+				$parameter = array(
+					'disabled'	=>	1
+				);
+				$this->mcode->update($result->code, $parameter);
+
+				$jsonData = array(
+					'success'	=>	1,
+					'message'	=>	'SUCCESS',
+					'code'		=>	$result->code
+				);
+
+				$logParameter = array(
+						'account_guid'	=>	$result->code,
+						'account_name'	=>	'',
+						'log_action'	=>	'GET_CODE_SUCCESS'
+				);
+				$this->logs->write_api($logParameter);
+			}
+			else
+			{
+				$jsonData = array(
+						'success'		=>	0,
+						'message'		=>	'NO_CODE'
+				);
+			}
+		}
+		else
+		{
+			$jsonData = array(
+					'success'		=>	0,
+					'message'		=>	'NO_PARAM'
+			);
+		}
+	}
 }
 
 ?>
