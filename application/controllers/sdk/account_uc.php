@@ -284,7 +284,8 @@ class Account_uc extends CI_Controller
 							'log_action'	=>	'ACCOUNT_REGISTER_SUCCESS',
 							'account_guid'	=>	$user->GUID,
 							'account_name'	=>	$user->account_name,
-							'server_id'		=>	$server_id
+							'server_id'		=>	$server_id,
+							'partner_key'	=>	$partner_key
 					);
 					$this->logs->write($logParameter);
 				}
