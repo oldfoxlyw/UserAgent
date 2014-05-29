@@ -206,6 +206,8 @@ class Validate extends CI_Controller
 					'message'		=>	'NO_PARAM'
 			);
 		}
+
+		echo $this->return_format->format($jsonData, $format);
 	}
 }
 
