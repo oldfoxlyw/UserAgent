@@ -268,6 +268,14 @@ class Account_wanwan extends CI_Controller
 							'success'		=>	false,
 							'errors'		=>	'SDK_REGISTER_FAIL'
 					);
+					$logParameter = array(
+							'log_action'	=>	'SDK_REGISTER_FAIL',
+							'account_guid'	=>	'',
+							'account_name'	=>	$name,
+							'server_id'		=>	$server_id,
+							'partner_key'	=>	$partner_key
+					);
+					$this->logs->write($logParameter);
 				}
 			}
 			else
@@ -276,6 +284,14 @@ class Account_wanwan extends CI_Controller
 						'success'		=>	false,
 						'errors'		=>	'SDK_REGISTER_FAIL_ERROR_CHECK_CODE'
 				);
+				$logParameter = array(
+						'log_action'	=>	'SDK_REGISTER_FAIL_ERROR_CHECK_CODE',
+						'account_guid'	=>	$user->GUID,
+						'account_name'	=>	$user->account_name,
+						'server_id'		=>	$server_id,
+						'partner_key'	=>	$partner_key
+				);
+				$this->logs->write($logParameter);
 			}
 		}
 		else
