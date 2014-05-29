@@ -109,6 +109,7 @@ class Account extends CI_Controller
 	public function request_register()
 	{
 		$this->load->model('return_format');
+		$this->load->model('logs');
 		
 		$uid = $this->input->get_post('uid', TRUE);
 		$session_id = $this->input->get_post('session_id', TRUE);
@@ -193,8 +194,6 @@ class Account extends CI_Controller
 								'result'		=>	$user,
 								'uid'			=>	$uid
 						);
-						
-						$this->load->model('logs');
 						$logParameter = array(
 								'log_action'	=>	'ACCOUNT_REGISTER_SUCCESS',
 								'account_guid'	=>	$user->GUID,
