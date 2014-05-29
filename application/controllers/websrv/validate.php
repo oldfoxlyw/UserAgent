@@ -152,7 +152,7 @@ class Validate extends CI_Controller
 		echo $this->return_format->format($jsonData, $format);
 	}
 
-	public function get_code()
+	public function get_code($format = 'json')
 	{
 		$server_id = $this->input->post('server_id', TRUE);
 		$channel = $this->input->post('channel', TRUE);
