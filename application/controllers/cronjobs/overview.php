@@ -17,14 +17,24 @@ class Overview extends CI_Controller
 		$this->fundsdb = $this->load->database ( 'fundsdb', true );
 	}
 
-	public function statistics()
+	public function statistics($server_id)
 	{
 		set_time_limit(1800);
-		
+
 		$this->load->model ( 'websrv/server' );
-		$serverResult = $this->server->getAllResult (array(
-				'server_debug'	=>	0
-		));
+		if(!empty($server_id))
+		{
+			$parameter = array(
+					'account_server_id'		=>	$server_id
+			);
+		}
+		else
+		{
+			$parameter = array(
+					'server_debug'	=>	0
+			);
+		}
+		$serverResult = $this->server->getAllResult ($parameter);
 		
 		$this->load->model ( 'websrv/mpartner' );
 		$partnerResult = $this->mpartner->getAllResult ();
@@ -71,10 +81,18 @@ class Overview extends CI_Controller
 				// 有效帐号（建立角色的帐号）
 				$this->accountdb->where ( 'server_id', $row->account_server_id );
 				$this->accountdb->where ( 'partner_key', $partnerKey );
+				// $this->accountdb->where ( 'account_regtime >=', $lastTimeStart );
+				// $this->accountdb->where ( 'account_regtime <=', $lastTimeEnd );
+				$this->accountdb->where ( 'account_level >', 0 );
+				$validCount = $this->accountdb->count_all_results ( 'web_account' );
+				
+				// 新有效帐号（建立角色的帐号）
+				$this->accountdb->where ( 'server_id', $row->account_server_id );
+				$this->accountdb->where ( 'partner_key', $partnerKey );
 				$this->accountdb->where ( 'account_regtime >=', $lastTimeStart );
 				$this->accountdb->where ( 'account_regtime <=', $lastTimeEnd );
 				$this->accountdb->where ( 'account_level >', 0 );
-				$validCount = $this->accountdb->count_all_results ( 'web_account' );
+				$validNewCount = $this->accountdb->count_all_results ( 'web_account' );
 
 				// 等级大于1的帐号
 				$this->accountdb->where ( 'server_id', $row->account_server_id );
@@ -100,10 +118,18 @@ class Overview extends CI_Controller
 				$sql = "SELECT `log_GUID` FROM `log_account` WHERE (`log_action` = 'ACCOUNT_LOGIN_SUCCESS' OR `log_action` = 'ACCOUNT_REGISTER_SUCCESS' OR `log_action` = 'ACCOUNT_DEMO_SUCCESS') AND `log_time` >= {$lastTimeStart} AND `log_time` <= {$lastTimeEnd} AND `server_id` = '{$row->account_server_id}' AND `partner_key` = '{$partnerKey}' GROUP BY `log_GUID`";
 				$loginCount = $this->logdb->query($sql)->num_rows();
 
+				// 当天有效登录数
+				$sql = "SELECT `log_GUID` FROM `log_account` WHERE (`log_action` = 'ACCOUNT_LOGIN_SUCCESS' OR `log_action` = 'ACCOUNT_REGISTER_SUCCESS' OR `log_action` = 'ACCOUNT_DEMO_SUCCESS') AND `log_time` >= {$lastTimeStart} AND `log_time` <= {$lastTimeEnd} AND `server_id` = '{$row->account_server_id}' AND `partner_key` = '{$partnerKey}' AND `log_account_level` > 1 GROUP BY `log_GUID`";
+				$loginValidCount = $this->logdb->query($sql)->num_rows();
+
 				// 活跃玩家数(三天以内登录过游戏的人数)
 				$threeDaysAgoStart = $lastTimeStart - 2 * 86400;
 				$sql = "SELECT `log_GUID` FROM `log_account` WHERE (`log_action` = 'ACCOUNT_LOGIN_SUCCESS' OR `log_action` = 'ACCOUNT_REGISTER_SUCCESS' OR `log_action` = 'ACCOUNT_DEMO_SUCCESS') AND `log_time` >= {$threeDaysAgoStart} AND `log_time` <= {$lastTimeEnd} AND `server_id` = '{$row->account_server_id}' AND `partner_key` = '{$partnerKey}' GROUP BY `log_GUID`";
 				$activeCount = $this->logdb->query($sql)->num_rows();
+
+				//DAU
+				// $dau = $loginCount - $regNewCount;
+				$dau = $loginValidCount - $validNewCount;
 				
 				// 回流玩家数(超过一周没有登录但最近有登录的玩家数)
 				$this->logcachedb->where ( 'server_id', $row->account_server_id );
@@ -158,7 +184,7 @@ class Overview extends CI_Controller
 				
 				// 当天订单数
 				$this->fundsdb->where ( 'funds_flow_dir', 'CHECK_IN' );
-				$this->fundsdb->where ( 'funds_time >', $lastTimeStart );
+				$this->fundsdb->where ( 'funds_time >=', $lastTimeStart );
 				$this->fundsdb->where ( 'funds_time <=', $lastTimeEnd );
 				$this->fundsdb->where ( 'server_id', $row->account_server_id );
 				$this->fundsdb->where ( 'partner_key', $partnerKey );
@@ -168,7 +194,7 @@ class Overview extends CI_Controller
 				// 当天订单总额
 				$this->fundsdb->select_sum ( 'funds_amount' );
 				$this->fundsdb->where ( 'funds_flow_dir', 'CHECK_IN' );
-				$this->fundsdb->where ( 'funds_time >', $lastTimeStart );
+				$this->fundsdb->where ( 'funds_time >=', $lastTimeStart );
 				$this->fundsdb->where ( 'funds_time <=', $lastTimeEnd );
 				$this->fundsdb->where ( 'server_id', $row->account_server_id );
 				$this->fundsdb->where ( 'partner_key', $partnerKey );
@@ -191,7 +217,7 @@ class Overview extends CI_Controller
 				
 				// 当天充值人数
 				$this->fundsdb->where ( 'funds_flow_dir', 'CHECK_IN' );
-				$this->fundsdb->where ( 'funds_time >', $lastTimeStart );
+				$this->fundsdb->where ( 'funds_time >=', $lastTimeStart );
 				$this->fundsdb->where ( 'funds_time <=', $lastTimeEnd );
 				$this->fundsdb->where ( 'server_id', $row->account_server_id );
 				$this->fundsdb->where ( 'partner_key', $partnerKey );
@@ -202,9 +228,9 @@ class Overview extends CI_Controller
 				$query->free_result();
 				
 				// arpu
-				if($loginCount > 0)
+				if($dau > 0)
 				{
-					$arpu = floatval ( number_format ( $rechargeAccount / $activeCount, 2 ) ) * 100;
+					$arpu = floatval ( number_format ( $rechargeAccount / $dau, 4 ) ) * 10000;
 				}
 				else
 				{
@@ -244,11 +270,14 @@ class Overview extends CI_Controller
 					'reg_account' => $registerCount,
 					'reg_new_account' => $regNewCount,
 					'valid_account' => $validCount,
+					'valid_new_account' => $validNewCount,
 					'level_account' => $levelCount,
 					'modify_account' => $modifyCount,
 					'modify_new_account' => $modifyNewCount,
 					'login_account' => $loginCount,
+					'login_account_valid' => $loginValidCount,
 					'active_account' => $activeCount,
+					'dau' => $dau,
 					'flowover_account' => $flowoverCount,
 					'reflow_account' => $reflowCount,
 					'orders_current_sum' => $ordersCurrentSum,
