@@ -13,6 +13,138 @@ class Account extends CI_Controller {
 		$this->load->model('param_check');
 		$this->authKey = $this->config->item('game_auth_key');
 	}
+
+	public function combine_login($format = 'json')
+	{
+		$accountName	=	$this->input->get_post('account_name', TRUE);
+		$accountPass	=	$this->input->get_post('account_pass', TRUE);
+		$server_id		=	$this->input->get_post('server_id', TRUE);
+		$device_id		=	$this->input->get_post('device_id', TRUE);
+		$partner		=	$this->input->get_post('partner', TRUE);
+
+		$device_id = empty($device_id) ? '' : $device_id;
+		$partner = empty($partner) ? '' : $partner;
+
+		if(!empty($accountName) && !empty($accountPass) && !empty($server_id))
+		{
+			$user = $this->web_account->validate($accountName, $accountPass, $server_id);
+			if($user != FALSE)
+			{
+				unset($user->account_pass);
+				unset($user->account_secret_key);
+
+				$db = $this->web_account->db();
+				$time = time();
+				
+				if ($user->account_status == '-1') {
+					if($user->closure_endtime <= $time)
+					{
+						$sql = "update `web_account` set `account_status`=1, `closure_endtime`=0 where `GUID`='{$user->GUID}'";
+						$db->query($sql);
+					}
+					else
+					{
+						$jsonData = Array(
+							'success'	=>	false,
+							'errors'	=>	'ACCOUNT_VALIDATE_FAIL_BANNED',
+							'endtime'	=>	$user->closure_endtime
+						);
+						exit($this->return_format->format($jsonData, $format));
+					}
+				}
+
+				$sql = "update `web_account` set `account_lastlogin`={$time}, `account_activity`=`account_activity`+1 where `GUID`='{$user->GUID}'";
+				$db->query($sql);
+				$jsonData = Array(
+					'success'	=>	true,
+					'message'	=>	'ACCOUNT_VALIDATE_SUCCESS',
+					'user'		=>	$user
+				);
+				echo $this->return_format->format($jsonData, $format);
+				
+				$logParameter = array(
+					'log_action'	=>	'ACCOUNT_LOGIN_SUCCESS',
+					'account_guid'	=>	$user->GUID,
+					'device_id'		=>	empty($device_id) ? $user->device_id : $device_id,
+					'account_name'	=>	$user->account_name,
+					'account_level'	=>	$user->account_level,
+					'server_id'		=>	$server_id,
+					'partner_key'	=>	$user->partner_key
+				);
+				$this->logs->write($logParameter);
+			}
+			else
+			{
+				$parameter = array(
+					'name'		=>	$accountName,
+					'pass'		=>	$accountPass,
+					'email'		=>	'',
+					'question'	=>	'',
+					'answer'	=>	'',
+					'server_id'	=>	$server_id,
+					'status'	=>	1,
+					'partner'	=>	$partner,
+					'device_id'	=>	$device_id
+				);
+				$guid = $this->web_account->register($parameter);
+				if(!empty($guid)) {
+					$user = $this->web_account->get($guid);
+					unset($user->account_pass);
+					unset($user->account_secret_key);
+					$user->guid_code = md5(sha1($user->GUID));
+					$jsonData = Array(
+						'success'	=>	true,
+						'message'	=>	'ACCOUNT_REGISTER_SUCCESS',
+						'user'		=>	$user
+					);
+					echo $this->return_format->format($jsonData, $format);
+					
+					$logParameter = array(
+						'log_action'	=>	'ACCOUNT_REGISTER_SUCCESS',
+						'account_guid'	=>	$user->GUID,
+						'device_id'		=>	$device_id,
+						'account_name'	=>	$user->account_name,
+						'server_id'		=>	$server_id,
+						'partner_key'	=>	$partner
+					);
+					$this->logs->write($logParameter);
+				}
+				else
+				{
+					$jsonData = Array(
+						'success'	=>	false,
+						'errors'	=>	'ACCOUNT_REGISTER_FAIL'
+					);
+					echo $this->return_format->format($jsonData, $format);
+					
+					$logParameter = array(
+						'log_action'	=>	'ACCOUNT_REGISTER_FAIL',
+						'account_guid'	=>	'',
+						'device_id'		=>	$device_id,
+						'account_name'	=>	$accountName,
+						'server_id'		=>	$server_id,
+						'partner_key'	=>	$partner
+					);
+					$this->logs->write($logParameter);
+				}
+			}
+		}
+		else
+		{
+			$jsonData = Array(
+				'success'	=>	false,
+				'errors'	=>	'ACCOUNT_ERROR_NO_PARAM'
+			);
+			echo $this->return_format->format($jsonData, $format);
+				
+			$logParameter = array(
+				'log_action'	=>	'ACCOUNT_LOGIN_ERROR_NO_PARAM',
+				'account_guid'	=>	'',
+				'account_name'	=>	''
+			);
+			$this->logs->write($logParameter);
+		}
+	}
 	
 	public function login($format = 'json') {
 		$accountName	=	$this->input->get_post('account_name', TRUE);
@@ -192,7 +324,7 @@ class Account extends CI_Controller {
 		$partner	=	$this->input->get_post('partner', TRUE);
 		$device_id	=	$this->input->get_post('device_id', TRUE);
 		
-		$partner = empty($partner) ? 'default' : $partner;
+		$partner = empty($partner) ? '' : $partner;
 		$accountEmail = $accountEmail===FALSE ? '' : $accountEmail;
 		$country = $country===FALSE ? '' : $country;
 		$question = $question===FALSE ? '' : $question;
