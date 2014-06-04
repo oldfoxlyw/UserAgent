@@ -94,7 +94,7 @@ class Account extends CI_Controller {
 					$user->guid_code = md5(sha1($user->GUID));
 					$jsonData = Array(
 						'success'	=>	true,
-						'message'	=>	'ACCOUNT_REGISTER_SUCCESS',
+						'message'	=>	'ACCOUNT_VALIDATE_SUCCESS',
 						'user'		=>	$user
 					);
 					echo $this->return_format->format($jsonData, $format);
