@@ -84,6 +84,7 @@ class Account_wanwan extends CI_Controller
 				$parameter = array(
 						'partner_key'			=>	$partner_key,
 						'partner_id'			=>	$uid,
+						'account_nickname !='	=>	'',
 						'account_status >='		=>	0
 				);
 				$extension = array(

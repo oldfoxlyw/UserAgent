@@ -92,7 +92,9 @@ class Account_360 extends CI_Controller
 
 				$parameter = array(
 						'partner_key'			=>	$partner_key,
-						'partner_id'			=>	$uid
+						'partner_id'			=>	$uid,
+						'account_nickname !='	=>	'',
+						'account_status >='		=>	0
 				);
 				$extension = array(
 						'select'	=>	'GUID,account_name,server_id,account_nickname,account_status,account_job,profession_icon,account_level,account_mission,partner_key,partner_id'
