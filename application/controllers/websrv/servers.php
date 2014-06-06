@@ -15,24 +15,12 @@ class Servers extends CI_Controller {
 		$lang		=	$this->input->get_post('language', TRUE);
 		$ver		=	$this->input->get_post('client_version', TRUE);
 
-		if($mode == 'pub' && ($partner == 'default' || $partner == 'default_full') && $ver != '1.2')
+		if($mode == 'pub' && ($partner == 'arab_default' || $partner == 'arab_sdk') && $ver == '1.2')
 		{
 			$this->load->config('server_list_default');
 			$jsonData = $this->config->item('game_server_list1');
 
 			$type = 'appstore';
-		}
-		elseif($mode == 'pub' && $partner != 'default' && $partner != 'default_full' && $ver == '1.2')
-		{
-			$this->load->config('server_list_sdk');
-			$jsonData = $this->config->item('game_server_list');
-
-			$type = 'sdk';
-		}
-		elseif(!empty($ver) && $ver == '1.2' && $mode == 'pub' && ($partner == 'default' || $partner == 'default_full'))
-		{
-			$this->get_sdk_debug_list('99');
-			exit();
 		}
 		else
 		{
