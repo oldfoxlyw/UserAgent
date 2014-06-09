@@ -18,8 +18,10 @@ $config ['game_server_list1'] = array (
 										'ip' => '58.68.251.44:8091' 
 								)
 						),
-						'server_game_ip' => '58.68.251.43',
-						'game_message_ip' => '10.68.237.90:9899',
+						'server_game_ip' => '218.213.235.119',
+						'game_message_ip' => '10.11.12.1:9899',
+						'const_server_ip' => '85.195.100.234:8091',
+						'voice_server_ip' => '85.195.100.236:8099',
 						'server_max_player' => '100000',
 						'account_count' => '0',
 						'server_language' => '中文',
