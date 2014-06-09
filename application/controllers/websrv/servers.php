@@ -25,7 +25,7 @@ class Servers extends CI_Controller {
 		// 	$this->load->config('server_list_sdk');
 		// 	$jsonData = $this->config->item('game_server_list');
 		// }
-		if($mode == 'pub' && ($partner == 'tw_default' || $partner == 'tw_facebook') && $ver == '1.2')
+		if($mode == 'pub' && ($partner == 'tw_default' || $partner == 'tw_facebook') && $ver == '1.0')
 		{
 			$this->load->config('server_list_default');
 			$jsonData = $this->config->item('game_server_list1');
