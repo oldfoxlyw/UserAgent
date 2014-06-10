@@ -324,7 +324,7 @@ class Account extends CI_Controller {
 		$partner	=	$this->input->get_post('partner', TRUE);
 		$device_id	=	$this->input->get_post('device_id', TRUE);
 		
-		$partner = empty($partner) ? '' : $partner;
+		$partner = empty($partner) ? 'tw_default' : $partner;
 		$accountEmail = $accountEmail===FALSE ? '' : $accountEmail;
 		$country = $country===FALSE ? '' : $country;
 		$question = $question===FALSE ? '' : $question;
