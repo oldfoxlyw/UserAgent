@@ -139,7 +139,7 @@ class Servers extends CI_Controller {
 				{
 					$result[$i]->server_ip = $result[$i]->server_ip->$ipFlag . ':' . $result[$i]->server_ip->port;
 				}
-	
+				
 				$result[$i]->server_game_ip = json_decode($result[$i]->server_game_ip);
 				if(count($result[$i]->server_game_ip) > 0)
 				{
