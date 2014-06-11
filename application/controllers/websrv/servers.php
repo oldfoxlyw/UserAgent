@@ -32,6 +32,13 @@ class Servers extends CI_Controller {
 
 			$type = 'appstore';
 		}
+		elseif($mode == 'beta')
+		{
+			$this->load->config('server_list_beta');
+			$jsonData = $this->config->item('game_server_list');
+
+			$type = 'appstore';
+		}
 		else
 		{
 			$jsonData = array();
