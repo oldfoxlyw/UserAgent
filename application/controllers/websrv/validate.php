@@ -165,7 +165,7 @@ class Validate extends CI_Controller
 			$parameter = array(
 				'comment'		=>	$channel,
 				'disabled'		=>	0,
-				'server_id'		=>	$server_id
+				// 'server_id'		=>	$server_id
 			);
 			$result = $this->mcode->read($parameter, null, 1);
 
