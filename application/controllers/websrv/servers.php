@@ -53,6 +53,11 @@ class Servers extends CI_Controller {
 			$this->get_sdk_debug_list('99');
 			exit();
 		}
+		elseif($mode == 'debug')
+		{
+			$this->get_sdk_debug_list();
+			exit();
+		}
 		else
 		{
 			$jsonData = array();
@@ -109,7 +114,7 @@ class Servers extends CI_Controller {
 		echo $this->return_format->format($jsonData, $format);
 	}
 	
-	private function get_sdk_debug_list($id = '97')
+	private function get_sdk_debug_list($id)
 	{
 		$serverIp	=	$this->input->server('SERVER_ADDR');
 		$partner	=	$this->input->get_post('partner', TRUE);
@@ -121,9 +126,13 @@ class Servers extends CI_Controller {
 		{
 			$ipFlag = 'ip';
 		}
-		$parameter = array(
-				'account_server_id'		=>	$id
-		);
+
+		if(!empty($id))
+		{
+			$parameter = array(
+					'account_server_id'		=>	$id
+			);
+		}
 
 		$this->load->model('websrv/server', 'server');
 		$result = $this->server->getAllResult($parameter);
