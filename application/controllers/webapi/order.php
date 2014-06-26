@@ -21,7 +21,6 @@ class Order extends CI_Controller {
 
 		$check = array($this->appkey . $server_id . $nickname . $order_id . $amount . $create_time . $this->appkey);
 		$check = md5(implode('', $check));
-		exit($check);
 		if($sign == $check)
 		{
 			$this->load->model('maccount');
