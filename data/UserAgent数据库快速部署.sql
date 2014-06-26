@@ -2,18 +2,39 @@ SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
+-- -----------------------------------------------------
+-- Schema agent1_account_db
+-- -----------------------------------------------------
 DROP SCHEMA IF EXISTS `agent1_account_db` ;
 CREATE SCHEMA IF NOT EXISTS `agent1_account_db` DEFAULT CHARACTER SET utf8 ;
+-- -----------------------------------------------------
+-- Schema agent1_adminlog_db
+-- -----------------------------------------------------
 DROP SCHEMA IF EXISTS `agent1_adminlog_db` ;
 CREATE SCHEMA IF NOT EXISTS `agent1_adminlog_db` DEFAULT CHARACTER SET utf8 ;
+-- -----------------------------------------------------
+-- Schema agent1_funds_flow_db
+-- -----------------------------------------------------
 DROP SCHEMA IF EXISTS `agent1_funds_flow_db` ;
 CREATE SCHEMA IF NOT EXISTS `agent1_funds_flow_db` DEFAULT CHARACTER SET utf8 ;
+-- -----------------------------------------------------
+-- Schema agent1_log_db
+-- -----------------------------------------------------
 DROP SCHEMA IF EXISTS `agent1_log_db` ;
 CREATE SCHEMA IF NOT EXISTS `agent1_log_db` DEFAULT CHARACTER SET utf8 ;
+-- -----------------------------------------------------
+-- Schema agent1_log_db_201203
+-- -----------------------------------------------------
 DROP SCHEMA IF EXISTS `agent1_log_db_201203` ;
 CREATE SCHEMA IF NOT EXISTS `agent1_log_db_201203` DEFAULT CHARACTER SET utf8 ;
+-- -----------------------------------------------------
+-- Schema agent1_product_db
+-- -----------------------------------------------------
 DROP SCHEMA IF EXISTS `agent1_product_db` ;
 CREATE SCHEMA IF NOT EXISTS `agent1_product_db` DEFAULT CHARACTER SET utf8 ;
+-- -----------------------------------------------------
+-- Schema agent1_web_db
+-- -----------------------------------------------------
 DROP SCHEMA IF EXISTS `agent1_web_db` ;
 CREATE SCHEMA IF NOT EXISTS `agent1_web_db` DEFAULT CHARACTER SET utf8 ;
 USE `agent1_account_db` ;
@@ -66,7 +87,7 @@ CREATE TABLE IF NOT EXISTS `agent1_account_db`.`web_account` (
   INDEX `account_name` (`account_name` ASC, `account_pass` ASC, `server_id` ASC),
   INDEX `partner_id` (`partner_key` ASC, `partner_id` ASC))
 ENGINE = MyISAM
-AUTO_INCREMENT = 200100191006909;
+AUTO_INCREMENT = 200100191000001;
 
 
 -- -----------------------------------------------------
@@ -170,6 +191,7 @@ CREATE TABLE IF NOT EXISTS `agent1_log_db`.`log_daily_statistics` (
   `server_name` CHAR(16) NOT NULL,
   `reg_account` INT(11) NOT NULL,
   `reg_new_account` INT(11) NOT NULL,
+  `reg_new_account_valid` INT(11) NOT NULL DEFAULT 0 COMMENT '新增注册有效用户',
   `valid_account` INT(11) NOT NULL COMMENT '等级大于等于1级的帐号',
   `valid_new_account` INT(11) NOT NULL,
   `level_account` INT(11) NOT NULL,
@@ -368,8 +390,10 @@ CREATE TABLE IF NOT EXISTS `agent1_log_db_201203`.`log_consume` (
   `item_info` TEXT NOT NULL,
   `item_type` INT NOT NULL,
   `item_level` INT NOT NULL DEFAULT 0 COMMENT '装备等级',
-  `item_value` INT NOT NULL DEFAULT 0 COMMENT '装备品质\n1=普通 2=绿色 3=蓝色 4=紫色',
-  `item_job` CHAR(16) NOT NULL DEFAULT '' COMMENT '装备需求的职业\n1=战士 2=猎手 3=潜行者 4=法师',
+  `item_value` INT NOT NULL DEFAULT 0 COMMENT '装�' /* comment truncated */ /*�品质
+1=普通 2=绿色 3=蓝色 4=紫色*/,
+  `item_job` CHAR(16) NOT NULL DEFAULT '' COMMENT '装备�' /* comment truncated */ /*�求的职业
+1=战士 2=猎手 3=潜行者 4=法师*/,
   `log_time` INT(11) NOT NULL,
   `server_id` CHAR(5) NOT NULL,
   `partner_key` CHAR(16) NOT NULL DEFAULT 'default',

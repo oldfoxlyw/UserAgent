@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Orders extends CI_Controller {
+class Order extends CI_Controller {
 	private $root_path = null;
 	private $authKey = null;
 	private $appkey = 'e024d44d86d6d701ecac8ef23c8e8b1bcd7bc0d8';
