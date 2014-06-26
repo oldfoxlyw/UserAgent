@@ -87,6 +87,7 @@ class Order extends CI_Controller {
 
 		$check = array($this->appkey . $player_id . $apporderid . $appmoney . $money . $createtime . $this->appkey);
 		$check = md5(implode('', $check));
+		exit($check);
 		if($sign == $check)
 		{
 			$this->load->model('morder');
@@ -135,6 +136,8 @@ class Order extends CI_Controller {
 							$this->connector->post($url, $parameter);
 
 							$parameter = array(
+								'funds_time'		=>	$createtime,
+								'funds_time_local'	=>	date('Y-m-d H:i:s', $createtime),
 								'appstore_status'	=>	0
 							);
 							$this->morder->update($apporderid, $parameter);
