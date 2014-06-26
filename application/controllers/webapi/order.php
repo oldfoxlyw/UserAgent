@@ -87,7 +87,6 @@ class Order extends CI_Controller {
 
 		$check = array($this->appkey . $player_id . $apporderid . $appmoney . $money . $createtime . $this->appkey);
 		$check = md5(implode('', $check));
-		exit($check);
 		if($sign == $check)
 		{
 			$this->load->model('morder');
