@@ -132,7 +132,9 @@ class Order extends CI_Controller {
 								'nickname'	=>	$account->account_nickname,
 								'pay_money'	=>	$money
 							);
-							$this->connector->post($url, $parameter);
+							$message = $this->connector->post($url, $parameter);
+							echo $message;
+							exit();
 
 							$parameter = array(
 								'funds_time'		=>	$createtime,
