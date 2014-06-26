@@ -126,7 +126,7 @@ class Order extends CI_Controller {
 							$url = 'http://' . $server->ip . ':' . $server->port . '/platform_payment_notification';
 
 							//通知对应服务器
-							$this->load->model('connector');
+							$this->load->model('webapi/connector');
 							$parameter = array(
 								'billno'	=>	$apporderid,
 								'nickname'	=>	$account->account_nickname,
