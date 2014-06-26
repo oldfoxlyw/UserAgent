@@ -565,7 +565,7 @@ class Account extends CI_Controller {
 
 		if(empty($partner))
 		{
-			$partner = 'default';
+			$partner = 'tw_default';
 		}
 			
 		$this->load->library('guid');

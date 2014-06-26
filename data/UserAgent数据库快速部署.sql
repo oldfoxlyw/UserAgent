@@ -355,6 +355,7 @@ DROP TABLE IF EXISTS `agent1_log_db_201203`.`log_account` ;
 CREATE TABLE IF NOT EXISTS `agent1_log_db_201203`.`log_account` (
   `log_id` INT(11) NOT NULL AUTO_INCREMENT,
   `log_GUID` CHAR(36) NOT NULL,
+  `device_id` CHAR(64) NOT NULL,
   `log_account_name` CHAR(64) NULL DEFAULT NULL,
   `log_account_level` INT NOT NULL DEFAULT 0,
   `log_action` CHAR(64) NOT NULL,
