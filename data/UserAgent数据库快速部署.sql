@@ -129,7 +129,7 @@ USE `agent1_funds_flow_db` ;
 DROP TABLE IF EXISTS `agent1_funds_flow_db`.`funds_checkinout` ;
 
 CREATE TABLE IF NOT EXISTS `agent1_funds_flow_db`.`funds_checkinout` (
-  `funds_id` INT(11) NOT NULL AUTO_INCREMENT,
+  `funds_id` BIGINT(20) NOT NULL,
   `account_guid` BIGINT(20) NOT NULL,
   `account_name` CHAR(64) NOT NULL,
   `account_nickname` CHAR(32) NOT NULL,
@@ -155,7 +155,7 @@ CREATE TABLE IF NOT EXISTS `agent1_funds_flow_db`.`funds_checkinout` (
   INDEX `funds_flow_dir` (`funds_flow_dir` ASC),
   INDEX `funds_time` (`funds_time` ASC))
 ENGINE = MyISAM
-AUTO_INCREMENT = 188;
+AUTO_INCREMENT = 100129700001;
 
 
 -- -----------------------------------------------------
@@ -355,6 +355,7 @@ DROP TABLE IF EXISTS `agent1_log_db_201203`.`log_account` ;
 CREATE TABLE IF NOT EXISTS `agent1_log_db_201203`.`log_account` (
   `log_id` INT(11) NOT NULL AUTO_INCREMENT,
   `log_GUID` CHAR(36) NOT NULL,
+  `device_id` CHAR(64) NOT NULL,
   `log_account_name` CHAR(64) NULL DEFAULT NULL,
   `log_account_level` INT NOT NULL DEFAULT 0,
   `log_action` CHAR(64) NOT NULL,
@@ -562,6 +563,8 @@ CREATE TABLE IF NOT EXISTS `agent1_product_db`.`game_announcement` (
   `summary` TEXT NOT NULL,
   `content` TEXT NOT NULL,
   `post_time` INT NOT NULL,
+  `partner_key` TEXT NOT NULL,
+  `server_id` CHAR(8) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
