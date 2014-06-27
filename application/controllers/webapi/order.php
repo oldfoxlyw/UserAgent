@@ -19,7 +19,7 @@ class Order extends CI_Controller {
 		$create_time = $this->input->get_post('create_time', TRUE);
 		$sign = $this->input->get_post('sign', TRUE);
 
-		$check = array($this->appkey . $server_id . $nickname . $order_id . $amount . $create_time . $this->appkey);
+		$check = array($this->appkey . $server_id . $player_id . $order_id . $amount . $create_time . $this->appkey);
 		$check = md5(implode('', $check));
 		if($sign == $check)
 		{
