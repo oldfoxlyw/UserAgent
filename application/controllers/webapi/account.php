@@ -689,7 +689,7 @@ class Account extends CI_Controller {
 
 			$parameter = array(
 				'server_id'			=>	$server_id,
-				'account_nickname'	=>	$nickname
+				'account_nickname'	=>	$nickname . ' '
 			);
 			$result = $this->maccount->read($parameter);
 
