@@ -124,9 +124,6 @@ class Order extends CI_Controller {
 
 							$server = $server[0];
 							$url = 'http://' . $server->ip . ':' . $server->port . '/platform_payment_notification';
-							echo $url;
-							echo '<br>';
-							exit();
 
 							//通知对应服务器
 							$this->load->model('webapi/connector');
@@ -135,7 +132,9 @@ class Order extends CI_Controller {
 								'nickname'	=>	$account->account_nickname,
 								'pay_money'	=>	$money
 							);
-							$this->connector->post($url, $parameter);
+							$message = $this->connector->post($url, $parameter);
+							echo $message;
+							exit();
 
 							$parameter = array(
 								'funds_time'		=>	$createtime,
