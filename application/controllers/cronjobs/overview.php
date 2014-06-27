@@ -278,7 +278,9 @@ class Overview extends CI_Controller
 					'at' => $at,
 					'partner_key' => $partnerKey 
 				);
+				var_dump($parameter);
 				$this->logcachedb->insert ( 'log_daily_statistics', $parameter );
+				echo 'End';
 				
 				$this->flowover_detail_statistics ( $date, $row->account_server_id, $partnerKey );
 				$this->buy_equipment_statistics ( $date, $row->account_server_id, $partnerKey );
