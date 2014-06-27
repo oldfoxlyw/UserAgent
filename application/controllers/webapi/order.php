@@ -120,12 +120,13 @@ class Order extends CI_Controller {
 
 						if(!empty($result))
 						{
-							$server = $result[0];
+							$server = json_decode($result[0]->server_ip);
 
-							$server = json_decode($server->server_ip);
+							$server = $server[0];
 							$url = 'http://' . $server->ip . ':' . $server->port . '/platform_payment_notification';
 							echo $url;
 							echo '<br>';
+							exit();
 
 							//通知对应服务器
 							$this->load->model('webapi/connector');
