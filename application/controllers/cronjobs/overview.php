@@ -55,7 +55,6 @@ class Overview extends CI_Controller
 		{
 			$currentTimeStamp = time ();
 			$currentDate = date ( 'Y-m-d', $currentTimeStamp );
-
 			$lastTimeStart = strtotime ( $currentDate . ' 00:00:00' ) - 86400;
 			$lastTimeEnd = strtotime ( $currentDate . ' 23:59:59' ) - 86400;
 		}
@@ -86,6 +85,14 @@ class Overview extends CI_Controller
 				// $this->accountdb->where ( 'account_regtime <=', $lastTimeEnd );
 				$this->accountdb->where ( 'account_level >', 0 );
 				$validCount = $this->accountdb->count_all_results ( 'web_account' );
+				
+				// 新有效帐号（建立角色的帐号）
+				$this->accountdb->where ( 'server_id', $row->account_server_id );
+				$this->accountdb->where ( 'partner_key', $partnerKey );
+				$this->accountdb->where ( 'account_regtime >=', $lastTimeStart );
+				$this->accountdb->where ( 'account_regtime <=', $lastTimeEnd );
+				$this->accountdb->where ( 'account_level >', 0 );
+				$validNewCount = $this->accountdb->count_all_results ( 'web_account' );
 
 				// 等级大于1的帐号
 				$this->accountdb->where ( 'server_id', $row->account_server_id );
@@ -111,7 +118,7 @@ class Overview extends CI_Controller
 				$sql = "SELECT `log_GUID` FROM `log_account` WHERE (`log_action` = 'ACCOUNT_LOGIN_SUCCESS' OR `log_action` = 'ACCOUNT_REGISTER_SUCCESS' OR `log_action` = 'ACCOUNT_DEMO_SUCCESS') AND `log_time` >= {$lastTimeStart} AND `log_time` <= {$lastTimeEnd} AND `server_id` = '{$row->account_server_id}' AND `partner_key` = '{$partnerKey}' GROUP BY `log_GUID`";
 				$loginCount = $this->logdb->query($sql)->num_rows();
 
-				// 当天登录数
+				// 当天有效登录数
 				$sql = "SELECT `log_GUID` FROM `log_account` WHERE (`log_action` = 'ACCOUNT_LOGIN_SUCCESS' OR `log_action` = 'ACCOUNT_REGISTER_SUCCESS' OR `log_action` = 'ACCOUNT_DEMO_SUCCESS') AND `log_time` >= {$lastTimeStart} AND `log_time` <= {$lastTimeEnd} AND `server_id` = '{$row->account_server_id}' AND `partner_key` = '{$partnerKey}' AND `log_account_level` > 0 GROUP BY `log_GUID`";
 				$loginValidCount = $this->logdb->query($sql)->num_rows();
 
@@ -121,7 +128,8 @@ class Overview extends CI_Controller
 				$activeCount = $this->logdb->query($sql)->num_rows();
 
 				//DAU
-				$dau = $loginCount - $regNewCount;
+				// $dau = $loginCount - $regNewCount;
+				$dau = $loginValidCount - $validNewCount;
 				
 				// 回流玩家数(超过一周没有登录但最近有登录的玩家数)
 				$this->logcachedb->where ( 'server_id', $row->account_server_id );
@@ -262,6 +270,7 @@ class Overview extends CI_Controller
 					'reg_account' => $registerCount,
 					'reg_new_account' => $regNewCount,
 					'valid_account' => $validCount,
+					'valid_new_account' => $validNewCount,
 					'level_account' => $levelCount,
 					'modify_account' => $modifyCount,
 					'modify_new_account' => $modifyNewCount,
