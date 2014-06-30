@@ -129,7 +129,7 @@ class Order extends CI_Controller {
 							$this->load->model('webapi/connector');
 							$parameter = array(
 								'billno'	=>	$apporderid,
-								'nickname'	=>	$account->account_nickname,
+								'player_id'	=>	$account->GUID,
 								'pay_money'	=>	$money
 							);
 							$message = $this->connector->post($url, $parameter);
