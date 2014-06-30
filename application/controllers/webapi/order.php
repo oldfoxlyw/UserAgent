@@ -133,8 +133,6 @@ class Order extends CI_Controller {
 								'pay_money'	=>	$money
 							);
 							$message = $this->connector->post($url, $parameter);
-							echo $message;
-							exit();
 
 							$parameter = array(
 								'funds_time'		=>	$createtime,
