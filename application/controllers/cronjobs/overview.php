@@ -11,6 +11,7 @@ class Overview extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct ();
+		date_default_timezone_set('Etc/GMT+4');
 		$this->accountdb = $this->load->database ( 'accountdb', true );
 		$this->logcachedb = $this->load->database ( 'log_cachedb', true );
 		$this->logdb = $this->load->database ( 'logdb', true );
