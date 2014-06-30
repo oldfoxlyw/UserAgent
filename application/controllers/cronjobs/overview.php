@@ -19,6 +19,7 @@ class Overview extends CI_Controller
 
 	public function statistics($server_id)
 	{
+		exit(date ( 'Y-m-d H:i:s'));
 		set_time_limit(1800);
 
 		$this->load->model ( 'websrv/server' );
@@ -55,6 +56,7 @@ class Overview extends CI_Controller
 		{
 			$currentTimeStamp = time ();
 			$currentDate = date ( 'Y-m-d', $currentTimeStamp );
+
 			$lastTimeStart = strtotime ( $currentDate . ' 00:00:00' ) - 86400;
 			$lastTimeEnd = strtotime ( $currentDate . ' 23:59:59' ) - 86400;
 		}
