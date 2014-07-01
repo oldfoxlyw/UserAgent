@@ -10,17 +10,24 @@ class Mail extends CI_Controller
 
 	public function send()
 	{
-		$this->load->library('email');
+		$from = $this->input->get_post('from');
+		$subject = $this->input->get_post('subject');
+		$content = $this->input->get_post('content');
 
-		$this->email->from('your@example.com', 'Your Name');
-		$this->email->to('johnnyeven@gmail.com'); 
+		if(!empty($from) && !empty($subject) && !empty($content))
+		{
+			$this->load->library('email');
 
-		$this->email->subject('Email Test');
-		$this->email->message('Testing the email class.'); 
+			$this->email->from('your@example.com', 'Your Name');
+			$this->email->to('johnnyeven@gmail.com'); 
 
-		$this->email->send();
+			$this->email->subject('Email Test');
+			$this->email->message('Testing the email class.'); 
 
-		echo $this->email->print_debugger();
+			$this->email->send();
+
+			echo $this->email->print_debugger();
+		}
 	}
 }
 
