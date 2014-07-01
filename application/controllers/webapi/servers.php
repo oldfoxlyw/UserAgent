@@ -16,7 +16,7 @@ class Servers extends CI_Controller {
 			$result = $this->mserver->read(array(
 					'account_server_id'		=>	$serverId
 			), array(
-					'select'	=>	'game_message_ip'
+					'select'	=>	'game_message_ip,legion_message_ip'
 			));
 			
 			if(!empty($result))
@@ -35,16 +35,16 @@ class Servers extends CI_Controller {
 				}
 				$result->game_message_ip = $result->game_message_ip->ip . ':' . $result->game_message_ip->port;
 				
-				$result->cross_server_ip = json_decode($result->cross_server_ip);
-				if(count($result->cross_server_ip) > 0)
+				$result->legion_message_ip = json_decode($result->legion_message_ip);
+				if(count($result->legion_message_ip) > 0)
 				{
-					$result->cross_server_ip = random_element($result->cross_server_ip);
+					$result->legion_message_ip = random_element($result->legion_message_ip);
 				}
 				else
 				{
-					$result->cross_server_ip = $result->cross_server_ip[0];
+					$result->legion_message_ip = $result->legion_message_ip[0];
 				}
-				$result->cross_server_ip = $result->cross_server_ip->ip . ':' . $result->cross_server_ip->port;
+				$result->legion_message_ip = $result->legion_message_ip->ip . ':' . $result->legion_message_ip->port;
 			}
 			else
 			{
