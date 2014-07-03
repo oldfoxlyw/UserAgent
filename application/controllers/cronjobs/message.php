@@ -42,40 +42,47 @@ class Message extends CI_Controller
 		$this->load->model('web_account');
 		foreach($result as $row)
 		{
-			$dateArray = explode(',', $row->date);
-			if(in_array('*', $dateArray) || in_array($date, $dateArray))
+			if($row->every > 0)
 			{
-				$hourArray = explode(',', $row->hour);
-				if(in_array('*', $hourArray) || in_array($hour, $hourArray))
+				
+			}
+			else
+			{
+				$dateArray = explode(',', $row->date);
+				if(in_array('*', $dateArray) || in_array($date, $dateArray))
 				{
-					$minutesArray = explode(',', $row->minutes);
-					if(in_array('*', $minutesArray) || in_array($minutes, $minutesArray))
+					$hourArray = explode(',', $row->hour);
+					if(in_array('*', $hourArray) || in_array($hour, $hourArray))
 					{
-						if(!empty($row->content))
+						$minutesArray = explode(',', $row->minutes);
+						if(in_array('*', $minutesArray) || in_array($minutes, $minutesArray))
 						{
-							if($row->server_id == 'all')
+							if(!empty($row->content))
 							{
-								$parameter = array(
-										'content'		=>	$row->content
-								);
-								
-								//各服轮询发送
-								foreach($serverIp as $ip)
+								if($row->server_id == 'all')
 								{
-									$data = $this->connector->post($ip . '/announcement', $parameter, FALSE);
+									$parameter = array(
+											'content'		=>	$row->content
+									);
+									
+									//各服轮询发送
+									foreach($serverIp as $ip)
+									{
+										$data = $this->connector->post($ip . '/announcement', $parameter, FALSE);
+									}
 								}
-							}
-							else
-							{
-								$ip = $serverIp[$row->server_id];
-								
-								$parameter = array(
-										'content'			=>	$row->content
-								);
-								$data = $this->connector->post($ip . '/announcement', $parameter, FALSE);
-								
-	// 							$sql = "insert into debug(text)values('url=" . $ip . '/announcement, content=' . $row->content . ", return={$data}')";
-	// 							$this->web_account->db()->query($sql);
+								else
+								{
+									$ip = $serverIp[$row->server_id];
+									
+									$parameter = array(
+											'content'			=>	$row->content
+									);
+									$data = $this->connector->post($ip . '/announcement', $parameter, FALSE);
+									
+									// $sql = "insert into debug(text)values('url=" . $ip . '/announcement, content=' . $row->content . ", return={$data}')";
+									// $this->web_account->db()->query($sql);
+								}
 							}
 						}
 					}
