@@ -24,14 +24,7 @@ class Message extends CI_Controller
 		{
 			$server->server_ip = json_decode($server->server_ip);
 			$server->server_ip = $server->server_ip[0];
-			if(intval($server->account_server_id) >= 103)
-			{
-				$serverIp[$server->account_server_id] = 'http://' . $server->server_ip->ip . ':8089';
-			}
-			else
-			{
-				$serverIp[$server->account_server_id] = 'http://' . $server->server_ip->lan . ':' . $server->server_ip->port;
-			}
+			$serverIp[$server->account_server_id] = 'http://' . $server->server_ip->lan . ':8089';
 		}
 		
 		$time = time();
