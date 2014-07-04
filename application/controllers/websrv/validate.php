@@ -101,7 +101,7 @@ class Validate extends CI_Controller
 	public function promotion_code($format = 'json')
 	{
 		$code = $this->input->get_post('code', TRUE);
-		$channel = $this->input->post('channel', TRUE);
+		// $channel = $this->input->post('channel', TRUE);
 		$code = strtoupper($code);
 
 		$this->load->model('mcode');
@@ -110,10 +110,10 @@ class Validate extends CI_Controller
 		$parameter = array(
 				'code'		=>	$code
 		);
-		if(!empty($channel))
-		{
-			$parameter['comment'] = $channel;
-		}
+		// if(!empty($channel))
+		// {
+		// 	$parameter['comment'] = $channel;
+		// }
 		$result = $this->mcode->read($parameter);
 		
 		if(!empty($result))
