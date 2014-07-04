@@ -45,7 +45,8 @@ class Orders extends CI_Controller {
 					$this->web_account->update($parameter, $playerId);
 				
 					$time = time();
-					
+					$fundsAmount = $this->convertTWD2USD($fundsAmount);
+
 					$this->load->model('funds');
 					$parameter = array(
 							'account_guid'			=>	$result->GUID,
@@ -245,6 +246,26 @@ class Orders extends CI_Controller {
 			);
 		}
 		echo $this->return_format->format($jsonData, $format);
+	}
+
+	private function convertTWD2USD($amount)
+	{
+		$list = ['3000','15000','21000','45000','63000','89000','147000','279000'];
+		$convertion = array(
+			'3000'		=>	'99',
+			'15000'		=>	'499',
+			'21000'		=>	'699',
+			'45000'		=>	'1499',
+			'63000'		=>	'2099',
+			'89000'		=>	'2999',
+			'147000'	=>	'4899',
+			'279000'	=>	'9499'
+		);
+		if(in_array($amount, $list))
+		{
+			return $convertion[$amount];
+		}
+		return $amount;
 	}
 }
 ?>
