@@ -32,6 +32,13 @@ class Servers extends CI_Controller {
 
 			$type = 'appstore';
 		}
+		elseif($mode == 'pub' && ($partner == 'tw_default' || $partner == 'tw_facebook') && $ver == '1.1')
+		{
+			$this->load->config('server_list_default');
+			$jsonData = $this->config->item('game_server_list1');
+
+			$type = 'appstore';
+		}
 		elseif($mode == 'beta')
 		{
 			$this->load->config('server_list_beta');
