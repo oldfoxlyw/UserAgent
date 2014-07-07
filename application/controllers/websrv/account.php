@@ -744,6 +744,7 @@ class Account extends CI_Controller {
 							'server_id'		=>	$user->server_id,
 							'partner_key'	=>	$user->partner_key
 					);
+					$this->logs->write($logParameter);
 // 				}
 // 				else
 // 				{
