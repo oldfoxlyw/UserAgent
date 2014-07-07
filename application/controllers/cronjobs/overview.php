@@ -128,7 +128,7 @@ class Overview extends CI_Controller
 				$activeCount = $this->logdb->query($sql)->num_rows();
 
 				//DAU
-				$dau = $loginCount - $regNewCount;
+				$dau = $loginCount - $validNewCount;
 				// $dau = $loginValidCount - $validNewCount;
 				
 				// 回流玩家数(超过一周没有登录但最近有登录的玩家数)
