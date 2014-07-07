@@ -22,7 +22,7 @@ class Request_online_count extends CI_Controller
 		{
 			$row->server_ip = json_decode($row->server_ip);
 			$row->server_ip = $row->server_ip[0];
-			$row->server_ip = $row->server_ip->lan . ':8089';
+			$row->server_ip = $row->server_ip->ip . ':8091';
 			$url = 'http://' . $row->server_ip;
 			$count = $this->get($url . '/get_online_count');
 			
