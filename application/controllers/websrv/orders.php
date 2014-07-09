@@ -171,11 +171,6 @@ class Orders extends CI_Controller {
 			if($account !== FALSE)
 			{
 				$parameter = array(
-					'account_point'		=>	$currentSpecialGold
-				);
-				$this->web_account->update($parameter, $playerId);
-				
-				$parameter = array(
 					'player_id'					=>	$playerId,
 					'role_id'					=>	$roleId,
 					'role_level'				=>	$roleLevel,
@@ -215,16 +210,6 @@ class Orders extends CI_Controller {
 					$this->funds->insert($parameter);
 				}
 				
-// 				if($actionName == 'buy_equipment')
-// 				{
-// 					$this->load->model('websrv/equipment_name');
-// 					$parameter = array(
-// 							'equipment_name'	=>	$itemName,
-// 							'type'				=>	$itemInfo
-// 					);
-// 					$this->equipment_name->insert($parameter);
-// 				}
-				
 				$jsonData = Array(
 						'success'	=>	true,
 						'message'	=>	'CONSUME_COMPLETE'
@@ -247,25 +232,5 @@ class Orders extends CI_Controller {
 		}
 		echo $this->return_format->format($jsonData, $format);
 	}
-
-	// private function convertTWD2USD($amount)
-	// {
-	// 	$list = ['3000','15000','21000','45000','63000','89000','147000','279000'];
-	// 	$convertion = array(
-	// 		'3000'		=>	'99',
-	// 		'15000'		=>	'499',
-	// 		'21000'		=>	'699',
-	// 		'45000'		=>	'1499',
-	// 		'63000'		=>	'2099',
-	// 		'89000'		=>	'2999',
-	// 		'147000'	=>	'4899',
-	// 		'279000'	=>	'9499'
-	// 	);
-	// 	if(in_array($amount, $list))
-	// 	{
-	// 		return $convertion[$amount];
-	// 	}
-	// 	return $amount;
-	// }
 }
 ?>
