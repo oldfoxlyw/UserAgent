@@ -51,6 +51,7 @@ class Orders extends CI_Controller {
 							'account_guid'			=>	$result->GUID,
 							'account_name'			=>	$result->account_name,
 							'account_nickname'		=>	empty($result->account_nickname) ? '' : $result->account_nickname,
+							'account_level'			=>	$result->account_level,
 							'account_id'			=>	$accountId,
 							'server_id'				=>	$serverId,
 							'funds_flow_dir'		=>	'CHECK_IN',
