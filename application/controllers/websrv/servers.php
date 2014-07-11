@@ -52,11 +52,11 @@ class Servers extends CI_Controller {
 
 		/*
 		$productdb = $this->load->database('productdb', TRUE);
-		$sql = "SELECT `server_id`, `count`, `max_count` FROM `server_balance_check` WHERE `next_active` = 1 AND `type`='{$type}'";
+		$sql = "SELECT `next`, `count`, `max_count` FROM `server_balance_check` WHERE `next_active` = 1 AND `type`='{$type}'";
 		$next = $productdb->query($sql)->row();
 		$maxCount = intval($next->max_count);
 		$count = intval($next->count);
-		$next = intval($next->server_id);
+		$next = intval($next->next);
 		*/
 
 		$next = 0;
