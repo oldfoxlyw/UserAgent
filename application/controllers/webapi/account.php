@@ -680,6 +680,7 @@ class Account extends CI_Controller {
 	*/
 	public function check($format = 'json')
 	{
+		$this->load->model('logs');
 		$server_id = $this->input->get_post('serv_id', TRUE);
 		$nickname = $this->input->get_post('usr_id', TRUE);
 
@@ -710,6 +711,14 @@ class Account extends CI_Controller {
 					'err_code'			=>	1,
 					'desc'				=>	'Account not exist'
 				);
+
+				$log = array(
+					'log_action'		=>	'OFFLINE_RECHARGE_ERROR_NOT_EXIST',
+					'account_guid'		=>	0,
+					'account_name'		=>	$nickname,
+					'server_id'			=>	$server_id
+				);
+				$this->logs->write_api($parameter);
 			}
 		}
 		else
