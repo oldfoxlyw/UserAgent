@@ -718,7 +718,7 @@ class Account extends CI_Controller {
 					'account_name'		=>	$nickname,
 					'server_id'			=>	$server_id
 				);
-				$this->logs->write_api($parameter);
+				$this->logs->write_api($log);
 			}
 		}
 		else
