@@ -107,6 +107,7 @@ class Account extends CI_Controller {
 		$level = $this->input->get_post('level', TRUE);
 		$mission = $this->input->get_post('mission', TRUE);
 		$nickname = $this->input->get_post('nickname', TRUE);
+		$role_id = $this->input->get_post('role_id', TRUE);
 		$device_id = $this->input->get_post('device_id', TRUE);
 		$ad_id = $this->input->get_post('ad_id', TRUE);
 		
@@ -126,6 +127,10 @@ class Account extends CI_Controller {
 			}
 			if(!empty($nickname)) {
 				$parameter['account_nickname'] = trim($nickname);
+			}
+			if(!empty($role_id))
+			{
+				$parameter['role_id'] = $role_id;
 			}
 			if(!empty($device_id)) {
 				$parameter['device_id'] = $device_id;
