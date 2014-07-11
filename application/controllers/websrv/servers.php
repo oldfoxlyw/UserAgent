@@ -41,10 +41,9 @@ class Servers extends CI_Controller {
 		}
 		elseif($mode == 'beta')
 		{
-			$this->load->config('server_list_beta');
-			$jsonData = $this->config->item('game_server_list');
-
-			$type = 'appstore';
+			$jsonData = array(
+				'errors'	=>	'测试已结束，清前往AppStore下载正式版客户端'
+			);
 		}
 		else
 		{
