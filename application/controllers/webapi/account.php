@@ -705,6 +705,14 @@ class Account extends CI_Controller {
 					'usr_name'			=>	$nickname,
 					'usr_rank'			=>	$result->account_level
 				);
+
+				$log = array(
+					'log_action'		=>	'OFFLINE_RECHARGE_ACCOUNT_SUCCESS',
+					'account_guid'		=>	$result->GUID,
+					'account_name'		=>	$nickname,
+					'server_id'			=>	$server_id
+				);
+				$this->logs->write_api($log);
 			}
 			else
 			{
