@@ -685,7 +685,12 @@ class Account extends CI_Controller {
 		$result = $this->maccount->read($parameter);
 		$result = $result[0];
 
-		echo utf8_unicode($result->account_nickname);
+		for($i=0; $i<strlen($result->account_nickname); $i++)
+		{
+			$ch = substr($result->account_nickname, $i, 1);
+			echo $ch . ', ' . utf8_encode($ch);
+			echo '<br>';
+		}
 		// echo $result->account_nickname;
 		// echo '<Br>';
 		// echo trim($result->account_nickname);
