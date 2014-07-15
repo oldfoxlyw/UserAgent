@@ -684,13 +684,16 @@ class Account extends CI_Controller {
 		$result = $this->maccount->read($parameter);
 		$result = $result[0];
 
-		echo $result->account_nickname;
-		echo '<Br>';
-		echo trim($result->account_nickname);
-		echo '<br>';
-		echo base64_encode($result->account_nickname);
-		echo '<br>';
-		echo base64_encode(trim($result->account_nickname));
+		preg_match('/\s/', $result->account_nickname, $matches);
+
+		var_dump($matches);
+		// echo $result->account_nickname;
+		// echo '<Br>';
+		// echo trim($result->account_nickname);
+		// echo '<br>';
+		// echo base64_encode($result->account_nickname);
+		// echo '<br>';
+		// echo base64_encode(trim($result->account_nickname));
 	}
 
 	/*
