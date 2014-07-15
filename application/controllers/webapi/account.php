@@ -675,6 +675,24 @@ class Account extends CI_Controller {
 		}
 	}
 
+	public function test()
+	{
+		$this->load->model('maccount');
+		$parameter = array(
+			'GUID'	=>	200100191000003
+		);
+		$result = $this->maccount->read($parameter);
+		$result = $result[0];
+
+		echo $result->account_nickname;
+		echo '<Br>';
+		echo trim($result->account_nickname);
+		echo '<br>';
+		echo base64_encode($result->account_nickname);
+		echo '<br>';
+		echo base64_encode(trim($result->account_nickname));
+	}
+
 	/*
 	爱立德专用帐号验证接口
 	*/
