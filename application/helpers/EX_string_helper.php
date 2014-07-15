@@ -40,7 +40,7 @@ function getUnicodeFromOneUTF8($word)
     $bin_str = preg_replace('/^.{4}(.{4}).{2}(.{6}).{2}(.{6})$/','$1$2$3', $bin_str);  
       
     //此时， $bin_str应类似0100111101100000,如果是汉字"你"  
-    return bindec($bin_str);  
+    return dechex(bindec($bin_str));  
     //返回类似20320， 汉字"你"  
     //return dechex(bindec($bin_str));  
     //如想返回十六进制4f60，用这句  
