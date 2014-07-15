@@ -677,6 +677,7 @@ class Account extends CI_Controller {
 
 	public function test()
 	{
+		$this->load->helper('string');
 		$this->load->model('maccount');
 		$parameter = array(
 			'GUID'	=>	200100191000003
@@ -684,12 +685,7 @@ class Account extends CI_Controller {
 		$result = $this->maccount->read($parameter);
 		$result = $result[0];
 
-		for($i=0; $i<strlen($result->account_nickname); $i++)
-		{
-			$ch = substr($result->account_nickname, $i, 1);
-			echo $ch . ', ' . ord($ch);
-			echo '<br>';
-		}
+		echo getUnicodeFromOneUTF8($result->account_nickname);
 		// echo $result->account_nickname;
 		// echo '<Br>';
 		// echo trim($result->account_nickname);
