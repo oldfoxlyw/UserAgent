@@ -684,14 +684,12 @@ class Account extends CI_Controller {
 		$result = $this->maccount->read($parameter);
 		$result = $result[0];
 
-		$matches = array();
-		echo $result->account_nickname;
-		echo '<br>';
-		echo chr(17);
-		echo '<br>';
-		preg_match('/' . chr(17) . '/', $result->account_nickname, $matches);
-
-		var_dump($matches);
+		for($i=0; $i<strlen($result->account_nickname); $i++)
+		{
+			$ch = substr($result->account_nickname, $i, 1);
+			echo ord($ch);
+			echo '<br>';
+		}
 		// echo $result->account_nickname;
 		// echo '<Br>';
 		// echo trim($result->account_nickname);
