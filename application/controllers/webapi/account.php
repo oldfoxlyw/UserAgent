@@ -682,7 +682,7 @@ class Account extends CI_Controller {
 	{
 		$this->load->model('logs');
 		$server_id = $this->input->get_post('serv_id', TRUE);
-		$nickname = $this->input->get_post('usr_id', TRUE);
+		$nickname = trim($this->input->get_post('usr_id', TRUE));
 
 		if(!empty($server_id) && !empty($nickname))
 		{
@@ -691,7 +691,7 @@ class Account extends CI_Controller {
 			$parameter = array(
 				'server_id'			=>	$server_id,
 				// 'account_nickname'	=>	$nickname . ' '
-				'account_nickname'	=>	trim($nickname)
+				'account_nickname'	=>	$nickname
 			);
 			$result = $this->maccount->read($parameter);
 
