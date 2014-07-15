@@ -43,7 +43,7 @@ class logs extends CI_Model {
 				'log_account_name'		=>	$parameter['account_name'],
 				'log_action'			=>	$parameter['log_action'],
 				'log_parameter'			=>	$relativeParameter,
-				'log_time'		=>	time(),
+				'log_time'				=>	time(),
 				'log_ip'				=>	$requestIp,
 				'server_id'				=>	empty($parameter['server_id']) ? '' : $parameter['server_id']
 			);

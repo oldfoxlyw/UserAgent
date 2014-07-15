@@ -126,7 +126,7 @@ class Account extends CI_Controller {
 				$parameter['account_mission'] = $mission;
 			}
 			if(!empty($nickname)) {
-				$parameter['account_nickname'] = trim($nickname);
+				$parameter['account_nickname'] = $nickname;
 			}
 			if(!empty($role_id))
 			{
