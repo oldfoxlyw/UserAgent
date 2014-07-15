@@ -680,7 +680,7 @@ class Account extends CI_Controller {
 		$this->load->helper('string');
 		$this->load->model('maccount');
 		$parameter = array(
-			'GUID'	=>	200100191000005
+			'GUID'	=>	200100191003737
 		);
 		$result = $this->maccount->read($parameter);
 		$result = $result[0];
