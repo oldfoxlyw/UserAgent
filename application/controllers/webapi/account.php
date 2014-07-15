@@ -687,7 +687,7 @@ class Account extends CI_Controller {
 		for($i=0; $i<strlen($result->account_nickname); $i++)
 		{
 			$ch = substr($result->account_nickname, $i, 1);
-			echo ord(' ');
+			echo $ch . ', ' . ord($ch);
 			echo '<br>';
 		}
 		// echo $result->account_nickname;
