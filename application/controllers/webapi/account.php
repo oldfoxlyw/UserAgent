@@ -685,7 +685,7 @@ class Account extends CI_Controller {
 		$result = $this->maccount->read($parameter);
 		$result = $result[0];
 
-		echo getUnicodeFromOneUTF8($result->account_nickname);
+		echo utf8_unicode($result->account_nickname);
 		// echo $result->account_nickname;
 		// echo '<Br>';
 		// echo trim($result->account_nickname);
