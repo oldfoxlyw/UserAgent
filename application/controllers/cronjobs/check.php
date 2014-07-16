@@ -26,7 +26,8 @@ class Check extends CI_Controller
 		}
 		$log_filename = 'access.log-' . date('Ymd', $prevTime) . '.gz.log';
 
-		$sql = "SELECT `ip`, `agent` FROM `click_table` WHERE `time` >= '{$date} 00:00:00' AND `time` <= '{$date} 23:59:59' GROUP BY `ip`";
+		// $sql = "SELECT `ip`, `agent` FROM `click_table` WHERE `time` >= '{$date} 00:00:00' AND `time` <= '{$date} 23:59:59' GROUP BY `ip`";
+		$sql = "SELECT `ip`, `agent` FROM `click_table` GROUP BY `ip`";
 		$result = $this->channeldb->query($sql)->result();
 		$ips = array();
 		foreach ($result as $row)
@@ -62,6 +63,20 @@ class Check extends CI_Controller
 				$this->channeldb->query($sql);
 				echo $ip;
 			}
+		}
+	}
+
+	public function init()
+	{
+		$sql = "SELECT `ip`, `agent` FROM `click_table` GROUP BY `ip`";
+		$result = $this->channeldb->query($sql)->result();
+		$ips = array();
+		foreach ($result as $row)
+		{
+			$ips[$row->ip] = array(
+				'count'		=>	0,
+				'agent'		=>	$row->agent
+			);
 		}
 	}
 }
