@@ -31,10 +31,13 @@ class Check extends CI_Controller
 
 		$file = fopen('/home/liyiwen/logs/nginx/' . $log_filename, 'r');
 		$line_count = 0;
-		while(!feof($file))
+		if($file)
 		{
-			$line = fgets($file);
-			$line_count++;
+			while(!feof($file))
+			{
+				$line = fgets($file);
+				$line_count++;
+			}
 		}
 
 		echo $line_count;
