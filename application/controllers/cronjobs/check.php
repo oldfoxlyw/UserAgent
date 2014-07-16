@@ -14,7 +14,7 @@ class Check extends CI_Controller
 
 	public function round()
 	{
-		error_reporting(E_ALL);
+		// error_reporting(E_ALL);
 		set_time_limit(1800);
 
 		$time = time();
@@ -34,6 +34,7 @@ class Check extends CI_Controller
 				)
 			));
 		}
+		var_dump($ips);
 
 		$file = fopen('/home/data/nginx/' . $log_filename, 'r');
 		if($file)
@@ -52,7 +53,7 @@ class Check extends CI_Controller
 		}
 		fclose($file);
 
-		foreach ($ips as $ip=>$value)
+		foreach ($ips as $ip => $value)
 		{
 			if($value['count'] > 0)
 			{
