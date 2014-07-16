@@ -17,12 +17,16 @@ class Check extends CI_Controller
 		// error_reporting(E_ALL);
 		set_time_limit(1800);
 
-		$time = time();
-		$prevTime = $time - 86400;
-		$datetime = date('Y-m-d', $prevTime);
+		$date = $this->input->get_post('date', TRUE);
+		if(empty($date))
+		{
+			$time = time();
+			$prevTime = $time - 86400;
+			$date = date('Y-m-d', $prevTime);
+		}
 		$log_filename = 'access.log-' . date('Ymd', $prevTime) . '.gz.log';
 
-		$sql = "SELECT `ip`, `agent` FROM `click_table` WHERE `time` >= '{$datetime} 00:00:00' AND `time` <= '{$datetime} 23:59:59' GROUP BY `ip`";
+		$sql = "SELECT `ip`, `agent` FROM `click_table` WHERE `time` >= '{$date} 00:00:00' AND `time` <= '{$date} 23:59:59' GROUP BY `ip`";
 		$result = $this->channeldb->query($sql)->result();
 		$ips = array();
 		foreach ($result as $row)
@@ -54,8 +58,9 @@ class Check extends CI_Controller
 		{
 			if($value['count'] > 0)
 			{
-				echo $ip . '=> ';
-				var_dump($value);
+				$sql = "INSERT INTO `valid_click`(`ip`,`agent`)VALUES('" . $ip . "', '" . $value['agent'] . "')";
+				$this->channeldb->query($sql);
+				echo $ip;
 			}
 		}
 	}
