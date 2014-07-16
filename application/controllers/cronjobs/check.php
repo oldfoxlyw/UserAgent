@@ -41,7 +41,7 @@ class Check extends CI_Controller
 				$line = fgets($file);
 				foreach ($ips as $ip => $value)
 				{
-					if(strpos($line, $ip))
+					if(strpos($line, $ip) !== false)
 					{
 						$ips[$ip]['count']++;
 					}
