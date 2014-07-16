@@ -22,13 +22,16 @@ class Check extends CI_Controller
 		$datetime = date('Y-m-d', $prevTime);
 		$log_filename = 'access.log-' . date('Ymd', $prevTime) . '.gz.log';
 
-		$sql = "SELECT `ip` FROM `click_table` WHERE `time` >= '{$datetime} 00:00:00' AND `time` <= '{$datetime} 23:59:59' GROUP BY `ip`";
+		$sql = "SELECT `ip`, `agent` FROM `click_table` WHERE `time` >= '{$datetime} 00:00:00' AND `time` <= '{$datetime} 23:59:59' GROUP BY `ip`";
 		$result = $this->channeldb->query($sql)->result();
 		$ips = array();
 		foreach ($result as $row)
 		{
 			array_push($ips, array(
-				$row->ip 	=> 0
+				$row->ip 	=> array(
+					'count'		=>	0,
+					'agent'		=>	$row->agent
+				)
 			));
 		}
 
@@ -38,18 +41,25 @@ class Check extends CI_Controller
 			while(!feof($file))
 			{
 				$line = fgets($file);
-				foreach ($ips as $ip => $count)
+				foreach ($ips as $ip => $value)
 				{
 					if(strpos($line, $ip))
 					{
-						$ips[$ip]++;
+						$ips[$ip]['count']++;
 					}
 				}
 			}
 		}
 		fclose($file);
 
-		var_dump($ips);
+		foreach ($ips as $ip=>$value)
+		{
+			if($value['count'] > 0)
+			{
+				echo $ip . '=> ';
+				var_dump($value);
+			}
+		}
 	}
 }
 
