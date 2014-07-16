@@ -22,26 +22,34 @@ class Check extends CI_Controller
 		$datetime = date('Y-m-d', $prevTime);
 		$log_filename = 'access.log-' . date('Ymd', $prevTime) . '.gz.log';
 
-		$sql = "SELECT `ip` FROM `click_table` WHERE `time` >= '{$datetime} 00:00:00' AND `time` <= '{$datetime} 23:59:59'";
+		$sql = "SELECT `ip` FROM `click_table` WHERE `time` >= '{$datetime} 00:00:00' AND `time` <= '{$datetime} 23:59:59' GROUP BY `ip`";
 		$result = $this->channeldb->query($sql)->result();
-		// foreach ($result as $row)
-		// {
-
-		// }
+		$ips = array();
+		foreach ($result as $row)
+		{
+			array_push($ips, array(
+				$row->ip 	=> 0
+			));
+		}
 
 		$file = fopen('/home/data/nginx/' . $log_filename, 'r');
-		$line_count = 0;
 		if($file)
 		{
 			while(!feof($file))
 			{
 				$line = fgets($file);
-				$line_count++;
+				foreach ($ips as $ip => $count)
+				{
+					if(strpos($line, $ip))
+					{
+						$ips[$ip]++;
+					}
+				}
 			}
 		}
 		fclose($file);
 
-		echo $line_count;
+		var_dump($ips);
 	}
 }
 
