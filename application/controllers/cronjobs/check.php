@@ -27,14 +27,11 @@ class Check extends CI_Controller
 		$ips = array();
 		foreach ($result as $row)
 		{
-			array_push($ips, array(
-				$row->ip 	=> array(
-					'count'		=>	0,
-					'agent'		=>	$row->agent
-				)
-			));
+			$ips[$row->ip] = array(
+				'count'		=>	0,
+				'agent'		=>	$row->agent
+			);
 		}
-		var_dump($ips);
 
 		$file = fopen('/home/data/nginx/' . $log_filename, 'r');
 		if($file)
