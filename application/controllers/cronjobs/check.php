@@ -14,7 +14,7 @@ class Check extends CI_Controller
 
 	public function round()
 	{
-		// error_reporting(E_ALL);
+		error_reporting(E_ALL);
 		set_time_limit(1800);
 
 		$date = $this->input->get_post('date', TRUE);
