@@ -25,6 +25,10 @@ class Check extends CI_Controller
 			$prevTime = $time - 86400;
 			$date = date('Y-m-d', $prevTime);
 		}
+		else
+		{
+			$prevTime = strtotime("{$date} 00:00:00");
+		}
 		$log_filename = 'access.log-' . date('Ymd', $prevTime) . '.gz.log';
 
 		// $sql = "SELECT `ip`, `agent` FROM `click_table` WHERE `time` >= '{$date} 00:00:00' AND `time` <= '{$date} 23:59:59' GROUP BY `ip`";
