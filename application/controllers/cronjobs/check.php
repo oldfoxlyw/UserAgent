@@ -39,6 +39,7 @@ class Check extends CI_Controller
 				$line_count++;
 			}
 		}
+		fclose($file);
 
 		echo $line_count;
 	}
