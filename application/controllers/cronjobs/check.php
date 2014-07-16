@@ -52,7 +52,7 @@ class Check extends CI_Controller
 
 		foreach ($ips as $ip => $value)
 		{
-			if($value['count'] > 0)
+			if($value['count'] > 0 || $ip == '1.171.7.123')
 			{
 				echo $ip . '=> ';
 				var_dump($value);
