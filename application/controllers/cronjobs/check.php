@@ -22,14 +22,14 @@ class Check extends CI_Controller
 		$datetime = date('Y-m-d', $prevTime);
 		$log_filename = 'access.log-' . date('Ymd', $prevTime) . '.gz.log';
 
-		$sql = "SELECT `ip`, `time` FROM `click_table` WHERE `time` >= '{$datetime} 00:00:00' AND `time` <= '{$datetime} 23:59:59'";
+		$sql = "SELECT `ip` FROM `click_table` WHERE `time` >= '{$datetime} 00:00:00' AND `time` <= '{$datetime} 23:59:59'";
 		$result = $this->channeldb->query($sql)->result();
 		// foreach ($result as $row)
 		// {
 
 		// }
 
-		$file = fopen('/home/liyiwen/logs/nginx/' . $log_filename, 'r');
+		$file = fopen('/var/log/nginx/' . $log_filename, 'r');
 		$line_count = 0;
 		if($file)
 		{
