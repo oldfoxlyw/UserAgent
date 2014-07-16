@@ -64,24 +64,10 @@ class Check extends CI_Controller
 		{
 			if($value['count'] > 0)
 			{
-				$sql = "INSERT INTO `valid_click`(`ip`,`agent`)VALUES('" . $ip . "', '" . $value['agent'] . "')";
+				$sql = "INSERT INTO `valid_click`(`ip`,`agent`,`date`)VALUES('" . $ip . "', '" . $value['agent'] . "', '{$date}')";
 				$this->channeldb->query($sql);
 				echo $ip;
 			}
-		}
-	}
-
-	public function init()
-	{
-		$sql = "SELECT `ip`, `agent` FROM `click_table` GROUP BY `ip`";
-		$result = $this->channeldb->query($sql)->result();
-		$ips = array();
-		foreach ($result as $row)
-		{
-			$ips[$row->ip] = array(
-				'count'		=>	0,
-				'agent'		=>	$row->agent
-			);
 		}
 	}
 }
