@@ -29,8 +29,7 @@ class Check extends CI_Controller
 
 		// }
 
-		// $file = fopen('/home/liyiwen/logs/nginx/' . $log_filename, 'r');
-		$file = fopen('/var/www/html/UserAgent_zhanshen/index.php', 'r');
+		$file = fopen('/home/liyiwen/logs/nginx/' . $log_filename, 'r');
 		$line_count = 0;
 		if($file)
 		{
