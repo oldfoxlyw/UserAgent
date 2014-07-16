@@ -143,6 +143,22 @@ $db['log_cachedb']['swap_pre'] = '';
 $db['log_cachedb']['autoinit'] = TRUE;
 $db['log_cachedb']['stricton'] = FALSE;
 
+$db['channeldb']['hostname'] = '23.246.196.207';
+$db['channeldb']['username'] = 'datadigi_report';
+$db['channeldb']['password'] = '$]8JMKV(Bl.8';
+$db['channeldb']['database'] = 'datadigi_tapdk';
+$db['channeldb']['dbdriver'] = 'mysqli';
+$db['channeldb']['dbprefix'] = '';
+$db['channeldb']['pconnect'] = FALSE;
+$db['channeldb']['db_debug'] = TRUE;
+$db['channeldb']['cache_on'] = FALSE;
+$db['channeldb']['cachedir'] = '';
+$db['channeldb']['char_set'] = 'utf8';
+$db['channeldb']['dbcollat'] = 'utf8_general_ci';
+$db['channeldb']['swap_pre'] = '';
+$db['channeldb']['autoinit'] = TRUE;
+$db['channeldb']['stricton'] = FALSE;
+
 
 /* End of file database.php */
 /* Location: ./application/config/database.php */
