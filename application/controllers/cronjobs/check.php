@@ -29,7 +29,7 @@ class Check extends CI_Controller
 
 		// }
 
-		$file = fopen('/var/log/nginx/' . $log_filename, 'r');
+		$file = fopen('/home/data/nginx/' . $log_filename, 'r');
 		$line_count = 0;
 		if($file)
 		{
