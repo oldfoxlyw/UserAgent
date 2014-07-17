@@ -31,8 +31,8 @@ class Check extends CI_Controller
 		}
 		$log_filename = 'access.log-' . date('Ymd', $prevTime) . '.gz.log';
 
-		// $sql = "SELECT `ip`, `agent` FROM `click_table` WHERE `time` >= '{$date} 00:00:00' AND `time` <= '{$date} 23:59:59' GROUP BY `ip`";
-		$sql = "SELECT `ip`, `agent` FROM `click_table` GROUP BY `ip`";
+		$sql = "SELECT `ip`, `agent` FROM `click_table` WHERE `time` >= '{$date} 00:00:00' AND `time` <= '{$date} 23:59:59' GROUP BY `ip`";
+		// $sql = "SELECT `ip`, `agent` FROM `click_table` GROUP BY `ip`";
 		$result = $this->channeldb->query($sql)->result();
 		$ips = array();
 		foreach ($result as $row)
@@ -65,7 +65,7 @@ class Check extends CI_Controller
 			if($value['count'] > 0)
 			{
 				$sql = "INSERT INTO `valid_click`(`ip`,`agent`,`date`)VALUES('" . $ip . "', '" . $value['agent'] . "', '{$date}')";
-				$this->channeldb->query($sql);
+				// $this->channeldb->query($sql);
 				echo $ip;
 			}
 		}
