@@ -24,16 +24,10 @@ class Servers extends CI_Controller {
 		// {
 		// 	$this->load->config('server_list_sdk');
 		// 	$jsonData = $this->config->item('game_server_list');
-		// }
-		if($partner == 'arab_default' || $partner == 'arab_sdk')
-		{
-			$this->load->config('server_list_default');
-			$jsonData = $this->config->item('game_server_list1');
-		}
-		else
-		{
-			$jsonData = array();
-		}
+		// }rtner == 'arab_default' || $partner == 'arab_sdk')
+		
+		$this->load->config('server_list_default');
+		$jsonData = $this->config->item('game_server_list1');
 
 		/*
 		$productdb = $this->load->database('productdb', TRUE);
