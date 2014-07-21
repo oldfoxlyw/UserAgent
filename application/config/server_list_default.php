@@ -10,8 +10,8 @@ $config ['game_server_list1'] = array (
 				array (
 						'id' => '1',
 						'game_id' => 'B',
-						'section_id' => '101',
-						'account_server_id' => '101',
+						'section_id' => '2101',
+						'account_server_id' => '2101',
 						'server_name' => 'DK2外网测试',
 						'server_ip' => array (
 								0 => array (
