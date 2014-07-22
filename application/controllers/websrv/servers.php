@@ -87,14 +87,7 @@ class Servers extends CI_Controller {
 	{
 		$serverIp	=	$this->input->server('SERVER_ADDR');
 		$partner	=	$this->input->get_post('partner', TRUE);
-		if($serverIp == '122.13.131.55')
-		{
-			$ipFlag = 'ip2';
-		}
-		else //183.60.255.55
-		{
-			$ipFlag = 'ip';
-		}
+		$ipFlag = 'ip';
 		$parameter = array(
 				'account_server_id'		=>	$id
 		);
