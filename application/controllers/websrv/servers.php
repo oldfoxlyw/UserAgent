@@ -26,8 +26,11 @@ class Servers extends CI_Controller {
 		// 	$jsonData = $this->config->item('game_server_list');
 		// }rtner == 'arab_default' || $partner == 'arab_sdk')
 		
-		$this->load->config('server_list_default');
-		$jsonData = $this->config->item('game_server_list1');
+		// $this->load->config('server_list_default');
+		// $jsonData = $this->config->item('game_server_list1');
+		
+		$this->get_sdk_debug_list('2101');
+		exit();
 
 		/*
 		$productdb = $this->load->database('productdb', TRUE);
