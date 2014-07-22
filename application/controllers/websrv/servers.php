@@ -207,6 +207,42 @@ class Servers extends CI_Controller {
 				{
 					$result[$i]->voice_server_ip = $result[$i]->voice_server_ip->$ipFlag . ':' . $result[$i]->voice_server_ip->port;
 				}
+
+				$result[$i]->cross_server_ip = json_decode($result[$i]->cross_server_ip);
+				if(count($result[$i]->cross_server_ip) > 0)
+				{
+					$result[$i]->cross_server_ip = random_element($result[$i]->cross_server_ip);
+				}
+				else
+				{
+					$result[$i]->cross_server_ip = $result[$i]->cross_server_ip[0];
+				}
+				if(empty($result[$i]->cross_server_ip->$ipFlag))
+				{
+					$result[$i]->cross_server_ip = $result[$i]->cross_server_ip->ip . ':' . $result[$i]->cross_server_ip->port;
+				}
+				else
+				{
+					$result[$i]->cross_server_ip = $result[$i]->cross_server_ip->$ipFlag . ':' . $result[$i]->cross_server_ip->port;
+				}
+
+				$result[$i]->legion_message_ip = json_decode($result[$i]->legion_message_ip);
+				if(count($result[$i]->legion_message_ip) > 0)
+				{
+					$result[$i]->legion_message_ip = random_element($result[$i]->legion_message_ip);
+				}
+				else
+				{
+					$result[$i]->legion_message_ip = $result[$i]->legion_message_ip[0];
+				}
+				if(empty($result[$i]->legion_message_ip->$ipFlag))
+				{
+					$result[$i]->legion_message_ip = $result[$i]->legion_message_ip->ip . ':' . $result[$i]->legion_message_ip->port;
+				}
+				else
+				{
+					$result[$i]->legion_message_ip = $result[$i]->legion_message_ip->$ipFlag . ':' . $result[$i]->legion_message_ip->port;
+				}
 			}
 		}
 		else
