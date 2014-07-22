@@ -26,11 +26,11 @@ class Servers extends CI_Controller {
 		// 	$jsonData = $this->config->item('game_server_list');
 		// }rtner == 'arab_default' || $partner == 'arab_sdk')
 		
-		// $this->load->config('server_list_default');
-		// $jsonData = $this->config->item('game_server_list1');
+		$this->load->config('server_list_default');
+		$jsonData = $this->config->item('game_server_list1');
 		
-		$this->get_sdk_debug_list('2101');
-		exit();
+		// $this->get_sdk_debug_list('2101');
+		// exit();
 
 		/*
 		$productdb = $this->load->database('productdb', TRUE);
@@ -48,7 +48,10 @@ class Servers extends CI_Controller {
 			$jsonData['server'][$i]['server_recommend'] = 0;
 			$ipArray = $jsonData['server'][$i]['server_ip'];
 			$ip = random_element($ipArray);
-			$jsonData['server'][$i]['server_ip'] = $ip['ip'];
+			$gameIpArray = $jsonData['server'][$i]['server_game_ip'];
+			$gameIp = random_element($gameIpArray);
+			$jsonData['server'][$i]['server_game_ip'] = $gameIp['ip'];
+			$jsonData['server'][$i]['server_game_port'] = $gameIp['port'];
 		}
 		if(is_array($jsonData['server']))
 		{
