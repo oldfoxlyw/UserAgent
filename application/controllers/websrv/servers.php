@@ -15,7 +15,7 @@ class Servers extends CI_Controller {
 		$lang		=	$this->input->get_post('language', TRUE);
 		$ver		=	$this->input->get_post('client_version', TRUE);
 
-		if($mode == 'pub' && ($partner == 'arab_default' || $partner == 'arab_sdk') && $ver == '1.0')
+		if($mode == 'pub' && ($partner == 'arab_default' || $partner == 'arab_sdk'))
 		{
 			$this->load->config('server_list_default');
 			$jsonData = $this->config->item('game_server_list1');
