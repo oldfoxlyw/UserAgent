@@ -245,7 +245,7 @@ class Servers extends CI_Controller {
 		
 		if($partner == 'default' || $partner == 'default_full')
 		{
-			$announcement = $this->config->item('game_announcement');
+			//$announcement = $this->config->item('game_announcement');
 		}
 		else
 		{
