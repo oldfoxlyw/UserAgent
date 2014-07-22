@@ -86,7 +86,6 @@ class Servers extends CI_Controller {
 	private function get_sdk_debug_list($id = '97')
 	{
 		$serverIp	=	$this->input->server('SERVER_ADDR');
-		$partner	=	$this->input->get_post('partner', TRUE);
 		$ipFlag = 'ip';
 		$parameter = array(
 				'account_server_id'		=>	$id
