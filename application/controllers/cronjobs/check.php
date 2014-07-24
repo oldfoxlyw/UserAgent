@@ -65,19 +65,20 @@ class Check extends CI_Controller
 			if($value['count'] > 0)
 			{
 				$sql = "INSERT INTO `valid_click`(`ip`,`agent`,`date`)VALUES('" . $ip . "', '" . $value['agent'] . "', '{$date}')";
-				$this->channeldb->query($sql);
-				
-				$sql = "SELECT `clickid` FROM `click_table` WHERE `ip`='{$ip}'";
-				$result = $this->channeldb->query($sql)->row();
-				if($result)
+				if($this->channeldb->query($sql))
 				{
-					$clickId = $result->clickid;
-					$ch = curl_init();
-					curl_setopt($ch, CURLOPT_URL, "http://mongo1.bb800.com:8181/post.do?samdata={$clickId}");
-					curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-					curl_setopt($ch, CURLOPT_HEADER, 0);
-					$output = curl_exec($ch);
-					echo $ip;
+					$sql = "SELECT `clickid` FROM `click_table` WHERE `ip`='{$ip}'";
+					$result = $this->channeldb->query($sql)->row();
+					if($result)
+					{
+						$clickId = $result->clickid;
+						$ch = curl_init();
+						curl_setopt($ch, CURLOPT_URL, "http://mongo1.bb800.com:8181/post.do?samdata={$clickId}");
+						curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+						curl_setopt($ch, CURLOPT_HEADER, 0);
+						$output = curl_exec($ch);
+						echo $ip;
+					}
 				}
 			}
 		}
