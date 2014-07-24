@@ -30,6 +30,25 @@ class Servers extends CI_Controller {
 			$this->load->config('server_list_arab_debug');
 			$jsonData = $this->config->item('game_server_list');
 		}
+		elseif($mode == 'pub' && ($partner == 'default' || $partner == 'default_full') && $ver == '2.0')
+		{
+			$this->load->config('server_list_v2');
+			$jsonData = $this->config->item('game_server_list');
+
+			$type = 'appstore';
+		}
+		elseif($mode == 'pub' && $partner != 'default' && $partner != 'default_full' && $ver == '1.2')
+		{
+			$this->load->config('server_list_sdk');
+			$jsonData = $this->config->item('game_server_list');
+
+			$type = 'sdk';
+		}
+		elseif(!empty($ver) && $ver == '1.2' && $mode == 'pub' && ($partner == 'default' || $partner == 'default_full'))
+		{
+			$this->get_sdk_debug_list('99');
+			exit();
+		}
 		elseif($mode == 'pub' && ($partner == 'default' || $partner == 'default_full') && $ver != '1.2')
 		{
 			$this->load->config('server_list_default');
@@ -45,18 +64,6 @@ class Servers extends CI_Controller {
 			}
 
 			$type = 'appstore';
-		}
-		elseif($mode == 'pub' && $partner != 'default' && $partner != 'default_full' && $ver == '1.2')
-		{
-			$this->load->config('server_list_sdk');
-			$jsonData = $this->config->item('game_server_list');
-
-			$type = 'sdk';
-		}
-		elseif(!empty($ver) && $ver == '1.2' && $mode == 'pub' && ($partner == 'default' || $partner == 'default_full'))
-		{
-			$this->get_sdk_debug_list('99');
-			exit();
 		}
 		else
 		{
@@ -80,6 +87,16 @@ class Servers extends CI_Controller {
 			$ipArray = $jsonData['server'][$i]['server_ip'];
 			$ip = random_element($ipArray);
 			$jsonData['server'][$i]['server_ip'] = $ip['ip'];
+
+			$ipArray = $jsonData['server'][$i]['server_game_ip'];
+			if(is_array($ipArray))
+			{
+				$ip = random_element($ipArray);
+				$ip = $ip['ip'];
+				$ipArray = explode(':', $ip);
+				$jsonData['server'][$i]['server_game_ip'] = $ipArray[0];
+				$jsonData['server'][$i]['server_game_port'] = $ipArray[1];
+			}
 		}
 		if(is_array($jsonData['server']))
 		{
