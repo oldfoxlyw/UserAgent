@@ -7,6 +7,7 @@ class Account extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct ();
+		$this->load->model('logs');
 	}
 	
 	public function request_login()
@@ -93,6 +94,12 @@ class Account extends CI_Controller
 						'success'		=>	false,
 						'errors'		=>	'SDK_LOGIN_FAIL_ERROR_CHECK_CODE'
 				);
+				
+				$logParameter = array(
+					'log_action'	=>	'SDK_LOGIN_FAIL_ERROR_CHECK_CODE',
+					'account_guid'	=>	$uid
+				);
+				$this->logs->write($logParameter);
 			}
 		}
 		else
@@ -211,6 +218,14 @@ class Account extends CI_Controller
 								'errors'		=>	'SDK_REGISTER_FAIL'
 						);
 					}
+				
+					$logParameter = array(
+						'log_action'	=>	'SDK_REGISTER_FAIL',
+						'account_guid'	=>	$uid,
+						'account_name'	=>	$name,
+						'server_id'		=>	$server_id
+					);
+					$this->logs->write($logParameter);
 // 				}
 			}
 			else
