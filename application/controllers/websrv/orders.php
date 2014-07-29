@@ -12,6 +12,7 @@ class Orders extends CI_Controller {
 		$this->load->model('logs');
 		$this->load->model('return_format');
 		$this->load->model('param_check');
+		date_default_timezone_set('Etc/GMT+3');
 	}
 	
 	public function check($format = 'json') {
