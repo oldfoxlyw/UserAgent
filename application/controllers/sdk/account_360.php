@@ -14,7 +14,6 @@ class Account_360 extends CI_Controller
 	
 	public function request_login()
 	{
-		error_reporting(E_ALL);
 		$this->load->model('return_format');
 		
 		$uid = $this->input->get_post('uid', TRUE);
@@ -212,7 +211,7 @@ class Account_360 extends CI_Controller
 					unset($user->account_secret_key);
 					$user->account_pass = $pass;
 					
-					$expire_time = empty($expire_time) ? time() + 365 * 86400 : $expire_time
+					$expire_time = empty($expire_time) ? time() + 365 * 86400 : $expire_time;
 					$time = time();
 					$parameter = array(
 							'guid'			=>	$guid,
