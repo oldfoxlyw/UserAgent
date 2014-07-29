@@ -14,6 +14,7 @@ class Account_360 extends CI_Controller
 	
 	public function request_login()
 	{
+		error_reporting(E_ALL);
 		$this->load->model('return_format');
 		
 		$uid = $this->input->get_post('uid', TRUE);
