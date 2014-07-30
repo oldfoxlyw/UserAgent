@@ -78,6 +78,10 @@ class Account_360 extends CI_Controller
 					'access_token'	=>	$access_token
 				);
 				$info = $this->connector->get($this->info_url, $params, false);
+				//--------------------------------------
+				$sql = "insert into debug(text)values('send:'" . json_encode($params) . ', info:' . $info . "')";
+				$this->web_account->db()->query($sql);
+				//--------------------------------------
 
 				if(empty($info) || empty($info->id))
 				{
