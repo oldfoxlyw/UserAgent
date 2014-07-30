@@ -5,7 +5,7 @@ class Account_360 extends CI_Controller
 	private $url = 'https://openapi.360.cn/oauth2/access_token';
 	private $info_url = 'https://openapi.360.cn/user/me.json';
 	private $client_id = '201449996';
-	private $client_secret = '3695c94df2c027899ad174eeedd4236b';
+	private $client_secret = 'eab75fe02368a5a161dcafa0826df46a';
 	
 	public function __construct()
 	{
