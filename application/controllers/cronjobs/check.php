@@ -67,7 +67,7 @@ class Check extends CI_Controller
 				$sql = "INSERT INTO `valid_click`(`ip`,`agent`,`date`)VALUES('" . $ip . "', '" . $value['agent'] . "', '{$date}')";
 				if($this->channeldb->query($sql))
 				{
-					$sql = "SELECT `clickid` FROM `click_table` WHERE `ip`='{$ip}'";
+					$sql = "SELECT `clickid` FROM `click_table` WHERE `ip`='{$ip}' ORDER BY `id` DESC";
 					$result = $this->channeldb->query($sql)->row();
 					if($result)
 					{
