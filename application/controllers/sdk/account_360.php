@@ -62,6 +62,8 @@ class Account_360 extends CI_Controller
 				$this->web_account->db()->query($sql);
 				//--------------------------------------
 				$result = json_decode($result);
+				var_dump($result);
+				exit();
 				if(empty($result) || empty($result->access_token))
 				{
 					$json = array(
