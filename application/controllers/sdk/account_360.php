@@ -59,7 +59,7 @@ class Account_360 extends CI_Controller
 				$result = $this->connector->get($this->url, $params, false);
 				//--------------------------------------
 				$sql = "insert into debug(text)values('send:" . json_encode($params) . ', login:' . $result . "')";
-				$this->web_account->db()->query($sql);
+				// $this->web_account->db()->query($sql);
 				//--------------------------------------
 				$result = json_decode($result);
 				var_dump($result);
@@ -82,7 +82,7 @@ class Account_360 extends CI_Controller
 				$info = $this->connector->get($this->info_url, $params, false);
 				//--------------------------------------
 				$sql = "insert into debug(text)values('send:" . json_encode($params) . ', info:' . $info . "')";
-				$this->web_account->db()->query($sql);
+				// $this->web_account->db()->query($sql);
 				//--------------------------------------
 
 				if(empty($info) || empty($info->id))
