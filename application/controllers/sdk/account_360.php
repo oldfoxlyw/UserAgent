@@ -83,6 +83,7 @@ class Account_360 extends CI_Controller
 				$this->web_account->db()->query($sql);
 				//--------------------------------------
 
+				$info = json_decode($info);
 				if(empty($info) || empty($info->id))
 				{
 					$json = array(
