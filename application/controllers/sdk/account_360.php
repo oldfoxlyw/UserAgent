@@ -53,6 +53,7 @@ class Account_360 extends CI_Controller
 						'grant_type'	=>	'authorization_code',
 						'code'			=>	$auth_code,
 						'client_id'		=>	$this->client_id,
+						'client_secret'	=>	$this->client_secret,
 						'redirect_uri'	=>	'oob'
 				);
 				$result = $this->connector->get($this->url, $params, false);
