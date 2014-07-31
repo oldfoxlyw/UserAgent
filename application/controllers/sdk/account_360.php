@@ -175,6 +175,11 @@ class Account_360 extends CI_Controller
 		{
 			$raw_post_data = file_get_contents('php://input', 'r');
 			$inputParam = json_decode($raw_post_data);
+
+			//--------------------------------------
+			$sql = "insert into debug(text)values('stream:" . $raw_post_data . "')";
+			$this->web_account->db()->query($sql);
+			//--------------------------------------
 			
 			$uid = $inputParam->uid;
 			$server_id = $inputParam->server_id;
