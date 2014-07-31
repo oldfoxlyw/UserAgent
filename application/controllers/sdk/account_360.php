@@ -178,6 +178,8 @@ class Account_360 extends CI_Controller
 			
 			$uid = $inputParam->uid;
 			$server_id = $inputParam->server_id;
+			$access_token = $inputParam->access_token;
+			$refresh_token = $inputParam->refresh_token;
 			$code = $inputParam->code;
 		}
 		
@@ -187,7 +189,8 @@ class Account_360 extends CI_Controller
 			$parameter = array(
 					'uid'			=>	$uid,
 					'server_id'		=>	$server_id,
-					'partner_key'	=>	$partner_key
+					'access_token'	=>	$access_token,
+					'refresh_token'	=>	$refresh_token
 			);
 			if($this->verify_check_code($parameter, $code))
 			{
