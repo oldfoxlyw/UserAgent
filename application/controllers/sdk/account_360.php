@@ -45,6 +45,7 @@ class Account_360 extends CI_Controller
 			{
 				$this->load->model('web_account');
 				$this->load->model('msdktoken');
+				$this->load->model('mtoken');
 				$this->load->model('webapi/connector');
 				$this->load->helper('security');
 				
@@ -111,24 +112,35 @@ class Account_360 extends CI_Controller
 				}
 				else
 				{
-					$tokenResult = $this->msdktoken->read(array(
-							'guid'		=>	$result[0]->GUID,
-							'partner'	=>	$partner_key
-					));
-					if(!empty($tokenResult))
+					for($i = 0; $i<count($result); $i++)
 					{
-						$result[0]->access_token = $tokenResult[0]->token;
-					}
-					else 
-					{
-						$parameter = array(
-								'guid'			=>	$result[0]->GUID,
-								'partner'		=>	$partner_key,
-								'token'			=>	$access_token,
-								'refresh_token'	=>	$refresh_token,
-								'expire_time'	=>	$expire_time
-						);
-						$this->msdktoken->create($parameter);
+						$tokenResult = $this->msdktoken->read(array(
+								'guid'		=>	$result[$i]->GUID,
+								'partner'	=>	$partner_key
+						));
+						if(!empty($tokenResult))
+						{
+							$result[$i]->access_token = $tokenResult[0]->token;
+						}
+						else 
+						{
+							$parameter = array(
+									'guid'			=>	$result[$i]->GUID,
+									'partner'		=>	$partner_key,
+									'token'			=>	$access_token,
+									'refresh_token'	=>	$refresh_token,
+									'expire_time'	=>	$expire_time
+							);
+							$this->msdktoken->create($parameter);
+
+							$result[$i]->access_token = $access_token;
+							$parameter = array(
+									'guid'			=>	$result[$i]->GUID,
+									'token'			=>	$access_token,
+									'expire_time'	=>	$time + 365 * 86400
+							);
+							$this->mtoken->create($parameter);
+						}
 					}
 				}
 					
@@ -199,6 +211,7 @@ class Account_360 extends CI_Controller
 				$this->load->model('web_account');
 				$this->load->model('webapi/connector');
 				$this->load->model('msdktoken');
+				$this->load->model('mtoken');
 				
 				$name = strtolower(do_hash($this->guid->toString(), 'md5'));
 				$pass = $name;
@@ -229,6 +242,14 @@ class Account_360 extends CI_Controller
 							'expire_time'	=>	$expire_time
 					);
 					$this->msdktoken->create($parameter);
+
+					$user->access_token = $access_token;
+					$parameter = array(
+							'guid'			=>	$guid,
+							'token'			=>	$access_token,
+							'expire_time'	=>	$time + 365 * 86400
+					);
+					$this->mtoken->create($parameter);
 					
 					$json = array(
 							'success'		=>	1,
