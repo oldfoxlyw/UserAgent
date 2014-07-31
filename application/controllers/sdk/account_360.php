@@ -175,11 +175,6 @@ class Account_360 extends CI_Controller
 		{
 			$raw_post_data = file_get_contents('php://input', 'r');
 			$inputParam = json_decode($raw_post_data);
-
-			//--------------------------------------
-			$sql = "insert into debug(text)values('stream:" . $raw_post_data . "')";
-			$this->web_account->db()->query($sql);
-			//--------------------------------------
 			
 			$uid = $inputParam->uid;
 			$server_id = $inputParam->server_id;
@@ -187,11 +182,6 @@ class Account_360 extends CI_Controller
 			$refresh_token = $inputParam->refresh_token;
 			$code = $inputParam->code;
 		}
-
-		//--------------------------------------
-		$sql = "insert into debug(text)values('uid:" . $uid . ", server_id:" . $server_id . ", access_token:" . $access_token . ", refresh_token:" . $refresh_token . "')";
-		$this->web_account->db()->query($sql);
-		//--------------------------------------
 		
 		if(!empty($uid) && !empty($server_id) && !empty($access_token) && !empty($refresh_token))
 		{
