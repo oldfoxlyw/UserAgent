@@ -120,7 +120,7 @@ class Account_360 extends CI_Controller
 						));
 						if(!empty($tokenResult))
 						{
-							$result[$i]->access_token = $tokenResult[0]->token;
+							$result[$i]->token = $tokenResult[0]->token;
 						}
 						else 
 						{
@@ -133,7 +133,7 @@ class Account_360 extends CI_Controller
 							);
 							$this->msdktoken->create($parameter);
 
-							$result[$i]->access_token = $access_token;
+							$result[$i]->token = $access_token;
 							$parameter = array(
 									'guid'			=>	$result[$i]->GUID,
 									'token'			=>	$access_token,
@@ -243,7 +243,7 @@ class Account_360 extends CI_Controller
 					);
 					$this->msdktoken->create($parameter);
 
-					$user->access_token = $access_token;
+					$user->token = $access_token;
 					$parameter = array(
 							'guid'			=>	$guid,
 							'token'			=>	$access_token,
