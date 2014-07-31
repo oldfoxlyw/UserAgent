@@ -3,9 +3,11 @@ if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 class Connector extends CI_Model {
 	private $enableSSL = false;
+	private $maxTry = 3;
 	
 	public function __construct() {
 		parent::__construct();
+
 	}
 
 	public function get($controller, $parameter, $parsePath = true) {
@@ -33,6 +35,20 @@ class Connector extends CI_Model {
 			$monfd = curl_exec($ch);
 				
 			curl_close($ch);
+
+			if(empty($monfd))
+			{
+				if($this->maxTry > 0)
+				{
+					$this->maxTry--;
+					$monfd = $this->get($controller, $parameter, $parsePath);
+					return $monfd;
+				}
+				else
+				{
+					return false;
+				}
+			}
 				
 			return $monfd;
 		} else {
