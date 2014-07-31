@@ -19,7 +19,7 @@ class Overview extends CI_Controller
 
 	public function statistics($server_id)
 	{
-		set_time_limit(1800);
+		set_time_limit(3600);
 
 		$this->load->model ( 'websrv/server' );
 		if(!empty($server_id))
