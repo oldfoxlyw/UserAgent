@@ -15,7 +15,6 @@ class Overview extends CI_Controller
 		$this->logcachedb = $this->load->database ( 'log_cachedb', true );
 		$this->logdb = $this->load->database ( 'logdb', true );
 		$this->fundsdb = $this->load->database ( 'fundsdb', true );
-		date_default_timezone_set('Etc/GMT+3');
 	}
 
 	public function statistics($server_id)
