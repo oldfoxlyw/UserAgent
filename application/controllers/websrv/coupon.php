@@ -111,7 +111,7 @@ class Coupon extends CI_Controller
 						$this->mcouponused->create($data);
 						echo json_encode(array(
 							'success'	=>	1,
-							'error'		=>	'USED_COUPON_SUCCESS'
+							'message'	=>	'USED_COUPON_SUCCESS'
 						));
 					}
 					else
