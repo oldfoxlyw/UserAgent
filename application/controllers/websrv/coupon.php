@@ -20,9 +20,12 @@ class Coupon extends CI_Controller
 			));
 			if(!empty($result))
 			{
+				$row = $result[0];
 				echo json_encode(array(
-					'success'	=>	0,
-					'error'		=>	'ALREADY_GET_COUPON'
+					'success'	=>	1,
+					'message'	=>	'GET_COUPON_SUCCESS',
+					'coupon'	=>	$row->coupon,
+					'time'		=>	$row->count
 				));
 			}
 			else
@@ -38,7 +41,8 @@ class Coupon extends CI_Controller
 					echo json_encode(array(
 						'success'	=>	1,
 						'message'	=>	'GET_COUPON_SUCCESS',
-						'coupon'	=>	$coupon
+						'coupon'	=>	$coupon,
+						'time'		=>	0
 					));
 				}
 				else
@@ -54,7 +58,8 @@ class Coupon extends CI_Controller
 						echo json_encode(array(
 							'success'	=>	1,
 							'message'	=>	'GET_COUPON_SUCCESS',
-							'coupon'	=>	$coupon
+							'coupon'	=>	$coupon,
+							'time'		=>	0
 						));
 					}
 					else
