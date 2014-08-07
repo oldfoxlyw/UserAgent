@@ -78,7 +78,73 @@ class Coupon extends CI_Controller
 
 	public function use_coupon()
 	{
+		$coupon = $this->input->get_post('coupon');
+		$role_id = $this->input->get_post('role_id');
 
+		if(!empty($coupon) && !empty($role_id))
+		{
+			$this->load->model('mcoupon');
+			$this->load->model('mcouponused');
+
+			$result = $this->mcoupon->read(array(
+				'coupon'	=>	$coupon
+			));
+			if(!empty($result))
+			{
+				$row = $result[0];
+				if(intval($row->count) < 10)
+				{
+					$result = $this->mcouponused->read(array(
+						'role_id'	=>	$role_id
+					));
+					if(empty($result))
+					{
+						$count = intval($row->count) + 1;
+						$this->mcoupon->update($coupon, array(
+							'count'	=>	$count
+						));
+						$data = array(
+							'role_id'	=>	$role_id,
+							'coupon'	=>	$coupon,
+							'timestamp'	=>	time()
+						);
+						$this->mcouponused->create($data);
+						echo json_encode(array(
+							'success'	=>	1,
+							'error'		=>	'USED_COUPON_SUCCESS'
+						));
+					}
+					else
+					{
+						echo json_encode(array(
+							'success'	=>	0,
+							'error'		=>	'ALREADY_USE_COUPON'
+						));
+					}
+				}
+				else
+				{
+					echo json_encode(array(
+						'success'	=>	0,
+						'error'		=>	'COUPON_MAX_COUNT'
+					));
+				}
+			}
+			else
+			{
+				echo json_encode(array(
+					'success'	=>	0,
+					'error'		=>	'NOT_EXIST'
+				));
+			}
+		}
+		else
+		{
+			echo json_encode(array(
+				'success'	=>	0,
+				'error'		=>	'NO_PARAM'
+			));
+		}
 	}
 
 	private function _generate_coupon()
