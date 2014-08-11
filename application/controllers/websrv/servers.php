@@ -53,6 +53,7 @@ class Servers extends CI_Controller {
 			$jsonData['server'][$i]['server_recommend'] = 0;
 			$ipArray = $jsonData['server'][$i]['server_ip'];
 			$ip = random_element($ipArray);
+			$jsonData['server'][$i]['server_ip'] = $ip['ip'];
 			$gameIpArray = $jsonData['server'][$i]['server_game_ip'];
 			$gameIp = random_element($gameIpArray);
 			$jsonData['server'][$i]['server_game_ip'] = $gameIp['ip'];
