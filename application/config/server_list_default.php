@@ -18,7 +18,12 @@ $config ['game_server_list'] = array (
 										'ip' => '58.68.251.50:6091' 
 								)
 						),
-						'server_game_ip' => '58.68.251.50',
+						'server_game_ip' => array(
+								0 => array (
+										'ip' 	=> 	'58.68.251.50',
+										'port' 	=>	'9988'
+								)
+						),
 						'game_message_ip' => '10.68.237.97:9977',
 						'const_server_ip' => '58.68.251.50:6091',
 						'voice_server_ip' => '58.68.251.50:6099',
@@ -36,8 +41,7 @@ $config ['game_server_list'] = array (
 						'server_new' => '1',
 						'special_ip' => '',
 						'need_activate' => '0',
-						'server_starttime' => '0',
-						'server_game_port' => '9988' 
+						'server_starttime' => '0'
 				),
 				array (
 						'id' => '2',
@@ -50,7 +54,12 @@ $config ['game_server_list'] = array (
 										'ip' => '58.68.251.52:6091' 
 								)
 						),
-						'server_game_ip' => '58.68.251.52',
+						'server_game_ip' => array(
+								0 => array (
+										'ip' 	=> 	'58.68.251.52',
+										'port' 	=>	'9988'
+								)
+						),
 						'game_message_ip' => '10.68.237.99:9977',
 						'const_server_ip' => '58.68.251.52:6091',
 						'voice_server_ip' => '58.68.251.52:6099',
@@ -68,8 +77,7 @@ $config ['game_server_list'] = array (
 						'server_new' => '1',
 						'special_ip' => '',
 						'need_activate' => '0',
-						'server_starttime' => '0',
-						'server_game_port' => '9988' 
+						'server_starttime' => '0'
 				)
 		)
 );
