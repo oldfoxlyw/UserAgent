@@ -11,30 +11,12 @@ class Servers extends CI_Controller {
 		$this->load->model('websrv/status', 'status');
 	}
 	
-	public function server_list($format = 'json') {
-		$serverIp	=	$this->input->server('SERVER_ADDR');
-		if($serverIp == '122.13.131.55')
-		{
-			$ipFlag = 'ip2';
-		}
-		else //183.60.255.55
-		{
-			$ipFlag = 'ip';
-		}
-		
+	public function server_list($format = 'json')
+	{
 		$partner	=	$this->input->get_post('partner', TRUE);
 		$mode		=	$this->input->get_post('mode', TRUE);
 		$lang		=	$this->input->get_post('language', TRUE);
 		$ver		=	$this->input->get_post('client_version', TRUE);
-		
-// 		if($partner != 'default' && $partner != 'default_full' && $mode != 'debug')
-// 		{
-// 			$jsonData = Array(
-// 					'errors'			=>	'《冰火王座》精英封测已于2014年1月15日圆满结束，请耐心等待公测的到来！'
-// 			);
-// 			echo $this->return_format->format($jsonData, $format);
-// 			exit();
-// 		}
 		
 		$parameter = array(
 			'order_by'			=>	'server_sort'
@@ -54,11 +36,6 @@ class Servers extends CI_Controller {
 			$this->get_sdk_debug_list('96');
 			exit();
 		}
-		// elseif($partner != 'default')
-		// {
-		// 	$this->get_sdk_debug_list('97');
-		// 	exit();
-		// }
 		else
 		{
 			$parameter['partner'] = $partner;
@@ -67,7 +44,6 @@ class Servers extends CI_Controller {
 		if(!empty($ver) && $ver == '1.2' && $mode == 'pub' && ($partner == 'default' || $partner == 'default_full'))
 		{
 			$this->get_sdk_debug_list('97');
-			// $this->get_temp_version_list();
 			exit();
 		}
 		
