@@ -70,6 +70,7 @@ class Account_361 extends CI_Controller
 						}
 						else 
 						{
+							$access_token = 
 							$parameter = array(
 									'guid'			=>	$result[$i]->GUID,
 									'partner'		=>	$partner_key,
