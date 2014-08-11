@@ -41,6 +41,7 @@ class Account_361 extends CI_Controller
 				$this->load->model('web_account');
 				$this->load->model('msdktoken');
 				$this->load->model('mtoken');
+				$this->load->helper('security');
 
 				$parameter = array(
 						'partner_key'			=>	$partner_key,
@@ -70,7 +71,8 @@ class Account_361 extends CI_Controller
 						}
 						else 
 						{
-							$access_token = 
+							$access_token = do_hash($result[$i]->GUID . $time . mt_rand());
+							$refresh_token = do_hash($access_token);
 							$parameter = array(
 									'guid'			=>	$result[$i]->GUID,
 									'partner'		=>	$partner_key,
