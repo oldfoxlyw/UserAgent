@@ -33,11 +33,88 @@ class Account_360 extends CI_Controller
 		$partner_key = 'qihu360';
 		if(!empty($uid))
 		{
+			$parameter = array(
+					'uid'		=>	$uid
+			);
+			if($this->verify_check_code($parameter, $code))
+			{
+				$this->load->model('web_account');
+				$this->load->model('msdktoken');
+				$this->load->model('mtoken');
+				$this->load->helper('security');
 
+				$parameter = array(
+						'partner_key'			=>	$partner_key,
+						'partner_id'			=>	$uid,
+						'account_nickname !='	=>	'',
+						'account_status >='		=>	0
+				);
+				$extension = array(
+						'select'	=>	'GUID,account_name,server_id,account_nickname,account_status,account_job,profession_icon,account_level,account_mission,partner_key,partner_id'
+				);
+				$result = $this->web_account->read($parameter, $extension);
+				if(empty($result))
+				{
+					$result = array();
+					$json = array(
+							'success'		=>	0,
+							'message'		=>	'SDK_LOGIN_FAIL'
+					);
+				}
+				else
+				{
+					for($i = 0; $i<count($result); $i++)
+					{
+						$tokenResult = $this->msdktoken->read(array(
+								'guid'		=>	$result[$i]->GUID,
+								'partner'	=>	$partner_key
+						));
+						if(!empty($tokenResult))
+						{
+							$result[$i]->token = $tokenResult[0]->token;
+						}
+						else 
+						{
+							$access_token = do_hash($result[$i]->GUID . $time . mt_rand());
+							$refresh_token = do_hash($access_token);
+							$parameter = array(
+									'guid'			=>	$result[$i]->GUID,
+									'partner'		=>	$partner_key,
+									'token'			=>	$access_token,
+									'refresh_token'	=>	$refresh_token,
+									'expire_time'	=>	$expire_time
+							);
+							$this->msdktoken->create($parameter);
+
+							$result[$i]->token = $access_token;
+							$parameter = array(
+									'guid'			=>	$result[$i]->GUID,
+									'token'			=>	$access_token,
+									'expire_time'	=>	$time + 365 * 86400
+							);
+							$this->mtoken->create($parameter);
+						}
+					}
+					$json = array(
+							'success'		=>	1,
+							'message'		=>	'SDK_LOGIN_SUCCESS',
+							'access_token'	=>	$tokenResult[0]->token,
+							'refresh_token'	=>	$tokenResult[0]->refresh_token,
+							'uid'			=>	$uid,
+							'result'		=>	$result
+					);
+				}
+			}
+			else
+			{
+				$json = array(
+						'success'		=>	0,
+						'errors'		=>	'SDK_LOGIN_FAIL_ERROR_CHECK_CODE'
+				);
+			}
 		}
 		elseif(!empty($auth_code))
 		{
-
 			$parameter = array(
 					'auth_code'		=>	$auth_code
 			);
