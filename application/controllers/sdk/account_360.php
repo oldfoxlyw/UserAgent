@@ -33,7 +33,62 @@ class Account_360 extends CI_Controller
 		$partner_key = 'qihu360';
 		if(!empty($uid))
 		{
+			$parameter = array(
+					'partner_key'			=>	$partner_key,
+					'partner_id'			=>	$uid,
+					'account_nickname !='	=>	'',
+					'account_status >='		=>	0
+			);
+			$extension = array(
+					'select'	=>	'GUID,account_name,server_id,account_nickname,account_status,account_job,profession_icon,account_level,account_mission,partner_key,partner_id'
+			);
+			$result = $this->web_account->read($parameter, $extension);
+			if(empty($result))
+			{
+				$result = array();
+			}
+			else
+			{
+				for($i = 0; $i<count($result); $i++)
+				{
+					$tokenResult = $this->msdktoken->read(array(
+							'guid'		=>	$result[$i]->GUID,
+							'partner'	=>	$partner_key
+					));
+					if(!empty($tokenResult))
+					{
+						$result[$i]->token = $tokenResult[0]->token;
+					}
+					else 
+					{
+						$parameter = array(
+								'guid'			=>	$result[$i]->GUID,
+								'partner'		=>	$partner_key,
+								'token'			=>	$access_token,
+								'refresh_token'	=>	$refresh_token,
+								'expire_time'	=>	$expire_time
+						);
+						$this->msdktoken->create($parameter);
 
+						$result[$i]->token = $access_token;
+						$parameter = array(
+								'guid'			=>	$result[$i]->GUID,
+								'token'			=>	$access_token,
+								'expire_time'	=>	$time + 365 * 86400
+						);
+						$this->mtoken->create($parameter);
+					}
+				}
+			}
+				
+			$json = array(
+					'success'		=>	1,
+					'message'		=>	'SDK_LOGIN_SUCCESS',
+					'access_token'	=>	$access_token,
+					'refresh_token'	=>	$refresh_token,
+					'uid'			=>	$uid,
+					'result'		=>	$result
+			);
 		}
 		elseif(!empty($auth_code))
 		{
