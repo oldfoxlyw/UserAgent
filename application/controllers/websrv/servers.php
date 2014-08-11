@@ -17,259 +17,77 @@ class Servers extends CI_Controller {
 		$mode		=	$this->input->get_post('mode', TRUE);
 		$lang		=	$this->input->get_post('language', TRUE);
 		$ver		=	$this->input->get_post('client_version', TRUE);
-		
-		$parameter = array(
-			'order_by'			=>	'server_sort'
-		);
-		
-		if($partner===FALSE || empty($partner))
-		{
-			$partner = 'default';
-		}
-		elseif($partner == 'default_full')
-		{
-			$this->get_temp_hd_list();
-			exit();
-		}
-		elseif($partner == 'arab_default' || $partner == 'arab_sdk')
-		{
-			$this->get_sdk_debug_list('96');
-			exit();
-		}
-		else
-		{
-			$parameter['partner'] = $partner;
-		}
-		
-		if(!empty($ver) && $ver == '1.2' && $mode == 'pub' && ($partner == 'default' || $partner == 'default_full'))
-		{
-			$this->get_sdk_debug_list('97');
-			exit();
-		}
-		
-		if($mode===FALSE || empty($mode))
-		{
-			$parameter['server_debug'] = 0;
-		}
-		elseif($mode=='debug')
-		{
-// 			$parameter['server_debug'] = 1;
-			$parameter['server_mode'] = 'all';
-		}
-		elseif($mode=='all')
-		{
-			$jsonData = Array(
-					'errors'			=>	'《冰火王座》精英封测已于2014年1月15日圆满结束，请前往App Store下载最新客户端。'
-			);
-			echo $this->return_format->format($jsonData, $format);
-			exit();
-		}
-		else
-		{
-			$parameter['server_debug'] = 0;
-		}
-		
-		switch($lang) {
-			case 'CN':
-				$lang = 'zh-cn';
-				break;
-			case 'EN':
-				$lang = 'english';
-				break;
-			default:
-				$lang = 'zh-cn';
-		}
 
-		$this->load->model('websrv/server', 'server');
-		$result = $this->server->getAllResult($parameter);
-
-		$ip = $this->input->ip_address();
-		$specialIp = $this->config->item('special_ip');
+		// if($partner == 'arab_default' || $partner == 'arab_sdk')
+		// {
+		// 	$this->get_sdk_debug_list('96');
+		// 	exit();
+		// }
+		// elseif($partner == 'test_default')
+		// {
+		// 	$this->load->config('server_list_sdk');
+		// 	$jsonData = $this->config->item('game_server_list');
+		// }rtner == 'arab_default' || $partner == 'arab_sdk')
 		
-		if($specialIp)
-		{
-			$parameter = array(
-					'special_ip'	=>	$ip
-			);
-			$specialResult = $this->server->getAllResult($parameter);
-			if(!empty($specialResult))
-			{
-				$result = array_merge($result, $specialResult);
-			}
-		}
+		// $this->load->config('server_list_default');
+		// $jsonData = $this->config->item('game_server_list1');
+		
+		$this->load->config('server_list_default');
+		$jsonData = $this->config->item('game_server_list');
+		// $this->get_sdk_debug_list('2101');
+		// exit();
 
-		$this->lang->load('server_list', $lang);
-		$this->load->helper('language');
+		/*
+		$productdb = $this->load->database('productdb', TRUE);
+		$sql = "SELECT `server_id`, `count`, `max_count` FROM `server_balance_check` WHERE `next_active` = 1 AND `type`='{$type}'";
+		$next = $productdb->query($sql)->row();
+		$maxCount = intval($next->max_count);
+		$count = intval($next->count);
+		$next = intval($next->server_id);
+		*/
+
+		$next = 0;
 		$this->load->helper('array');
-		if(!empty($result))
+		for($i = 0; $i<count($jsonData['server']); $i++)
 		{
-			for($i=0; $i<count($result); $i++)
+			$jsonData['server'][$i]['server_recommend'] = 0;
+			$ipArray = $jsonData['server'][$i]['server_ip'];
+			$ip = random_element($ipArray);
+			$gameIpArray = $jsonData['server'][$i]['server_game_ip'];
+			$gameIp = random_element($gameIpArray);
+			$jsonData['server'][$i]['server_game_ip'] = $gameIp['ip'];
+			$jsonData['server'][$i]['server_game_port'] = $gameIp['port'];
+		}
+		if(is_array($jsonData['server']))
+		{
+			$jsonData['server'][$next]['server_recommend'] = 1;
+		}
+		/*
+		if($count >= $maxCount)
+		{
+			if($next >= 1)
 			{
-				$serverName = lang('server_list_' . $result[$i]->server_name);
-				if(!empty($serverName)) {
-					$result[$i]->server_name = $serverName;
-				}
-				$result[$i]->server_language = lang('server_list_language_' . $result[$i]->server_language);
-				
-				$result[$i]->server_ip = json_decode($result[$i]->server_ip);
-				if(count($result[$i]->server_ip) > 0)
-				{
-					$result[$i]->server_ip = random_element($result[$i]->server_ip);
-				}
-				else
-				{
-					$result[$i]->server_ip = $result[$i]->server_ip[0];
-				}
-				if(empty($result[$i]->server_ip->$ipFlag))
-				{
-					$result[$i]->server_ip = $result[$i]->server_ip->ip . ':' . $result[$i]->server_ip->port;
-				}
-				else
-				{
-					$result[$i]->server_ip = $result[$i]->server_ip->$ipFlag . ':' . $result[$i]->server_ip->port;
-				}
-	
-				$result[$i]->server_game_ip = json_decode($result[$i]->server_game_ip);
-				if(count($result[$i]->server_game_ip) > 0)
-				{
-					$result[$i]->server_game_ip = random_element($result[$i]->server_game_ip);
-				}
-				else
-				{
-					$result[$i]->server_game_ip = $result[$i]->server_game_ip[0];
-				}
-				$result[$i]->server_game_port = $result[$i]->server_game_ip->port;
-				if(empty($result[$i]->server_game_ip->$ipFlag))
-				{
-					$result[$i]->server_game_ip = $result[$i]->server_game_ip->ip;
-				}
-				else
-				{
-					$result[$i]->server_game_ip = $result[$i]->server_game_ip->$ipFlag;
-				}
-				
-				$result[$i]->game_message_ip = json_decode($result[$i]->game_message_ip);
-				if(count($result[$i]->game_message_ip) > 0)
-				{
-					$result[$i]->game_message_ip = random_element($result[$i]->game_message_ip);
-				}
-				else
-				{
-					$result[$i]->game_message_ip = $result[$i]->game_message_ip[0];
-				}
-				if(empty($result[$i]->game_message_ip->$ipFlag))
-				{
-					$result[$i]->game_message_ip = $result[$i]->game_message_ip->ip . ':' . $result[$i]->game_message_ip->port;
-				}
-				else
-				{
-					$result[$i]->game_message_ip = $result[$i]->game_message_ip->$ipFlag . ':' . $result[$i]->game_message_ip->port;
-				}
-
-				$result[$i]->const_server_ip = json_decode($result[$i]->const_server_ip);
-				if(count($result[$i]->const_server_ip) > 0)
-				{
-					$result[$i]->const_server_ip = random_element($result[$i]->const_server_ip);
-				}
-				else
-				{
-					$result[$i]->const_server_ip = $result[$i]->const_server_ip[0];
-				}
-				if(empty($result[$i]->const_server_ip->$ipFlag))
-				{
-					$result[$i]->const_server_ip = $result[$i]->const_server_ip->ip . ':' . $result[$i]->const_server_ip->port;
-				}
-				else
-				{
-					$result[$i]->const_server_ip = $result[$i]->const_server_ip->$ipFlag . ':' . $result[$i]->const_server_ip->port;
-				}
-
-				$result[$i]->voice_server_ip = json_decode($result[$i]->voice_server_ip);
-				if(count($result[$i]->voice_server_ip) > 0)
-				{
-					$result[$i]->voice_server_ip = random_element($result[$i]->voice_server_ip);
-				}
-				else
-				{
-					$result[$i]->voice_server_ip = $result[$i]->voice_server_ip[0];
-				}
-				if(empty($result[$i]->voice_server_ip->$ipFlag))
-				{
-					$result[$i]->voice_server_ip = $result[$i]->voice_server_ip->ip . ':' . $result[$i]->voice_server_ip->port;
-				}
-				else
-				{
-					$result[$i]->voice_server_ip = $result[$i]->voice_server_ip->$ipFlag . ':' . $result[$i]->voice_server_ip->port;
-				}
-
-				$result[$i]->cross_server_ip = json_decode($result[$i]->cross_server_ip);
-				if(count($result[$i]->cross_server_ip) > 0)
-				{
-					$result[$i]->cross_server_ip = random_element($result[$i]->cross_server_ip);
-				}
-				else
-				{
-					$result[$i]->cross_server_ip = $result[$i]->cross_server_ip[0];
-				}
-				if(empty($result[$i]->cross_server_ip->$ipFlag))
-				{
-					$result[$i]->cross_server_ip = $result[$i]->cross_server_ip->ip . ':' . $result[$i]->cross_server_ip->port;
-				}
-				else
-				{
-					$result[$i]->cross_server_ip = $result[$i]->cross_server_ip->$ipFlag . ':' . $result[$i]->cross_server_ip->port;
-				}
-
-				$result[$i]->legion_message_ip = json_decode($result[$i]->legion_message_ip);
-				if(count($result[$i]->legion_message_ip) > 0)
-				{
-					$result[$i]->legion_message_ip = random_element($result[$i]->legion_message_ip);
-				}
-				else
-				{
-					$result[$i]->legion_message_ip = $result[$i]->legion_message_ip[0];
-				}
-				if(empty($result[$i]->legion_message_ip->$ipFlag))
-				{
-					$result[$i]->legion_message_ip = $result[$i]->legion_message_ip->ip . ':' . $result[$i]->legion_message_ip->port;
-				}
-				else
-				{
-					$result[$i]->legion_message_ip = $result[$i]->legion_message_ip->$ipFlag . ':' . $result[$i]->legion_message_ip->port;
-				}
+				$nextServer = 0;
 			}
+			else
+			{
+				$nextServer = $next + 1;
+			}
+			$sql = "UPDATE `server_balance_check` SET `next_active` = 1 WHERE `next`={$nextServer}";
+			$productdb->query($sql);
+			$sql = "UPDATE `server_balance_check` SET `count` = 1, `next_active` = 0 WHERE `next`={$next}";
+			$productdb->query($sql);
 		}
 		else
 		{
-			$result = array();
+			$sql = "UPDATE `server_balance_check` SET `count` = `count` + 1 WHERE `next`={$next}";
+			$productdb->query($sql);
 		}
+		*/
+
+		$announcement = $this->config->item('game_announcement');
+		$jsonData = array_merge($jsonData, $announcement);
 		
-		$this->load->model('mannouncement');
-		$parameter = array(
-				'partner_key'	=>	$partner
-		);
-		$extension = array(
-				'order_by'	=>	array('post_time', 'desc')
-		);
-		$announce = $this->mannouncement->read($parameter, $extension, 1, 0);
-		$announce = empty($announce) ? '' : $announce[0];
-		
-// 		if($partner == 'default' || $partner == 'default_full')
-// 		{
-// 			$activate = 0;
-// 		}
-// 		else
-// 		{
-// 			$activate = 1;
-// 		}
-		$activate = 0;
-		
-		$jsonData = Array(
-			'message'			=>	'SERVER_LIST_SUCCESS',
-			'activate'			=>	$activate,
-			'server'			=>	$result,
-			'announce'			=>	$announce
-		);
 		echo $this->return_format->format($jsonData, $format);
 	}
 	
