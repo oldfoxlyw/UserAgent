@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Account_360 extends CI_Controller
+class Account_361 extends CI_Controller
 {
 	private $url = 'https://openapi.360.cn/oauth2/access_token';
 	private $info_url = 'https://openapi.360.cn/user/me.json';
@@ -41,7 +41,7 @@ class Account_360 extends CI_Controller
 				$this->load->model('web_account');
 				$this->load->model('msdktoken');
 				$this->load->model('mtoken');
-				
+
 				$parameter = array(
 						'partner_key'			=>	$partner_key,
 						'partner_id'			=>	$uid,
