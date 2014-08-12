@@ -35,7 +35,6 @@ class Account_361 extends CI_Controller
 		$partner_key = 'qihu360';
 		if(!empty($uid))
 		{
-			echo 'uid';
 			
 				$this->load->model('web_account');
 				$this->load->model('msdktoken');
@@ -44,7 +43,7 @@ class Account_361 extends CI_Controller
 				$this->load->helper('security');
 
 				$serverResult = $this->mserver->read(array(
-					'account_status'	=>	1
+					'server_status'	=>	1
 				));
 				var_dump($serverResult);
 				exit();
@@ -64,10 +63,7 @@ class Account_361 extends CI_Controller
 						'select'	=>	'GUID,account_name,server_id,account_nickname,account_status,account_job,profession_icon,account_level,account_mission,partner_key,partner_id',
 						'where_in'	=>	array('server_id', $where_in)
 				);
-				echo 'yes';
 				$result = $this->web_account->read($parameter, $extension);
-				var_dump($result);
-				exit();
 				if(empty($result))
 				{
 					$result = array();
