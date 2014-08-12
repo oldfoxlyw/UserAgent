@@ -65,7 +65,10 @@ class Account_361 extends CI_Controller
 						'select'	=>	'GUID,account_name,server_id,account_nickname,account_status,account_job,profession_icon,account_level,account_mission,partner_key,partner_id',
 						'where_in'	=>	array('server_id', $where_in)
 				);
+				echo 'yes';
 				$result = $this->web_account->read($parameter, $extension);
+				var_dump($result);
+				exit();
 				if(empty($result))
 				{
 					$result = array();
