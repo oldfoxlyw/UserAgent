@@ -39,7 +39,7 @@ class Account_361 extends CI_Controller
 					'uid'		=>	$uid
 			);
 			// if($this->verify_check_code($parameter, $code))
-			{
+			// {
 				$this->load->model('web_account');
 				$this->load->model('msdktoken');
 				$this->load->model('mtoken');
@@ -54,8 +54,6 @@ class Account_361 extends CI_Controller
 				{
 					array_push($where_in, $server->account_server_id);
 				}
-				var_dump($where_in);
-				exit();
 
 				$parameter = array(
 						'partner_key'			=>	$partner_key,
