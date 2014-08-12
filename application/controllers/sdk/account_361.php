@@ -14,6 +14,8 @@ class Account_361 extends CI_Controller
 	
 	public function request_login()
 	{
+		ini_set('display_error', '1');
+		error_reporting(E_ALL);
 		$this->load->model('return_format');
 		
 		$uid = $this->input->get_post('uid', TRUE);
