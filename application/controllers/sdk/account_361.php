@@ -114,7 +114,7 @@ class Account_361 extends CI_Controller
 						'uid'			=>	$uid,
 						'result'		=>	$result
 				);
-			}
+			// }
 			// else
 			// {
 			// 	$json = array(
