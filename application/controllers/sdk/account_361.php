@@ -36,9 +36,6 @@ class Account_361 extends CI_Controller
 		if(!empty($uid))
 		{
 			echo 'uid';
-			$parameter = array(
-					'uid'		=>	$uid
-			);
 			
 				$this->load->model('web_account');
 				$this->load->model('msdktoken');
