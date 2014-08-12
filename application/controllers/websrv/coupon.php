@@ -135,6 +135,7 @@ class Coupon extends CI_Controller
 									'success'	=>	1,
 									'message'	=>	'USED_COUPON_SUCCESS'
 								));
+								log_message('info', 'USED_COUPON_SUCCESS');
 							}
 							else
 							{
@@ -142,6 +143,7 @@ class Coupon extends CI_Controller
 									'success'	=>	1,
 									'message'	=>	'REMOTE_DATA_ERROR'
 								));
+								log_message('error', 'REMOTE_DATA_ERROR: remote data = ' . $remote_data . ', Post URL = ' . 'http://' . $server->lan . ':8089/ser_invitation_times' . ', server_id = ' . $server_id);
 							}
 						}
 						else
@@ -150,6 +152,7 @@ class Coupon extends CI_Controller
 								'success'	=>	0,
 								'error'		=>	'SERVER_ID_ERROR'
 							));
+							log_message('error', 'SERVER_ID_ERROR: server_id = ' . $server_id);
 						}
 					}
 					else
@@ -158,6 +161,7 @@ class Coupon extends CI_Controller
 							'success'	=>	0,
 							'error'		=>	'ALREADY_USE_COUPON'
 						));
+						log_message('error', 'ALREADY_USE_COUPON: role_id = ' . $role_id);
 					}
 				}
 				else
@@ -166,6 +170,7 @@ class Coupon extends CI_Controller
 						'success'	=>	0,
 						'error'		=>	'COUPON_MAX_COUNT'
 					));
+					log_message('error', 'COUPON_MAX_COUNT: coupon = ' . $coupon);
 				}
 			}
 			else
@@ -174,6 +179,7 @@ class Coupon extends CI_Controller
 					'success'	=>	0,
 					'error'		=>	'NOT_EXIST'
 				));
+				log_message('error', 'NOT_EXIST: coupon = ' . $coupon);
 			}
 		}
 		else
