@@ -15,8 +15,8 @@ class NetAddress
 	function getLocalHost()
 	{
 		$address = new NetAddress();
-		$address->Name = $_ENV["COMPUTERNAME"];
-		$address->IP = $_SERVER["SERVER_ADDR"];
+		// $address->Name = $_ENV["COMPUTERNAME"];
+		// $address->IP = $_SERVER["SERVER_ADDR"];
 		return $address;
 	}
 	function toString()
