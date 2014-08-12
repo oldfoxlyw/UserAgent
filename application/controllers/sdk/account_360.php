@@ -41,6 +41,7 @@ class Account_360 extends CI_Controller
 				$this->load->model('web_account');
 				$this->load->model('msdktoken');
 				$this->load->model('mtoken');
+				$this->load->model('mserver');
 				$this->load->helper('security');
 
 				$parameter = array(

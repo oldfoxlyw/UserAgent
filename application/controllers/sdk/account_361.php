@@ -41,7 +41,17 @@ class Account_361 extends CI_Controller
 				$this->load->model('web_account');
 				$this->load->model('msdktoken');
 				$this->load->model('mtoken');
+				$this->load->model('mserver');
 				$this->load->helper('security');
+
+				$serverResult = $this->mserver->read(array(
+					'account_status'	=>	1
+				));
+				$where_in = array();
+				foreach ($serverResult as $server)
+				{
+					array_push($where_in, $server->account_server_id);
+				}
 
 				$parameter = array(
 						'partner_key'			=>	$partner_key,
@@ -50,7 +60,8 @@ class Account_361 extends CI_Controller
 						'account_status >='		=>	0
 				);
 				$extension = array(
-						'select'	=>	'GUID,account_name,server_id,account_nickname,account_status,account_job,profession_icon,account_level,account_mission,partner_key,partner_id'
+						'select'	=>	'GUID,account_name,server_id,account_nickname,account_status,account_job,profession_icon,account_level,account_mission,partner_key,partner_id',
+						'where_in'	=>	array('server_id', $where_in)
 				);
 				$result = $this->web_account->read($parameter, $extension);
 				if(empty($result))
@@ -120,6 +131,7 @@ class Account_361 extends CI_Controller
 				$this->load->model('web_account');
 				$this->load->model('msdktoken');
 				$this->load->model('mtoken');
+				$this->load->model('mserver');
 				$this->load->model('webapi/connector');
 				$this->load->helper('security');
 				
@@ -170,6 +182,15 @@ class Account_361 extends CI_Controller
 
 				$uid = $info->id;
 
+				$serverResult = $this->mserver->read(array(
+					'account_status'	=>	1
+				));
+				$where_in = array();
+				foreach ($serverResult as $server)
+				{
+					array_push($where_in, $server->account_server_id);
+				}
+
 				$parameter = array(
 						'partner_key'			=>	$partner_key,
 						'partner_id'			=>	$uid,
@@ -177,7 +198,8 @@ class Account_361 extends CI_Controller
 						'account_status >='		=>	0
 				);
 				$extension = array(
-						'select'	=>	'GUID,account_name,server_id,account_nickname,account_status,account_job,profession_icon,account_level,account_mission,partner_key,partner_id'
+						'select'	=>	'GUID,account_name,server_id,account_nickname,account_status,account_job,profession_icon,account_level,account_mission,partner_key,partner_id',
+						'where_in'	=>	array('server_id', $where_in)
 				);
 				$result = $this->web_account->read($parameter, $extension);
 				if(empty($result))
