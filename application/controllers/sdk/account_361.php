@@ -39,8 +39,7 @@ class Account_361 extends CI_Controller
 			$parameter = array(
 					'uid'		=>	$uid
 			);
-			// if($this->verify_check_code($parameter, $code))
-			// {
+			
 				$this->load->model('web_account');
 				$this->load->model('msdktoken');
 				$this->load->model('mtoken');
@@ -50,6 +49,8 @@ class Account_361 extends CI_Controller
 				$serverResult = $this->mserver->read(array(
 					'account_status'	=>	1
 				));
+				var_dump($serverResult);
+				exit();
 				$where_in = array();
 				foreach ($serverResult as $server)
 				{
@@ -118,14 +119,7 @@ class Account_361 extends CI_Controller
 						'uid'			=>	$uid,
 						'result'		=>	$result
 				);
-			// }
-			// else
-			// {
-			// 	$json = array(
-			// 			'success'		=>	0,
-			// 			'errors'		=>	'SDK_LOGIN_FAIL_ERROR_CHECK_CODE'
-			// 	);
-			// }
+			
 		}
 		elseif(!empty($auth_code))
 		{
