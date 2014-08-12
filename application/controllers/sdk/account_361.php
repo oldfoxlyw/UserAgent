@@ -62,6 +62,7 @@ class Account_361 extends CI_Controller
 						'where_in'	=>	array('server_id', $where_in)
 				);
 				$result = $this->web_account->read($parameter, $extension);
+				exit($this->web_account->db()->last_query());
 				if(empty($result))
 				{
 					$result = array();
