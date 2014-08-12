@@ -45,8 +45,6 @@ class Account_361 extends CI_Controller
 				$serverResult = $this->mserver->read(array(
 					'server_status'	=>	1
 				));
-				var_dump($serverResult);
-				exit();
 				$where_in = array();
 				foreach ($serverResult as $server)
 				{
