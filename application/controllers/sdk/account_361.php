@@ -35,6 +35,7 @@ class Account_361 extends CI_Controller
 		$partner_key = 'qihu360';
 		if(!empty($uid))
 		{
+			echo 'uid';
 			$parameter = array(
 					'uid'		=>	$uid
 			);
