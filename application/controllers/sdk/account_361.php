@@ -54,6 +54,8 @@ class Account_361 extends CI_Controller
 				{
 					array_push($where_in, $server->account_server_id);
 				}
+				var_dump($where_in);
+				exit();
 
 				$parameter = array(
 						'partner_key'			=>	$partner_key,
