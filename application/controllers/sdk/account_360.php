@@ -188,7 +188,7 @@ class Account_360 extends CI_Controller
 				$uid = $info->id;
 
 				$serverResult = $this->mserver->read(array(
-					'account_status'	=>	1
+					'server_status'	=>	1
 				));
 				$where_in = array();
 				foreach ($serverResult as $server)
