@@ -224,6 +224,7 @@ class Account_360 extends CI_Controller
 						if(!empty($tokenResult))
 						{
 							$result[$i]->token = $tokenResult[0]->token;
+							log_message('error', "token: " . $tokenResult[0]->token);
 						}
 						else 
 						{
@@ -243,6 +244,7 @@ class Account_360 extends CI_Controller
 									'expire_time'	=>	$time + 365 * 86400
 							);
 							$this->mtoken->create($parameter);
+							log_message('error', "token empty: " . $access_token);
 						}
 					}
 				}
