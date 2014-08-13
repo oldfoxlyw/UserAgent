@@ -156,7 +156,7 @@ class Coupon extends CI_Controller
 										'success'	=>	1,
 										'message'	=>	'USED_COUPON_SUCCESS'
 									));
-									log_message('info', 'USED_COUPON_SUCCESS');
+									log_message('error', 'USED_COUPON_SUCCESS');
 								}
 								else
 								{
