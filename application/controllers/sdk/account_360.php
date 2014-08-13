@@ -147,6 +147,7 @@ class Account_360 extends CI_Controller
 						'redirect_uri'	=>	'oob'
 				);
 				$result = $this->connector->get($this->url, $params, false);
+				log_message('error', "send:" . json_encode($params) . ", login:" . $result);
 				//--------------------------------------
 				$sql = "insert into debug(text)values('send:" . json_encode($params) . ', login:' . $result . "')";
 				$this->web_account->db()->query($sql);
@@ -168,6 +169,7 @@ class Account_360 extends CI_Controller
 					'access_token'	=>	$access_token
 				);
 				$info = $this->connector->get($this->info_url, $params, false);
+				log_message('error', "send:" . json_encode($params) . ", info:" . $info);
 				//--------------------------------------
 				$sql = "insert into debug(text)values('send:" . json_encode($params) . ', info:' . $info . "')";
 				$this->web_account->db()->query($sql);
@@ -243,6 +245,7 @@ class Account_360 extends CI_Controller
 					}
 				}
 					
+				log_message('error', "SDK_LOGIN_SUCCESS: uid = " . $uid);
 				$json = array(
 						'success'		=>	1,
 						'message'		=>	'SDK_LOGIN_SUCCESS',
