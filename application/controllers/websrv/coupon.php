@@ -84,9 +84,9 @@ class Coupon extends CI_Controller
 	public function test_dec()
 	{
 		$master_id = 164999758611433;
-		echo 'before: ' . $master_id;
+		echo 'before: ' . $master_id . "\n";
 		$master_id = hexdec($master_id);
-		echo 'hexed: ' . $master_id . ', string: ' . strval($master_id);
+		echo 'hexed: ' . $master_id . ', string: ' . strval($master_id, 16) . "\n";
 		$server_id = substr(strval($master_id, 16), 0, 2);
 		echo 'id: ' . $server_id;
 	}
