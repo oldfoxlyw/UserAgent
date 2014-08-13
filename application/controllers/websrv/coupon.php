@@ -81,6 +81,16 @@ class Coupon extends CI_Controller
 		}
 	}
 
+	public function test_dec()
+	{
+		$master_id = 164999758611531;
+		echo 'before: ' . $master_id . "\n";
+		$master_id = dechex($master_id);
+		echo 'hexed: ' . $master_id . ', string: ' . strval($master_id) . "\n";
+		$server_id = substr(strval($master_id), 0, 2);
+		echo 'id: ' . $server_id;
+	}
+
 	public function use_coupon()
 	{
 		$coupon = $this->input->get_post('coupon');
