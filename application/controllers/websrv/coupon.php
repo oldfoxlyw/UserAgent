@@ -81,11 +81,6 @@ class Coupon extends CI_Controller
 		}
 	}
 
-	public function test_dec()
-	{
-		echo dechex(164999758611433);
-	}
-
 	public function use_coupon()
 	{
 		$coupon = $this->input->get_post('coupon');
@@ -109,8 +104,9 @@ class Coupon extends CI_Controller
 					));
 					if(empty($result))
 					{
-						$master_id = $row->role_id;
-						$server_id = substr($master_id, 0, 3);
+						$master_id = intval($row->role_id);
+						$master_id = hexdec($master_id);
+						$server_id = substr(strval($master_id), 0, 2);
 						$this->load->model('mserver');
 						$serverResult = $this->mserver->read(array(
 							'account_server_id'		=>	$server_id
