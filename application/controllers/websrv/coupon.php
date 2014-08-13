@@ -105,7 +105,7 @@ class Coupon extends CI_Controller
 					if(empty($result))
 					{
 						$master_id = intval($row->role_id);
-						$master_id = hexdec($master_id);
+						$master_id = dechex($master_id);
 						$server_id = substr(strval($master_id), 0, 3);
 						$this->load->model('mserver');
 						$serverResult = $this->mserver->read(array(
