@@ -126,27 +126,29 @@ class Coupon extends CI_Controller
 						));
 						if(!empty($serverResult))
 						{
+							$count = intval($row->count) + 1;
+							$this->mcoupon->update($coupon, array(
+								'count'	=>	$count
+							));
+							$data = array(
+								'role_id'	=>	$role_id,
+								'coupon'	=>	$coupon,
+								'timestamp'	=>	time()
+							);
+							$this->mcouponused->create($data);
+							
 							$server = $serverResult[0];
 							log_message('error', 'server = ' . json_encode($server));
 							$server = json_decode($server->server_ip);
 							$server = $server[0];
 							$this->load->model('webapi/connector');
 							$remote_data = $this->connector->post('http://' . $server->ip . ':8091/ser_invitation_times', array(
-								'role_id'	=>	$master_id
+								'role_id'	=>	$master_id,
+								'times'		=>	$count
 							));
 							log_message('error', 'remote = ' . $remote_data);
 							if($remote_data == '1')
 							{
-								$count = intval($row->count) + 1;
-								$this->mcoupon->update($coupon, array(
-									'count'	=>	$count
-								));
-								$data = array(
-									'role_id'	=>	$role_id,
-									'coupon'	=>	$coupon,
-									'timestamp'	=>	time()
-								);
-								$this->mcouponused->create($data);
 								echo json_encode(array(
 									'success'	=>	1,
 									'message'	=>	'USED_COUPON_SUCCESS'
