@@ -81,6 +81,11 @@ class Coupon extends CI_Controller
 		}
 	}
 
+	public function test_dec()
+	{
+		echo dechex(164999758611433);
+	}
+
 	public function use_coupon()
 	{
 		$coupon = $this->input->get_post('coupon');
