@@ -107,6 +107,7 @@ class Coupon extends CI_Controller
 						$master_id = intval($row->role_id);
 						$master_id = hexdec($master_id);
 						$server_id = substr(strval($master_id), 0, 2);
+						log_message('error', 'server_id = ' . $server_id);
 						$this->load->model('mserver');
 						$serverResult = $this->mserver->read(array(
 							'account_server_id'		=>	$server_id
@@ -114,12 +115,14 @@ class Coupon extends CI_Controller
 						if(!empty($serverResult))
 						{
 							$server = $serverResult[0];
+							log_message('error', 'server = ' . json_encode($server));
 							$server = json_decode($server->server_ip);
 							$server = $server[0];
 							$this->load->model('webapi/connector');
 							$remote_data = $this->connector->post('http://' . $server->ip . ':8091/ser_invitation_times', array(
 								'role_id'	=>	$master_id
 							));
+							log_message('error', 'remote = ' . $remote_data);
 							if($remote_data == '1')
 							{
 								$count = intval($row->count) + 1;
