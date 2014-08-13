@@ -85,7 +85,7 @@ class Coupon extends CI_Controller
 	{
 		$master_id = 164999758611433;
 		echo 'before: ' . $master_id . "\n";
-		$master_id = hexdec($master_id);
+		$master_id = dechex($master_id);
 		echo 'hexed: ' . $master_id . ', string: ' . strval($master_id) . "\n";
 		$server_id = substr(strval($master_id), 0, 2);
 		echo 'id: ' . $server_id;
@@ -115,7 +115,7 @@ class Coupon extends CI_Controller
 					if(empty($result))
 					{
 						$master_id = intval($row->role_id);
-						$master_id = hexdec($master_id);
+						$master_id = dechex($master_id);
 						$server_id = substr(strval($master_id), 0, 2);
 						log_message('error', 'server_id = ' . $server_id);
 						$this->load->model('mserver');
