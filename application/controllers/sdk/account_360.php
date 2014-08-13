@@ -463,7 +463,7 @@ class Account_360 extends CI_Controller
 				}
 			}
 			ksort($parameter);
-			array_push($parameter, $this->check_code);
+			// array_push($parameter, $this->check_code);
 			
 			$str = strtolower(md5(implode('', $parameter)));
 
