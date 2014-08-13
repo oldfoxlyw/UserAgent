@@ -116,9 +116,9 @@ class Coupon extends CI_Controller
 					{
 						$master_id = intval($row->role_id);
 						log_message('error', 'role_id = ' . $master_id);
-						$master_id = dechex($master_id);
-						log_message('error', 'hexed = ' . $master_id);
-						$server_id = substr(strval($master_id), 0, 2);
+						$hexed_id = dechex($master_id);
+						log_message('error', 'hexed = ' . $hexed_id);
+						$server_id = substr(strval($hexed_id), 0, 2);
 						log_message('error', 'server_id = ' . $server_id);
 						$this->load->model('mserver');
 						$serverResult = $this->mserver->read(array(
@@ -159,7 +159,7 @@ class Coupon extends CI_Controller
 									'success'	=>	1,
 									'message'	=>	'REMOTE_DATA_ERROR'
 								));
-								log_message('error', 'REMOTE_DATA_ERROR: remote data = ' . $remote_data . ', Post URL = ' . 'http://' . $server->lan . ':8089/ser_invitation_times' . ', server_id = ' . $server_id);
+								log_message('error', 'REMOTE_DATA_ERROR: remote data = ' . $remote_data . ', Post URL = ' . 'http://' . $server->ip . ':8091/ser_invitation_times' . ', server_id = ' . $server_id);
 							}
 						}
 						else
