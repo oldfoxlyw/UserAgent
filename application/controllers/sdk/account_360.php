@@ -195,6 +195,7 @@ class Account_360 extends CI_Controller
 				{
 					array_push($where_in, $server->account_server_id);
 				}
+				log_message('error', "where in:" . json_encode($where_in));
 
 				$parameter = array(
 						'partner_key'			=>	$partner_key,
@@ -207,6 +208,7 @@ class Account_360 extends CI_Controller
 						'where_in'	=>	array('server_id', $where_in)
 				);
 				$result = $this->web_account->read($parameter, $extension);
+				log_message('error', "result" . json_encode($result));
 				if(empty($result))
 				{
 					$result = array();
