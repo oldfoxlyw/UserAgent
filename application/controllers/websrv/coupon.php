@@ -147,13 +147,25 @@ class Coupon extends CI_Controller
 								'times'		=>	$count
 							));
 							log_message('error', 'remote = ' . $remote_data);
-							if($remote_data == '1')
+							if(!empty($remote_data))
 							{
-								echo json_encode(array(
-									'success'	=>	1,
-									'message'	=>	'USED_COUPON_SUCCESS'
-								));
-								log_message('info', 'USED_COUPON_SUCCESS');
+								$remote_data = json_decode($remote_data);
+								if($remote_data->success == '1')
+								{
+									echo json_encode(array(
+										'success'	=>	1,
+										'message'	=>	'USED_COUPON_SUCCESS'
+									));
+									log_message('info', 'USED_COUPON_SUCCESS');
+								}
+								else
+								{
+									echo json_encode(array(
+										'success'	=>	0,
+										'error'		=>	'REMOTE_DATA_ERROR'
+									));
+									log_message('error', 'REMOTE_DATA_ERROR: remote data = ' . $remote_data . ', Post URL = ' . 'http://' . $server->lan . ':8089/ser_invitation_times' . ', server_id = ' . $server_id);
+								}
 							}
 							else
 							{
