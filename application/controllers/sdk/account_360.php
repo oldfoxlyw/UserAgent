@@ -64,6 +64,7 @@ class Account_360 extends CI_Controller
 						'where_in'	=>	array('server_id', $where_in)
 				);
 				$result = $this->web_account->read($parameter, $extension);
+				log_message('error', json_encode($result) . ', sql = ' . $this->web_account->db()->last_query());
 				if(empty($result))
 				{
 					$result = array();
