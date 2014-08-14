@@ -269,6 +269,7 @@ class Account extends CI_Controller {
 			}
 			$this->web_account->update($parameter, $guid);
 
+			log_message('error', 'ACCOUNT_ENTER_SUCCESS: ' . json_encode($parameter));
 			$jsonData = Array(
 					'success'	=>	true,
 					'message'	=>	'ACCOUNT_ENTER_SUCCESS'
@@ -277,6 +278,7 @@ class Account extends CI_Controller {
 		}
 		else
 		{
+			log_message('error', 'ACCOUNT_ENTER_ERROR_NO_PARAM');
 			$jsonData = Array(
 				'success'	=>	false,
 				'errors'	=>	'ACCOUNT_ENTER_ERROR_NO_PARAM'
