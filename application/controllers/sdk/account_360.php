@@ -149,10 +149,14 @@ class Account_360 extends CI_Controller
 				);
 				$result = $this->connector->get($this->url, $params, false);
 				log_message('error', "send:" . json_encode($params) . ", login:" . $result);
-				//--------------------------------------
-				// $sql = "insert into debug(text)values('send:" . json_encode($params) . ', login:' . $result . "')";
-				// $this->web_account->db()->query($sql);
-				//--------------------------------------
+				if(empty($result))
+				{
+					$json = array(
+							'success'		=>	0,
+							'errors'		=>	'SDK_LOGIN_FAIL_NO_RESPONSE'
+					);
+					exit($this->return_format->format($json));
+				}
 				$result = json_decode($result);
 				if(empty($result) || empty($result->access_token))
 				{
@@ -171,11 +175,14 @@ class Account_360 extends CI_Controller
 				);
 				$info = $this->connector->get($this->info_url, $params, false);
 				log_message('error', "send:" . json_encode($params) . ", info:" . $info);
-				//--------------------------------------
-				// $sql = "insert into debug(text)values('send:" . json_encode($params) . ', info:' . $info . "')";
-				// $this->web_account->db()->query($sql);
-				//--------------------------------------
-
+				if(empty($info))
+				{
+					$json = array(
+							'success'		=>	0,
+							'errors'		=>	'SDK_LOGIN_FAIL_NO_RESPONSE'
+					);
+					exit($this->return_format->format($json));
+				}
 				$info = json_decode($info);
 				if(empty($info) || empty($info->id))
 				{
