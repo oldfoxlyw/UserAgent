@@ -196,7 +196,7 @@ class Account_360 extends CI_Controller
 				{
 					array_push($where_in, $server->account_server_id);
 				}
-				// log_message('error', "where in:" . json_encode($where_in));
+				log_message('error', "where in:" . json_encode($where_in));
 
 				$parameter = array(
 						'partner_key'			=>	$partner_key,
@@ -209,7 +209,7 @@ class Account_360 extends CI_Controller
 						'where_in'	=>	array('server_id', $where_in)
 				);
 				$result = $this->web_account->read($parameter, $extension);
-				// log_message('error', "result" . json_encode($result));
+				log_message('error', "result" . json_encode($result));
 				if(empty($result))
 				{
 					$result = array();
@@ -225,7 +225,7 @@ class Account_360 extends CI_Controller
 						if(!empty($tokenResult))
 						{
 							$result[$i]->token = $tokenResult[0]->token;
-							// log_message('error', "token: " . $tokenResult[0]->token);
+							log_message('error', "token: " . $tokenResult[0]->token);
 						}
 						else 
 						{
@@ -245,12 +245,12 @@ class Account_360 extends CI_Controller
 									'expire_time'	=>	$time + 365 * 86400
 							);
 							$this->mtoken->create($parameter);
-							// log_message('error', "token empty: " . $access_token);
+							log_message('error', "token empty: " . $access_token);
 						}
 					}
 				}
 					
-				// log_message('error', "SDK_LOGIN_SUCCESS: uid = " . $uid);
+				log_message('error', "SDK_LOGIN_SUCCESS: uid = " . $uid);
 				$json = array(
 						'success'		=>	1,
 						'message'		=>	'SDK_LOGIN_SUCCESS',
