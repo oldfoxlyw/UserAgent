@@ -298,7 +298,6 @@ class Servers extends CI_Controller {
 			
 			$server_id = $inputParam->server_id;
 			$partner = $inputParam->partner;
-			$code = $inputParam->code;
 		}
 
 		$db = $this->load->database('productdb', TRUE);
