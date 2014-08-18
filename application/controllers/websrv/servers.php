@@ -37,6 +37,11 @@ class Servers extends CI_Controller {
 
 			$type = 'appstore';
 		}
+		elseif($mode == 'pub' && ($partner == 'default' || $partner == 'default_full') && $ver == '1.3')
+		{
+			$this->get_sdk_debug_list('94');
+			exit();
+		}
 		elseif($mode == 'pub' && $partner != 'default' && $partner != 'default_full' && $ver == '1.2')
 		{
 			$this->load->config('server_list_sdk');
