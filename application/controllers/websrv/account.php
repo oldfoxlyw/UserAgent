@@ -152,6 +152,8 @@ class Account extends CI_Controller {
 		$server_id		=	$this->input->get_post('server_id', TRUE);
 		$device_id		=	$this->input->get_post('device_id', TRUE);
 
+		log_message("error", "login: account_name={$accountName}, account_pass={$accountPass}, server_id={$server_id}");
+
 		$device_id = empty($device_id) ? '' : $device_id;
 		
 		if(!empty($accountName) && !empty($accountPass) && !empty($server_id))
