@@ -103,6 +103,7 @@ class Account extends CI_Controller {
 	{
 		$guid = $this->input->get_post('guid', TRUE);
 		$job = $this->input->get_post('job', TRUE);
+		$email = $this->input->get_post('email', TRUE);
 		$face = $this->input->get_post('profession_icon', TRUE);
 		$level = $this->input->get_post('level', TRUE);
 		$mission = $this->input->get_post('mission', TRUE);
@@ -127,6 +128,9 @@ class Account extends CI_Controller {
 			}
 			if(!empty($nickname)) {
 				$parameter['account_nickname'] = $nickname;
+			}
+			if(!empty($email)) {
+				$parameter['account_email'] = $email;
 			}
 			if(!empty($role_id))
 			{
