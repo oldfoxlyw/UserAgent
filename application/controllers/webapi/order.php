@@ -187,7 +187,6 @@ class Order extends CI_Controller {
 		}
 
 		echo $this->return_format->format($jsonData, $format);
-		log_message("error", json_encode($jsonData));
 	}
 }
 ?>
