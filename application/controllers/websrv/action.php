@@ -78,19 +78,6 @@ class Action extends CI_Controller
 		}
 	}
 
-	//金币总产出
-	public function gold_production()
-	{
-		$server_id = $this->input->post('server_id');
-		$date = $this->input->post('date');
-		$amount = $this->input->post('amount');
-
-		if(!empty($server_id) && !empty($amount))
-		{
-
-		}
-	}
-
 	//参与活动计数
 	public function activity_count()
 	{
@@ -100,7 +87,14 @@ class Action extends CI_Controller
 
 		if(!empty($server_id) && !empty($activity_id))
 		{
-
+			$this->load->model('mlogactivity');
+			$parameter = array(
+				'server_id'		=>	$server_id,
+				'activity_id'	=>	$activity_id,
+				'role_id'		=>	$role_id,
+				'time'			=>	time()
+			);
+			$this->mlogactivity->create($parameter);
 		}
 	}
 
@@ -113,7 +107,14 @@ class Action extends CI_Controller
 
 		if(!empty($server_id) && !empty($pack_id))
 		{
-
+			$this->load->model('mlogpack');
+			$parameter = array(
+				'server_id'		=>	$server_id,
+				'pack_id'		=>	$activity_id,
+				'role_id'		=>	$role_id,
+				'time'			=>	time()
+			);
+			$this->mlogpack->create($parameter);
 		}
 	}
 }
