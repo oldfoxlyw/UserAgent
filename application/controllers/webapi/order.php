@@ -19,6 +19,16 @@ class Order extends CI_Controller {
 		$create_time = $this->input->get_post('create_time', TRUE);
 		$sign = $this->input->get_post('sign', TRUE);
 
+		if($server_id == '301')
+		{
+			$jsonData = array(
+				'err_code'		=>	1,
+				'desc'			=>	"You can't recharge in this server."
+			);
+			echo $this->return_format->format($jsonData, $format);
+			exit();
+		}
+
 		$check = array($this->appkey . $server_id . $player_id . $order_id . $amount . $create_time . $this->appkey);
 		$check = md5(implode('', $check));
 		if($sign == $check)
