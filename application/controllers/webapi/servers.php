@@ -50,7 +50,7 @@ class Servers extends CI_Controller {
 	{
 		$this->load->model('webapi/mserver');
 
-		$sql = "SELECT `account_server_id` AS `serv_id`, `server_name` AS `serv_name` FROM `server_list` WHERE `server_status` != 9";
+		$sql = "SELECT `account_server_id` AS `serv_id`, `server_name` AS `serv_name` FROM `server_list` WHERE `server_status` != 9 AND `account_server_id` != '301'";
 		$result = $this->mserver->query($sql);
 
 		$jsonData = array(
