@@ -25,50 +25,10 @@ class Servers extends CI_Controller {
 		// 	$this->load->config('server_list_sdk');
 		// 	$jsonData = $this->config->item('game_server_list');
 		// }
-		if($partner == 'arab_default' || $partner == 'arab_sdk')
-		{
-			$this->load->config('server_list_arab_debug');
-			$jsonData = $this->config->item('game_server_list');
-		}
-		elseif($mode == 'pub' && ($partner == 'default' || $partner == 'default_full') && $ver == '2.0')
-		{
-			$this->load->config('server_list_v2');
-			$jsonData = $this->config->item('game_server_list');
-
-			$type = 'appstore';
-		}
-		elseif($mode == 'pub' && ($partner == 'default' || $partner == 'default_full') && $ver == '1.3')
+		if($mode == 'pub' && ($partner == 'default' || $partner == 'default_full') && $ver == '1.0')
 		{
 			$this->get_sdk_debug_list('93');
 			exit();
-		}
-		elseif($mode == 'pub' && $partner != 'default' && $partner != 'default_full' && $ver == '1.2')
-		{
-			$this->load->config('server_list_sdk');
-			$jsonData = $this->config->item('game_server_list');
-
-			$type = 'sdk';
-		}
-		elseif(!empty($ver) && $ver == '1.2' && $mode == 'pub' && ($partner == 'default' || $partner == 'default_full'))
-		{
-			$this->get_sdk_debug_list('99');
-			exit();
-		}
-		elseif($mode == 'pub' && ($partner == 'default' || $partner == 'default_full') && $ver != '1.2')
-		{
-			$this->load->config('server_list_default');
-			
-			$serverIp	=	$this->input->server('SERVER_ADDR');
-			if($serverIp == '122.13.131.55')
-			{
-				$jsonData = $this->config->item('game_server_list2');
-			}
-			else //183.60.255.55
-			{
-				$jsonData = $this->config->item('game_server_list1');
-			}
-
-			$type = 'appstore';
 		}
 		else
 		{
