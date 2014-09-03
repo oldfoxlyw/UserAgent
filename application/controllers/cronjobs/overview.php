@@ -19,7 +19,7 @@ class Overview extends CI_Controller
 
 	public function statistics($server_id)
 	{
-		set_time_limit(1800);
+		set_time_limit(3600);
 
 		$this->load->model ( 'websrv/server' );
 		if(!empty($server_id))
@@ -183,6 +183,7 @@ class Overview extends CI_Controller
 				$this->accountdb->where ( 'partner_key', $partnerKey );
 				$query = $this->accountdb->get ( 'web_account' );
 				$flowoverResult = $query->result ();
+				log_message('custom', 'flowoverResult = ' . count($flowoverResult));
 				foreach ( $flowoverResult as $flowover )
 				{
 					$this->logcachedb->insert ( 'log_flowover_cache', array (
