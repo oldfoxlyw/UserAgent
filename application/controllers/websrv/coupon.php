@@ -128,7 +128,7 @@ class Coupon extends CI_Controller
 							$server = json_decode($server->server_ip);
 							$server = $server[0];
 							$this->load->model('webapi/connector');
-							$remote_data = $this->connector->post('http://' . $server->lan . ':8089/ser_invitation_times', array(
+							$remote_data = $this->connector->post('http://' . $server->lan . ':' . $server->lanport . '/ser_invitation_times', array(
 								'role_id'	=>	$master_id,
 								'times'		=>	$count
 							));
