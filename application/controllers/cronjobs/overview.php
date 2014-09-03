@@ -67,16 +67,19 @@ class Overview extends CI_Controller
 			{
 				$partnerKey = $partner->partner_key;
 				
+				log_message('custom', 'partner = ' . $partnerKey);
 				// 总注册数
 				$this->accountdb->where ( 'server_id', $row->account_server_id );
 				$this->accountdb->where ( 'partner_key', $partnerKey );
 				$this->accountdb->where ( 'account_regtime <=', $lastTimeEnd );
 				$registerCount = $this->accountdb->count_all_results ( 'web_account' );
+				log_message('custom', 'registerCount = ' . $registerCount);
 				
 				// 新注册数
 				$where = "`server_id` = '{$row->account_server_id}' and `partner_key`='{$partnerKey}' and `account_regtime` >= {$lastTimeStart} and `account_regtime` <= {$lastTimeEnd}";
 				$this->accountdb->where ( $where );
 				$regNewCount = $this->accountdb->count_all_results ( 'web_account' );
+				log_message('custom', 'regNewCount = ' . $regNewCount);
 				
 				// 有效帐号（建立角色的帐号）
 				$this->accountdb->where ( 'server_id', $row->account_server_id );
@@ -85,6 +88,7 @@ class Overview extends CI_Controller
 				// $this->accountdb->where ( 'account_regtime <=', $lastTimeEnd );
 				$this->accountdb->where ( 'account_level >', 0 );
 				$validCount = $this->accountdb->count_all_results ( 'web_account' );
+				log_message('custom', 'validCount = ' . $validCount);
 				
 				// 新有效帐号（建立角色的帐号）
 				$this->accountdb->where ( 'server_id', $row->account_server_id );
@@ -93,6 +97,7 @@ class Overview extends CI_Controller
 				$this->accountdb->where ( 'account_regtime <=', $lastTimeEnd );
 				$this->accountdb->where ( 'account_level >', 0 );
 				$validNewCount = $this->accountdb->count_all_results ( 'web_account' );
+				log_message('custom', 'validNewCount = ' . $validNewCount);
 
 				// 等级大于1的帐号
 				$this->accountdb->where ( 'server_id', $row->account_server_id );
@@ -101,6 +106,7 @@ class Overview extends CI_Controller
 				$this->accountdb->where ( 'account_regtime <=', $lastTimeEnd );
 				$this->accountdb->where ( 'account_level >', 1 );
 				$levelCount = $this->accountdb->count_all_results ( 'web_account' );
+				log_message('custom', 'levelCount = ' . $levelCount);
 				
 				// 总改名用户数
 				$this->accountdb->where ( 'server_id', $row->account_server_id );
@@ -108,27 +114,33 @@ class Overview extends CI_Controller
 				$this->accountdb->where ( 'partner_key', $partnerKey );
 				$this->accountdb->where ( 'account_regtime <=', $lastTimeEnd );
 				$modifyCount = $this->accountdb->count_all_results ( 'web_account' );
+				log_message('custom', 'modifyCount = ' . $modifyCount);
 				
 				// 新改名用户数
 				$where = "`server_id` = '{$row->account_server_id}' and `partner_key`='{$partnerKey}' and `account_status`=1 and `account_regtime` >= {$lastTimeStart} and `account_regtime` <= {$lastTimeEnd}";
 				$this->accountdb->where ( $where );
 				$modifyNewCount = $this->accountdb->count_all_results ( 'web_account' );
+				log_message('custom', 'modifyNewCount = ' . $modifyNewCount);
 
 				// 当天登录数
 				$sql = "SELECT `log_GUID` FROM `log_account` WHERE (`log_action` = 'ACCOUNT_LOGIN_SUCCESS' OR `log_action` = 'ACCOUNT_REGISTER_SUCCESS' OR `log_action` = 'ACCOUNT_DEMO_SUCCESS') AND `log_time` >= {$lastTimeStart} AND `log_time` <= {$lastTimeEnd} AND `server_id` = '{$row->account_server_id}' AND `partner_key` = '{$partnerKey}' GROUP BY `log_GUID`";
 				$loginCount = $this->logdb->query($sql)->num_rows();
+				log_message('custom', 'loginCount = ' . $loginCount);
 
 				// 当天有效登录数
 				$sql = "SELECT `log_GUID` FROM `log_account` WHERE (`log_action` = 'ACCOUNT_LOGIN_SUCCESS' OR `log_action` = 'ACCOUNT_REGISTER_SUCCESS' OR `log_action` = 'ACCOUNT_DEMO_SUCCESS') AND `log_time` >= {$lastTimeStart} AND `log_time` <= {$lastTimeEnd} AND `server_id` = '{$row->account_server_id}' AND `partner_key` = '{$partnerKey}' AND `log_account_level` > 0 GROUP BY `log_GUID`";
 				$loginValidCount = $this->logdb->query($sql)->num_rows();
+				log_message('custom', 'loginValidCount = ' . $loginValidCount);
 
 				// 活跃玩家数(三天以内登录过游戏的人数)
 				$threeDaysAgoStart = $lastTimeStart - 2 * 86400;
 				$sql = "SELECT `log_GUID` FROM `log_account` WHERE (`log_action` = 'ACCOUNT_LOGIN_SUCCESS' OR `log_action` = 'ACCOUNT_REGISTER_SUCCESS' OR `log_action` = 'ACCOUNT_DEMO_SUCCESS') AND `log_time` >= {$threeDaysAgoStart} AND `log_time` <= {$lastTimeEnd} AND `server_id` = '{$row->account_server_id}' AND `partner_key` = '{$partnerKey}' GROUP BY `log_GUID`";
 				$activeCount = $this->logdb->query($sql)->num_rows();
+				log_message('custom', 'activeCount = ' . $activeCount);
 
 				//DAU
 				$dau = $loginCount - $validNewCount;
+				log_message('custom', 'dau = ' . $dau);
 				// $dau = $loginValidCount - $validNewCount;
 				
 				// 回流玩家数(超过一周没有登录但最近有登录的玩家数)
@@ -151,6 +163,7 @@ class Overview extends CI_Controller
 					$this->accountdb->where ( 'partner_key', $partnerKey );
 					$this->accountdb->where_in ( 'GUID', $flowoverCacheResult );
 					$reflowCount = $this->accountdb->count_all_results ( 'web_account' );
+					log_message('custom', 'reflowCount = ' . $reflowCount);
 				}
 				$this->logcachedb->delete ( 'log_flowover_cache', array (
 					'server_id' => $row->account_server_id,
@@ -163,6 +176,7 @@ class Overview extends CI_Controller
 				$this->accountdb->where ( 'server_id', $row->account_server_id );
 				$this->accountdb->where ( 'partner_key', $partnerKey );
 				$flowoverCount = $this->accountdb->count_all_results ( 'web_account' );
+				log_message('custom', 'flowoverCount = ' . $flowoverCount);
 				// 流失玩家放入临时表
 				$this->accountdb->where ( 'account_lastlogin <=', $weekAgoStart );
 				$this->accountdb->where ( 'server_id', $row->account_server_id );
@@ -190,6 +204,7 @@ class Overview extends CI_Controller
 				$this->fundsdb->where ( 'partner_key', $partnerKey );
 				$this->fundsdb->where ( 'appstore_status', 0 );
 				$ordersCount = $this->fundsdb->count_all_results ( 'funds_checkinout' );
+				log_message('custom', 'ordersCount = ' . $ordersCount);
 				
 				// 当天订单总额
 				$this->fundsdb->select_sum ( 'funds_amount' );
@@ -203,6 +218,7 @@ class Overview extends CI_Controller
 				$checkResult = $query->row ();
 				$ordersCurrentSum = intval ( $checkResult->funds_amount );
 				$query->free_result();
+				log_message('custom', 'ordersCurrentSum = ' . $ordersCurrentSum);
 				
 				// 订单总额
 				$this->fundsdb->select_sum ( 'funds_amount' );
@@ -214,6 +230,7 @@ class Overview extends CI_Controller
 				$checkResult = $query->row ();
 				$ordersSum = intval ( $checkResult->funds_amount );
 				$query->free_result();
+				log_message('custom', 'ordersSum = ' . $ordersSum);
 				
 				// 当天充值人数
 				$this->fundsdb->where ( 'funds_flow_dir', 'CHECK_IN' );
@@ -226,6 +243,7 @@ class Overview extends CI_Controller
 				$query = $this->fundsdb->get ( 'funds_checkinout' );
 				$rechargeAccount = $query->num_rows();
 				$query->free_result();
+				log_message('custom', 'rechargeAccount = ' . $rechargeAccount);
 				
 				// arpu
 				if($dau > 0)
@@ -236,6 +254,7 @@ class Overview extends CI_Controller
 				{
 					$arpu = 0;
 				}
+				log_message('custom', 'arpu = ' . $arpu);
 				
 				// at 平均在线时长
 				$sql = "SELECT SUM(`time`) as `time` FROM `log_rep` WHERE `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}' AND `posttime`>={$lastTimeStart} AND `posttime`<={$lastTimeEnd}";
@@ -262,6 +281,7 @@ class Overview extends CI_Controller
 						$at = 0;
 					}
 				}
+				log_message('custom', 'at = ' . $at);
 				
 				$parameter = array (
 					'log_date' => $date,
@@ -289,6 +309,7 @@ class Overview extends CI_Controller
 					'partner_key' => $partnerKey 
 				);
 				$this->logcachedb->insert ( 'log_daily_statistics', $parameter );
+				log_message('custom', 'insert log_daily_statistics');
 				
 				$this->flowover_detail_statistics ( $date, $row->account_server_id, $partnerKey );
 				$this->buy_equipment_statistics ( $date, $row->account_server_id, $partnerKey );
@@ -308,6 +329,7 @@ class Overview extends CI_Controller
 		}
 		$jobResult = implode ( ',', $jobArray );
 		$query->free_result();
+		log_message('custom', 'jobResult = ' . $jobResult);
 		
 		$sql = "SELECT `account_level`, COUNT(*) AS `numrows` FROM `log_flowover_cache` WHERE `server_id` = '{$server_id}' and `partner_key` = '{$partnerKey}' GROUP BY `account_level`";
 		$query = $this->logcachedb->query ( $sql );
@@ -319,6 +341,7 @@ class Overview extends CI_Controller
 		}
 		$levelResult = implode ( ',', $levelArray );
 		$query->free_result();
+		log_message('custom', 'levelResult = ' . $levelResult);
 		
 		$sql = "SELECT `account_mission`, COUNT(*) AS `numrows` FROM `log_flowover_cache` WHERE `server_id` = '{$server_id}' and `partner_key` = '{$partnerKey}' GROUP BY `account_mission`";
 		$query = $this->logcachedb->query ( $sql );
@@ -330,6 +353,7 @@ class Overview extends CI_Controller
 		}
 		$missionResult = implode ( ',', $missionArray );
 		$query->free_result();
+		log_message('custom', 'missionResult = ' . $missionResult);
 		
 		$parameter = array (
 			'date' => $date,
@@ -340,6 +364,7 @@ class Overview extends CI_Controller
 			'partner_key' => $partnerKey 
 		);
 		$this->logcachedb->insert ( 'log_flowover_detail', $parameter );
+		log_message('custom', 'insert log_flowover_detail');
 	}
 
 	public function buy_equipment_statistics($date, $server_id, $partnerKey)
@@ -389,6 +414,7 @@ class Overview extends CI_Controller
 			'mission_detail'	=>	json_encode($missionDetail)
 		);
 		$this->logcachedb->insert('log_buy_equipment_detail', $parameter);
+		log_message('custom', 'insert log_buy_equipment_detail');
 	}
 	
 	public function retention1_statistics()
