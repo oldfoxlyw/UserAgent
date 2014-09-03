@@ -85,8 +85,6 @@ class Action extends CI_Controller
 		$activity_id = $this->input->post('id');
 		$role_id = $this->input->post('role_id');
 
-		log("error", "activity: server_id=" . $server_id . ", activity_id=" . $activity_id . ", role_id=" . $role_id);
-
 		if(!empty($server_id) && !empty($activity_id))
 		{
 			$this->load->model('mlogactivity');
@@ -106,8 +104,6 @@ class Action extends CI_Controller
 		$server_id = $this->input->post('server_id');
 		$pack_id = $this->input->post('id');
 		$role_id = $this->input->post('role_id');
-
-		log("error", "activity: server_id=" . $server_id . ", pack_id=" . $activity_id . ", role_id=" . $role_id);
 
 		if(!empty($server_id) && !empty($pack_id))
 		{
