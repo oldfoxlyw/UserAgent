@@ -42,7 +42,11 @@ class Account1 extends CI_Controller
 				$this->load->model('web_account');
 				$this->load->model('mtoken');
 				$this->load->helper('security');
-				
+
+				$time = time();
+				$sql = "update `web_account` set `account_status`=1,`closure_endtime`=0 WHERE `partner_key`='{$partner_key}' AND `partner_id`='{$uid}' AND `account_nickname`!='' AND `account_status`=-1 AND `closure_endtime`<={$time}";
+				$this->web_account->db()->query($sql);
+
 				$parameter = array(
 						'partner_key'			=>	$partner_key,
 						'partner_id'			=>	$uid,
@@ -61,19 +65,6 @@ class Account1 extends CI_Controller
 				$time = time();
 				for($i = 0; $i<count($result); $i++)
 				{
-					$user = $result[$i];
-					if ($user->account_status == '-1') {
-						if($user->closure_endtime <= $time)
-						{
-							$sql = "update `web_account` set `account_status`=1, `closure_endtime`=0 where `GUID`='{$user->GUID}'";
-							$db->query($sql);
-						}
-						else
-						{
-							unset($result[$i]);
-						}
-					}
-
 					$tokenResult = $this->mtoken->read(array(
 							'guid'	=>	$result[$i]->GUID
 					));
