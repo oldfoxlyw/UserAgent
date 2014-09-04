@@ -42,6 +42,10 @@ class Account extends CI_Controller
 				$this->load->model('web_account');
 				$this->load->model('mtoken');
 				$this->load->helper('security');
+
+				$time = time();
+				$sql = "update `web_account` set `account_status`=1,`closure_endtime`=0 WHERE `partner_key`='{$partner_key}' AND `partner_id`='{$uid}' AND `account_nickname`!='' AND `account_status`=-1 AND `closure_endtime`<={$time}";
+				$this->web_account->db()->query($sql);
 				
 				$parameter = array(
 						'partner_key'			=>	$partner_key,
