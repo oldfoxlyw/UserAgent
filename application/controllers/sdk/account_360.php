@@ -61,7 +61,8 @@ class Account_360 extends CI_Controller
 				);
 				$extension = array(
 						'select'	=>	'GUID,account_name,server_id,account_nickname,account_status,account_job,profession_icon,account_level,account_mission,partner_key,partner_id',
-						'where_in'	=>	array('server_id', $where_in)
+						'where_in'	=>	array('server_id', $where_in),
+						'order_by'	=>	array('account_lastlogin', 'desc')
 				);
 				$result = $this->web_account->read($parameter, $extension);
 				log_message('error', json_encode($result) . ', sql = ' . $this->web_account->db()->last_query());
