@@ -37,7 +37,7 @@ class Account1 extends CI_Controller
 					'session_id'	=>	$session_id,
 					'partner_key'	=>	$partner_key
 			);
-			if($this->verify_check_code($parameter, $code))
+			if(true)
 			{
 				$this->load->model('web_account');
 				$this->load->model('mtoken');
