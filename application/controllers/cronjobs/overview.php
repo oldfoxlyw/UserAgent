@@ -19,6 +19,8 @@ class Overview extends CI_Controller
 
 	public function statistics($server_id)
 	{
+		ini_set("display_error", 1);
+		error_reporting(E_ALL);
 		set_time_limit(3600);
 
 		$this->load->model ( 'websrv/server' );
