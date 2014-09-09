@@ -184,20 +184,23 @@ class Overview extends CI_Controller
 				$query = $this->accountdb->get ( 'web_account' );
 				$flowoverResult = $query->result ();
 				log_message('custom', 'flowoverResult = ' . count($flowoverResult));
-				$tmp = array();
-				foreach ( $flowoverResult as $flowover )
+				if(!empty($flowoverResult))
 				{
-					array_push($tmp, array(
-						'guid' => $flowover->GUID,
-						'server_id' => $row->account_server_id,
-						'account_job' => empty ( $flowover->account_job ) ? '' : $flowover->account_job,
-						'account_level' => empty ( $flowover->account_level ) ? 0 : $flowover->account_level,
-						'account_mission' => empty ( $flowover->account_mission ) ? 0 : $flowover->account_mission,
-						'partner_key' => $partnerKey 
-					));
+					$tmp = array();
+					foreach ( $flowoverResult as $flowover )
+					{
+						array_push($tmp, array(
+							'guid' => $flowover->GUID,
+							'server_id' => $row->account_server_id,
+							'account_job' => empty ( $flowover->account_job ) ? '' : $flowover->account_job,
+							'account_level' => empty ( $flowover->account_level ) ? 0 : $flowover->account_level,
+							'account_mission' => empty ( $flowover->account_mission ) ? 0 : $flowover->account_mission,
+							'partner_key' => $partnerKey 
+						));
+					}
+					$this->logcachedb->insert_batch ( 'log_flowover_cache', $tmp);
+					unset($tmp);
 				}
-				$this->logcachedb->insert_batch ( 'log_flowover_cache', $tmp);
-				unset($tmp);
 				$query->free_result();
 				
 				// 当天订单数
