@@ -201,7 +201,6 @@ class Overview extends CI_Controller
 						));
 					}
 					$this->logcachedb->insert_batch ( 'log_flowover_cache', $tmp);
-					unset($tmp);
 				}
 				$query->free_result();
 				
