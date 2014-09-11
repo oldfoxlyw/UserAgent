@@ -202,6 +202,7 @@ class Orders extends CI_Controller {
 					$parameter = array(
 						'account_guid'				=>	$playerId,
 						'account_name'				=>	$account->account_name,
+						'account_nickname'			=>	$account->account_nickname,
 						'account_id'				=>	$roleId,
 						'server_id'					=>	$serverId,
 						'funds_flow_dir'			=>	'CHECK_OUT',
