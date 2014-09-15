@@ -146,6 +146,7 @@ class Overview extends CI_Controller
 				// $dau = $loginValidCount - $validNewCount;
 				
 				// 回流玩家数(超过一周没有登录但最近有登录的玩家数)
+				/*
 				$this->logcachedb->where ( 'server_id', $row->account_server_id );
 				$this->logcachedb->where ( 'partner_key', $partnerKey );
 				$query = $this->logcachedb->get ( 'log_flowover_cache' );
@@ -155,7 +156,9 @@ class Overview extends CI_Controller
 				{
 					array_push ( $flowoverCacheResult, $guid->guid );
 				}
+				*/
 				$reflowCount = 0;
+				/*
 				if (! empty ( $guidArray ))
 				{
 					$threeDaysAgoStart = $lastTimeStart - 2 * 86400;
@@ -171,7 +174,7 @@ class Overview extends CI_Controller
 					'server_id' => $row->account_server_id,
 					'partner_key' => $partnerKey 
 				) );
-				
+				*/
 				// 流失玩家数(超过一周没有登录的玩家数)
 				$weekAgoStart = $lastTimeStart - 6 * 86400;
 				$this->accountdb->where ( 'account_lastlogin <=', $weekAgoStart );
@@ -180,6 +183,7 @@ class Overview extends CI_Controller
 				$flowoverCount = $this->accountdb->count_all_results ( 'web_account' );
 				log_message('custom', 'flowoverCount = ' . $flowoverCount);
 				// 流失玩家放入临时表
+				/*
 				$this->accountdb->where ( 'account_lastlogin <=', $weekAgoStart );
 				$this->accountdb->where ( 'server_id', $row->account_server_id );
 				$this->accountdb->where ( 'partner_key', $partnerKey );
@@ -203,6 +207,7 @@ class Overview extends CI_Controller
 					$this->logcachedb->insert_batch ( 'log_flowover_cache', $tmp);
 				}
 				$query->free_result();
+				*/
 				
 				// 当天订单数
 				$this->fundsdb->where ( 'funds_flow_dir', 'CHECK_IN' );
