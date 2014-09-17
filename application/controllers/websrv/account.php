@@ -853,6 +853,7 @@ class Account extends CI_Controller {
 			{
 				$jsonData = Array(
 						'success'	=>	1,
+						'error_code'=>	0,
 						'message'	=>	'ACCOUNT_GUID_SUCCESS',
 						'user'		=>	$result
 				);
@@ -862,6 +863,7 @@ class Account extends CI_Controller {
 			{
 				$jsonData = Array(
 						'success'	=>	0,
+						'error_code'=>	ERROR_GUID_ERROR,
 						'message'	=>	'ACCOUNT_GUID_ERROR',
 						'user'		=>	null
 				);
@@ -895,6 +897,7 @@ class Account extends CI_Controller {
 					$user = $this->web_account->get($guid);
 					$json = array(
 							'success'	=>	1,
+							'error_code'=>	0,
 							'code'		=>	LOGIN_TOKEN_SUCCESS,
 							'user'		=>	$user
 					);
@@ -926,6 +929,7 @@ class Account extends CI_Controller {
 			{
 				$json = array(
 						'success'	=>	0,
+						'error_code'=>	ERROR_LOGIN_TOKEN_ERROR,
 						'code'		=>	VERIFY_LOGIN_TOKEN_ERROR_NOT_EXIST
 				);
 			}
@@ -934,6 +938,7 @@ class Account extends CI_Controller {
 		{
 			$json = array(
 					'success'	=>	0,
+					'error_code'=>	ERROR_NO_PARAM,
 					'code'		=>	VERIFY_LOGIN_TOKEN_ERROR_NO_PARAM
 			);
 		}

@@ -226,6 +226,7 @@ class Orders extends CI_Controller {
 				
 				$jsonData = Array(
 						'success'	=>	1,
+						'error_code'=>	0,
 						'message'	=>	'CONSUME_COMPLETE'
 				);
 			}
@@ -233,6 +234,7 @@ class Orders extends CI_Controller {
 			{
 				$jsonData = Array(
 						'success'	=>	0,
+						'error_code'=>	ERROR_ACCOUNT_NOT_EXIST,
 						'message'	=>	'CONSUME_ERROR_ACCOUNT_NOT_EXIST'
 				);
 			}
@@ -241,6 +243,7 @@ class Orders extends CI_Controller {
 		{
 			$jsonData = Array(
 					'success'	=>	0,
+					'error_code'=>	ERROR_NO_PARAM,
 					'message'	=>	'CONSUME_NO_PARAM'
 			);
 		}

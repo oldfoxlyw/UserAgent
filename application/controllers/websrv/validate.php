@@ -22,6 +22,7 @@ class Validate extends CI_Controller
 			{
 				$jsonData = array(
 						'success'		=>	0,
+						'error_code'=>	ERROR_NO_PARAM,
 						'error'			=>	'ACTIVATE_ERROR_NO_PARAM'
 				);
 				echo $this->return_format->format($jsonData, $format);
@@ -47,6 +48,7 @@ class Validate extends CI_Controller
 			
 			$jsonData = array(
 					'success'		=>	1,
+					'error_code'	=>	0,
 					'message'		=>	'ACTIVATE_SUCCESS'
 			);
 			echo $this->return_format->format($jsonData, $format);
@@ -62,6 +64,7 @@ class Validate extends CI_Controller
 		{
 			$jsonData = array(
 					'success'		=>	0,
+					'error_code'	=>	ERROR_ACTIVATE_FAIL,
 					'message'		=>	'ACTIVATE_FAIL'
 			);
 			echo $this->return_format->format($jsonData, $format);
@@ -84,6 +87,7 @@ class Validate extends CI_Controller
 		{
 			$jsonData = array(
 					'success'		=>	1,
+					'error_code'	=>	0,
 					'message'		=>	'CHECKED'
 			);
 			echo $this->return_format->format($jsonData, $format);
@@ -92,6 +96,7 @@ class Validate extends CI_Controller
 		{
 			$jsonData = array(
 					'success'		=>	0,
+					'error_code'	=>	ERROR_PROMOTION_CODE_UNCHECKED,
 					'message'		=>	'UNCHECKED'
 			);
 			echo $this->return_format->format($jsonData, $format);
@@ -123,6 +128,7 @@ class Validate extends CI_Controller
 				
 				$jsonData = array(
 						'success'		=>	1,
+						'error_code'	=>	0,
 						'message'		=>	'PROMOTION_SUCCESS'
 				);
 
@@ -137,6 +143,7 @@ class Validate extends CI_Controller
 			{
 				$jsonData = array(
 						'success'		=>	0,
+						'error_code'	=>	ERROR_PROMOTION_CODE_USED,
 						'message'		=>	'PROMOTION_FAIL_USED'
 				);
 			}
@@ -145,6 +152,7 @@ class Validate extends CI_Controller
 		{
 			$jsonData = array(
 					'success'		=>	0,
+					'error_code'	=>	ERROR_PROMOTION_CODE_NOT_EXIST,
 					'message'		=>	'PROMOTION_FAIL_NOT_EXIST'
 			);
 		}
@@ -180,6 +188,7 @@ class Validate extends CI_Controller
 
 				$jsonData = array(
 					'success'	=>	1,
+					'error_code'=>	0,
 					'message'	=>	'SUCCESS',
 					'code'		=>	$result->code
 				);
@@ -195,6 +204,7 @@ class Validate extends CI_Controller
 			{
 				$jsonData = array(
 						'success'		=>	0,
+						'error_code'	=>	ERROR_PROMOTION_CODE_NOT_EXIST,
 						'message'		=>	'NO_CODE'
 				);
 			}
@@ -203,6 +213,7 @@ class Validate extends CI_Controller
 		{
 			$jsonData = array(
 					'success'		=>	0,
+					'error_code'	=>	ERROR_NO_PARAM,
 					'message'		=>	'NO_PARAM'
 			);
 		}

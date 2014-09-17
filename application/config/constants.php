@@ -54,21 +54,12 @@ define('ERROR_PASSWORD_ERROR', 99990);			//密码错误
 define('ERROR_DEMO_FAIL', 99989);				//试玩失败
 define('ERROR_MODIFY_FAIL', 99988);				//修改帐号失败
 define('ERROR_MODIFY_NOTHING', 99987);			//没有修改任何信息
-define('ERROR_CHECK_CODE', 99998);				//校验码错误
-define('ERROR_CHECK_CODE', 99998);				//校验码错误
-define('ERROR_CHECK_CODE', 99998);				//校验码错误
-define('ERROR_CHECK_CODE', 99998);				//校验码错误
-define('ERROR_CHECK_CODE', 99998);				//校验码错误
-define('ERROR_CHECK_CODE', 99998);				//校验码错误
-define('ERROR_CHECK_CODE', 99998);				//校验码错误
-define('ERROR_CHECK_CODE', 99998);				//校验码错误
-define('ERROR_CHECK_CODE', 99998);				//校验码错误
-define('ERROR_CHECK_CODE', 99998);				//校验码错误
-define('ERROR_CHECK_CODE', 99998);				//校验码错误
-define('ERROR_CHECK_CODE', 99998);				//校验码错误
-define('ERROR_CHECK_CODE', 99998);				//校验码错误
-define('ERROR_CHECK_CODE', 99998);				//校验码错误
-define('ERROR_CHECK_CODE', 99998);				//校验码错误
+define('ERROR_GUID_ERROR', 99986);				//GUID错误
+define('ERROR_LOGIN_TOKEN_ERROR', 99985);		//TOKEN错误
+define('ERROR_ACTIVATE_FAIL', 99984);			//激活失败
+define('ERROR_PROMOTION_CODE_UNCHECKED', 99983);//兑换码还未被使用
+define('ERROR_PROMOTION_CODE_USED', 99982);		//兑换码已被使用
+define('ERROR_PROMOTION_CODE_NOT_EXIST', 99981);	//兑换码不存在
 
 
 /* End of file constants.php */

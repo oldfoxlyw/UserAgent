@@ -53,6 +53,7 @@ class Action extends CI_Controller
 			{
 				$jsonData = array(
 						'success'	=>	1,
+						'error_code'=>	0,
 						'message'	=>	'ACTION_MALL_SUCCESS',
 						'log_id'	=>	$logId
 				);
@@ -62,6 +63,7 @@ class Action extends CI_Controller
 			{
 				$jsonData = array(
 						'success'	=>	0,
+						'error_code'=>	ERROR_NO_PARAM,
 						'error'		=>	'ACTION_MALL_ERROR_DATABASE',
 						'log_id'	=>	$logId
 				);
@@ -72,6 +74,7 @@ class Action extends CI_Controller
 		{
 				$jsonData = array(
 						'success'	=>	0,
+						'error_code'=>	ERROR_NO_PARAM,
 						'error'		=>	'ACTION_MALL_ERROR_NO_PARAM'
 				);
 				echo $this->return_format->format($jsonData, $format);
