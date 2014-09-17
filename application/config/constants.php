@@ -53,7 +53,7 @@ define('ERROR_CHANGE_FAIL', 99991);				//修改密码失败
 define('ERROR_PASSWORD_ERROR', 99990);			//密码错误
 define('ERROR_DEMO_FAIL', 99989);				//试玩失败
 define('ERROR_MODIFY_FAIL', 99988);				//修改帐号失败
-define('ERROR_CHECK_CODE', 99998);				//校验码错误
+define('ERROR_MODIFY_NOTHING', 99987);			//没有修改任何信息
 define('ERROR_CHECK_CODE', 99998);				//校验码错误
 define('ERROR_CHECK_CODE', 99998);				//校验码错误
 define('ERROR_CHECK_CODE', 99998);				//校验码错误

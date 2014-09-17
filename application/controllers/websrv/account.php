@@ -786,7 +786,7 @@ class Account extends CI_Controller {
 				} else {
 					$jsonData = Array(
 						'success'	=>	0,
-						'error_code'=>	ERROR_ACCOUNT_DUPLICATED,
+						'error_code'=>	ERROR_MODIFY_FAIL,
 						'errors'	=>	'ACCOUNT_MODIFY_FAIL'
 					);
 					echo $this->return_format->format($jsonData, $format);
@@ -801,6 +801,7 @@ class Account extends CI_Controller {
 			} else {
 				$jsonData = Array(
 					'success'	=>	0,
+					'error_code'=>	ERROR_MODIFY_NOTHING,
 					'errors'	=>	'ACCOUNT_MODIFY_NOTHING'
 				);
 				echo $this->return_format->format($jsonData, $format);
@@ -815,6 +816,7 @@ class Account extends CI_Controller {
 		} else {
 			$jsonData = Array(
 				'success'	=>	0,
+				'error_code'=>	ERROR_NO_PARAM,
 				'errors'	=>	'ACCOUNT_MODIFY_ERROR_NO_PARAM'
 			);
 			echo $this->return_format->format($jsonData, $format);
