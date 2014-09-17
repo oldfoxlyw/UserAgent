@@ -225,14 +225,14 @@ class Orders extends CI_Controller {
 // 				}
 				
 				$jsonData = Array(
-						'success'	=>	true,
+						'success'	=>	1,
 						'message'	=>	'CONSUME_COMPLETE'
 				);
 			}
 			else
 			{
 				$jsonData = Array(
-						'success'	=>	false,
+						'success'	=>	0,
 						'message'	=>	'CONSUME_ERROR_ACCOUNT_NOT_EXIST'
 				);
 			}
@@ -240,7 +240,7 @@ class Orders extends CI_Controller {
 		else
 		{
 			$jsonData = Array(
-					'success'	=>	false,
+					'success'	=>	0,
 					'message'	=>	'CONSUME_NO_PARAM'
 			);
 		}

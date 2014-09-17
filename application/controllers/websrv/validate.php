@@ -21,7 +21,7 @@ class Validate extends CI_Controller
 			if(empty($code))
 			{
 				$jsonData = array(
-						'success'		=>	false,
+						'success'		=>	0,
 						'error'			=>	'ACTIVATE_ERROR_NO_PARAM'
 				);
 				echo $this->return_format->format($jsonData, $format);
@@ -46,7 +46,7 @@ class Validate extends CI_Controller
 			$this->mcode->update($code, $parameter);
 			
 			$jsonData = array(
-					'success'		=>	true,
+					'success'		=>	1,
 					'message'		=>	'ACTIVATE_SUCCESS'
 			);
 			echo $this->return_format->format($jsonData, $format);
@@ -61,7 +61,7 @@ class Validate extends CI_Controller
 		else
 		{
 			$jsonData = array(
-					'success'		=>	false,
+					'success'		=>	0,
 					'message'		=>	'ACTIVATE_FAIL'
 			);
 			echo $this->return_format->format($jsonData, $format);
@@ -83,7 +83,7 @@ class Validate extends CI_Controller
 		if(!empty($result))
 		{
 			$jsonData = array(
-					'success'		=>	true,
+					'success'		=>	1,
 					'message'		=>	'CHECKED'
 			);
 			echo $this->return_format->format($jsonData, $format);
@@ -91,7 +91,7 @@ class Validate extends CI_Controller
 		else
 		{
 			$jsonData = array(
-					'success'		=>	false,
+					'success'		=>	0,
 					'message'		=>	'UNCHECKED'
 			);
 			echo $this->return_format->format($jsonData, $format);

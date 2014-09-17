@@ -51,6 +51,7 @@ class Orders extends CI_Controller
 
 				$json = array(
 					'success'		=>	1,
+					'error_code'	=>	0,
 					'message'		=>	'ORDER_INITED',
 					'id'			=>	$fundsId
 				);
@@ -59,6 +60,7 @@ class Orders extends CI_Controller
 			{
 				$json = array(
 					'success'		=>	0,
+					'error_code'	=>	ERROR_ACCOUNT_NOT_EXIST,
 					'message'		=>	'ACCOUNT_NOT_EXIST'
 				);
 			}
@@ -67,6 +69,7 @@ class Orders extends CI_Controller
 		{
 			$json = array(
 				'success'		=>	0,
+				'error_code'	=>	ERROR_NO_PARAM,
 				'message'		=>	'PARAM_ERROR'
 			);
 		}
@@ -117,6 +120,7 @@ class Orders extends CI_Controller
 					$this->funds->update($parameter, $funds_id);
 					$json = array(
 						'success'		=>	1,
+						'error_code'	=>	0,
 						'message'		=>	'SUCCESS'
 					);
 				}
@@ -124,6 +128,7 @@ class Orders extends CI_Controller
 				{
 					$json = array(
 						'success'		=>	0,
+						'error_code'	=>	ERROR_ACCOUNT_NOT_EXIST,
 						'message'		=>	'ACCOUNT_NOT_EXIST'
 					);
 				}
@@ -132,6 +137,7 @@ class Orders extends CI_Controller
 			{
 				$json = array(
 					'success'		=>	0,
+					'error_code'	=>	ERROR_ORDER_ALREADY_COMPLETED,
 					'message'		=>	'ORDER_ALREADY_COMPLETED'
 				);
 			}
@@ -140,6 +146,7 @@ class Orders extends CI_Controller
 		{
 			$json = array(
 				'success'		=>	0,
+				'error_code'	=>	ERROR_NO_PARAM,
 				'message'		=>	'PARAM_ERROR'
 			);
 		}

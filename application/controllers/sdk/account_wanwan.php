@@ -74,7 +74,8 @@ class Account_wanwan extends CI_Controller
 					if(empty($result) || empty($result->usergameid))
 					{
 						$json = array(
-								'success'		=>	false,
+								'success'		=>	0,
+								'error_code'	=>	ERROR_LOGIN_FAIL,
 								'errors'		=>	'SDK_LOGIN_FAIL'
 						);
 						exit($this->return_format->format($json));
@@ -120,7 +121,8 @@ class Account_wanwan extends CI_Controller
 				}
 				
 				$json = array(
-						'success'		=>	true,
+						'success'		=>	1,
+						'error_code'	=>	0,
 						'message'		=>	'SDK_LOGIN_SUCCESS',
 						'result'		=>	$result,
 						'uid'			=>	$uid
@@ -129,7 +131,8 @@ class Account_wanwan extends CI_Controller
 			else
 			{
 				$json = array(
-						'success'		=>	false,
+						'success'		=>	0,
+						'error_code'	=>	ERROR_CHECK_CODE,
 						'errors'		=>	'SDK_LOGIN_FAIL_ERROR_CHECK_CODE'
 				);
 			}
@@ -137,7 +140,8 @@ class Account_wanwan extends CI_Controller
 		else
 		{
 			$json = array(
-					'success'		=>	false,
+					'success'		=>	0,
+					'error_code'	=>	ERROR_NO_PARAM,
 					'errors'		=>	'SDK_LOGIN_FAIL_NO_PARAM'
 			);
 		}
@@ -209,7 +213,8 @@ class Account_wanwan extends CI_Controller
 					if(empty($result) || empty($result->usergameid))
 					{
 						$json = array(
-								'success'		=>	false,
+								'success'		=>	0,
+								'error_code'	=>	ERROR_REGISTER_FAIL,
 								'errors'		=>	'SDK_REGISTER_FAIL'
 						);
 						exit($this->return_format->format($json));
@@ -247,7 +252,8 @@ class Account_wanwan extends CI_Controller
 					$this->mtoken->create($parameter);
 					
 					$json = array(
-							'success'		=>	true,
+							'success'		=>	1,
+							'error_code'	=>	0,
 							'message'		=>	'SDK_REGISTER_SUCCESS',
 							'result'		=>	$user,
 							'uid'			=>	$uid
@@ -265,7 +271,8 @@ class Account_wanwan extends CI_Controller
 				else
 				{
 					$json = array(
-							'success'		=>	false,
+							'success'		=>	0,
+							'error_code'	=>	ERROR_REGISTER_FAIL,
 							'errors'		=>	'SDK_REGISTER_FAIL'
 					);
 					$logParameter = array(
@@ -281,7 +288,8 @@ class Account_wanwan extends CI_Controller
 			else
 			{
 				$json = array(
-						'success'		=>	false,
+						'success'		=>	0,
+						'error_code'	=>	ERROR_CHECK_CODE,
 						'errors'		=>	'SDK_REGISTER_FAIL_ERROR_CHECK_CODE'
 				);
 				$logParameter = array(
@@ -297,7 +305,8 @@ class Account_wanwan extends CI_Controller
 		else
 		{
 			$json = array(
-					'success'		=>	false,
+					'success'		=>	0,
+					'error_code'	=>	ERROR_NO_PARAM,
 					'errors'		=>	'SDK_REGISTER_FAIL_NO_PARAM'
 			);
 		}
@@ -336,14 +345,16 @@ class Account_wanwan extends CI_Controller
 				$this->web_account->update($parameter, $guid);
 
 				$json = array(
-						'success'		=>	true,
+						'success'		=>	1,
+						'error_code'	=>	0,
 						'message'		=>	'SDK_DELETE_SUCCESS'
 				);
 			}
 			else
 			{
 				$json = array(
-						'success'		=>	false,
+						'success'		=>	0,
+						'error_code'	=>	ERROR_CHECK_CODE,
 						'errors'		=>	'SDK_DELETE_FAIL_ERROR_CHECK_CODE'
 				);
 			}
@@ -351,7 +362,8 @@ class Account_wanwan extends CI_Controller
 		else
 		{
 			$json = array(
-					'success'		=>	false,
+					'success'		=>	0,
+					'error_code'	=>	ERROR_NO_PARAM,
 					'errors'		=>	'SDK_DELETE_FAIL_NO_PARAM'
 			);
 		}

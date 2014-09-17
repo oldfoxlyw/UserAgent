@@ -52,7 +52,7 @@ class Action extends CI_Controller
 			if($this->maction_mall->create($parameter))
 			{
 				$jsonData = array(
-						'success'	=>	true,
+						'success'	=>	1,
 						'message'	=>	'ACTION_MALL_SUCCESS',
 						'log_id'	=>	$logId
 				);
@@ -61,7 +61,7 @@ class Action extends CI_Controller
 			else
 			{
 				$jsonData = array(
-						'success'	=>	false,
+						'success'	=>	0,
 						'error'		=>	'ACTION_MALL_ERROR_DATABASE',
 						'log_id'	=>	$logId
 				);
@@ -71,7 +71,7 @@ class Action extends CI_Controller
 		else
 		{
 				$jsonData = array(
-						'success'	=>	false,
+						'success'	=>	0,
 						'error'		=>	'ACTION_MALL_ERROR_NO_PARAM'
 				);
 				echo $this->return_format->format($jsonData, $format);

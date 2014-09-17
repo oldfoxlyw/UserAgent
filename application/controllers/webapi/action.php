@@ -23,7 +23,8 @@ class Action extends CI_Controller
 		if(empty($playerId) && empty($roleId) && empty($nickname))
 		{
 			$parameter = array(
-					'success'		=>	false,
+					'success'		=>	0,
+					'error_code'	=>	ERROR_NO_PARAM,
 					'error'			=>	'ACTION_MALL_ERROR_NO_PARAM'
 			);
 			echo json_encode($parameter);

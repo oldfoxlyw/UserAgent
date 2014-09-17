@@ -81,13 +81,15 @@ class Rep extends CI_Controller
 			}
 			
 			$jsonData = Array(
-					'success'	=>	true
+					'success'	=>	1,
+					'error_code'=>	0
 			);
 		}
 		else
 		{
 			$jsonData = Array(
-					'success'	=>	false,
+					'success'	=>	0,
+					'error_code'=>	ERROR_NO_PARAM,
 					'error'		=>	'参数不足，必要参数：server_id, player_id, time'
 			);
 		}
