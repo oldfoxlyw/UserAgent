@@ -38,7 +38,7 @@ class Message extends CI_Controller
 		);
 		
 		$result = $this->mmessage->read($parameter);
-		log_message('custom', json_encode($result));
+		log_message('custom', $time . ' ' . date('Y-m-d H:i:s', $time));
 		$this->load->model('web_account');
 		foreach($result as $row)
 		{
