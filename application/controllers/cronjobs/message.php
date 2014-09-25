@@ -62,6 +62,7 @@ class Message extends CI_Controller
 								foreach($serverIp as $ip)
 								{
 									$data = $this->connector->post($ip . '/announcement', $parameter, FALSE);
+									log_message('custom', $ip . ' ' . time());
 								}
 							}
 							else
