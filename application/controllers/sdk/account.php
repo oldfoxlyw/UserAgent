@@ -14,7 +14,6 @@ class Account extends CI_Controller
 		$this->load->model('return_format');
 		
 		$uid = $this->input->get_post('uid', TRUE);
-		$session_id = $this->input->get_post('session_id', TRUE);
 		$partner_key = $this->input->get_post('partner_key', TRUE);
 		$code = $this->input->get_post('code', TRUE);
 		
@@ -24,7 +23,6 @@ class Account extends CI_Controller
 			$inputParam = json_decode($raw_post_data);
 			
 			$uid = $inputParam->uid;
-			$session_id = $inputParam->session_id;
 			$partner_key = $inputParam->partner_key;
 			$code = $inputParam->code;
 		}
@@ -33,7 +31,6 @@ class Account extends CI_Controller
 		{
 			$parameter = array(
 					'uid'			=>	$uid,
-					'session_id'	=>	$session_id,
 					'partner_key'	=>	$partner_key
 			);
 			if($this->verify_check_code($parameter, $code))
@@ -111,7 +108,6 @@ class Account extends CI_Controller
 		$this->load->model('return_format');
 		
 		$uid = $this->input->get_post('uid', TRUE);
-		$session_id = $this->input->get_post('session_id', TRUE);
 		$server_id = $this->input->get_post('server_id', TRUE);
 		$partner_key = $this->input->get_post('partner_key', TRUE);
 		$code = $this->input->get_post('code', TRUE);
@@ -122,7 +118,6 @@ class Account extends CI_Controller
 			$inputParam = json_decode($raw_post_data);
 			
 			$uid = $inputParam->uid;
-			$session_id = $inputParam->session_id;
 			$server_id = $inputParam->server_id;
 			$partner_key = $inputParam->partner_key;
 			$code = $inputParam->code;
@@ -132,7 +127,6 @@ class Account extends CI_Controller
 		{
 			$parameter = array(
 					'uid'			=>	$uid,
-					'session_id'	=>	$session_id,
 					'server_id'		=>	$server_id,
 					'partner_key'	=>	$partner_key
 			);
