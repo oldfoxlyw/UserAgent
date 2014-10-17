@@ -295,7 +295,7 @@ class Account extends CI_Controller
 			}
 			ksort($parameter);
 			array_push($parameter, $this->check_code);
-			log_message('error', 'parameter: ' . var_dump($parameter));
+			log_message('error', 'parameter: ' . json_encode($parameter));
 			log_message('error', 'str: ' . implode('', $parameter));
 			$str = strtolower(md5(implode('', $parameter)));
 
