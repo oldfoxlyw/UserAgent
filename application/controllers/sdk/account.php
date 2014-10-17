@@ -78,7 +78,7 @@ class Account extends CI_Controller
 				}
 				
 				$json = array(
-						'success'		=>	true,
+						'success'		=>	1,
 						'message'		=>	'SDK_LOGIN_SUCCESS',
 						'result'		=>	$result,
 						'uid'			=>	$uid
@@ -87,7 +87,7 @@ class Account extends CI_Controller
 			else
 			{
 				$json = array(
-						'success'		=>	false,
+						'success'		=>	0,
 						'errors'		=>	'SDK_LOGIN_FAIL_ERROR_CHECK_CODE'
 				);
 			}
@@ -95,7 +95,7 @@ class Account extends CI_Controller
 		else
 		{
 			$json = array(
-					'success'		=>	false,
+					'success'		=>	0,
 					'errors'		=>	'SDK_LOGIN_FAIL_NO_PARAM'
 			);
 		}
@@ -182,7 +182,7 @@ class Account extends CI_Controller
 						$this->mtoken->create($parameter);
 						
 						$json = array(
-								'success'		=>	true,
+								'success'		=>	1,
 								'message'		=>	'SDK_REGISTER_SUCCESS',
 								'result'		=>	$user,
 								'uid'			=>	$uid
@@ -201,7 +201,7 @@ class Account extends CI_Controller
 					else
 					{
 						$json = array(
-								'success'		=>	false,
+								'success'		=>	0,
 								'errors'		=>	'SDK_REGISTER_FAIL'
 						);
 					}
@@ -210,7 +210,7 @@ class Account extends CI_Controller
 			else
 			{
 				$json = array(
-						'success'		=>	false,
+						'success'		=>	0,
 						'errors'		=>	'SDK_REGISTER_FAIL_ERROR_CHECK_CODE'
 				);
 			}
@@ -218,7 +218,7 @@ class Account extends CI_Controller
 		else
 		{
 			$json = array(
-					'success'		=>	false,
+					'success'		=>	0,
 					'errors'		=>	'SDK_REGISTER_FAIL_NO_PARAM'
 			);
 		}
@@ -257,14 +257,14 @@ class Account extends CI_Controller
 				$this->web_account->update($parameter, $guid);
 
 				$json = array(
-						'success'		=>	true,
+						'success'		=>	1,
 						'message'		=>	'SDK_DELETE_SUCCESS'
 				);
 			}
 			else
 			{
 				$json = array(
-						'success'		=>	false,
+						'success'		=>	0,
 						'errors'		=>	'SDK_DELETE_FAIL_ERROR_CHECK_CODE'
 				);
 			}
@@ -272,7 +272,7 @@ class Account extends CI_Controller
 		else
 		{
 			$json = array(
-					'success'		=>	false,
+					'success'		=>	0,
 					'errors'		=>	'SDK_DELETE_FAIL_NO_PARAM'
 			);
 		}
