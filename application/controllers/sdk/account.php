@@ -16,6 +16,8 @@ class Account extends CI_Controller
 		$uid = $this->input->get_post('uid', TRUE);
 		$partner_key = $this->input->get_post('partner_key', TRUE);
 		$code = $this->input->get_post('code', TRUE);
+
+		log_message('error', 'parameter: uid=' . $uid . ', partner=' . $partner_key . ', code=' . $code);
 		
 		if(empty($uid) || empty($partner_key))
 		{
@@ -294,6 +296,7 @@ class Account extends CI_Controller
 			ksort($parameter);
 			array_push($parameter, $this->check_code);
 			
+			log_message('error', 'str: ' . implode('', $parameter));
 			$str = strtolower(md5(implode('', $parameter)));
 
 // 			$this->load->model('web_account');
