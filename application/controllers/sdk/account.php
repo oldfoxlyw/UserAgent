@@ -132,6 +132,7 @@ class Account extends CI_Controller
 					'server_id'		=>	$server_id,
 					'partner_key'	=>	$partner_key
 			);
+			log_message('error', 'register parameter: ' . json_encode($parameter));
 			if($this->verify_check_code($parameter, $code))
 			{
 				$this->load->library('guid');
