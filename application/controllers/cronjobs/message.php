@@ -74,7 +74,7 @@ class Message extends CI_Controller
 								);
 								$data = $this->connector->post($ip . '/announcement', $parameter, FALSE);
 
-								log_message('error', 'data: ' . $data);
+								log_message('error', 'url: ' . $ip . '/announcement, ' . 'data: ' . $data);
 								
 	// 							$sql = "insert into debug(text)values('url=" . $ip . '/announcement, content=' . $row->content . ", return={$data}')";
 	// 							$this->web_account->db()->query($sql);
