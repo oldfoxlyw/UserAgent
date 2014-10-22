@@ -441,7 +441,7 @@ class Account extends CI_Controller {
 
 		if(empty($partner))
 		{
-			$partner = 'arab_default';
+			$partner = 'default';
 		}
 			
 		$this->load->library('guid');

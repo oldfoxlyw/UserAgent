@@ -177,9 +177,7 @@ CREATE TABLE IF NOT EXISTS `funds_checkinout` (
   `account_nickname` char(32) NOT NULL,
   `account_level` int(11) NOT NULL,
   `account_id` char(16) NOT NULL,
-  `game_id` char(5) NOT NULL,
   `server_id` char(5) NOT NULL,
-  `server_section` char(5) NOT NULL,
   `funds_flow_dir` enum('CHECK_IN','CHECK_OUT') NOT NULL,
   `funds_amount` int(11) NOT NULL,
   `funds_item_amount` int(11) NOT NULL,
@@ -191,7 +189,7 @@ CREATE TABLE IF NOT EXISTS `funds_checkinout` (
   `receipt_data` text NOT NULL,
   `appstore_status` int(11) NOT NULL,
   `appstore_device_id` char(64) NOT NULL,
-  `order_id` char(64) NOT NULL
+  `order_id` char(64) NOT NULL DEFAULT ''
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -204,9 +202,9 @@ DROP TABLE IF EXISTS `funds_order`;
 CREATE TABLE IF NOT EXISTS `funds_order` (
 `id` int(11) NOT NULL,
   `player_id` char(22) NOT NULL,
-  `server_id` char(1) NOT NULL,
+  `server_id` char(5) NOT NULL,
   `checksum` char(64) NOT NULL,
-  `check_count` int(11) NOT NULL,
+  `check_count` int(11) NOT NULL DEFAULT '0',
   `status` int(11) NOT NULL,
   `funds_id` int(11) NOT NULL,
   `posttime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
@@ -220,7 +218,7 @@ CREATE TABLE IF NOT EXISTS `funds_order` (
 -- Indexes for table `funds_checkinout`
 --
 ALTER TABLE `funds_checkinout`
- ADD PRIMARY KEY (`funds_id`), ADD KEY `account_guid` (`account_name`), ADD KEY `account_id` (`account_id`), ADD KEY `game_id` (`game_id`,`server_id`,`server_section`), ADD KEY `funds_flow_dir` (`funds_flow_dir`), ADD KEY `funds_time` (`funds_time`);
+ ADD PRIMARY KEY (`funds_id`), ADD KEY `account_guid` (`account_name`), ADD KEY `account_id` (`account_id`), ADD KEY `server_id` (`server_id`), ADD KEY `funds_flow_dir` (`funds_flow_dir`), ADD KEY `funds_time` (`funds_time`);
 
 --
 -- Indexes for table `funds_order`
@@ -249,6 +247,21 @@ CREATE DATABASE IF NOT EXISTS `agent1_log_db` DEFAULT CHARACTER SET utf8 COLLATE
 USE `agent1_log_db`;
 
 -- --------------------------------------------------------
+
+DROP TABLE IF EXISTS `log_paid_account`;
+CREATE TABLE IF NOT EXISTS `log_paid_account` (
+  `guid` bigint(20) NOT NULL,
+  `server_id` char(5) NOT NULL,
+  `first_paid_time` int(11) NOT NULL DEFAULT '0',
+  `last_paid_time` int(11) NOT NULL DEFAULT '0',
+  `first_paid_amount` int(11) NOT NULL DEFAULT '0',
+  `last_paid_amount` int(11) NOT NULL DEFAULT '0',
+  `first_paid_count` int(11) NOT NULL DEFAULT '0',
+  `last_paid_count` int(11) NOT NULL DEFAULT '0',
+  `total_paid_amount` int(11) NOT NULL DEFAULT '0',
+  `total_paid_count` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`guid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
 -- 表的结构 `log_buy_equipment_detail`
