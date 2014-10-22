@@ -18,7 +18,7 @@ class Web_account extends CI_Model {
 			$userPass = $this->encrypt_pass($userPass);
 			$this->accountdb->where('account_name', trim($userName));
 			$this->accountdb->where('account_pass', $userPass);
-			$this->accountdb->where('server_id', $serverId);
+			//$this->accountdb->where('server_id', $serverId);
 			$query = $this->accountdb->get($this->accountTable);
 			if($query->num_rows() > 0) {
 				return $query->row();
@@ -37,7 +37,7 @@ class Web_account extends CI_Model {
 			$userPass = $this->encrypt_pass($userPass);
 		}
 		$this->accountdb->where('account_pass', $userPass);
-		$this->accountdb->where('server_id', $serverId);
+		//$this->accountdb->where('server_id', $serverId);
 		$query = $this->accountdb->get($this->accountTable);
 		if($query->num_rows() > 0) {
 			return false;
