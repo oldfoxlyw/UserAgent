@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 --
 -- Database: `agent1_account_db`
 --
-DROP DATABASE `agent1_account_db`;
+DROP DATABASE IF EXISTS `agent1_account_db`;
 CREATE DATABASE IF NOT EXISTS `agent1_account_db` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 USE `agent1_account_db`;
 
@@ -117,7 +117,7 @@ ALTER TABLE `web_account`
 MODIFY `GUID` bigint(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=200100191000001;--
 -- Database: `agent1_adminlog_db`
 --
-DROP DATABASE `agent1_adminlog_db`;
+DROP DATABASE IF EXISTS `agent1_adminlog_db`;
 CREATE DATABASE IF NOT EXISTS `agent1_adminlog_db` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 USE `agent1_adminlog_db`;
 
@@ -159,7 +159,7 @@ ALTER TABLE `log_scc`
 MODIFY `log_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;--
 -- Database: `agent1_funds_flow_db`
 --
-DROP DATABASE `agent1_funds_flow_db`;
+DROP DATABASE IF EXISTS `agent1_funds_flow_db`;
 CREATE DATABASE IF NOT EXISTS `agent1_funds_flow_db` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 USE `agent1_funds_flow_db`;
 
@@ -244,7 +244,7 @@ ALTER TABLE `funds_order`
 MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;--
 -- Database: `agent1_log_db`
 --
-DROP DATABASE `agent1_log_db`;
+DROP DATABASE IF EXISTS `agent1_log_db`;
 CREATE DATABASE IF NOT EXISTS `agent1_log_db` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 USE `agent1_log_db`;
 
@@ -479,7 +479,7 @@ ALTER TABLE `log_daily_statistics`
 MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;--
 -- Database: `agent1_log_db_201203`
 --
-DROP DATABASE `agent1_log_db_201203`;
+DROP DATABASE IF EXISTS `agent1_log_db_201203`;
 CREATE DATABASE IF NOT EXISTS `agent1_log_db_201203` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 USE `agent1_log_db_201203`;
 
@@ -671,7 +671,7 @@ ALTER TABLE `log_rep`
 MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;--
 -- Database: `agent1_product_db`
 --
-DROP DATABASE `agent1_product_db`;
+DROP DATABASE IF EXISTS `agent1_product_db`;
 CREATE DATABASE IF NOT EXISTS `agent1_product_db` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 USE `agent1_product_db`;
 
@@ -910,7 +910,7 @@ ALTER TABLE `server_list`
 MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;--
 -- Database: `agent1_web_db`
 --
-DROP DATABASE `agent1_web_db`;
+DROP DATABASE IF EXISTS `agent1_web_db`;
 CREATE DATABASE IF NOT EXISTS `agent1_web_db` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 USE `agent1_web_db`;
 

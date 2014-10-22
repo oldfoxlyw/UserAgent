@@ -205,6 +205,9 @@ class Overview extends CI_Controller
 					$this->logcachedb->insert_batch ( 'log_flowover_cache', $tmp);
 				}
 				$query->free_result();
+
+				//流失的付费玩家数
+				
 				
 				// 当天订单数
 				$this->fundsdb->where ( 'funds_flow_dir', 'CHECK_IN' );
@@ -280,7 +283,7 @@ class Overview extends CI_Controller
 				//arppu
 				if($rechargeAccount > 0)
 				{
-					$arppu = number_format ( $ordersSum / $rechargeAccount, 2 );
+					$arppu = number_format ( ($ordersCurrentSum / 100) / $rechargeAccount, 2 );
 				}
 				else
 				{
@@ -342,6 +345,7 @@ class Overview extends CI_Controller
 					'at' => $at,
 					'partner_key' => $partnerKey 
 				);
+				
 				//$this->logcachedb->insert ( 'log_daily_statistics', $parameter );
 				log_message('custom', 'insert log_daily_statistics');
 				
@@ -837,4 +841,5 @@ class Overview extends CI_Controller
 			$this->logcachedb->insert('log_retention1', $parameter);
 		}
 	}
+}
 ?>
