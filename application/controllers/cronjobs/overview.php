@@ -255,6 +255,17 @@ class Overview extends CI_Controller
 				$query->free_result();
 				log_message('custom', 'rechargeAccount = ' . $rechargeAccount);
 				
+				// 累计充值人数
+				$this->fundsdb->where ( 'funds_flow_dir', 'CHECK_IN' );
+				$this->fundsdb->where ( 'server_id', $row->account_server_id );
+				$this->fundsdb->where ( 'partner_key', $partnerKey );
+				$this->fundsdb->where ( 'appstore_status', 0 );
+				$this->fundsdb->group_by ( 'account_guid' );
+				$query = $this->fundsdb->get ( 'funds_checkinout' );
+				$rechargeAccountSum = $query->num_rows();
+				$query->free_result();
+				log_message('custom', 'rechargeAccountSum = ' . $rechargeAccountSum);
+				
 				// arpu
 				if($dau > 0)
 				{
@@ -265,6 +276,17 @@ class Overview extends CI_Controller
 					$arpu = 0;
 				}
 				log_message('custom', 'arpu = ' . $arpu);
+
+				//arppu
+				if($rechargeAccount > 0)
+				{
+					$arppu = number_format ( $ordersSum / $rechargeAccount, 2 );
+				}
+				else
+				{
+					$arppu = 0;
+				}
+				log_message('custom', 'arppu = ' . $arppu);
 				
 				// at 平均在线时长
 				$sql = "SELECT SUM(`time`) as `time` FROM `log_rep` WHERE `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}' AND `posttime`>={$lastTimeStart} AND `posttime`<={$lastTimeEnd}";
@@ -313,16 +335,18 @@ class Overview extends CI_Controller
 					'orders_current_sum' => $ordersCurrentSum,
 					'orders_sum' => $ordersSum,
 					'arpu' => $arpu,
+					'arppu' => $arppu,
 					'recharge_account' => $rechargeAccount,
+					'recharge_account_sum' => $rechargeAccountSum,
 					'order_count' => $ordersCount,
 					'at' => $at,
 					'partner_key' => $partnerKey 
 				);
-				$this->logcachedb->insert ( 'log_daily_statistics', $parameter );
+				//$this->logcachedb->insert ( 'log_daily_statistics', $parameter );
 				log_message('custom', 'insert log_daily_statistics');
 				
-				$this->flowover_detail_statistics ( $date, $row->account_server_id, $partnerKey );
-				$this->buy_equipment_statistics ( $date, $row->account_server_id, $partnerKey );
+				//$this->flowover_detail_statistics ( $date, $row->account_server_id, $partnerKey );
+				//$this->buy_equipment_statistics ( $date, $row->account_server_id, $partnerKey );
 			}
 		}
 	}

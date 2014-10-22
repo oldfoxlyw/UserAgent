@@ -67,6 +67,42 @@ class Orders extends CI_Controller {
 							'appstore_device_id'	=>	$deviceId
 					);
 					$fundsId = $this->funds->insert($parameter);
+
+					echo $fundsId;
+
+					//更新付费用户信息表
+					$this->load->model('mpaidaccount');
+					$result = $this->mpaidaccount->read(array(
+						'guid'	=>	$playerId
+					));
+					if($result)
+					{
+						$row = $result[0];
+						$data = array(
+							'last_paid_time'	=>	$time,
+							'last_paid_amount'	=>	$fundsAmount,
+							'last_paid_count'	=>	$itemCount,
+							'total_paid_amount'	=>	$row->total_paid_amount + $fundsAmount,
+							'total_paid_count'	=>	$row->total_paid_count + $itemCount
+						);
+						$this->mpaidaccount->update($playerId, $data);
+					}
+					else
+					{
+						$data = array(
+							'guid'				=>	$playerId,
+							'server_id'			=>	$serverId,
+							'first_paid_time'	=>	$time,
+							'last_paid_time'	=>	$time,
+							'first_paid_amount'	=>	$fundsAmount,
+							'last_paid_amount'	=>	$fundsAmount,
+							'first_paid_count'	=>	$itemCount,
+							'last_paid_count'	=>	$itemCount,
+							'total_paid_amount'	=>	$fundsAmount,
+							'total_paid_count'	=>	$itemCount,
+						);
+						$this->mpaidaccount->create($data);
+					}
 				} else {
 					$jsonData = Array(
 							'message'	=>	'RECHARGE_ERROR_NO_ACCOUNT_ID'
