@@ -57,7 +57,7 @@ CREATE TABLE IF NOT EXISTS `account_login_token` (
 DROP TABLE IF EXISTS `web_account`;
 CREATE TABLE IF NOT EXISTS `web_account` (
 `GUID` bigint(20) NOT NULL,
-  `role_id` bigint(20) NOT NULL,
+  `role_id` bigint(20) NOT NULL DEFAULT '0',
   `account_name` char(64) NOT NULL,
   `account_pass` char(32) NOT NULL,
   `server_id` char(6) NOT NULL,
