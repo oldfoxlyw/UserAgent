@@ -807,8 +807,6 @@ CREATE TABLE IF NOT EXISTS `game_product` (
 DROP TABLE IF EXISTS `server_list`;
 CREATE TABLE IF NOT EXISTS `server_list` (
 `id` int(11) NOT NULL,
-  `game_id` char(5) NOT NULL,
-  `section_id` int(11) NOT NULL,
   `account_server_id` char(5) NOT NULL,
   `server_name` char(32) NOT NULL,
   `server_ip` text NOT NULL,
@@ -895,7 +893,7 @@ ALTER TABLE `game_product`
 -- Indexes for table `server_list`
 --
 ALTER TABLE `server_list`
- ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `unique_id` (`game_id`,`account_server_id`,`server_name`,`special_ip`), ADD KEY `server_recommend` (`server_recommend`);
+ ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `unique_id` (`account_server_id`,`server_name`), ADD KEY `server_recommend` (`server_recommend`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -962,7 +960,9 @@ CREATE TABLE IF NOT EXISTS `scc_config` (
   `config_close_scc` tinyint(1) NOT NULL DEFAULT '0',
   `config_close_reason` text NOT NULL,
   `config_selected` tinyint(1) NOT NULL DEFAULT '0'
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+INSERT INTO `scc_config` (`config_id`, `config_name`, `config_close_scc`, `config_close_reason`, `config_selected`) VALUES (1, 'default', 0, '', 1);
 
 -- --------------------------------------------------------
 

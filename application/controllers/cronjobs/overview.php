@@ -7,6 +7,7 @@ class Overview extends CI_Controller
 	private $logcachedb = null;
 	private $logdb = null;
 	private $fundsdb = null;
+	private $webdb = null;
 
 	public function __construct()
 	{
@@ -15,10 +16,17 @@ class Overview extends CI_Controller
 		$this->logcachedb = $this->load->database ( 'log_cachedb', true );
 		$this->logdb = $this->load->database ( 'logdb', true );
 		$this->fundsdb = $this->load->database ( 'fundsdb', true );
+		$this->webdb = $this->load->database ( 'webdb', true );
 	}
 
 	public function statistics($server_id)
 	{
+		$this->load->model('mwebconfig');
+		$this->mwebconfig->update(1, array(
+			'config_close_scc'		=>	1,
+			'config_close_reason'	=>	'缓存正在更新，请稍后……'
+		));
+
 		ini_set("display_error", 1);
 		error_reporting(E_ALL);
 		set_time_limit(3600);
@@ -344,7 +352,7 @@ class Overview extends CI_Controller
 					'at' => $at,
 					'partner_key' => $partnerKey 
 				);
-				
+				var_dump($parameter);
 				//$this->logcachedb->insert ( 'log_daily_statistics', $parameter );
 				log_message('custom', 'insert log_daily_statistics');
 				
