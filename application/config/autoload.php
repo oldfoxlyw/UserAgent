@@ -80,7 +80,7 @@ $autoload['helper'] = array('url', 'language');
 |
 */
 
-$autoload['config'] = array('agent_config', 'game_auth_key', 'game_server_list');
+$autoload['config'] = array('agent_config');
 
 
 /*

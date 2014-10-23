@@ -146,7 +146,6 @@ class Overview extends CI_Controller
 				// $dau = $loginValidCount - $validNewCount;
 				
 				// 回流玩家数(超过一周没有登录但最近有登录的玩家数)
-				
 				$this->logcachedb->where ( 'server_id', $row->account_server_id );
 				$this->logcachedb->where ( 'partner_key', $partnerKey );
 				$query = $this->logcachedb->get ( 'log_flowover_cache' );
@@ -207,7 +206,7 @@ class Overview extends CI_Controller
 				$query->free_result();
 
 				//流失的付费玩家数
-				
+				$sql = "";
 				
 				// 当天订单数
 				$this->fundsdb->where ( 'funds_flow_dir', 'CHECK_IN' );
