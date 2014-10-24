@@ -248,6 +248,51 @@ USE `agent1_log_db`;
 
 -- --------------------------------------------------------
 
+DROP TABLE IF EXISTS `log_market_lifetime`;
+CREATE TABLE IF NOT EXISTS `log_market_lifetime` (
+  `date` date NOT NULL,
+  `server_id` int(11) NOT NULL,
+  `partner_key` char(16) NOT NULL,
+  `register_count` int(11) NOT NULL DEFAULT '0' COMMENT '当天注册角色数',
+  `paid_count_1` int(11) NOT NULL DEFAULT '0' COMMENT '当天付费人数',
+  `paid_rate_1` int(11) NOT NULL DEFAULT '0' COMMENT '当天付费率',
+  `recharge_amount_1` int(11) NOT NULL DEFAULT '0' COMMENT '当天营收',
+  `paid_count_2` int(11) NOT NULL DEFAULT '0' COMMENT '到第二天为止付费人数',
+  `paid_rate_2` int(11) NOT NULL DEFAULT '0' COMMENT '到第二天为止付费率',
+  `recharge_amount_2` int(11) NOT NULL DEFAULT '0' COMMENT '到第二天为止营收',
+  `paid_count_3` int(11) NOT NULL DEFAULT '0' COMMENT '到第二天为止付费人数',
+  `paid_rate_3` int(11) NOT NULL DEFAULT '0' COMMENT '到第二天为止付费率',
+  `recharge_amount_3` int(11) NOT NULL DEFAULT '0' COMMENT '到第二天为止营收',
+  `paid_count_4` int(11) NOT NULL DEFAULT '0' COMMENT '到第二天为止付费人数',
+  `paid_rate_4` int(11) NOT NULL DEFAULT '0' COMMENT '到第二天为止付费率',
+  `recharge_amount_4` int(11) NOT NULL DEFAULT '0' COMMENT '到第二天为止营收',
+  `paid_count_5` int(11) NOT NULL DEFAULT '0' COMMENT '到第二天为止付费人数',
+  `paid_rate_5` int(11) NOT NULL DEFAULT '0' COMMENT '到第二天为止付费率',
+  `recharge_amount_5` int(11) NOT NULL DEFAULT '0' COMMENT '到第二天为止营收',
+  `paid_count_6` int(11) NOT NULL DEFAULT '0' COMMENT '到第二天为止付费人数',
+  `paid_rate_6` int(11) NOT NULL DEFAULT '0' COMMENT '到第二天为止付费率',
+  `recharge_amount_6` int(11) NOT NULL DEFAULT '0' COMMENT '到第二天为止营收',
+  `paid_count_7` int(11) NOT NULL DEFAULT '0' COMMENT '到第二天为止付费人数',
+  `paid_rate_7` int(11) NOT NULL DEFAULT '0' COMMENT '到第二天为止付费率',
+  `recharge_amount_7` int(11) NOT NULL DEFAULT '0' COMMENT '到第二天为止营收',
+  `paid_count_14` int(11) NOT NULL DEFAULT '0' COMMENT '到第二天为止付费人数',
+  `paid_rate_14` int(11) NOT NULL DEFAULT '0' COMMENT '到第二天为止付费率',
+  `recharge_amount_14` int(11) NOT NULL DEFAULT '0' COMMENT '到第二天为止营收',
+  `paid_count_30` int(11) NOT NULL DEFAULT '0' COMMENT '到第二天为止付费人数',
+  `paid_rate_30` int(11) NOT NULL DEFAULT '0' COMMENT '到第二天为止付费率',
+  `recharge_amount_30` int(11) NOT NULL DEFAULT '0' COMMENT '到第二天为止营收',
+  `paid_count_60` int(11) NOT NULL DEFAULT '0' COMMENT '到第二天为止付费人数',
+  `paid_rate_60` int(11) NOT NULL DEFAULT '0' COMMENT '到第二天为止付费率',
+  `recharge_amount_60` int(11) NOT NULL DEFAULT '0' COMMENT '到第二天为止营收',
+  `paid_count_90` int(11) NOT NULL DEFAULT '0' COMMENT '到第二天为止付费人数',
+  `paid_rate_90` int(11) NOT NULL DEFAULT '0' COMMENT '到第二天为止付费率',
+  `recharge_amount_90` int(11) NOT NULL DEFAULT '0' COMMENT '到第二天为止营收',
+  `paid_count_180` int(11) NOT NULL DEFAULT '0' COMMENT '到第二天为止付费人数',
+  `paid_rate_180` int(11) NOT NULL DEFAULT '0' COMMENT '到第二天为止付费率',
+  `recharge_amount_180` int(11) NOT NULL DEFAULT '0' COMMENT '到第二天为止营收',
+  PRIMARY KEY (`date`,`server_id`,`partner_key`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='市场数据\r\n用户生命周期表';
+
 DROP TABLE IF EXISTS `log_paid_account`;
 CREATE TABLE IF NOT EXISTS `log_paid_account` (
   `guid` bigint(20) NOT NULL,
