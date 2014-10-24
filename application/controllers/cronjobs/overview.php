@@ -854,5 +854,55 @@ class Overview extends CI_Controller
 			'config_close_reason'	=>	''
 		));
 	}
+
+	public function market_lifetime()
+	{
+		ini_set("display_error", 1);
+		error_reporting(E_ALL);
+		set_time_limit(3600);
+
+		$this->load->model ( 'websrv/server' );
+		if(!empty($server_id))
+		{
+			$parameter = array(
+					'account_server_id'		=>	$server_id
+			);
+		}
+		else
+		{
+			$parameter = array(
+					'server_debug'	=>	0
+			);
+		}
+		$serverResult = $this->server->getAllResult ($parameter);
+		
+		$this->load->model ( 'websrv/mpartner' );
+		$partnerResult = $this->mpartner->getAllResult ();
+
+		$lastDate = $this->input->get('date', TRUE);
+		
+		if(!empty($lastDate))
+		{
+			$lastTimeStart = strtotime ( $lastDate . ' 00:00:00' );
+			$lastTimeEnd = strtotime ( $lastDate . ' 23:59:59' );
+		}
+		else
+		{
+			$currentTimeStamp = time ();
+			$currentDate = date ( 'Y-m-d', $currentTimeStamp );
+			$lastTimeStart = strtotime ( $currentDate . ' 00:00:00' ) - 86400;
+			$lastTimeEnd = strtotime ( $currentDate . ' 23:59:59' ) - 86400;
+		}
+		$date = date ( 'Y-m-d', $lastTimeStart );
+		$preDate = date ( 'Y-m-d', $lastTimeStart - 86400 );
+		
+		foreach ( $serverResult as $row )
+		{
+			foreach ( $partnerResult as $partner )
+			{
+				$partnerKey = $partner->partner_key;
+			}
+		}
+	}
 }
 ?>
