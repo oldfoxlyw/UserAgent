@@ -861,6 +861,7 @@ class Overview extends CI_Controller
 		error_reporting(E_ALL);
 		set_time_limit(3600);
 
+		$this->load->model('mlogmarketlifetime');
 		$this->load->model ( 'websrv/server' );
 		if(!empty($server_id))
 		{
@@ -901,6 +902,40 @@ class Overview extends CI_Controller
 			foreach ( $partnerResult as $partner )
 			{
 				$partnerKey = $partner->partner_key;
+
+				//当天注册数
+				$where = "`server_id` = '{$row->account_server_id}' and `account_level` > 0 and `partner_key`='{$partnerKey}' and `account_regtime` >= {$lastTimeStart} and `account_regtime` <= {$lastTimeEnd}";
+				$this->accountdb->where ( $where );
+				$regNewCount = $this->accountdb->count_all_results ( 'web_account' );
+				log_message('custom', 'regNewCount = ' . $regNewCount);
+
+				//当天付费人数
+				$sql = "select count(*) as `count` from `funds_checkinout` where `funds_flow_dir`='CHECK_IN' and `appstore_status`=0 and `funds_time` >= {$lastTimeStart} and `funds_time` <= {$lastTimeEnd} and `account_guid` in (select `GUID` from `agent1_account_db`.`web_account` where `server_id` = '{$row->account_server_id}' and `partner_key`='{$partnerKey}' and `account_regtime` >= {$lastTimeStart} and `account_regtime` <= {$lastTimeEnd})";
+				$query = $this->fundsdb->query($sql);
+				$result = $query->row();
+				$paidCount1 = $result->count;
+
+				//当天付费率
+				$paidRate1 = floatval ( number_format ( $paidCount1 / $regNewCount, 4 ) ) * 10000;
+
+				//当天付费总额
+				$sql = "select sum(`funds_amount`) as `amount` from `funds_checkinout` where `funds_flow_dir`='CHECK_IN' and `appstore_status`=0 and `funds_time` >= {$lastTimeStart} and `funds_time` <= {$lastTimeEnd} and `account_guid` in (select `GUID` from `agent1_account_db`.`web_account` where `server_id` = '{$row->account_server_id}' and `partner_key`='{$partnerKey}' and `account_regtime` >= {$lastTimeStart} and `account_regtime` <= {$lastTimeEnd})";
+				$query = $this->fundsdb->query($sql);
+				$result = $query->row();
+				$rechargeAmount1 = $result->amount;
+
+				//插入当天数据
+				$parameter = array(
+					'date'				=>	date('Y-m-d', $lastTimeStart),
+					'server_id'			=>	$row->account_server_id,
+					'partner_key'		=>	$partnerKey,
+					'register_count'	=>	$regNewCount,
+					'paid_count_1'		=>	$paidCount1,
+					'paid_rate_1'		=>	$paidRate1,
+					'recharge_amount_1'	=>	$rechargeAmount1
+				);
+				//$this->mlogmarketlifetime->create($parameter);
+				var_dump($parameter);
 			}
 		}
 	}
