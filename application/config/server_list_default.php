@@ -21,10 +21,10 @@ $config ['game_server_list'] = array (
 						'server_game_ip' => array(
 								0 => array (
 										'ip' 	=> 	'115.159.3.100',
-										'port' 	=>	'9899'
+										'port' 	=>	'9999'
 								)
 						),
-						'game_message_ip' => '10.247.27.130:9977',
+						'game_message_ip' => '10.247.27.130:9899',
 						'const_server_ip' => '115.159.1.45:8091',
 						'voice_server_ip' => '115.159.1.45:8099',
 						'cross_server_ip' => '115.159.1.45:8091',
