@@ -47,7 +47,7 @@
 $active_group = 'accountdb';
 $active_record = TRUE;
 
-$db['webdb']['hostname'] = '127.0.0.1';
+$db['webdb']['hostname'] = 'localhost';
 $db['webdb']['username'] = 'root';
 $db['webdb']['password'] = '84@41%%wi96^4';
 $db['webdb']['database'] = 'agent2_web_db';
@@ -63,14 +63,14 @@ $db['webdb']['swap_pre'] = '';
 $db['webdb']['autoinit'] = TRUE;
 $db['webdb']['stricton'] = FALSE;
 
-$db['accountdb']['hostname'] = '127.0.0.1';
+$db['accountdb']['hostname'] = 'localhost';
 $db['accountdb']['username'] = 'root';
 $db['accountdb']['password'] = '84@41%%wi96^4';
 $db['accountdb']['database'] = 'agent2_account_db';
 $db['accountdb']['dbdriver'] = 'mysql';
 $db['accountdb']['dbprefix'] = '';
 $db['accountdb']['pconnect'] = FALSE;
-$db['accountdb']['db_debug'] = TRUE;
+$db['accountdb']['db_debug'] = FALSE;
 $db['accountdb']['cache_on'] = FALSE;
 $db['accountdb']['cachedir'] = '';
 $db['accountdb']['char_set'] = 'utf8';
@@ -79,7 +79,7 @@ $db['accountdb']['swap_pre'] = '';
 $db['accountdb']['autoinit'] = TRUE;
 $db['accountdb']['stricton'] = FALSE;
 
-$db['productdb']['hostname'] = '127.0.0.1';
+$db['productdb']['hostname'] = 'localhost';
 $db['productdb']['username'] = 'root';
 $db['productdb']['password'] = '84@41%%wi96^4';
 $db['productdb']['database'] = 'agent2_product_db';
@@ -95,7 +95,7 @@ $db['productdb']['swap_pre'] = '';
 $db['productdb']['autoinit'] = TRUE;
 $db['productdb']['stricton'] = FALSE;
 
-$db['fundsdb']['hostname'] = '127.0.0.1';
+$db['fundsdb']['hostname'] = 'localhost';
 $db['fundsdb']['username'] = 'root';
 $db['fundsdb']['password'] = '84@41%%wi96^4';
 $db['fundsdb']['database'] = 'agent2_funds_flow_db';
@@ -111,7 +111,7 @@ $db['fundsdb']['swap_pre'] = '';
 $db['fundsdb']['autoinit'] = TRUE;
 $db['fundsdb']['stricton'] = FALSE;
 
-$db['logdb']['hostname'] = '127.0.0.1';
+$db['logdb']['hostname'] = 'localhost';
 $db['logdb']['username'] = 'root';
 $db['logdb']['password'] = '84@41%%wi96^4';
 $db['logdb']['database'] = 'agent2_log_db_201203';
@@ -127,7 +127,7 @@ $db['logdb']['swap_pre'] = '';
 $db['logdb']['autoinit'] = TRUE;
 $db['logdb']['stricton'] = FALSE;
 
-$db['log_cachedb']['hostname'] = '127.0.0.1';
+$db['log_cachedb']['hostname'] = 'localhost';
 $db['log_cachedb']['username'] = 'root';
 $db['log_cachedb']['password'] = '84@41%%wi96^4';
 $db['log_cachedb']['database'] = 'agent2_log_db';
