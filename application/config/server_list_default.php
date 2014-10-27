@@ -21,7 +21,7 @@ $config ['game_server_list'] = array (
 						'server_game_ip' => array(
 								0 => array (
 										'ip' 	=> 	'115.159.3.100',
-										'port' 	=>	'9988'
+										'port' 	=>	'9899'
 								)
 						),
 						'game_message_ip' => '10.247.27.130:9977',
