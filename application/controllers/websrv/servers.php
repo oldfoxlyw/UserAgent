@@ -296,7 +296,7 @@ class Servers extends CI_Controller {
 			'announce'			=>	$announce
 		);
 		$result = $this->return_format->format($jsonData, 'json');
-		str_replace("\r", '', $result);
+		str_replace("\\r", '', $result);
 		echo $result;
 	}
 }
