@@ -285,11 +285,9 @@ class Servers extends CI_Controller {
 			$partner = $inputParam->partner;
 			$code = $inputParam->code;
 		}
-		log_message('custom', $server_id . ', ' . $partner);
 		$db = $this->load->database('productdb', TRUE);
 
 		$sql = "SELECT * FROM `game_announcement` WHERE `partner_key` LIKE '%{$partner}%' AND (`server_id` = '{$server_id}' OR `server_id` = 'all')";
-		log_message('custom', $sql);
 		$announce = $db->query($sql)->result();
 
 		$announce = empty($announce) ? '' : $announce[0];
