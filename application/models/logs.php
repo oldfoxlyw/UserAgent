@@ -18,7 +18,7 @@ class logs extends CI_Model {
 			$relativeParameter		=	json_encode($_REQUEST);
 			$row = array(
 				'log_GUID'				=>	empty($parameter['account_guid']) ? '' : $parameter['account_guid'],
-				'device_id'				=>	empty($parameter['device_id']) ? '' : $parameter['device_id'],
+				//'device_id'				=>	empty($parameter['device_id']) ? '' : $parameter['device_id'],
 				'log_account_name'		=>	empty($parameter['account_name']) ? '' : $parameter['account_name'],
 				'log_account_level'		=>	empty($parameter['account_level']) ? 0 : $parameter['account_level'],
 				'log_action'			=>	$parameter['log_action'],
