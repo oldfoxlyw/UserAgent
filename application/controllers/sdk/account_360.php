@@ -30,7 +30,7 @@ class Account_360 extends CI_Controller
 			$code = $inputParam->code;
 		}
 		
-		$partner_key = 'qihu360';
+		$partner_key = 'sdk360';
 		if(!empty($uid))
 		{
 			$parameter = array(
@@ -312,7 +312,7 @@ class Account_360 extends CI_Controller
 		
 		if(!empty($uid) && !empty($server_id) && !empty($access_token) && !empty($refresh_token))
 		{
-			$partner_key = 'qihu360';
+			$partner_key = 'sdk360';
 			$parameter = array(
 					'uid'			=>	$uid,
 					'server_id'		=>	$server_id,
