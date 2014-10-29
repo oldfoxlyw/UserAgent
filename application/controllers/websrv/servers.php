@@ -291,6 +291,8 @@ class Servers extends CI_Controller {
 		$announce = $db->query($sql)->result();
 
 		$announce = empty($announce) ? '' : $announce[0];
+		str_replace("\r", '', $announce->summary);
+		str_replace("\r", '', $announce->content);
 		
 		$jsonData = Array(
 			'announce'			=>	$announce
