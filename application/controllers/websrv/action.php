@@ -77,6 +77,50 @@ class Action extends CI_Controller
 				echo $this->return_format->format($jsonData, $format);
 		}
 	}
+
+	//参与活动计数
+	public function activity_count()
+	{
+		$server_id = $this->input->post('server_id');
+		$activity_id = $this->input->post('id');
+		$role_id = $this->input->post('role_id');
+
+		log_message("error", "activity: server_id=" . $server_id . ", activity_id=" . $activity_id . ", role_id=" . $role_id);
+
+		if(!empty($server_id) && !empty($activity_id))
+		{
+			$this->load->model('mlogactivity');
+			$parameter = array(
+				'server_id'		=>	$server_id,
+				'activity_id'	=>	$activity_id,
+				'role_id'		=>	$role_id,
+				'time'			=>	time()
+			);
+			$this->mlogactivity->create($parameter);
+		}
+	}
+
+	//领取礼包计数
+	public function pack_count()
+	{
+		$server_id = $this->input->post('server_id');
+		$pack_id = $this->input->post('id');
+		$role_id = $this->input->post('role_id');
+
+		log_message("error", "activity: server_id=" . $server_id . ", pack_id=" . $pack_id . ", role_id=" . $role_id);
+
+		if(!empty($server_id) && !empty($pack_id))
+		{
+			$this->load->model('mlogpack');
+			$parameter = array(
+				'server_id'		=>	$server_id,
+				'pack_id'		=>	$activity_id,
+				'role_id'		=>	$role_id,
+				'time'			=>	time()
+			);
+			$this->mlogpack->create($parameter);
+		}
+	}
 }
 
 ?>
