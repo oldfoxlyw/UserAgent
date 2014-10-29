@@ -103,7 +103,6 @@ class Action extends CI_Controller
 	//领取礼包计数
 	public function pack_count()
 	{
-		error_reporting(E_ALL);
 		$server_id = $this->input->get_post('server_id');
 		$pack_id = $this->input->get_post('id');
 		$role_id = $this->input->get_post('role_id');

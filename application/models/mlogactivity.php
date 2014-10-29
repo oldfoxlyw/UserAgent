@@ -2,7 +2,7 @@
 if (!defined('BASEPATH')) exit('No direct script access allowed');
 require_once('ICrud.php');
 
-class Mcoupon extends CI_Model implements ICrud
+class Mlogactivity extends CI_Model implements ICrud
 {
 	
 	private $accountTable = 'log_activity';
