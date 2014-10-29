@@ -85,7 +85,7 @@ class Action extends CI_Controller
 		$activity_id = $this->input->post('id');
 		$role_id = $this->input->post('role_id');
 
-		log_message("error", "activity: server_id=" . $server_id . ", activity_id=" . $activity_id . ", role_id=" . $role_id);
+		log_message("custom", "activity: server_id=" . $server_id . ", activity_id=" . $activity_id . ", role_id=" . $role_id);
 
 		if(!empty($server_id) && !empty($activity_id))
 		{
@@ -107,7 +107,7 @@ class Action extends CI_Controller
 		$pack_id = $this->input->post('id');
 		$role_id = $this->input->post('role_id');
 
-		log_message("error", "activity: server_id=" . $server_id . ", pack_id=" . $pack_id . ", role_id=" . $role_id);
+		log_message("custom", "activity: server_id=" . $server_id . ", pack_id=" . $pack_id . ", role_id=" . $role_id);
 
 		if(!empty($server_id) && !empty($pack_id))
 		{
