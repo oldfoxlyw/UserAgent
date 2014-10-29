@@ -81,9 +81,9 @@ class Action extends CI_Controller
 	//参与活动计数
 	public function activity_count()
 	{
-		$server_id = $this->input->post('server_id');
-		$activity_id = $this->input->post('id');
-		$role_id = $this->input->post('role_id');
+		$server_id = $this->input->get_post('server_id');
+		$activity_id = $this->input->get_post('id');
+		$role_id = $this->input->get_post('role_id');
 
 		log_message("custom", "activity: server_id=" . $server_id . ", activity_id=" . $activity_id . ", role_id=" . $role_id);
 
@@ -103,9 +103,9 @@ class Action extends CI_Controller
 	//领取礼包计数
 	public function pack_count()
 	{
-		$server_id = $this->input->post('server_id');
-		$pack_id = $this->input->post('id');
-		$role_id = $this->input->post('role_id');
+		$server_id = $this->input->get_post('server_id');
+		$pack_id = $this->input->get_post('id');
+		$role_id = $this->input->get_post('role_id');
 
 		log_message("custom", "activity: server_id=" . $server_id . ", pack_id=" . $pack_id . ", role_id=" . $role_id);
 
