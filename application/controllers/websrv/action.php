@@ -115,7 +115,7 @@ class Action extends CI_Controller
 			$this->load->model('mlogpack');
 			$parameter = array(
 				'server_id'		=>	$server_id,
-				'pack_id'		=>	$activity_id,
+				'pack_id'		=>	$pack_id,
 				'role_id'		=>	$role_id,
 				'time'			=>	time()
 			);
