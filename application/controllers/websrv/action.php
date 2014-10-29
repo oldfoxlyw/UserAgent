@@ -107,11 +107,12 @@ class Action extends CI_Controller
 		$server_id = $this->input->get_post('server_id');
 		$pack_id = $this->input->get_post('id');
 		$role_id = $this->input->get_post('role_id');
-		exit($server_id);
-		log_message("custom", "activity: server_id=" . $server_id . ", pack_id=" . $pack_id . ", role_id=" . $role_id);
 
+		log_message("custom", "activity: server_id=" . $server_id . ", pack_id=" . $pack_id . ", role_id=" . $role_id);
+		echo "activity: server_id=" . $server_id . ", pack_id=" . $pack_id . ", role_id=" . $role_id;
 		if(!empty($server_id) && !empty($pack_id))
 		{
+			echo 'load';
 			$this->load->model('mlogpack');
 			$parameter = array(
 				'server_id'		=>	$server_id,
@@ -120,6 +121,7 @@ class Action extends CI_Controller
 				'time'			=>	time()
 			);
 			$this->mlogpack->create($parameter);
+			echo 'done';
 		}
 	}
 }
