@@ -29,7 +29,7 @@ class Account_360 extends CI_Controller
 			$auth_code = $inputParam->auth_code;
 			$code = $inputParam->code;
 		}
-		log_message('error', $uid . ', ' . $auth_code . ', ' . $code);
+		log_message('custom', $uid . ', ' . $auth_code . ', ' . $code);
 		$partner_key = 'sdk360';
 		if(!empty($uid))
 		{
@@ -65,7 +65,7 @@ class Account_360 extends CI_Controller
 						'order_by'	=>	array('account_lastlogin', 'desc')
 				);
 				$result = $this->web_account->read($parameter, $extension);
-				log_message('error', json_encode($result) . ', sql = ' . $this->web_account->db()->last_query());
+				log_message('custom', json_encode($result) . ', sql = ' . $this->web_account->db()->last_query());
 				if(empty($result))
 				{
 					$result = array();
