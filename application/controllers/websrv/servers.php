@@ -291,13 +291,13 @@ class Servers extends CI_Controller {
 		$announce = $db->query($sql)->result();
 
 		$announce = empty($announce) ? '' : $announce[0];
-		str_replace("\r", '', $announce->summary);
-		str_replace("\r", '', $announce->content);
 		
 		$jsonData = Array(
 			'announce'			=>	$announce
 		);
-		echo $this->return_format->format($jsonData, 'json');
+		$result = $this->return_format->format($jsonData, 'json');
+		str_replace("\r", '', $result);
+		echo $result;
 	}
 }
 ?>
