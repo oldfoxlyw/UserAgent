@@ -131,7 +131,7 @@ class Account_360 extends CI_Controller
 			$parameter = array(
 					'auth_code'		=>	$auth_code
 			);
-			//if($this->verify_check_code($parameter, $code))
+			if($this->verify_check_code($parameter, $code))
 			{
 				$this->load->model('web_account');
 				$this->load->model('msdktoken');
@@ -141,42 +141,41 @@ class Account_360 extends CI_Controller
 				$this->load->helper('security');
 				
 				//向360请求换取access_token
-				// $params = array(
-				// 		'grant_type'	=>	'authorization_code',
-				// 		'code'			=>	$auth_code,
-				// 		'client_id'		=>	$this->client_id,
-				// 		'client_secret'	=>	$this->client_secret,
-				// 		'redirect_uri'	=>	'oob'
-				// );
-				// $result = $this->connector->get($this->url, $params, false);
-				// log_message('custom', "send:" . json_encode($params) . ", login:" . $result);
-				// if(empty($result))
-				// {
-				// 	$json = array(
-				// 			'success'		=>	0,
-				// 			'errors'		=>	'SDK_LOGIN_FAIL_NO_RESPONSE'
-				// 	);
-				// 	exit($this->return_format->format($json));
-				// }
-				// $result = json_decode($result);
-				// if(empty($result) || empty($result->access_token))
-				// {
-				// 	$json = array(
-				// 			'success'		=>	0,
-				// 			'errors'		=>	'SDK_LOGIN_FAIL'
-				// 	);
-				// 	exit($this->return_format->format($json));
-				// }
+				$params = array(
+						'grant_type'	=>	'authorization_code',
+						'code'			=>	$auth_code,
+						'client_id'		=>	$this->client_id,
+						'client_secret'	=>	$this->client_secret,
+						'redirect_uri'	=>	'oob'
+				);
+				$result = $this->connector->get($this->url, $params, false);
+				log_message('error', "send:" . json_encode($params) . ", login:" . $result);
+				if(empty($result))
+				{
+					$json = array(
+							'success'		=>	0,
+							'errors'		=>	'SDK_LOGIN_FAIL_NO_RESPONSE'
+					);
+					exit($this->return_format->format($json));
+				}
+				$result = json_decode($result);
+				if(empty($result) || empty($result->access_token))
+				{
+					$json = array(
+							'success'		=>	0,
+							'errors'		=>	'SDK_LOGIN_FAIL'
+					);
+					exit($this->return_format->format($json));
+				}
 				$time = time();
-				// $access_token = $result->access_token;
-				$access_token = $auth_code;
-				// $expire_time = $time + $result->expires_in;
-				// $refresh_token = $result->refresh_token;
+				$access_token = $result->access_token;
+				$expire_time = $time + $result->expires_in;
+				$refresh_token = $result->refresh_token;
 				$params = array(
 					'access_token'	=>	$access_token
 				);
 				$info = $this->connector->get($this->info_url, $params, false);
-				log_message('custom', "send:" . json_encode($params) . ", info:" . $info);
+				log_message('error', "send:" . json_encode($params) . ", info:" . $info);
 				if(empty($info))
 				{
 					$json = array(
@@ -205,7 +204,7 @@ class Account_360 extends CI_Controller
 				{
 					array_push($where_in, $server->account_server_id);
 				}
-				log_message('custom', "where in:" . json_encode($where_in));
+				log_message('error', "where in:" . json_encode($where_in));
 
 				$parameter = array(
 						'partner_key'			=>	$partner_key,
@@ -218,7 +217,7 @@ class Account_360 extends CI_Controller
 						'where_in'	=>	array('server_id', $where_in)
 				);
 				$result = $this->web_account->read($parameter, $extension);
-				log_message('custom', "result" . json_encode($result));
+				log_message('error', "result" . json_encode($result));
 				if(empty($result))
 				{
 					$result = array();
@@ -234,7 +233,7 @@ class Account_360 extends CI_Controller
 						if(!empty($tokenResult))
 						{
 							$result[$i]->token = $tokenResult[0]->token;
-							log_message('custom', "token: " . $tokenResult[0]->token);
+							log_message('error', "token: " . $tokenResult[0]->token);
 						}
 						else 
 						{
@@ -242,7 +241,7 @@ class Account_360 extends CI_Controller
 									'guid'			=>	$result[$i]->GUID,
 									'partner'		=>	$partner_key,
 									'token'			=>	$access_token,
-									'refresh_token'	=>	'',
+									'refresh_token'	=>	$refresh_token,
 									'expire_time'	=>	$expire_time
 							);
 							$this->msdktoken->create($parameter);
@@ -254,28 +253,28 @@ class Account_360 extends CI_Controller
 									'expire_time'	=>	$time + 365 * 86400
 							);
 							$this->mtoken->create($parameter);
-							log_message('custom', "token empty: " . $access_token);
+							log_message('error', "token empty: " . $access_token);
 						}
 					}
 				}
 					
-				log_message('custom', "SDK_LOGIN_SUCCESS: uid = " . $uid);
+				log_message('error', "SDK_LOGIN_SUCCESS: uid = " . $uid);
 				$json = array(
 						'success'		=>	1,
 						'message'		=>	'SDK_LOGIN_SUCCESS',
 						'access_token'	=>	$access_token,
-						'refresh_token'	=>	'',
+						'refresh_token'	=>	$refresh_token,
 						'uid'			=>	$uid,
 						'result'		=>	$result
 				);
 			}
-			// else
-			// {
-			// 	$json = array(
-			// 			'success'		=>	0,
-			// 			'errors'		=>	'SDK_LOGIN_FAIL_ERROR_CHECK_CODE'
-			// 	);
-			// }
+			else
+			{
+				$json = array(
+						'success'		=>	0,
+						'errors'		=>	'SDK_LOGIN_FAIL_ERROR_CHECK_CODE'
+				);
+			}
 		}
 		else
 		{
@@ -310,10 +309,8 @@ class Account_360 extends CI_Controller
 			$refresh_token = $inputParam->refresh_token;
 			$code = $inputParam->code;
 		}
-
-		log_message('custom', $uid . ', ' . $server_id . ', ' . $access_token . ', ' . $refresh_token . ', ');
 		
-		if(!empty($uid) && !empty($server_id) && !empty($access_token))
+		if(!empty($uid) && !empty($server_id) && !empty($access_token) && !empty($refresh_token))
 		{
 			$partner_key = 'sdk360';
 			$parameter = array(
@@ -322,7 +319,7 @@ class Account_360 extends CI_Controller
 					'access_token'	=>	$access_token,
 					'refresh_token'	=>	$refresh_token
 			);
-			// if($this->verify_check_code($parameter, $code))
+			if($this->verify_check_code($parameter, $code))
 			{
 				$this->load->library('guid');
 				$this->load->helper('security');
@@ -344,7 +341,6 @@ class Account_360 extends CI_Controller
 						'partner_id'		=>	$uid
 				);
 				$guid = $this->web_account->create($parameter);
-				log_message('custom', json_encode($guid));
 				if($guid !== FALSE)
 				{
 					$user = $this->web_account->get($guid);
@@ -393,13 +389,13 @@ class Account_360 extends CI_Controller
 					);
 				}
 			}
-			// else
-			// {
-			// 	$json = array(
-			// 			'success'		=>	0,
-			// 			'errors'		=>	'SDK_REGISTER_FAIL_ERROR_CHECK_CODE'
-			// 	);
-			// }
+			else
+			{
+				$json = array(
+						'success'		=>	0,
+						'errors'		=>	'SDK_REGISTER_FAIL_ERROR_CHECK_CODE'
+				);
+			}
 		}
 		else
 		{
