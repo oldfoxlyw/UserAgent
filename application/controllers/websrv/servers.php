@@ -116,7 +116,6 @@ class Servers extends CI_Controller {
 		{
 			for($i=0; $i<count($result); $i++)
 			{
-				var_dump($result);
 				$serverName = lang('server_list_' . $result[$i]->server_name);
 				if(!empty($serverName)) {
 					$result[$i]->server_name = $serverName;
@@ -153,6 +152,7 @@ class Servers extends CI_Controller {
 				$result[$i]->server_game_port = $result[$i]->server_game_ip->port;
 				if(empty($result[$i]->server_game_ip->$ipFlag))
 				{
+					var_dump($result[$i]);
 					$result[$i]->server_game_ip = $result[$i]->server_game_ip->ip;
 				}
 				else
