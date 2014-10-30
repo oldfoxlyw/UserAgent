@@ -236,17 +236,7 @@ class Servers extends CI_Controller {
 		{
 			$result = array();
 		}
-		var_dump($result);
-		
-		$this->load->model('mannouncement');
-		$parameter = array(
-				'partner_key'	=>	$partner
-		);
-		$extension = array(
-				'order_by'	=>	array('post_time', 'desc')
-		);
-		$announce = $this->mannouncement->read($parameter, $extension, 1, 0);
-		$announce = empty($announce) ? '' : $announce[0];
+		$announce = '';
 		
 // 		if($partner == 'default' || $partner == 'default_full')
 // 		{
