@@ -13,6 +13,8 @@ class Servers extends CI_Controller {
 	
 	public function server_list($format = 'json')
 	{
+		ini_set('display_error', 1);
+		error_reporting(E_ALL);
 		$partner	=	$this->input->get_post('partner', TRUE);
 		$mode		=	$this->input->get_post('mode', TRUE);
 		$lang		=	$this->input->get_post('language', TRUE);
@@ -97,14 +99,7 @@ class Servers extends CI_Controller {
 	{
 		$serverIp	=	$this->input->server('SERVER_ADDR');
 		$partner	=	$this->input->get_post('partner', TRUE);
-		if($serverIp == '122.13.131.55')
-		{
-			$ipFlag = 'ip2';
-		}
-		else //183.60.255.55
-		{
-			$ipFlag = 'ip';
-		}
+		$ipFlag = 'ip';
 		$parameter = array(
 				'account_server_id'		=>	$id
 		);
