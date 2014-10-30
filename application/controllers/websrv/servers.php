@@ -13,8 +13,6 @@ class Servers extends CI_Controller {
 	
 	public function server_list($format = 'json')
 	{
-		ini_set('display_error', 1);
-		error_reporting(E_ALL);
 		$partner	=	$this->input->get_post('partner', TRUE);
 		$mode		=	$this->input->get_post('mode', TRUE);
 		$lang		=	$this->input->get_post('language', TRUE);
