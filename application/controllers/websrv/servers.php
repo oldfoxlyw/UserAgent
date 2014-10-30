@@ -141,6 +141,7 @@ class Servers extends CI_Controller {
 				}
 	
 				$result[$i]->server_game_ip = json_decode($result[$i]->server_game_ip);
+				var_dump($result[$i]->server_game_ip);
 				if(count($result[$i]->server_game_ip) > 0)
 				{
 					$result[$i]->server_game_ip = random_element($result[$i]->server_game_ip);
@@ -149,10 +150,10 @@ class Servers extends CI_Controller {
 				{
 					$result[$i]->server_game_ip = $result[$i]->server_game_ip[0];
 				}
+				var_dump($result[$i]->server_game_ip);
 				$result[$i]->server_game_port = $result[$i]->server_game_ip->port;
 				if(empty($result[$i]->server_game_ip->$ipFlag))
 				{
-					var_dump($result[$i]);
 					$result[$i]->server_game_ip = $result[$i]->server_game_ip->ip;
 				}
 				else
