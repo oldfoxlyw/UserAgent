@@ -116,6 +116,7 @@ class Servers extends CI_Controller {
 		{
 			for($i=0; $i<count($result); $i++)
 			{
+				var_dump($result);
 				$serverName = lang('server_list_' . $result[$i]->server_name);
 				if(!empty($serverName)) {
 					$result[$i]->server_name = $serverName;
