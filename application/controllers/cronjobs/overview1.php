@@ -130,6 +130,8 @@ class Overview1 extends CI_Controller
 				//DAU
 				$dau = $loginCount - $regNewCount;
 				echo $dau;
+				echo $loginCount;
+				echo $regNewCount;
 				exit();
 				//$dau = $loginValidCount - $validNewCount;
 				
