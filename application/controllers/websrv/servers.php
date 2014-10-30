@@ -13,6 +13,8 @@ class Servers extends CI_Controller {
 	
 	public function server_list($format = 'json')
 	{
+		ini_set('display_error', 1);
+		error_reporting(E_ALL);
 		$partner	=	$this->input->get_post('partner', TRUE);
 		$mode		=	$this->input->get_post('mode', TRUE);
 		$lang		=	$this->input->get_post('language', TRUE);
@@ -139,6 +141,7 @@ class Servers extends CI_Controller {
 				}
 	
 				$result[$i]->server_game_ip = json_decode($result[$i]->server_game_ip);
+				var_dump($result[$i]->server_game_ip);
 				if(count($result[$i]->server_game_ip) > 0)
 				{
 					$result[$i]->server_game_ip = random_element($result[$i]->server_game_ip);
@@ -147,6 +150,7 @@ class Servers extends CI_Controller {
 				{
 					$result[$i]->server_game_ip = $result[$i]->server_game_ip[0];
 				}
+				var_dump($result[$i]->server_game_ip);
 				$result[$i]->server_game_port = $result[$i]->server_game_ip->port;
 				if(empty($result[$i]->server_game_ip->$ipFlag))
 				{
