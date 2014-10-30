@@ -132,7 +132,6 @@ class Overview1 extends CI_Controller
 				echo $dau;
 				echo $loginCount;
 				echo $regNewCount;
-				exit();
 				//$dau = $loginValidCount - $validNewCount;
 				
 				// 回流玩家数(超过一周没有登录但最近有登录的玩家数)
