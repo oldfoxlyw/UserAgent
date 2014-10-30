@@ -141,36 +141,37 @@ class Account_360 extends CI_Controller
 				$this->load->helper('security');
 				
 				//向360请求换取access_token
-				$params = array(
-						'grant_type'	=>	'authorization_code',
-						'code'			=>	$auth_code,
-						'client_id'		=>	$this->client_id,
-						'client_secret'	=>	$this->client_secret,
-						'redirect_uri'	=>	'oob'
-				);
-				$result = $this->connector->get($this->url, $params, false);
-				log_message('custom', "send:" . json_encode($params) . ", login:" . $result);
-				if(empty($result))
-				{
-					$json = array(
-							'success'		=>	0,
-							'errors'		=>	'SDK_LOGIN_FAIL_NO_RESPONSE'
-					);
-					exit($this->return_format->format($json));
-				}
-				$result = json_decode($result);
-				if(empty($result) || empty($result->access_token))
-				{
-					$json = array(
-							'success'		=>	0,
-							'errors'		=>	'SDK_LOGIN_FAIL'
-					);
-					exit($this->return_format->format($json));
-				}
+				// $params = array(
+				// 		'grant_type'	=>	'authorization_code',
+				// 		'code'			=>	$auth_code,
+				// 		'client_id'		=>	$this->client_id,
+				// 		'client_secret'	=>	$this->client_secret,
+				// 		'redirect_uri'	=>	'oob'
+				// );
+				// $result = $this->connector->get($this->url, $params, false);
+				// log_message('custom', "send:" . json_encode($params) . ", login:" . $result);
+				// if(empty($result))
+				// {
+				// 	$json = array(
+				// 			'success'		=>	0,
+				// 			'errors'		=>	'SDK_LOGIN_FAIL_NO_RESPONSE'
+				// 	);
+				// 	exit($this->return_format->format($json));
+				// }
+				// $result = json_decode($result);
+				// if(empty($result) || empty($result->access_token))
+				// {
+				// 	$json = array(
+				// 			'success'		=>	0,
+				// 			'errors'		=>	'SDK_LOGIN_FAIL'
+				// 	);
+				// 	exit($this->return_format->format($json));
+				// }
 				$time = time();
-				$access_token = $result->access_token;
-				$expire_time = $time + $result->expires_in;
-				$refresh_token = $result->refresh_token;
+				// $access_token = $result->access_token;
+				$access_token = $auth_code;
+				// $expire_time = $time + $result->expires_in;
+				// $refresh_token = $result->refresh_token;
 				$params = array(
 					'access_token'	=>	$access_token
 				);
