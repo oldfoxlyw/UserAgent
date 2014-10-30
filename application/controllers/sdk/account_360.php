@@ -242,7 +242,7 @@ class Account_360 extends CI_Controller
 									'guid'			=>	$result[$i]->GUID,
 									'partner'		=>	$partner_key,
 									'token'			=>	$access_token,
-									'refresh_token'	=>	$refresh_token,
+									'refresh_token'	=>	'',
 									'expire_time'	=>	$expire_time
 							);
 							$this->msdktoken->create($parameter);
@@ -264,7 +264,7 @@ class Account_360 extends CI_Controller
 						'success'		=>	1,
 						'message'		=>	'SDK_LOGIN_SUCCESS',
 						'access_token'	=>	$access_token,
-						'refresh_token'	=>	$refresh_token,
+						'refresh_token'	=>	'',
 						'uid'			=>	$uid,
 						'result'		=>	$result
 				);
@@ -310,8 +310,10 @@ class Account_360 extends CI_Controller
 			$refresh_token = $inputParam->refresh_token;
 			$code = $inputParam->code;
 		}
+
+		log_message('custom', $uid . ', ' . $server_id . ', ' . $access_token . ', ' . $refresh_token . ', ');
 		
-		if(!empty($uid) && !empty($server_id) && !empty($access_token) && !empty($refresh_token))
+		if(!empty($uid) && !empty($server_id) && !empty($access_token))
 		{
 			$partner_key = 'sdk360';
 			$parameter = array(
@@ -320,7 +322,7 @@ class Account_360 extends CI_Controller
 					'access_token'	=>	$access_token,
 					'refresh_token'	=>	$refresh_token
 			);
-			if($this->verify_check_code($parameter, $code))
+			// if($this->verify_check_code($parameter, $code))
 			{
 				$this->load->library('guid');
 				$this->load->helper('security');
@@ -342,6 +344,7 @@ class Account_360 extends CI_Controller
 						'partner_id'		=>	$uid
 				);
 				$guid = $this->web_account->create($parameter);
+				log_message('custom', json_encode($guid));
 				if($guid !== FALSE)
 				{
 					$user = $this->web_account->get($guid);
@@ -390,13 +393,13 @@ class Account_360 extends CI_Controller
 					);
 				}
 			}
-			else
-			{
-				$json = array(
-						'success'		=>	0,
-						'errors'		=>	'SDK_REGISTER_FAIL_ERROR_CHECK_CODE'
-				);
-			}
+			// else
+			// {
+			// 	$json = array(
+			// 			'success'		=>	0,
+			// 			'errors'		=>	'SDK_REGISTER_FAIL_ERROR_CHECK_CODE'
+			// 	);
+			// }
 		}
 		else
 		{
