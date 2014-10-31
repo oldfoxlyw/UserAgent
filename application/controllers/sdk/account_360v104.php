@@ -29,7 +29,7 @@ class Account_360v104 extends CI_Controller
 			$auth_code = $inputParam->auth_code;
 			$code = $inputParam->code;
 		}
-		log_message('custom', $uid . ', ' . $auth_code . ', ' . $code);
+		log_message('custom', 'account_360v104: ' . $uid . ', ' . $auth_code . ', ' . $code);
 		$partner_key = 'sdk360';
 		if(!empty($uid))
 		{
