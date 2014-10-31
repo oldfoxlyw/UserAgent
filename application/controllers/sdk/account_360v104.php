@@ -175,7 +175,7 @@ class Account_360v104 extends CI_Controller
 				$params = array(
 					'access_token'	=>	$access_token
 				);
-				log_message('custom', 'request_login: ' . json_encode($params));
+				log_message('custom', 'account_360v104/request_login: ' . json_encode($params));
 				$info = $this->connector->get($this->info_url, $params, false);
 				log_message('custom', "send:" . json_encode($params) . ", info:" . $info);
 				if(empty($info))
