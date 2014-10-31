@@ -36,7 +36,7 @@ class Account_360v104 extends CI_Controller
 			$parameter = array(
 					'uid'		=>	$uid
 			);
-			if($this->verify_check_code($parameter, $code))
+			// if($this->verify_check_code($parameter, $code))
 			{
 				$this->load->model('web_account');
 				$this->load->model('msdktoken');
@@ -118,20 +118,20 @@ class Account_360v104 extends CI_Controller
 					);
 				}
 			}
-			else
-			{
-				$json = array(
-						'success'		=>	0,
-						'errors'		=>	'SDK_LOGIN_FAIL_ERROR_CHECK_CODE'
-				);
-			}
+			// else
+			// {
+			// 	$json = array(
+			// 			'success'		=>	0,
+			// 			'errors'		=>	'SDK_LOGIN_FAIL_ERROR_CHECK_CODE'
+			// 	);
+			// }
 		}
 		elseif(!empty($auth_code))
 		{
 			$parameter = array(
 					'auth_code'		=>	$auth_code
 			);
-			if($this->verify_check_code($parameter, $code))
+			// if($this->verify_check_code($parameter, $code))
 			{
 				$this->load->model('web_account');
 				$this->load->model('msdktoken');
@@ -269,13 +269,13 @@ class Account_360v104 extends CI_Controller
 						'result'		=>	$result
 				);
 			}
-			else
-			{
-				$json = array(
-						'success'		=>	0,
-						'errors'		=>	'SDK_LOGIN_FAIL_ERROR_CHECK_CODE'
-				);
-			}
+			// else
+			// {
+			// 	$json = array(
+			// 			'success'		=>	0,
+			// 			'errors'		=>	'SDK_LOGIN_FAIL_ERROR_CHECK_CODE'
+			// 	);
+			// }
 		}
 		else
 		{
