@@ -444,7 +444,7 @@ class Overview extends CI_Controller
 					//今天登录数
 					$sql = "SELECT `log_GUID` FROM `log_account` WHERE `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}' AND `log_action`='ACCOUNT_LOGIN_SUCCESS' AND `log_time`>={$lastTimeStart} AND `log_time`<={$lastTimeEnd} AND `log_GUID` in (SELECT `GUID` FROM `agent1_account_db`.`web_account` WHERE `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}' AND `account_regtime`>={$prevTimeStart} AND `account_regtime`<={$prevTimeEnd} AND `account_level`>1) GROUP BY `log_GUID`";
 					$currentLogin = $this->logdb->query($sql)->num_rows();
-					
+					echo $sql;
 					$nextRetention = floor(($currentLogin / $lastRegisterCount) * 10000);
 				}
 				$query->free_result();
