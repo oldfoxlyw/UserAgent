@@ -429,10 +429,9 @@ class Overview extends CI_Controller
 				//昨日注册数
 				$prevTimeDate = date('Y-m-d', $prevTimeStart);
 				$sql = "SELECT `level_account` FROM `log_retention1` WHERE `log_date`='{$prevTimeDate}' AND `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}'";
-				echo $sql . '<br>';
+				
 				$query = $this->logcachedb->query ( $sql );
 				$lastRegisterCount = $query->row();
-				var_dump($lastRegisterCount);
 				if(empty($lastRegisterCount))
 				{
 					$currentLogin = 0;
@@ -443,8 +442,9 @@ class Overview extends CI_Controller
 					$lastRegisterCount = $lastRegisterCount->level_account;
 					//今天登录数
 					$sql = "SELECT `log_GUID` FROM `log_account` WHERE `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}' AND `log_action`='ACCOUNT_LOGIN_SUCCESS' AND `log_time`>={$lastTimeStart} AND `log_time`<={$lastTimeEnd} AND `log_GUID` in (SELECT `GUID` FROM `agent1_account_db`.`web_account` WHERE `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}' AND `account_regtime`>={$prevTimeStart} AND `account_regtime`<={$prevTimeEnd} AND `account_level`>1) GROUP BY `log_GUID`";
-					$currentLogin = $this->logdb->query($sql)->num_rows();
 					echo $sql;
+					$currentLogin = $this->logdb->query($sql)->num_rows();
+					
 					$nextRetention = floor(($currentLogin / $lastRegisterCount) * 10000);
 				}
 				$query->free_result();
