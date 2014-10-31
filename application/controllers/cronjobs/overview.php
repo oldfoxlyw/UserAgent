@@ -432,6 +432,7 @@ class Overview extends CI_Controller
 				echo $sql . '<br>';
 				$query = $this->logcachedb->query ( $sql );
 				$lastRegisterCount = $query->row();
+				var_dump($lastRegisterCount);
 				if(empty($lastRegisterCount))
 				{
 					$currentLogin = 0;
