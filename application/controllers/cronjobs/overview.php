@@ -968,13 +968,18 @@ class Overview extends CI_Controller
 					'register_count'	=>	$regNewCount,
 					'paid_count_1'		=>	$paidCount1,
 					'paid_rate_1'		=>	$paidRate1,
-					'recharge_amount_1'	=>	$rechargeAmount1
+					'recharge_amount_1'	=>	$rechargeAmount1 ? $rechargeAmount1 : 0
 				);
 				//$this->mlogmarketlifetime->create($parameter);
 				var_dump($parameter);
 
 				//前一天注册数
-				$sql = "select `register_count` from `log_market_lifetime` where `date`='' and `server_id`='' and `partner_key`=''";
+				$date = date('Y-m-d', $timeStart2);
+				$sql = "select `register_count` from `log_market_lifetime` where `date`='{$date}' and `server_id`='{$row->account_server_id}' and `partner_key`='{$partnerKey}'";
+				$query = $this->logcachedb->query($sql);
+				$result = $query->row();
+				$regCount2 = $result->register_count;
+				$query->free_result();
 
 				//前一天到当天为止付费人数
 				$sql = "select count(*) as `count` from `funds_checkinout` where `funds_flow_dir`='CHECK_IN' and `appstore_status`=0 and `funds_time` >= {$timeStart2} and `funds_time` <= {$lastTimeEnd} and `account_guid` in (select `GUID` from `agent1_account_db`.`web_account` where `server_id` = '{$row->account_server_id}' and `partner_key`='{$partnerKey}' and `account_regtime` >= {$timeStart2} and `account_regtime` <= {$timeEnd2})";
@@ -982,6 +987,29 @@ class Overview extends CI_Controller
 				$result = $query->row();
 				$paidCount2 = $result->count;
 				$query->free_result();
+
+				//前一天到当天为止付费率
+				$paidRate2 = floatval ( number_format ( $paidCount2 / $regCount2, 4 ) ) * 10000;
+
+				//前一天到当天为止付费总额
+				$sql = "select sum(`funds_amount`) as `amount` from `funds_checkinout` where `funds_flow_dir`='CHECK_IN' and `appstore_status`=0 and `funds_time` >= {$timeStart2} and `funds_time` <= {$lastTimeEnd} and `account_guid` in (select `GUID` from `agent1_account_db`.`web_account` where `server_id` = '{$row->account_server_id}' and `partner_key`='{$partnerKey}' and `account_regtime` >= {$timeStart2} and `account_regtime` <= {$timeEnd2})";
+				$query = $this->fundsdb->query($sql);
+				$result = $query->row();
+				$rechargeAmount2 = $result->amount;
+				$query->free_result();
+
+				//更新前一天数据
+				$parameter = array(
+					'paid_count_2'		=>	$paidCount2,
+					'paid_rate_2'		=>	$paidRate2,
+					'recharge_amount_2'	=>	$rechargeAmount2 ? $rechargeAmount2 : 0
+				);
+				// $this->mlogmarketlifetime->update(array(
+				// 	'date'			=>	$date,
+				// 	'server_id'		=>	$row->account_server_id,
+				// 	'partner_key'	=>	$partnerKey
+				// ), $parameter);
+				var_dump($parameter);
 			}
 		}
 	}
