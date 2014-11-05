@@ -592,7 +592,7 @@ class Account extends CI_Controller {
 		{
 			$partner = 'default';
 		}
-			
+		log_message('error', 'demo: server_id=' . $server_id . ', partner=' . $partner);
 		$this->load->library('guid');
 		$this->load->helper('security');
 		$guid = do_hash($this->guid->toString(), 'md5');
