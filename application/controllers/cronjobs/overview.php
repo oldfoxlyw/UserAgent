@@ -1010,6 +1010,44 @@ class Overview extends CI_Controller
 				// 	'partner_key'	=>	$partnerKey
 				// ), $parameter);
 				var_dump($parameter);
+
+				//前两天注册数
+				$date = date('Y-m-d', $timeStart3);
+				$sql = "select `register_count` from `log_market_lifetime` where `date`='{$date}' and `server_id`='{$row->account_server_id}' and `partner_key`='{$partnerKey}'";
+				$query = $this->logcachedb->query($sql);
+				$result = $query->row();
+				$regCount3 = $result->register_count;
+				$query->free_result();
+
+				//前两天到当天为止付费人数
+				$sql = "select count(*) as `count` from `funds_checkinout` where `funds_flow_dir`='CHECK_IN' and `appstore_status`=0 and `funds_time` >= {$timeStart3} and `funds_time` <= {$lastTimeEnd} and `account_guid` in (select `GUID` from `agent1_account_db`.`web_account` where `server_id` = '{$row->account_server_id}' and `partner_key`='{$partnerKey}' and `account_regtime` >= {$timeStart3} and `account_regtime` <= {$timeEnd3})";
+				$query = $this->fundsdb->query($sql);
+				$result = $query->row();
+				$paidCount3 = $result->count;
+				$query->free_result();
+
+				//前两天到当天为止付费率
+				$paidRate3 = floatval ( number_format ( $paidCount3 / $regCount3, 4 ) ) * 10000;
+
+				//前两天到当天为止付费总额
+				$sql = "select sum(`funds_amount`) as `amount` from `funds_checkinout` where `funds_flow_dir`='CHECK_IN' and `appstore_status`=0 and `funds_time` >= {$timeStart3} and `funds_time` <= {$lastTimeEnd} and `account_guid` in (select `GUID` from `agent1_account_db`.`web_account` where `server_id` = '{$row->account_server_id}' and `partner_key`='{$partnerKey}' and `account_regtime` >= {$timeStart3} and `account_regtime` <= {$timeEnd3})";
+				$query = $this->fundsdb->query($sql);
+				$result = $query->row();
+				$rechargeAmount3 = $result->amount;
+				$query->free_result();
+
+				//更新前两天数据
+				$parameter = array(
+					'paid_count_3'		=>	$paidCount3,
+					'paid_rate_3'		=>	$paidRate3,
+					'recharge_amount_3'	=>	$rechargeAmount3 ? $rechargeAmount3 : 0
+				);
+				// $this->mlogmarketlifetime->update(array(
+				// 	'date'			=>	$date,
+				// 	'server_id'		=>	$row->account_server_id,
+				// 	'partner_key'	=>	$partnerKey
+				// ), $parameter);
+				var_dump($parameter);
 			}
 		}
 	}
