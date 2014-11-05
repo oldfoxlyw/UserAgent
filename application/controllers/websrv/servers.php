@@ -108,6 +108,7 @@ class Servers extends CI_Controller {
 	{
 		$serverIp	=	$this->input->server('SERVER_ADDR');
 		$partner	=	$this->input->get_post('partner', TRUE);
+		$ver		=	$this->input->get_post('client_version', TRUE);
 		$ipFlag = 'ip';
 		$parameter = array(
 				'account_server_id'		=>	$id
@@ -265,6 +266,18 @@ class Servers extends CI_Controller {
 			'server'			=>	$result,
 			'announce'			=>	$announce
 		);
+
+		//version
+		$version = $this->config->item('game_version');
+		$url = $this->config->item('game_download_url');
+		if($ver < $version)
+		{
+			$jsonData = array_merge($jsonData, array(
+				'game_version'			=>	$version,
+				'game_download_url'		=>	$url
+			));
+		}
+		
 		echo $this->return_format->format($jsonData, 'json');
 	}
 
