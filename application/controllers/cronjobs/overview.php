@@ -896,6 +896,40 @@ class Overview extends CI_Controller
 		}
 		$date = date ( 'Y-m-d', $lastTimeStart );
 		$preDate = date ( 'Y-m-d', $lastTimeStart - 86400 );
+
+		//两天前
+		$timeStart2 = $lastTimeStart - 86400;
+		$timeEnd2 = $lastTimeEnd - 86400;
+		//三天前
+		$timeStart3 = $lastTimeStart - 2 * 86400;
+		$timeEnd3 = $lastTimeEnd - 2 * 86400;
+		//四天前
+		$timeStart4 = $lastTimeStart - 3 * 86400;
+		$timeEnd4 = $lastTimeEnd - 3 * 86400;
+		//五天前
+		$timeStart5 = $lastTimeStart - 4 * 86400;
+		$timeEnd5 = $lastTimeEnd - 4 * 86400;
+		//六天前
+		$timeStart6 = $lastTimeStart - 5 * 86400;
+		$timeEnd6 = $lastTimeEnd - 5 * 86400;
+		//七天前
+		$timeStart7 = $lastTimeStart - 6 * 86400;
+		$timeEnd7 = $lastTimeEnd - 6 * 86400;
+		//十四天前
+		$timeStart14 = $lastTimeStart - 13 * 86400;
+		$timeEnd14 = $lastTimeEnd - 13 * 86400;
+		//三十天前
+		$timeStart30 = $lastTimeStart - 29 * 86400;
+		$timeEnd30 = $lastTimeEnd - 29 * 86400;
+		//六十天前
+		$timeStart60 = $lastTimeStart - 59 * 86400;
+		$timeEnd60 = $lastTimeEnd - 59 * 86400;
+		//九十天前
+		$timeStart90 = $lastTimeStart - 89 * 86400;
+		$timeEnd90 = $lastTimeEnd - 89 * 86400;
+		//一百八十天前
+		$timeStart180 = $lastTimeStart - 179 * 86400;
+		$timeEnd180 = $lastTimeEnd - 179 * 86400;
 		
 		foreach ( $serverResult as $row )
 		{
@@ -914,6 +948,7 @@ class Overview extends CI_Controller
 				$query = $this->fundsdb->query($sql);
 				$result = $query->row();
 				$paidCount1 = $result->count;
+				$query->free_result();
 
 				//当天付费率
 				$paidRate1 = floatval ( number_format ( $paidCount1 / $regNewCount, 4 ) ) * 10000;
@@ -923,6 +958,7 @@ class Overview extends CI_Controller
 				$query = $this->fundsdb->query($sql);
 				$result = $query->row();
 				$rechargeAmount1 = $result->amount;
+				$query->free_result();
 
 				//插入当天数据
 				$parameter = array(
@@ -936,6 +972,13 @@ class Overview extends CI_Controller
 				);
 				//$this->mlogmarketlifetime->create($parameter);
 				var_dump($parameter);
+
+				//前一天到当天为止付费人数
+				$sql = "select count(*) as `count` from `funds_checkinout` where `funds_flow_dir`='CHECK_IN' and `appstore_status`=0 and `funds_time` >= {$timeStart2} and `funds_time` <= {$lastTimeEnd} and `account_guid` in (select `GUID` from `agent1_account_db`.`web_account` where `server_id` = '{$row->account_server_id}' and `partner_key`='{$partnerKey}' and `account_regtime` >= {$timeStart2} and `account_regtime` <= {$timeEnd2})";
+				$query = $this->fundsdb->query($sql);
+				$result = $query->row();
+				$paidCount2 = $result->count;
+				$query->free_result();
 			}
 		}
 	}
