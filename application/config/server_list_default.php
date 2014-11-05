@@ -139,6 +139,6 @@ $config['game_announcement'] = array(
 		)
 );
 
-$config['game_version'] = 2;
+$config['game_version'] = 3;
 $config['game_download_url'] = 'http://shouji.360tpcdn.com/141029/a12783984efd4ca22c2e4fafc2f5ec7d/com.digiarty.org_1.apk';
 ?>
