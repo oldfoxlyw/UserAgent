@@ -973,6 +973,9 @@ class Overview extends CI_Controller
 				//$this->mlogmarketlifetime->create($parameter);
 				var_dump($parameter);
 
+				//前一天注册数
+				$sql = "select `register_count` from `log_market_lifetime` where `date`='' and `server_id`='' and `partner_key`=''";
+
 				//前一天到当天为止付费人数
 				$sql = "select count(*) as `count` from `funds_checkinout` where `funds_flow_dir`='CHECK_IN' and `appstore_status`=0 and `funds_time` >= {$timeStart2} and `funds_time` <= {$lastTimeEnd} and `account_guid` in (select `GUID` from `agent1_account_db`.`web_account` where `server_id` = '{$row->account_server_id}' and `partner_key`='{$partnerKey}' and `account_regtime` >= {$timeStart2} and `account_regtime` <= {$timeEnd2})";
 				$query = $this->fundsdb->query($sql);
