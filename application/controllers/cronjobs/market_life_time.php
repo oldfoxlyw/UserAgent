@@ -19,9 +19,9 @@ class Market_life_time extends CI_Controller
 
 	public function market_lifetime()
 	{
-		ini_set("display_error", 1);
-		error_reporting(E_ALL);
-		set_time_limit(3600);
+		// ini_set("display_error", 1);
+		// error_reporting(E_ALL);
+		set_time_limit(0);
 
 		$this->load->model('mlogmarketlifetime');
 		$this->load->model ( 'websrv/server' );
@@ -343,7 +343,7 @@ class Market_life_time extends CI_Controller
 				//七天前到当天为止付费率
 				$paidRate7 = floatval ( number_format ( $paidCount7 / $regCount7, 4 ) ) * 10000;
 
-				//六天前到当天为止付费总额
+				//七天前到当天为止付费总额
 				$sql = "select sum(`funds_amount`) as `amount` from `funds_checkinout` where `funds_flow_dir`='CHECK_IN' and `appstore_status`=0 and `funds_time` >= {$timeStart7} and `funds_time` <= {$lastTimeEnd} and `account_guid` in (select `GUID` from `agent1_account_db`.`web_account` where `server_id` = '{$row->account_server_id}' and `partner_key`='{$partnerKey}' and `account_regtime` >= {$timeStart7} and `account_regtime` <= {$timeEnd7})";
 				$query = $this->fundsdb->query($sql);
 				$result = $query->row();
@@ -355,6 +355,196 @@ class Market_life_time extends CI_Controller
 					'paid_count_7'		=>	$paidCount7,
 					'paid_rate_7'		=>	$paidRate7,
 					'recharge_amount_7'	=>	$rechargeAmount7 ? $rechargeAmount7 : 0
+				);
+				// $this->mlogmarketlifetime->update(array(
+				// 	'date'			=>	$date,
+				// 	'server_id'		=>	$row->account_server_id,
+				// 	'partner_key'	=>	$partnerKey
+				// ), $parameter);
+				var_dump($parameter);
+
+				//十四天前注册数
+				$date = date('Y-m-d', $timeStart14);
+				$sql = "select `register_count` from `log_market_lifetime` where `date`='{$date}' and `server_id`='{$row->account_server_id}' and `partner_key`='{$partnerKey}'";
+				$query = $this->logcachedb->query($sql);
+				$result = $query->row();
+				$regCount14 = $result->register_count;
+				$query->free_result();
+
+				//十四天前到当天为止付费人数
+				$sql = "select count(*) as `count` from `funds_checkinout` where `funds_flow_dir`='CHECK_IN' and `appstore_status`=0 and `funds_time` >= {$timeStart14} and `funds_time` <= {$lastTimeEnd} and `account_guid` in (select `GUID` from `agent1_account_db`.`web_account` where `server_id` = '{$row->account_server_id}' and `partner_key`='{$partnerKey}' and `account_regtime` >= {$timeStart14} and `account_regtime` <= {$timeEnd14})";
+				$query = $this->fundsdb->query($sql);
+				$result = $query->row();
+				$paidCount14 = $result->count;
+				$query->free_result();
+
+				//十四天前到当天为止付费率
+				$paidRate14 = floatval ( number_format ( $paidCount14 / $regCount14, 4 ) ) * 10000;
+
+				//十四天前到当天为止付费总额
+				$sql = "select sum(`funds_amount`) as `amount` from `funds_checkinout` where `funds_flow_dir`='CHECK_IN' and `appstore_status`=0 and `funds_time` >= {$timeStart14} and `funds_time` <= {$lastTimeEnd} and `account_guid` in (select `GUID` from `agent1_account_db`.`web_account` where `server_id` = '{$row->account_server_id}' and `partner_key`='{$partnerKey}' and `account_regtime` >= {$timeStart14} and `account_regtime` <= {$timeEnd14})";
+				$query = $this->fundsdb->query($sql);
+				$result = $query->row();
+				$rechargeAmount14 = $result->amount;
+				$query->free_result();
+
+				//更新十四天前数据
+				$parameter = array(
+					'paid_count_14'			=>	$paidCount14,
+					'paid_rate_14'			=>	$paidRate14,
+					'recharge_amount_14'	=>	$rechargeAmount14 ? $rechargeAmount14 : 0
+				);
+				// $this->mlogmarketlifetime->update(array(
+				// 	'date'			=>	$date,
+				// 	'server_id'		=>	$row->account_server_id,
+				// 	'partner_key'	=>	$partnerKey
+				// ), $parameter);
+				var_dump($parameter);
+
+				//三十天前注册数
+				$date = date('Y-m-d', $timeStart30);
+				$sql = "select `register_count` from `log_market_lifetime` where `date`='{$date}' and `server_id`='{$row->account_server_id}' and `partner_key`='{$partnerKey}'";
+				$query = $this->logcachedb->query($sql);
+				$result = $query->row();
+				$regCount30 = $result->register_count;
+				$query->free_result();
+
+				//三十天前到当天为止付费人数
+				$sql = "select count(*) as `count` from `funds_checkinout` where `funds_flow_dir`='CHECK_IN' and `appstore_status`=0 and `funds_time` >= {$timeStart30} and `funds_time` <= {$lastTimeEnd} and `account_guid` in (select `GUID` from `agent1_account_db`.`web_account` where `server_id` = '{$row->account_server_id}' and `partner_key`='{$partnerKey}' and `account_regtime` >= {$timeStart30} and `account_regtime` <= {$timeEnd30})";
+				$query = $this->fundsdb->query($sql);
+				$result = $query->row();
+				$paidCount30 = $result->count;
+				$query->free_result();
+
+				//三十天前到当天为止付费率
+				$paidRate30 = floatval ( number_format ( $paidCount30 / $regCount30, 4 ) ) * 10000;
+
+				//三十天前到当天为止付费总额
+				$sql = "select sum(`funds_amount`) as `amount` from `funds_checkinout` where `funds_flow_dir`='CHECK_IN' and `appstore_status`=0 and `funds_time` >= {$timeStart30} and `funds_time` <= {$lastTimeEnd} and `account_guid` in (select `GUID` from `agent1_account_db`.`web_account` where `server_id` = '{$row->account_server_id}' and `partner_key`='{$partnerKey}' and `account_regtime` >= {$timeStart30} and `account_regtime` <= {$timeEnd30})";
+				$query = $this->fundsdb->query($sql);
+				$result = $query->row();
+				$rechargeAmount30 = $result->amount;
+				$query->free_result();
+
+				//更新三十天前数据
+				$parameter = array(
+					'paid_count_30'			=>	$paidCount30,
+					'paid_rate_30'			=>	$paidRate30,
+					'recharge_amount_30'	=>	$rechargeAmount30 ? $rechargeAmount30 : 0
+				);
+				// $this->mlogmarketlifetime->update(array(
+				// 	'date'			=>	$date,
+				// 	'server_id'		=>	$row->account_server_id,
+				// 	'partner_key'	=>	$partnerKey
+				// ), $parameter);
+				var_dump($parameter);
+
+				//六十天前注册数
+				$date = date('Y-m-d', $timeStart60);
+				$sql = "select `register_count` from `log_market_lifetime` where `date`='{$date}' and `server_id`='{$row->account_server_id}' and `partner_key`='{$partnerKey}'";
+				$query = $this->logcachedb->query($sql);
+				$result = $query->row();
+				$regCount60 = $result->register_count;
+				$query->free_result();
+
+				//六十天前到当天为止付费人数
+				$sql = "select count(*) as `count` from `funds_checkinout` where `funds_flow_dir`='CHECK_IN' and `appstore_status`=0 and `funds_time` >= {$timeStart60} and `funds_time` <= {$lastTimeEnd} and `account_guid` in (select `GUID` from `agent1_account_db`.`web_account` where `server_id` = '{$row->account_server_id}' and `partner_key`='{$partnerKey}' and `account_regtime` >= {$timeStart60} and `account_regtime` <= {$timeEnd60})";
+				$query = $this->fundsdb->query($sql);
+				$result = $query->row();
+				$paidCount60 = $result->count;
+				$query->free_result();
+
+				//六十天前到当天为止付费率
+				$paidRate60 = floatval ( number_format ( $paidCount60 / $regCount60, 4 ) ) * 10000;
+
+				//六十天前到当天为止付费总额
+				$sql = "select sum(`funds_amount`) as `amount` from `funds_checkinout` where `funds_flow_dir`='CHECK_IN' and `appstore_status`=0 and `funds_time` >= {$timeStart60} and `funds_time` <= {$lastTimeEnd} and `account_guid` in (select `GUID` from `agent1_account_db`.`web_account` where `server_id` = '{$row->account_server_id}' and `partner_key`='{$partnerKey}' and `account_regtime` >= {$timeStart60} and `account_regtime` <= {$timeEnd60})";
+				$query = $this->fundsdb->query($sql);
+				$result = $query->row();
+				$rechargeAmount60 = $result->amount;
+				$query->free_result();
+
+				//更新六十天前数据
+				$parameter = array(
+					'paid_count_60'			=>	$paidCount60,
+					'paid_rate_60'			=>	$paidRate60,
+					'recharge_amount_60'	=>	$rechargeAmount60 ? $rechargeAmount60 : 0
+				);
+				// $this->mlogmarketlifetime->update(array(
+				// 	'date'			=>	$date,
+				// 	'server_id'		=>	$row->account_server_id,
+				// 	'partner_key'	=>	$partnerKey
+				// ), $parameter);
+				var_dump($parameter);
+
+				//九十天前注册数
+				$date = date('Y-m-d', $timeStart90);
+				$sql = "select `register_count` from `log_market_lifetime` where `date`='{$date}' and `server_id`='{$row->account_server_id}' and `partner_key`='{$partnerKey}'";
+				$query = $this->logcachedb->query($sql);
+				$result = $query->row();
+				$regCount90 = $result->register_count;
+				$query->free_result();
+
+				//九十天前到当天为止付费人数
+				$sql = "select count(*) as `count` from `funds_checkinout` where `funds_flow_dir`='CHECK_IN' and `appstore_status`=0 and `funds_time` >= {$timeStart90} and `funds_time` <= {$lastTimeEnd} and `account_guid` in (select `GUID` from `agent1_account_db`.`web_account` where `server_id` = '{$row->account_server_id}' and `partner_key`='{$partnerKey}' and `account_regtime` >= {$timeStart90} and `account_regtime` <= {$timeEnd90})";
+				$query = $this->fundsdb->query($sql);
+				$result = $query->row();
+				$paidCount90 = $result->count;
+				$query->free_result();
+
+				//九十天前到当天为止付费率
+				$paidRate90 = floatval ( number_format ( $paidCount90 / $regCount90, 4 ) ) * 10000;
+
+				//九十天前到当天为止付费总额
+				$sql = "select sum(`funds_amount`) as `amount` from `funds_checkinout` where `funds_flow_dir`='CHECK_IN' and `appstore_status`=0 and `funds_time` >= {$timeStart90} and `funds_time` <= {$lastTimeEnd} and `account_guid` in (select `GUID` from `agent1_account_db`.`web_account` where `server_id` = '{$row->account_server_id}' and `partner_key`='{$partnerKey}' and `account_regtime` >= {$timeStart90} and `account_regtime` <= {$timeEnd90})";
+				$query = $this->fundsdb->query($sql);
+				$result = $query->row();
+				$rechargeAmount90 = $result->amount;
+				$query->free_result();
+
+				//更新九十天前数据
+				$parameter = array(
+					'paid_count_90'			=>	$paidCount90,
+					'paid_rate_90'			=>	$paidRate90,
+					'recharge_amount_90'	=>	$rechargeAmount90 ? $rechargeAmount90 : 0
+				);
+				// $this->mlogmarketlifetime->update(array(
+				// 	'date'			=>	$date,
+				// 	'server_id'		=>	$row->account_server_id,
+				// 	'partner_key'	=>	$partnerKey
+				// ), $parameter);
+				var_dump($parameter);
+
+				//180天前注册数
+				$date = date('Y-m-d', $timeStart180);
+				$sql = "select `register_count` from `log_market_lifetime` where `date`='{$date}' and `server_id`='{$row->account_server_id}' and `partner_key`='{$partnerKey}'";
+				$query = $this->logcachedb->query($sql);
+				$result = $query->row();
+				$regCount180 = $result->register_count;
+				$query->free_result();
+
+				//180天前到当天为止付费人数
+				$sql = "select count(*) as `count` from `funds_checkinout` where `funds_flow_dir`='CHECK_IN' and `appstore_status`=0 and `funds_time` >= {$timeStart180} and `funds_time` <= {$lastTimeEnd} and `account_guid` in (select `GUID` from `agent1_account_db`.`web_account` where `server_id` = '{$row->account_server_id}' and `partner_key`='{$partnerKey}' and `account_regtime` >= {$timeStart180} and `account_regtime` <= {$timeEnd180})";
+				$query = $this->fundsdb->query($sql);
+				$result = $query->row();
+				$paidCount180 = $result->count;
+				$query->free_result();
+
+				//180天前到当天为止付费率
+				$paidRate180 = floatval ( number_format ( $paidCount180 / $regCount180, 4 ) ) * 10000;
+
+				//180天前到当天为止付费总额
+				$sql = "select sum(`funds_amount`) as `amount` from `funds_checkinout` where `funds_flow_dir`='CHECK_IN' and `appstore_status`=0 and `funds_time` >= {$timeStart180} and `funds_time` <= {$lastTimeEnd} and `account_guid` in (select `GUID` from `agent1_account_db`.`web_account` where `server_id` = '{$row->account_server_id}' and `partner_key`='{$partnerKey}' and `account_regtime` >= {$timeStart180} and `account_regtime` <= {$timeEnd180})";
+				$query = $this->fundsdb->query($sql);
+				$result = $query->row();
+				$rechargeAmount180 = $result->amount;
+				$query->free_result();
+
+				//更新180天前数据
+				$parameter = array(
+					'paid_count_180'		=>	$paidCount180,
+					'paid_rate_180'			=>	$paidRate180,
+					'recharge_amount_180'	=>	$rechargeAmount180 ? $rechargeAmount180 : 0
 				);
 				// $this->mlogmarketlifetime->update(array(
 				// 	'date'			=>	$date,
