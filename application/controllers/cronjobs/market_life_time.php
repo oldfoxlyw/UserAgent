@@ -17,7 +17,7 @@ class Market_life_time extends CI_Controller
 		$this->fundsdb = $this->load->database ( 'fundsdb', true );
 	}
 
-	public function market_lifetime()
+	public function index()
 	{
 		// ini_set("display_error", 1);
 		// error_reporting(E_ALL);
@@ -109,11 +109,11 @@ class Market_life_time extends CI_Controller
 				$sql = "select count(*) as `count` from `funds_checkinout` where `funds_flow_dir`='CHECK_IN' and `appstore_status`=0 and `funds_time` >= {$lastTimeStart} and `funds_time` <= {$lastTimeEnd} and `account_guid` in (select `GUID` from `agent1_account_db`.`web_account` where `server_id` = '{$row->account_server_id}' and `partner_key`='{$partnerKey}' and `account_regtime` >= {$lastTimeStart} and `account_regtime` <= {$lastTimeEnd})";
 				$query = $this->fundsdb->query($sql);
 				$result = $query->row();
-				$paidCount1 = $result->count;
+				$paidCount1 = intval( $result->count );
 				$query->free_result();
 
 				//当天付费率
-				$paidRate1 = floatval ( number_format ( $paidCount1 / $regNewCount, 4 ) ) * 10000;
+				$paidRate1 = intval ( floatval ( number_format ( $paidCount1 / $regNewCount, 4 ) ) * 10000 );
 
 				//当天付费总额
 				$sql = "select sum(`funds_amount`) as `amount` from `funds_checkinout` where `funds_flow_dir`='CHECK_IN' and `appstore_status`=0 and `funds_time` >= {$lastTimeStart} and `funds_time` <= {$lastTimeEnd} and `account_guid` in (select `GUID` from `agent1_account_db`.`web_account` where `server_id` = '{$row->account_server_id}' and `partner_key`='{$partnerKey}' and `account_regtime` >= {$lastTimeStart} and `account_regtime` <= {$lastTimeEnd})";
@@ -147,11 +147,11 @@ class Market_life_time extends CI_Controller
 				$sql = "select count(*) as `count` from `funds_checkinout` where `funds_flow_dir`='CHECK_IN' and `appstore_status`=0 and `funds_time` >= {$timeStart2} and `funds_time` <= {$lastTimeEnd} and `account_guid` in (select `GUID` from `agent1_account_db`.`web_account` where `server_id` = '{$row->account_server_id}' and `partner_key`='{$partnerKey}' and `account_regtime` >= {$timeStart2} and `account_regtime` <= {$timeEnd2})";
 				$query = $this->fundsdb->query($sql);
 				$result = $query->row();
-				$paidCount2 = $result->count;
+				$paidCount2 = intval( $result->count );
 				$query->free_result();
 
 				//两天前到当天为止付费率
-				$paidRate2 = floatval ( number_format ( $paidCount2 / $regCount2, 4 ) ) * 10000;
+				$paidRate2 = intval ( floatval ( number_format ( $paidCount2 / $regCount2, 4 ) ) * 10000 );
 
 				//两天前到当天为止付费总额
 				$sql = "select sum(`funds_amount`) as `amount` from `funds_checkinout` where `funds_flow_dir`='CHECK_IN' and `appstore_status`=0 and `funds_time` >= {$timeStart2} and `funds_time` <= {$lastTimeEnd} and `account_guid` in (select `GUID` from `agent1_account_db`.`web_account` where `server_id` = '{$row->account_server_id}' and `partner_key`='{$partnerKey}' and `account_regtime` >= {$timeStart2} and `account_regtime` <= {$timeEnd2})";
@@ -185,11 +185,11 @@ class Market_life_time extends CI_Controller
 				$sql = "select count(*) as `count` from `funds_checkinout` where `funds_flow_dir`='CHECK_IN' and `appstore_status`=0 and `funds_time` >= {$timeStart3} and `funds_time` <= {$lastTimeEnd} and `account_guid` in (select `GUID` from `agent1_account_db`.`web_account` where `server_id` = '{$row->account_server_id}' and `partner_key`='{$partnerKey}' and `account_regtime` >= {$timeStart3} and `account_regtime` <= {$timeEnd3})";
 				$query = $this->fundsdb->query($sql);
 				$result = $query->row();
-				$paidCount3 = $result->count;
+				$paidCount3 = intval( $result->count );
 				$query->free_result();
 
 				//三天前到当天为止付费率
-				$paidRate3 = floatval ( number_format ( $paidCount3 / $regCount3, 4 ) ) * 10000;
+				$paidRate3 = intval ( floatval ( number_format ( $paidCount3 / $regCount3, 4 ) ) * 10000 );
 
 				//三天前到当天为止付费总额
 				$sql = "select sum(`funds_amount`) as `amount` from `funds_checkinout` where `funds_flow_dir`='CHECK_IN' and `appstore_status`=0 and `funds_time` >= {$timeStart3} and `funds_time` <= {$lastTimeEnd} and `account_guid` in (select `GUID` from `agent1_account_db`.`web_account` where `server_id` = '{$row->account_server_id}' and `partner_key`='{$partnerKey}' and `account_regtime` >= {$timeStart3} and `account_regtime` <= {$timeEnd3})";
@@ -223,11 +223,11 @@ class Market_life_time extends CI_Controller
 				$sql = "select count(*) as `count` from `funds_checkinout` where `funds_flow_dir`='CHECK_IN' and `appstore_status`=0 and `funds_time` >= {$timeStart4} and `funds_time` <= {$lastTimeEnd} and `account_guid` in (select `GUID` from `agent1_account_db`.`web_account` where `server_id` = '{$row->account_server_id}' and `partner_key`='{$partnerKey}' and `account_regtime` >= {$timeStart4} and `account_regtime` <= {$timeEnd4})";
 				$query = $this->fundsdb->query($sql);
 				$result = $query->row();
-				$paidCount4 = $result->count;
+				$paidCount4 = intval( $result->count );
 				$query->free_result();
 
 				//四天前到当天为止付费率
-				$paidRate4 = floatval ( number_format ( $paidCount4 / $regCount4, 4 ) ) * 10000;
+				$paidRate4 = intval ( floatval ( number_format ( $paidCount4 / $regCount4, 4 ) ) * 10000 );
 
 				//四天前到当天为止付费总额
 				$sql = "select sum(`funds_amount`) as `amount` from `funds_checkinout` where `funds_flow_dir`='CHECK_IN' and `appstore_status`=0 and `funds_time` >= {$timeStart4} and `funds_time` <= {$lastTimeEnd} and `account_guid` in (select `GUID` from `agent1_account_db`.`web_account` where `server_id` = '{$row->account_server_id}' and `partner_key`='{$partnerKey}' and `account_regtime` >= {$timeStart4} and `account_regtime` <= {$timeEnd4})";
@@ -261,11 +261,11 @@ class Market_life_time extends CI_Controller
 				$sql = "select count(*) as `count` from `funds_checkinout` where `funds_flow_dir`='CHECK_IN' and `appstore_status`=0 and `funds_time` >= {$timeStart5} and `funds_time` <= {$lastTimeEnd} and `account_guid` in (select `GUID` from `agent1_account_db`.`web_account` where `server_id` = '{$row->account_server_id}' and `partner_key`='{$partnerKey}' and `account_regtime` >= {$timeStart5} and `account_regtime` <= {$timeEnd5})";
 				$query = $this->fundsdb->query($sql);
 				$result = $query->row();
-				$paidCount5 = $result->count;
+				$paidCount5 = intval( $result->count );
 				$query->free_result();
 
 				//五天前到当天为止付费率
-				$paidRate5 = floatval ( number_format ( $paidCount5 / $regCount5, 4 ) ) * 10000;
+				$paidRate5 = intval ( floatval ( number_format ( $paidCount5 / $regCount5, 4 ) ) * 10000 );
 
 				//五天前到当天为止付费总额
 				$sql = "select sum(`funds_amount`) as `amount` from `funds_checkinout` where `funds_flow_dir`='CHECK_IN' and `appstore_status`=0 and `funds_time` >= {$timeStart5} and `funds_time` <= {$lastTimeEnd} and `account_guid` in (select `GUID` from `agent1_account_db`.`web_account` where `server_id` = '{$row->account_server_id}' and `partner_key`='{$partnerKey}' and `account_regtime` >= {$timeStart5} and `account_regtime` <= {$timeEnd5})";
@@ -299,11 +299,11 @@ class Market_life_time extends CI_Controller
 				$sql = "select count(*) as `count` from `funds_checkinout` where `funds_flow_dir`='CHECK_IN' and `appstore_status`=0 and `funds_time` >= {$timeStart6} and `funds_time` <= {$lastTimeEnd} and `account_guid` in (select `GUID` from `agent1_account_db`.`web_account` where `server_id` = '{$row->account_server_id}' and `partner_key`='{$partnerKey}' and `account_regtime` >= {$timeStart6} and `account_regtime` <= {$timeEnd6})";
 				$query = $this->fundsdb->query($sql);
 				$result = $query->row();
-				$paidCount6 = $result->count;
+				$paidCount6 = intval( $result->count );
 				$query->free_result();
 
 				//六天前到当天为止付费率
-				$paidRate6 = floatval ( number_format ( $paidCount6 / $regCount6, 4 ) ) * 10000;
+				$paidRate6 = intval ( floatval ( number_format ( $paidCount6 / $regCount6, 4 ) ) * 10000 );
 
 				//六天前到当天为止付费总额
 				$sql = "select sum(`funds_amount`) as `amount` from `funds_checkinout` where `funds_flow_dir`='CHECK_IN' and `appstore_status`=0 and `funds_time` >= {$timeStart6} and `funds_time` <= {$lastTimeEnd} and `account_guid` in (select `GUID` from `agent1_account_db`.`web_account` where `server_id` = '{$row->account_server_id}' and `partner_key`='{$partnerKey}' and `account_regtime` >= {$timeStart6} and `account_regtime` <= {$timeEnd6})";
@@ -337,11 +337,11 @@ class Market_life_time extends CI_Controller
 				$sql = "select count(*) as `count` from `funds_checkinout` where `funds_flow_dir`='CHECK_IN' and `appstore_status`=0 and `funds_time` >= {$timeStart7} and `funds_time` <= {$lastTimeEnd} and `account_guid` in (select `GUID` from `agent1_account_db`.`web_account` where `server_id` = '{$row->account_server_id}' and `partner_key`='{$partnerKey}' and `account_regtime` >= {$timeStart7} and `account_regtime` <= {$timeEnd7})";
 				$query = $this->fundsdb->query($sql);
 				$result = $query->row();
-				$paidCount7 = $result->count;
+				$paidCount7 = intval( $result->count );
 				$query->free_result();
 
 				//七天前到当天为止付费率
-				$paidRate7 = floatval ( number_format ( $paidCount7 / $regCount7, 4 ) ) * 10000;
+				$paidRate7 = intval ( floatval ( number_format ( $paidCount7 / $regCount7, 4 ) ) * 10000 );
 
 				//七天前到当天为止付费总额
 				$sql = "select sum(`funds_amount`) as `amount` from `funds_checkinout` where `funds_flow_dir`='CHECK_IN' and `appstore_status`=0 and `funds_time` >= {$timeStart7} and `funds_time` <= {$lastTimeEnd} and `account_guid` in (select `GUID` from `agent1_account_db`.`web_account` where `server_id` = '{$row->account_server_id}' and `partner_key`='{$partnerKey}' and `account_regtime` >= {$timeStart7} and `account_regtime` <= {$timeEnd7})";
@@ -375,11 +375,11 @@ class Market_life_time extends CI_Controller
 				$sql = "select count(*) as `count` from `funds_checkinout` where `funds_flow_dir`='CHECK_IN' and `appstore_status`=0 and `funds_time` >= {$timeStart14} and `funds_time` <= {$lastTimeEnd} and `account_guid` in (select `GUID` from `agent1_account_db`.`web_account` where `server_id` = '{$row->account_server_id}' and `partner_key`='{$partnerKey}' and `account_regtime` >= {$timeStart14} and `account_regtime` <= {$timeEnd14})";
 				$query = $this->fundsdb->query($sql);
 				$result = $query->row();
-				$paidCount14 = $result->count;
+				$paidCount14 = intval( $result->count );
 				$query->free_result();
 
 				//十四天前到当天为止付费率
-				$paidRate14 = floatval ( number_format ( $paidCount14 / $regCount14, 4 ) ) * 10000;
+				$paidRate14 = intval ( floatval ( number_format ( $paidCount14 / $regCount14, 4 ) ) * 10000 );
 
 				//十四天前到当天为止付费总额
 				$sql = "select sum(`funds_amount`) as `amount` from `funds_checkinout` where `funds_flow_dir`='CHECK_IN' and `appstore_status`=0 and `funds_time` >= {$timeStart14} and `funds_time` <= {$lastTimeEnd} and `account_guid` in (select `GUID` from `agent1_account_db`.`web_account` where `server_id` = '{$row->account_server_id}' and `partner_key`='{$partnerKey}' and `account_regtime` >= {$timeStart14} and `account_regtime` <= {$timeEnd14})";
@@ -413,11 +413,11 @@ class Market_life_time extends CI_Controller
 				$sql = "select count(*) as `count` from `funds_checkinout` where `funds_flow_dir`='CHECK_IN' and `appstore_status`=0 and `funds_time` >= {$timeStart30} and `funds_time` <= {$lastTimeEnd} and `account_guid` in (select `GUID` from `agent1_account_db`.`web_account` where `server_id` = '{$row->account_server_id}' and `partner_key`='{$partnerKey}' and `account_regtime` >= {$timeStart30} and `account_regtime` <= {$timeEnd30})";
 				$query = $this->fundsdb->query($sql);
 				$result = $query->row();
-				$paidCount30 = $result->count;
+				$paidCount30 = intval( $result->count );
 				$query->free_result();
 
 				//三十天前到当天为止付费率
-				$paidRate30 = floatval ( number_format ( $paidCount30 / $regCount30, 4 ) ) * 10000;
+				$paidRate30 = intval ( floatval ( number_format ( $paidCount30 / $regCount30, 4 ) ) * 10000 );
 
 				//三十天前到当天为止付费总额
 				$sql = "select sum(`funds_amount`) as `amount` from `funds_checkinout` where `funds_flow_dir`='CHECK_IN' and `appstore_status`=0 and `funds_time` >= {$timeStart30} and `funds_time` <= {$lastTimeEnd} and `account_guid` in (select `GUID` from `agent1_account_db`.`web_account` where `server_id` = '{$row->account_server_id}' and `partner_key`='{$partnerKey}' and `account_regtime` >= {$timeStart30} and `account_regtime` <= {$timeEnd30})";
@@ -451,11 +451,11 @@ class Market_life_time extends CI_Controller
 				$sql = "select count(*) as `count` from `funds_checkinout` where `funds_flow_dir`='CHECK_IN' and `appstore_status`=0 and `funds_time` >= {$timeStart60} and `funds_time` <= {$lastTimeEnd} and `account_guid` in (select `GUID` from `agent1_account_db`.`web_account` where `server_id` = '{$row->account_server_id}' and `partner_key`='{$partnerKey}' and `account_regtime` >= {$timeStart60} and `account_regtime` <= {$timeEnd60})";
 				$query = $this->fundsdb->query($sql);
 				$result = $query->row();
-				$paidCount60 = $result->count;
+				$paidCount60 = intval( $result->count );
 				$query->free_result();
 
 				//六十天前到当天为止付费率
-				$paidRate60 = floatval ( number_format ( $paidCount60 / $regCount60, 4 ) ) * 10000;
+				$paidRate60 = intval ( floatval ( number_format ( $paidCount60 / $regCount60, 4 ) ) * 10000 );
 
 				//六十天前到当天为止付费总额
 				$sql = "select sum(`funds_amount`) as `amount` from `funds_checkinout` where `funds_flow_dir`='CHECK_IN' and `appstore_status`=0 and `funds_time` >= {$timeStart60} and `funds_time` <= {$lastTimeEnd} and `account_guid` in (select `GUID` from `agent1_account_db`.`web_account` where `server_id` = '{$row->account_server_id}' and `partner_key`='{$partnerKey}' and `account_regtime` >= {$timeStart60} and `account_regtime` <= {$timeEnd60})";
@@ -489,11 +489,11 @@ class Market_life_time extends CI_Controller
 				$sql = "select count(*) as `count` from `funds_checkinout` where `funds_flow_dir`='CHECK_IN' and `appstore_status`=0 and `funds_time` >= {$timeStart90} and `funds_time` <= {$lastTimeEnd} and `account_guid` in (select `GUID` from `agent1_account_db`.`web_account` where `server_id` = '{$row->account_server_id}' and `partner_key`='{$partnerKey}' and `account_regtime` >= {$timeStart90} and `account_regtime` <= {$timeEnd90})";
 				$query = $this->fundsdb->query($sql);
 				$result = $query->row();
-				$paidCount90 = $result->count;
+				$paidCount90 = intval( $result->count );
 				$query->free_result();
 
 				//九十天前到当天为止付费率
-				$paidRate90 = floatval ( number_format ( $paidCount90 / $regCount90, 4 ) ) * 10000;
+				$paidRate90 = intval ( floatval ( number_format ( $paidCount90 / $regCount90, 4 ) ) * 10000 );
 
 				//九十天前到当天为止付费总额
 				$sql = "select sum(`funds_amount`) as `amount` from `funds_checkinout` where `funds_flow_dir`='CHECK_IN' and `appstore_status`=0 and `funds_time` >= {$timeStart90} and `funds_time` <= {$lastTimeEnd} and `account_guid` in (select `GUID` from `agent1_account_db`.`web_account` where `server_id` = '{$row->account_server_id}' and `partner_key`='{$partnerKey}' and `account_regtime` >= {$timeStart90} and `account_regtime` <= {$timeEnd90})";
@@ -527,11 +527,11 @@ class Market_life_time extends CI_Controller
 				$sql = "select count(*) as `count` from `funds_checkinout` where `funds_flow_dir`='CHECK_IN' and `appstore_status`=0 and `funds_time` >= {$timeStart180} and `funds_time` <= {$lastTimeEnd} and `account_guid` in (select `GUID` from `agent1_account_db`.`web_account` where `server_id` = '{$row->account_server_id}' and `partner_key`='{$partnerKey}' and `account_regtime` >= {$timeStart180} and `account_regtime` <= {$timeEnd180})";
 				$query = $this->fundsdb->query($sql);
 				$result = $query->row();
-				$paidCount180 = $result->count;
+				$paidCount180 = intval( $result->count );
 				$query->free_result();
 
 				//180天前到当天为止付费率
-				$paidRate180 = floatval ( number_format ( $paidCount180 / $regCount180, 4 ) ) * 10000;
+				$paidRate180 = intval ( floatval ( number_format ( $paidCount180 / $regCount180, 4 ) ) * 10000 );
 
 				//180天前到当天为止付费总额
 				$sql = "select sum(`funds_amount`) as `amount` from `funds_checkinout` where `funds_flow_dir`='CHECK_IN' and `appstore_status`=0 and `funds_time` >= {$timeStart180} and `funds_time` <= {$lastTimeEnd} and `account_guid` in (select `GUID` from `agent1_account_db`.`web_account` where `server_id` = '{$row->account_server_id}' and `partner_key`='{$partnerKey}' and `account_regtime` >= {$timeStart180} and `account_regtime` <= {$timeEnd180})";
