@@ -353,11 +353,11 @@ class Overview extends CI_Controller
 					'partner_key' => $partnerKey 
 				);
 				var_dump($parameter);
-				//$this->logcachedb->insert ( 'log_daily_statistics', $parameter );
+				$this->logcachedb->insert ( 'log_daily_statistics', $parameter );
 				log_message('custom', 'insert log_daily_statistics');
 				
-				//$this->flowover_detail_statistics ( $date, $row->account_server_id, $partnerKey );
-				//$this->buy_equipment_statistics ( $date, $row->account_server_id, $partnerKey );
+				$this->flowover_detail_statistics ( $date, $row->account_server_id, $partnerKey );
+				$this->buy_equipment_statistics ( $date, $row->account_server_id, $partnerKey );
 			}
 		}
 	}

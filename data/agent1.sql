@@ -351,7 +351,9 @@ CREATE TABLE IF NOT EXISTS `log_daily_statistics` (
   `orders_num` int(11) NOT NULL DEFAULT '0',
   `orders_sum` int(11) NOT NULL DEFAULT '0',
   `arpu` int(11) NOT NULL DEFAULT '0' COMMENT '充值率',
+  `arppu` int(11) NOT NULL DEFAULT '0' COMMENT '充值率',
   `recharge_account` int(11) NOT NULL DEFAULT '0' COMMENT '当天充值人数',
+  `recharge_account_sum` int(11) NOT NULL DEFAULT '0' COMMENT '当天充值人数',
   `order_count` int(11) NOT NULL DEFAULT '0' COMMENT '订单数',
   `partner_key` char(16) NOT NULL DEFAULT 'default',
   `at` int(11) NOT NULL DEFAULT '0'
