@@ -29,7 +29,7 @@ class Servers extends CI_Controller {
 		// $this->load->config('server_list_default');
 		// $jsonData = $this->config->item('game_server_list1');
 		
-		$this->get_sdk_debug_list('2101');
+		$this->get_sdk_debug_list();
 		exit();
 
 		/*
@@ -90,6 +90,7 @@ class Servers extends CI_Controller {
 	{
 		$serverIp	=	$this->input->server('SERVER_ADDR');
 		$ipFlag = 'ip';
+		if(!empty($id))
 		$parameter = array(
 				'account_server_id'		=>	$id
 		);
