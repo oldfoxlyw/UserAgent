@@ -86,7 +86,7 @@ class Servers extends CI_Controller {
 		echo $this->return_format->format($jsonData, $format);
 	}
 	
-	private function get_sdk_debug_list($id = '97')
+	private function get_sdk_debug_list($id = '')
 	{
 		$serverIp	=	$this->input->server('SERVER_ADDR');
 		$ipFlag = 'ip';
