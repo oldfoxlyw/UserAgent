@@ -90,10 +90,13 @@ class Servers extends CI_Controller {
 	{
 		$serverIp	=	$this->input->server('SERVER_ADDR');
 		$ipFlag = 'ip';
+		$parameter = array();
 		if(!empty($id))
-		$parameter = array(
-				'account_server_id'		=>	$id
-		);
+		{
+			$parameter = array(
+					'account_server_id'		=>	$id
+			);
+		}
 
 		$this->load->model('websrv/server', 'server');
 		$result = $this->server->getAllResult($parameter);
