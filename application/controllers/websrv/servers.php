@@ -97,6 +97,7 @@ class Servers extends CI_Controller {
 					'account_server_id'		=>	$id
 			);
 		}
+		$parameter['order_by'] = 'server_recommend';
 
 		$this->load->model('websrv/server', 'server');
 		$result = $this->server->getAllResult($parameter);
