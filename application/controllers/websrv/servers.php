@@ -49,11 +49,11 @@ class Servers extends CI_Controller {
 			$this->get_temp_hd_list();
 			exit();
 		}
-		elseif($partner == 'arab_default' || $partner == 'arab_sdk' || $partner == 'arab_fb_sdk')
-		{
-			$this->get_sdk_debug_list('96');
-			exit();
-		}
+		// elseif($partner == 'arab_default' || $partner == 'arab_sdk' || $partner == 'arab_fb_sdk')
+		// {
+		// 	$this->get_sdk_debug_list('96');
+		// 	exit();
+		// }
 		// elseif($partner != 'default')
 		// {
 		// 	$this->get_sdk_debug_list('97');
