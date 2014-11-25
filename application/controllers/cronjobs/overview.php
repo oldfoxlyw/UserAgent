@@ -68,7 +68,8 @@ class Overview extends CI_Controller
 			foreach ( $partnerResult as $partner )
 			{
 				$partnerKey = $partner->partner_key;
-				
+				var_dump($serverResult);
+				exit();
 				// 总注册数
 				$this->accountdb->where ( 'server_id', $row->account_server_id );
 				$this->accountdb->where ( 'partner_key', $partnerKey );
