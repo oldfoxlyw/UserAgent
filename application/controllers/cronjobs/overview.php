@@ -157,6 +157,8 @@ class Overview extends CI_Controller
 					'server_id' => $row->account_server_id,
 					'partner_key' => $partnerKey 
 				) );
+				var_dump($reflowCount);
+				exit();
 				
 				// 流失玩家数(超过一周没有登录的玩家数)
 				$weekAgoStart = $lastTimeStart - 6 * 86400;
@@ -289,8 +291,6 @@ class Overview extends CI_Controller
 					'at' => $at,
 					'partner_key' => $partnerKey 
 				);
-				var_dump($parameter);
-				exit();
 				$this->logcachedb->insert ( 'log_daily_statistics', $parameter );
 				
 				$this->flowover_detail_statistics ( $date, $row->account_server_id, $partnerKey );
