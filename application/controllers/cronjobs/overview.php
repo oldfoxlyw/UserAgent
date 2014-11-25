@@ -191,6 +191,8 @@ class Overview extends CI_Controller
 				$this->fundsdb->where ( 'partner_key', $partnerKey );
 				$this->fundsdb->where ( 'appstore_status', 0 );
 				$ordersCount = $this->fundsdb->count_all_results ( 'funds_checkinout' );
+				var_dump($ordersCount);
+				exit();
 				
 				// 当天订单总额
 				$this->fundsdb->select_sum ( 'funds_amount' );
@@ -227,8 +229,6 @@ class Overview extends CI_Controller
 				$query = $this->fundsdb->get ( 'funds_checkinout' );
 				$rechargeAccount = $query->num_rows();
 				$query->free_result();
-				var_dump($rechargeAccount);
-				exit();
 				
 				// arpu
 				if($dau > 0)
