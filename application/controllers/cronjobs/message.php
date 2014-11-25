@@ -24,7 +24,7 @@ class Message extends CI_Controller
 		{
 			$server->server_ip = json_decode($server->server_ip);
 			$server->server_ip = $server->server_ip[0];
-			$serverIp[$server->account_server_id] = 'http://' . $server->server_ip->lan . ':8089';
+			$serverIp[$server->account_server_id] = 'http://' . $server->server_ip->lan . ':' . $server->server_ip->lanport;
 		}
 		
 		$time = time();
