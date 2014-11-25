@@ -215,8 +215,6 @@ class Overview extends CI_Controller
 				$checkResult = $query->row ();
 				$ordersSum = intval ( $checkResult->funds_amount );
 				$query->free_result();
-				var_dump($ordersSum);
-				exit();
 				
 				// 当天充值人数
 				$this->fundsdb->where ( 'funds_flow_dir', 'CHECK_IN' );
@@ -229,6 +227,8 @@ class Overview extends CI_Controller
 				$query = $this->fundsdb->get ( 'funds_checkinout' );
 				$rechargeAccount = $query->num_rows();
 				$query->free_result();
+				var_dump($rechargeAccount);
+				exit();
 				
 				// arpu
 				if($dau > 0)
