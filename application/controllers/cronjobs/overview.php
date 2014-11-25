@@ -225,10 +225,8 @@ class Overview extends CI_Controller
 				$this->fundsdb->where ( 'appstore_status', 0 );
 				$this->fundsdb->group_by ( 'account_guid' );
 				$query = $this->fundsdb->get ( 'funds_checkinout' );
-				exit($this->fundsdb->last_query());
 				$rechargeAccount = $query->num_rows();
 				$query->free_result();
-				log_message('custom', 'rechargeAccount = ' . $rechargeAccount);
 
 				// arpu
 				if($dau > 0)
