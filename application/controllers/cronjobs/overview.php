@@ -68,8 +68,6 @@ class Overview extends CI_Controller
 			foreach ( $partnerResult as $partner )
 			{
 				$partnerKey = $partner->partner_key;
-				var_dump($serverResult);
-				exit();
 				// 总注册数
 				$this->accountdb->where ( 'server_id', $row->account_server_id );
 				$this->accountdb->where ( 'partner_key', $partnerKey );
@@ -291,6 +289,8 @@ class Overview extends CI_Controller
 					'at' => $at,
 					'partner_key' => $partnerKey 
 				);
+				var_dump($parameter);
+				exit();
 				$this->logcachedb->insert ( 'log_daily_statistics', $parameter );
 				
 				$this->flowover_detail_statistics ( $date, $row->account_server_id, $partnerKey );
