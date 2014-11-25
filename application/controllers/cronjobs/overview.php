@@ -204,8 +204,6 @@ class Overview extends CI_Controller
 				$checkResult = $query->row ();
 				$ordersCurrentSum = intval ( $checkResult->funds_amount );
 				$query->free_result();
-				var_dump($ordersCurrentSum);
-				exit();
 				
 				// 订单总额
 				$this->fundsdb->select_sum ( 'funds_amount' );
@@ -217,6 +215,8 @@ class Overview extends CI_Controller
 				$checkResult = $query->row ();
 				$ordersSum = intval ( $checkResult->funds_amount );
 				$query->free_result();
+				var_dump($ordersSum);
+				exit();
 				
 				// 当天充值人数
 				$this->fundsdb->where ( 'funds_flow_dir', 'CHECK_IN' );
