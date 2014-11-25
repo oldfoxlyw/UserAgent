@@ -165,23 +165,23 @@ class Overview extends CI_Controller
 				$this->accountdb->where ( 'partner_key', $partnerKey );
 				$flowoverCount = $this->accountdb->count_all_results ( 'web_account' );
 				// 流失玩家放入临时表
-				// $this->accountdb->where ( 'account_lastlogin <=', $weekAgoStart );
-				// $this->accountdb->where ( 'server_id', $row->account_server_id );
-				// $this->accountdb->where ( 'partner_key', $partnerKey );
-				// $query = $this->accountdb->get ( 'web_account' );
-				// $flowoverResult = $query->result ();
-				// foreach ( $flowoverResult as $flowover )
-				// {
-				// 	$this->logcachedb->insert ( 'log_flowover_cache', array (
-				// 		'guid' => $flowover->GUID,
-				// 		'server_id' => $row->account_server_id,
-				// 		'account_job' => empty ( $flowover->account_job ) ? '' : $flowover->account_job,
-				// 		'account_level' => empty ( $flowover->account_level ) ? 0 : $flowover->account_level,
-				// 		'account_mission' => empty ( $flowover->account_mission ) ? 0 : $flowover->account_mission,
-				// 		'partner_key' => $partnerKey 
-				// 	) );
-				// }
-				// $query->free_result();
+				$this->accountdb->where ( 'account_lastlogin <=', $weekAgoStart );
+				$this->accountdb->where ( 'server_id', $row->account_server_id );
+				$this->accountdb->where ( 'partner_key', $partnerKey );
+				$query = $this->accountdb->get ( 'web_account' );
+				$flowoverResult = $query->result ();
+				foreach ( $flowoverResult as $flowover )
+				{
+					$this->logcachedb->insert ( 'log_flowover_cache', array (
+						'guid' => $flowover->GUID,
+						'server_id' => $row->account_server_id,
+						'account_job' => empty ( $flowover->account_job ) ? '' : $flowover->account_job,
+						'account_level' => empty ( $flowover->account_level ) ? 0 : $flowover->account_level,
+						'account_mission' => empty ( $flowover->account_mission ) ? 0 : $flowover->account_mission,
+						'partner_key' => $partnerKey 
+					) );
+				}
+				$query->free_result();
 				
 				// 当天订单数
 				$this->fundsdb->where ( 'funds_flow_dir', 'CHECK_IN' );
@@ -289,10 +289,11 @@ class Overview extends CI_Controller
 					'at' => $at,
 					'partner_key' => $partnerKey 
 				);
-				$this->logcachedb->insert ( 'log_daily_statistics', $parameter );
+				var_dump($parameter);
+				// $this->logcachedb->insert ( 'log_daily_statistics', $parameter );
 				
-				$this->flowover_detail_statistics ( $date, $row->account_server_id, $partnerKey );
-				$this->buy_equipment_statistics ( $date, $row->account_server_id, $partnerKey );
+				// $this->flowover_detail_statistics ( $date, $row->account_server_id, $partnerKey );
+				// $this->buy_equipment_statistics ( $date, $row->account_server_id, $partnerKey );
 			}
 		}
 	}
