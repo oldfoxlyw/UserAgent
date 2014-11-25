@@ -227,7 +227,7 @@ class Overview extends CI_Controller
 				$query = $this->fundsdb->get ( 'funds_checkinout' );
 				$rechargeAccount = $query->num_rows();
 				$query->free_result();
-				exit($this->fundsdb->last_query());
+				log_message('custom', 'rechargeAccount = ' . $rechargeAccount);
 
 				// arpu
 				if($dau > 0)
