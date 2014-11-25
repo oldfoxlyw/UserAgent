@@ -191,8 +191,6 @@ class Overview extends CI_Controller
 				$this->fundsdb->where ( 'partner_key', $partnerKey );
 				$this->fundsdb->where ( 'appstore_status', 0 );
 				$ordersCount = $this->fundsdb->count_all_results ( 'funds_checkinout' );
-				var_dump($ordersCount);
-				exit();
 				
 				// 当天订单总额
 				$this->fundsdb->select_sum ( 'funds_amount' );
@@ -206,6 +204,8 @@ class Overview extends CI_Controller
 				$checkResult = $query->row ();
 				$ordersCurrentSum = intval ( $checkResult->funds_amount );
 				$query->free_result();
+				var_dump($ordersCurrentSum);
+				exit();
 				
 				// 订单总额
 				$this->fundsdb->select_sum ( 'funds_amount' );
