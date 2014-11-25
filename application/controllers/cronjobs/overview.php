@@ -157,8 +157,6 @@ class Overview extends CI_Controller
 					'server_id' => $row->account_server_id,
 					'partner_key' => $partnerKey 
 				) );
-				var_dump($reflowCount);
-				exit();
 				
 				// 流失玩家数(超过一周没有登录的玩家数)
 				$weekAgoStart = $lastTimeStart - 6 * 86400;
@@ -229,6 +227,8 @@ class Overview extends CI_Controller
 				$query = $this->fundsdb->get ( 'funds_checkinout' );
 				$rechargeAccount = $query->num_rows();
 				$query->free_result();
+				var_dump($rechargeAccount);
+				exit();
 				
 				// arpu
 				if($dau > 0)
