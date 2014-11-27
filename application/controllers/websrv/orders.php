@@ -48,6 +48,7 @@ class Orders extends CI_Controller {
 					
 					$this->load->model('funds');
 					$nickname = $result->account_nickname;
+					$partner = $result->partner_key;
 					$parameter = array(
 							'account_guid'			=>	$result->GUID,
 							'account_name'			=>	$result->account_name,
@@ -91,6 +92,7 @@ class Orders extends CI_Controller {
 						$data = array(
 							'guid'				=>	$playerId,
 							'server_id'			=>	$serverId,
+							'partner_key'		=>	$partner,
 							'first_paid_time'	=>	$time,
 							'last_paid_time'	=>	$time,
 							'first_paid_amount'	=>	$fundsAmount,

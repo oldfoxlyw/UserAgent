@@ -275,6 +275,16 @@ class Overview extends CI_Controller
 				$rechargeAccountSum = $query->num_rows();
 				$query->free_result();
 				log_message('custom', 'rechargeAccountSum = ' . $rechargeAccountSum);
+
+				// 首次充值人数
+				$this->logcachedb->where('first_paid_time >=', $lastTimeStart);
+				$this->logcachedb->where('first_paid_time <=', $lastTimeEnd);
+				$this->logcachedb->where ( 'server_id', $row->account_server_id );
+				$this->logcachedb->where ( 'partner_key', $partnerKey );
+				$query = $this->logcachedb->get('log_paid_account');
+				$firstRechargeAccount = $query->num_rows();
+				$query->free_result();
+				log_message('custom', 'firstRechargeAccount = ' . $firstRechargeAccount);
 				
 				// arpu
 				if($dau > 0)
@@ -348,6 +358,7 @@ class Overview extends CI_Controller
 					'arppu' => $arppu,
 					'recharge_account' => $rechargeAccount,
 					'recharge_account_sum' => $rechargeAccountSum,
+					'first_recharge_account' => $firstRechargeAccount,
 					'order_count' => $ordersCount,
 					'at' => $at,
 					'partner_key' => $partnerKey 
