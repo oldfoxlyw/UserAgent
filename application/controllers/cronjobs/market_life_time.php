@@ -23,6 +23,7 @@ class Market_life_time extends CI_Controller
 		// error_reporting(E_ALL);
 		set_time_limit(0);
 
+		log_message('market_life_time start...');
 		$this->load->model('mlogmarketlifetime');
 		$this->load->model ( 'websrv/server' );
 		if(!empty($server_id))
@@ -554,6 +555,7 @@ class Market_life_time extends CI_Controller
 				var_dump($parameter);
 			}
 		}
+		log_message('market_life_time end...');
 	}
 }
 ?>

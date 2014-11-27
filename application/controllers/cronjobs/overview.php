@@ -21,6 +21,7 @@ class Overview extends CI_Controller
 
 	public function statistics($server_id)
 	{
+		log_message('overview start...');
 		$this->load->model('mwebconfig');
 		$this->mwebconfig->update(1, array(
 			'config_close_scc'		=>	1,
@@ -371,6 +372,7 @@ class Overview extends CI_Controller
 				$this->buy_equipment_statistics ( $date, $row->account_server_id, $partnerKey );
 			}
 		}
+		log_message('overview end...');
 	}
 
 	private function flowover_detail_statistics($date, $server_id, $partnerKey)
@@ -475,6 +477,7 @@ class Overview extends CI_Controller
 	
 	public function retention_statistics()
 	{
+		log_message('retention start...');
 		$this->load->model ( 'websrv/server' );
 		$serverResult = $this->server->getAllResult ();
 		
@@ -864,6 +867,7 @@ class Overview extends CI_Controller
 			'config_close_scc'		=>	0,
 			'config_close_reason'	=>	''
 		));
+		log_message('overview end...');
 	}
 }
 ?>
