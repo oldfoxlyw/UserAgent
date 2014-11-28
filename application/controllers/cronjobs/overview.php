@@ -683,7 +683,7 @@ class Overview extends CI_Controller
 						'level1'					=>	$level1
 				);
 				
-				//$this->logcachedb->insert('log_retention1', $parameter);
+				$this->logcachedb->insert('log_retention1', $parameter);
 			}
 			
 
@@ -859,7 +859,7 @@ class Overview extends CI_Controller
 					'seven_retention_huge'		=>	$sevenRetentionHuge,
 					'level1'					=>	$level1
 			);
-			//$this->logcachedb->insert('log_retention1', $parameter);
+			$this->logcachedb->insert('log_retention1', $parameter);
 		}
 
 		$this->load->model('mwebconfig');
