@@ -484,11 +484,21 @@ class Overview extends CI_Controller
 		$this->load->model ( 'websrv/mpartner' );
 		$partnerResult = $this->mpartner->getAllResult ();
 		
-		$currentTimeStamp = time ();
-		$currentDate = date ( 'Y-m-d', $currentTimeStamp );
-		//昨日
-		$lastTimeStart = strtotime ( $currentDate . ' 00:00:00' ) - 86400;
-		$lastTimeEnd = strtotime ( $currentDate . ' 23:59:59' ) - 86400;
+		$date = $this->input->get('date');
+		if(empty($date))
+		{
+			$currentTimeStamp = time ();
+			$currentDate = date ( 'Y-m-d', $currentTimeStamp );
+			//昨日
+			$lastTimeStart = strtotime ( $currentDate . ' 00:00:00' ) - 86400;
+			$lastTimeEnd = strtotime ( $currentDate . ' 23:59:59' ) - 86400;
+		}
+		else
+		{
+			//昨日
+			$lastTimeStart = strtotime ( $date . ' 00:00:00' );
+			$lastTimeEnd = strtotime ( $date . ' 23:59:59' );
+		}
 		//前日
 		$prevTimeStart = $lastTimeStart - 86400;
 		$prevTimeEnd = $lastTimeEnd - 86400;
