@@ -31,7 +31,7 @@ class Servers extends CI_Controller {
 		
 		$this->load->config('server_list_default');
 		// $jsonData = $this->config->item('game_server_list');
-		$this->get_sdk_debug_list('501');
+		$this->get_sdk_debug_list('401');
 		exit();
 
 		/*
