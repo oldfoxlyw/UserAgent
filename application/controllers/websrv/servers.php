@@ -31,7 +31,7 @@ class Servers extends CI_Controller {
 		
 		$this->load->config('server_list_default');
 		// $jsonData = $this->config->item('game_server_list');
-		$this->get_sdk_debug_list('401');
+		$this->get_sdk_debug_list();
 		exit();
 
 		/*
@@ -101,15 +101,17 @@ class Servers extends CI_Controller {
 		echo $this->return_format->format($jsonData, $format);
 	}
 	
-	private function get_sdk_debug_list($id)
+	private function get_sdk_debug_list($id = null)
 	{
 		$serverIp	=	$this->input->server('SERVER_ADDR');
 		$partner	=	$this->input->get_post('partner', TRUE);
 		$ver		=	$this->input->get_post('client_version', TRUE);
 		$ipFlag = 'ip';
-		$parameter = array(
-				'account_server_id'		=>	$id
-		);
+		$parameter = array();
+		if(!empty($id))
+		{
+			$parameter['account_server_id'] = $id;
+		}
 
 		$this->load->model('websrv/server', 'server');
 		$result = $this->server->getAllResult($parameter);
