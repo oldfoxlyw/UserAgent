@@ -107,7 +107,9 @@ class Servers extends CI_Controller {
 		$partner	=	$this->input->get_post('partner', TRUE);
 		$ver		=	$this->input->get_post('client_version', TRUE);
 		$ipFlag = 'ip';
-		$parameter = array();
+		$parameter = array(
+			'order_by'	=>	'server_sort'
+		);
 		if(!empty($id))
 		{
 			$parameter['account_server_id'] = $id;
