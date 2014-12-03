@@ -43,18 +43,14 @@ $config ['game_server_list1'] = array (
 $config['game_announcement'] = array(
 		'announce' => array (
 				'id' => '1',
-				'summary' => "Welcome to the world of Warthrone! 
+				'summary' => "Welcome to the world of Warthrone! If you have any problems or suggestions for the game please contact customer support at: warthronesupport@fedeen.com. 
 
 We've prepared plenty of events and gift packs, so don't forget to check out the events and package menus in the game. 
-
-If you have any problems or suggestions for the game please contact customer support at: warthronesupport@fedeen.com. 
 
 Good luck and enjoy your adventure.",
-				'content' => "Welcome to the world of Warthrone! 
+				'content' => "Welcome to the world of Warthrone! If you have any problems or suggestions for the game please contact customer support at: warthronesupport@fedeen.com. 
 
 We've prepared plenty of events and gift packs, so don't forget to check out the events and package menus in the game. 
-
-If you have any problems or suggestions for the game please contact customer support at: warthronesupport@fedeen.com. 
 
 Good luck and enjoy your adventure."
 		)
