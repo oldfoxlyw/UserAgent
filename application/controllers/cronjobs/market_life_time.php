@@ -133,8 +133,8 @@ class Market_life_time extends CI_Controller
 					'paid_rate_1'		=>	$paidRate1,
 					'recharge_amount_1'	=>	$rechargeAmount1 ? $rechargeAmount1 : 0
 				);
-				//$this->mlogmarketlifetime->create($parameter);
-				var_dump($parameter);
+				$this->mlogmarketlifetime->create($parameter);
+				// var_dump($parameter);
 
 				//两天前注册数
 				$date = date('Y-m-d', $timeStart2);
@@ -167,12 +167,12 @@ class Market_life_time extends CI_Controller
 					'paid_rate_2'		=>	$paidRate2,
 					'recharge_amount_2'	=>	$rechargeAmount2 ? $rechargeAmount2 : 0
 				);
-				// $this->mlogmarketlifetime->update(array(
-				// 	'date'			=>	$date,
-				// 	'server_id'		=>	$row->account_server_id,
-				// 	'partner_key'	=>	$partnerKey
-				// ), $parameter);
-				var_dump($parameter);
+				$this->mlogmarketlifetime->update(array(
+					'date'			=>	$date,
+					'server_id'		=>	$row->account_server_id,
+					'partner_key'	=>	$partnerKey
+				), $parameter);
+				// var_dump($parameter);
 
 				//三天前注册数
 				$date = date('Y-m-d', $timeStart3);
@@ -205,12 +205,12 @@ class Market_life_time extends CI_Controller
 					'paid_rate_3'		=>	$paidRate3,
 					'recharge_amount_3'	=>	$rechargeAmount3 ? $rechargeAmount3 : 0
 				);
-				// $this->mlogmarketlifetime->update(array(
-				// 	'date'			=>	$date,
-				// 	'server_id'		=>	$row->account_server_id,
-				// 	'partner_key'	=>	$partnerKey
-				// ), $parameter);
-				var_dump($parameter);
+				$this->mlogmarketlifetime->update(array(
+					'date'			=>	$date,
+					'server_id'		=>	$row->account_server_id,
+					'partner_key'	=>	$partnerKey
+				), $parameter);
+				// var_dump($parameter);
 
 				//四天前注册数
 				$date = date('Y-m-d', $timeStart4);
@@ -243,12 +243,12 @@ class Market_life_time extends CI_Controller
 					'paid_rate_4'		=>	$paidRate4,
 					'recharge_amount_4'	=>	$rechargeAmount4 ? $rechargeAmount4 : 0
 				);
-				// $this->mlogmarketlifetime->update(array(
-				// 	'date'			=>	$date,
-				// 	'server_id'		=>	$row->account_server_id,
-				// 	'partner_key'	=>	$partnerKey
-				// ), $parameter);
-				var_dump($parameter);
+				$this->mlogmarketlifetime->update(array(
+					'date'			=>	$date,
+					'server_id'		=>	$row->account_server_id,
+					'partner_key'	=>	$partnerKey
+				), $parameter);
+				// var_dump($parameter);
 
 				//五天前注册数
 				$date = date('Y-m-d', $timeStart5);
@@ -281,12 +281,12 @@ class Market_life_time extends CI_Controller
 					'paid_rate_5'		=>	$paidRate5,
 					'recharge_amount_5'	=>	$rechargeAmount5 ? $rechargeAmount5 : 0
 				);
-				// $this->mlogmarketlifetime->update(array(
-				// 	'date'			=>	$date,
-				// 	'server_id'		=>	$row->account_server_id,
-				// 	'partner_key'	=>	$partnerKey
-				// ), $parameter);
-				var_dump($parameter);
+				$this->mlogmarketlifetime->update(array(
+					'date'			=>	$date,
+					'server_id'		=>	$row->account_server_id,
+					'partner_key'	=>	$partnerKey
+				), $parameter);
+				// var_dump($parameter);
 
 				//六天前注册数
 				$date = date('Y-m-d', $timeStart6);
@@ -319,12 +319,12 @@ class Market_life_time extends CI_Controller
 					'paid_rate_6'		=>	$paidRate6,
 					'recharge_amount_6'	=>	$rechargeAmount6 ? $rechargeAmount6 : 0
 				);
-				// $this->mlogmarketlifetime->update(array(
-				// 	'date'			=>	$date,
-				// 	'server_id'		=>	$row->account_server_id,
-				// 	'partner_key'	=>	$partnerKey
-				// ), $parameter);
-				var_dump($parameter);
+				$this->mlogmarketlifetime->update(array(
+					'date'			=>	$date,
+					'server_id'		=>	$row->account_server_id,
+					'partner_key'	=>	$partnerKey
+				), $parameter);
+				// var_dump($parameter);
 
 				//七天前注册数
 				$date = date('Y-m-d', $timeStart7);
@@ -357,12 +357,12 @@ class Market_life_time extends CI_Controller
 					'paid_rate_7'		=>	$paidRate7,
 					'recharge_amount_7'	=>	$rechargeAmount7 ? $rechargeAmount7 : 0
 				);
-				// $this->mlogmarketlifetime->update(array(
-				// 	'date'			=>	$date,
-				// 	'server_id'		=>	$row->account_server_id,
-				// 	'partner_key'	=>	$partnerKey
-				// ), $parameter);
-				var_dump($parameter);
+				$this->mlogmarketlifetime->update(array(
+					'date'			=>	$date,
+					'server_id'		=>	$row->account_server_id,
+					'partner_key'	=>	$partnerKey
+				), $parameter);
+				// var_dump($parameter);
 
 				//十四天前注册数
 				$date = date('Y-m-d', $timeStart14);
@@ -395,12 +395,12 @@ class Market_life_time extends CI_Controller
 					'paid_rate_14'			=>	$paidRate14,
 					'recharge_amount_14'	=>	$rechargeAmount14 ? $rechargeAmount14 : 0
 				);
-				// $this->mlogmarketlifetime->update(array(
-				// 	'date'			=>	$date,
-				// 	'server_id'		=>	$row->account_server_id,
-				// 	'partner_key'	=>	$partnerKey
-				// ), $parameter);
-				var_dump($parameter);
+				$this->mlogmarketlifetime->update(array(
+					'date'			=>	$date,
+					'server_id'		=>	$row->account_server_id,
+					'partner_key'	=>	$partnerKey
+				), $parameter);
+				// var_dump($parameter);
 
 				//三十天前注册数
 				$date = date('Y-m-d', $timeStart30);
@@ -433,12 +433,12 @@ class Market_life_time extends CI_Controller
 					'paid_rate_30'			=>	$paidRate30,
 					'recharge_amount_30'	=>	$rechargeAmount30 ? $rechargeAmount30 : 0
 				);
-				// $this->mlogmarketlifetime->update(array(
-				// 	'date'			=>	$date,
-				// 	'server_id'		=>	$row->account_server_id,
-				// 	'partner_key'	=>	$partnerKey
-				// ), $parameter);
-				var_dump($parameter);
+				$this->mlogmarketlifetime->update(array(
+					'date'			=>	$date,
+					'server_id'		=>	$row->account_server_id,
+					'partner_key'	=>	$partnerKey
+				), $parameter);
+				// var_dump($parameter);
 
 				//六十天前注册数
 				$date = date('Y-m-d', $timeStart60);
@@ -471,12 +471,12 @@ class Market_life_time extends CI_Controller
 					'paid_rate_60'			=>	$paidRate60,
 					'recharge_amount_60'	=>	$rechargeAmount60 ? $rechargeAmount60 : 0
 				);
-				// $this->mlogmarketlifetime->update(array(
-				// 	'date'			=>	$date,
-				// 	'server_id'		=>	$row->account_server_id,
-				// 	'partner_key'	=>	$partnerKey
-				// ), $parameter);
-				var_dump($parameter);
+				$this->mlogmarketlifetime->update(array(
+					'date'			=>	$date,
+					'server_id'		=>	$row->account_server_id,
+					'partner_key'	=>	$partnerKey
+				), $parameter);
+				// var_dump($parameter);
 
 				//九十天前注册数
 				$date = date('Y-m-d', $timeStart90);
@@ -509,12 +509,12 @@ class Market_life_time extends CI_Controller
 					'paid_rate_90'			=>	$paidRate90,
 					'recharge_amount_90'	=>	$rechargeAmount90 ? $rechargeAmount90 : 0
 				);
-				// $this->mlogmarketlifetime->update(array(
-				// 	'date'			=>	$date,
-				// 	'server_id'		=>	$row->account_server_id,
-				// 	'partner_key'	=>	$partnerKey
-				// ), $parameter);
-				var_dump($parameter);
+				$this->mlogmarketlifetime->update(array(
+					'date'			=>	$date,
+					'server_id'		=>	$row->account_server_id,
+					'partner_key'	=>	$partnerKey
+				), $parameter);
+				// var_dump($parameter);
 
 				//180天前注册数
 				$date = date('Y-m-d', $timeStart180);
