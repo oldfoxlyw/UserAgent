@@ -547,12 +547,12 @@ class Market_life_time extends CI_Controller
 					'paid_rate_180'			=>	$paidRate180,
 					'recharge_amount_180'	=>	$rechargeAmount180 ? $rechargeAmount180 : 0
 				);
-				// $this->mlogmarketlifetime->update(array(
-				// 	'date'			=>	$date,
-				// 	'server_id'		=>	$row->account_server_id,
-				// 	'partner_key'	=>	$partnerKey
-				// ), $parameter);
-				var_dump($parameter);
+				$this->mlogmarketlifetime->update(array(
+					'date'			=>	$date,
+					'server_id'		=>	$row->account_server_id,
+					'partner_key'	=>	$partnerKey
+				), $parameter);
+				// var_dump($parameter);
 			}
 		}
 		log_message('market_life_time end...');
