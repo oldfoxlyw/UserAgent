@@ -43,8 +43,18 @@ $config ['game_server_list1'] = array (
 $config['game_announcement'] = array(
 		'announce' => array (
 				'id' => '1',
-				'summary' => "",
-				'content' => ""
+				'summary' => "Welcome to Warthrone's open Beta test!
+If you experience any bugs during gameplay
+please feel free to contact us at warthronesupport@fedeen.com
+Also, feel free to stop by the official warthrone forum at
+http://perfectworld.vanillaforums.com/categories/wt
+beta",
+				'content' => "Welcome to Warthrone's open Beta test!
+If you experience any bugs during gameplay
+please feel free to contact us at warthronesupport@fedeen.com
+Also, feel free to stop by the official warthrone forum at
+http://perfectworld.vanillaforums.com/categories/wt
+beta"
 		)
 );
 ?>
