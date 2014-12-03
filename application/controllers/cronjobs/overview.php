@@ -605,13 +605,13 @@ class Overview extends CI_Controller
 					$sevenRegisterCount = $sevenRegisterCount->level_account;
 					//点七
 					//六天前登录
-					$sql = "SELECT `log_GUID` FROM `log_account` WHERE `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}' AND `log_action`='ACCOUNT_LOGIN_SUCCESS' AND `log_time`>={$sixTimeStart} AND `log_time`<={$sixTimeEnd} AND `log_GUID` in (SELECT `GUID` FROM `agent1_account_db`.`web_account` WHERE `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}' AND `account_regtime`>={$sevenTimeStart} AND `account_regtime`<={$sevenTimeEnd} AND `account_level`>1) GROUP BY `log_GUID`";
-					$sixCurrentLoginResult = $this->logdb->query($sql);
-					$sixCurrentLoginResult = $sixCurrentLoginResult->result_array();
-					for($i=0; $i<count($sixCurrentLoginResult); $i++)
-					{
-						$sixCurrentLoginResult[$i] = $sixCurrentLoginResult[$i]['log_GUID'];
-					}
+					// $sql = "SELECT `log_GUID` FROM `log_account` WHERE `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}' AND `log_action`='ACCOUNT_LOGIN_SUCCESS' AND `log_time`>={$sixTimeStart} AND `log_time`<={$sixTimeEnd} AND `log_GUID` in (SELECT `GUID` FROM `agent1_account_db`.`web_account` WHERE `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}' AND `account_regtime`>={$sevenTimeStart} AND `account_regtime`<={$sevenTimeEnd} AND `account_level`>1) GROUP BY `log_GUID`";
+					// $sixCurrentLoginResult = $this->logdb->query($sql);
+					// $sixCurrentLoginResult = $sixCurrentLoginResult->result_array();
+					// for($i=0; $i<count($sixCurrentLoginResult); $i++)
+					// {
+					// 	$sixCurrentLoginResult[$i] = $sixCurrentLoginResult[$i]['log_GUID'];
+					// }
 					//今天登录数
 					$sql = "SELECT `log_GUID` FROM `log_account` WHERE `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}' AND `log_action`='ACCOUNT_LOGIN_SUCCESS' AND `log_time`>={$lastTimeStart} AND `log_time`<={$lastTimeEnd} AND `log_GUID` in (SELECT `GUID` FROM `agent1_account_db`.`web_account` WHERE `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}' AND `account_regtime`>={$sevenTimeStart} AND `account_regtime`<={$sevenTimeEnd} AND `account_level`>1) GROUP BY `log_GUID`";
 					$sevenCurrentLoginResult = $this->logdb->query($sql);
@@ -621,8 +621,8 @@ class Overview extends CI_Controller
 						$sevenCurrentLoginResult[$i] = $sevenCurrentLoginResult[$i]['log_GUID'];
 					}
 					
-					$sevenCurrentLogin = array_intersect($sixCurrentLoginResult, $sevenCurrentLoginResult);
-					$sevenCurrentLogin = count($sevenCurrentLogin);
+					// $sevenCurrentLogin = array_intersect($sixCurrentLoginResult, $sevenCurrentLoginResult);
+					$sevenCurrentLogin = count($sevenCurrentLoginResult);
 					
 					$sevenRetention = floor(($sevenCurrentLogin / $sevenRegisterCount) * 10000);
 					
