@@ -514,6 +514,15 @@ class Overview extends CI_Controller
 		//七天前
 		$sevenTimeStart = $lastTimeStart - 6 * 86400;
 		$sevenTimeEnd = $lastTimeEnd - 6 * 86400;
+        //三十天前
+        $timeStart30 = $lastTimeStart - 30 * 86400;
+        $timeEnd30 = $lastTimeEnd - 30 * 86400;
+        //六十天前
+        $timeStart60 = $lastTimeStart - 60 * 86400;
+        $timeEnd60 = $lastTimeEnd - 60 * 86400;
+        //一百八十天前
+        $timeStart180 = $lastTimeStart - 180 * 86400;
+        $timeEnd180 = $lastTimeEnd - 180 * 86400;
 		
 		foreach ( $serverResult as $row )
 		{
@@ -657,6 +666,87 @@ class Overview extends CI_Controller
 					$sevenRetentionHuge = floor(($sevenCurrentLoginHuge / $sevenRegisterCount) * 10000);
 				}
 				$query->free_result();
+
+                //三十天前注册数
+                $timeData30 = date('Y-m-d', $timeStart30);
+                $sql = "SELECT `level_account` FROM `log_retention1` WHERE `log_date`='{$timeData30}' AND `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}'";
+                $query = $this->logcachedb->query ( $sql );
+                $registerCount30 = $query->row();
+                if(empty($registerCount30))
+                {
+                    $currentLogin30 = 0;
+                    $retention30 = 0;
+                }
+                else
+                {
+                    $registerCount30 = $registerCount30->level_account;
+                    //今天登录数
+                    $sql = "SELECT `log_GUID` FROM `log_account` WHERE `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}' AND `log_action`='ACCOUNT_LOGIN_SUCCESS' AND `log_time`>={$lastTimeStart} AND `log_time`<={$lastTimeEnd} AND `log_GUID` in (SELECT `GUID` FROM `agent1_account_db`.`web_account` WHERE `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}' AND `account_regtime`>={$timeStart30} AND `account_regtime`<={$timeEnd30} AND `account_level`>1) GROUP BY `log_GUID`";
+                    $currentLoginResult30 = $this->logdb->query($sql);
+                    $currentLoginResult30 = $currentLoginResult30->result_array();
+                    for($i=0; $i<count($currentLoginResult30); $i++)
+                    {
+                        $currentLoginResult30[$i] = $currentLoginResult30[$i]['log_GUID'];
+                    }
+
+                    $currentLogin30 = count($currentLoginResult30);
+
+                    $retention30 = floor(($currentLogin30 / $registerCount30) * 10000);
+                }
+
+                //六十天前注册数
+                $timeData60 = date('Y-m-d', $timeStart60);
+                $sql = "SELECT `level_account` FROM `log_retention1` WHERE `log_date`='{$timeData60}' AND `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}'";
+                $query = $this->logcachedb->query ( $sql );
+                $registerCount60 = $query->row();
+                if(empty($registerCount60))
+                {
+                    $currentLogin60 = 0;
+                    $retention60 = 0;
+                }
+                else
+                {
+                    $registerCount60 = $registerCount60->level_account;
+                    //今天登录数
+                    $sql = "SELECT `log_GUID` FROM `log_account` WHERE `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}' AND `log_action`='ACCOUNT_LOGIN_SUCCESS' AND `log_time`>={$lastTimeStart} AND `log_time`<={$lastTimeEnd} AND `log_GUID` in (SELECT `GUID` FROM `agent1_account_db`.`web_account` WHERE `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}' AND `account_regtime`>={$timeStart60} AND `account_regtime`<={$timeEnd60} AND `account_level`>1) GROUP BY `log_GUID`";
+                    $currentLoginResult60 = $this->logdb->query($sql);
+                    $currentLoginResult60 = $currentLoginResult60->result_array();
+                    for($i=0; $i<count($currentLoginResult60); $i++)
+                    {
+                        $currentLoginResult60[$i] = $currentLoginResult60[$i]['log_GUID'];
+                    }
+
+                    $currentLogin60 = count($currentLoginResult60);
+
+                    $retention60 = floor(($currentLogin60 / $registerCount60) * 10000);
+                }
+
+                //一百八十天前注册数
+                $timeData180 = date('Y-m-d', $timeStart180);
+                $sql = "SELECT `level_account` FROM `log_retention1` WHERE `log_date`='{$timeData180}' AND `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}'";
+                $query = $this->logcachedb->query ( $sql );
+                $registerCount180 = $query->row();
+                if(empty($registerCount180))
+                {
+                    $currentLogin180 = 0;
+                    $retention180 = 0;
+                }
+                else
+                {
+                    $registerCount180 = $registerCount180->level_account;
+                    //今天登录数
+                    $sql = "SELECT `log_GUID` FROM `log_account` WHERE `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}' AND `log_action`='ACCOUNT_LOGIN_SUCCESS' AND `log_time`>={$lastTimeStart} AND `log_time`<={$lastTimeEnd} AND `log_GUID` in (SELECT `GUID` FROM `agent1_account_db`.`web_account` WHERE `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}' AND `account_regtime`>={$timeStart180} AND `account_regtime`<={$timeEnd180} AND `account_level`>1) GROUP BY `log_GUID`";
+                    $currentLoginResult180 = $this->logdb->query($sql);
+                    $currentLoginResult180 = $currentLoginResult180->result_array();
+                    for($i=0; $i<count($currentLoginResult180); $i++)
+                    {
+                        $currentLoginResult180[$i] = $currentLoginResult180[$i]['log_GUID'];
+                    }
+
+                    $currentLogin180 = count($currentLoginResult180);
+
+                    $retention180 = floor(($currentLogin180 / $registerCount180) * 10000);
+                }
 				
 				//今天内等级为1的账户数
 				$sql = "SELECT COUNT(*) as `numrows` FROM `web_account` WHERE `account_regtime`>={$prevTimeStart} AND `account_regtime`<={$prevTimeEnd} AND `account_level`=1 AND `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}'";
@@ -674,23 +764,29 @@ class Overview extends CI_Controller
 				$levelCount = $this->accountdb->count_all_results ( 'web_account' );
 				
 				$parameter = array(
-						'log_date'					=>	date('Y-m-d', $lastTimeStart),
-						'server_id'					=>	$row->account_server_id,
-						'partner_key'				=>	$partnerKey,
-						'level_account'				=>	$levelCount,
-						'next_current_login'		=>	$currentLogin,
-						'next_retention'			=>	$nextRetention,
-						'third_current_login'		=>	$thirdCurrentLogin,
-						'third_retention'			=>	$thirdRetention,
-						'third_current_login_range'	=>	$thirdCurrentLoginRange,
-						'third_retention_range'		=>	$thirdRetentionRange,
-						'seven_current_login'		=>	$sevenCurrentLogin,
-						'seven_retention'			=>	$sevenRetention,
-						'seven_current_login_range'	=>	$sevenCurrentLoginRange,
-						'seven_retention_range'		=>	$sevenRetentionRange,
-						'seven_current_login_huge'	=>	$sevenCurrentLoginHuge,
-						'seven_retention_huge'		=>	$sevenRetentionHuge,
-						'level1'					=>	$level1
+                    'log_date'					=>	date('Y-m-d', $lastTimeStart),
+                    'server_id'					=>	$row->account_server_id,
+                    'partner_key'				=>	$partnerKey,
+                    'level_account'				=>	$levelCount,
+                    'next_current_login'		=>	$currentLogin,
+                    'next_retention'			=>	$nextRetention,
+                    'third_current_login'		=>	$thirdCurrentLogin,
+                    'third_retention'			=>	$thirdRetention,
+                    'third_current_login_range'	=>	$thirdCurrentLoginRange,
+                    'third_retention_range'		=>	$thirdRetentionRange,
+                    'seven_current_login'		=>	$sevenCurrentLogin,
+                    'seven_retention'			=>	$sevenRetention,
+                    'seven_current_login_range'	=>	$sevenCurrentLoginRange,
+                    'seven_retention_range'		=>	$sevenRetentionRange,
+                    'seven_current_login_huge'	=>	$sevenCurrentLoginHuge,
+                    'seven_retention_huge'		=>	$sevenRetentionHuge,
+                    'current_login_30'          =>  $currentLogin30,
+                    'retention_30'              =>  $retention30,
+                    'current_login_60'          =>  $currentLogin60,
+                    'retention_60'              =>  $retention60,
+                    'current_login_180'          =>  $currentLogin180,
+                    'retention_180'              =>  $retention180,
+                    'level1'					=>	$level1
 				);
 				
 				$this->logcachedb->insert('log_retention1', $parameter);
