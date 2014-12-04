@@ -10,9 +10,9 @@ $config ['game_server_list1'] = array (
 				array (
 						'id' => '2',
 						'game_id' => 'B',
-						'section_id' => '803',
-						'account_server_id' => '803',
-						'server_name' => 'Athena',
+						'section_id' => '801',
+						'account_server_id' => '801',
+						'server_name' => 'Athena(debug)',
 						'server_ip' => array (
 								0 => array (
 										'ip' => '184.173.231.226:8091' 
