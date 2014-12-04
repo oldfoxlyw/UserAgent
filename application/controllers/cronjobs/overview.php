@@ -96,7 +96,7 @@ class Overview extends CI_Controller
 				$this->accountdb->where ( 'server_id', $row->account_server_id );
 				$this->accountdb->where ( 'partner_key', $partnerKey );
 				// $this->accountdb->where ( 'account_regtime >=', $lastTimeStart );
-				// $this->accountdb->where ( 'account_regtime <=', $lastTimeEnd );
+				$this->accountdb->where ( 'account_regtime <=', $lastTimeEnd );
 				$this->accountdb->where ( 'account_level >', 0 );
 				$validCount = $this->accountdb->count_all_results ( 'web_account' );
 				log_message('custom', 'validCount = ' . $validCount);
