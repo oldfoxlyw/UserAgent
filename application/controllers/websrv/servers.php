@@ -15,17 +15,11 @@ class Servers extends CI_Controller {
 		$lang		=	$this->input->get_post('language', TRUE);
 		$ver		=	$this->input->get_post('client_version', TRUE);
 
-		if($mode == 'pub' && ($partner == 'en_default' || $partner == 'en_arc'))
-		{
-			$this->load->config('server_list_default');
-			$jsonData = $this->config->item('game_server_list1');
+		
+		$this->load->config('server_list_default');
+		$jsonData = $this->config->item('game_server_list1');
 
-			$type = 'appstore';
-		}
-		else
-		{
-			$jsonData = array();
-		}
+		$type = 'appstore';
 
 		/*
 		$productdb = $this->load->database('productdb', TRUE);

@@ -15,12 +15,12 @@ $config ['game_server_list1'] = array (
 						'server_name' => 'Athena',
 						'server_ip' => array (
 								0 => array (
-										'ip' => '184.173.231.228:8091' 
+										'ip' => '184.173.231.226:8091' 
 								)
 						),
-						'server_game_ip' => '184.173.231.229',
-						'game_message_ip' => '10.48.104.186:9899',
-						'const_server_ip' => '184.173.231.228:8091',
+						'server_game_ip' => '184.173.231.227',
+						'game_message_ip' => '10.48.104.182:9899',
+						'const_server_ip' => '184.173.231.226:8091',
 						'voice_server_ip' => '184.173.231.226:8099',
 						'server_max_player' => '100000',
 						'account_count' => '0',
