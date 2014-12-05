@@ -251,6 +251,7 @@ class Overview_back extends CI_Controller
 				$checkResult = $query->row ();
 				$ordersSum = intval ( $checkResult->funds_amount );
 				$query->free_result();
+				log_message('custom', $this->fundsdb->last_query());
 				log_message('custom', 'ordersSum = ' . $ordersSum);
 				
 				// 当天充值人数
@@ -264,6 +265,7 @@ class Overview_back extends CI_Controller
 				$query = $this->fundsdb->get ( 'funds_checkinout' );
 				$rechargeAccount = $query->num_rows();
 				$query->free_result();
+				log_message('custom', $this->fundsdb->last_query());
 				log_message('custom', 'rechargeAccount = ' . $rechargeAccount);
 				
 				// 累计充值人数
