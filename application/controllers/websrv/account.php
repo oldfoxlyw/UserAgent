@@ -457,7 +457,7 @@ class Account extends CI_Controller {
 		$pass		=	$this->input->get_post('account_pass', TRUE);
 		$server_id	=	$this->input->get_post('server_id', TRUE);
 
-		if(!empty($name) && !empty($pass) && !empty($server_id)) {
+		if(!empty($name)) {
 
 			if($this->web_account->validate_duplicate($name, $pass, $server_id)) {
 				$jsonData = Array(

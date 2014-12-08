@@ -13,12 +13,12 @@ class Web_account extends CI_Model {
 	}
 	
 	public function validate($userName, $userPass, $serverId) {
-		if(!empty($userName) && !empty($userPass) && !empty($serverId)) {
-			$this->load->helper('security');
-			$userPass = $this->encrypt_pass($userPass);
+		if(!empty($userName)) {
+			// $this->load->helper('security');
+			// $userPass = $this->encrypt_pass($userPass);
 			$this->accountdb->where('account_name', trim($userName));
-			$this->accountdb->where('account_pass', $userPass);
-			$this->accountdb->where('server_id', $serverId);
+			// $this->accountdb->where('account_pass', $userPass);
+			// $this->accountdb->where('server_id', $serverId);
 			$query = $this->accountdb->get($this->accountTable);
 			if($query->num_rows() > 0) {
 				return $query->row();
@@ -31,13 +31,13 @@ class Web_account extends CI_Model {
 	}
 	
 	public function validate_duplicate($userName, $userPass, $serverId, $useEncrypt = true) {
-		$this->load->helper('security');
+		// $this->load->helper('security');
 		$this->accountdb->where('account_name', trim($userName));
-		if($useEncrypt) {
-			$userPass = $this->encrypt_pass($userPass);
-		}
-		$this->accountdb->where('account_pass', $userPass);
-		$this->accountdb->where('server_id', $serverId);
+		// if($useEncrypt) {
+		// 	$userPass = $this->encrypt_pass($userPass);
+		// }
+		// $this->accountdb->where('account_pass', $userPass);
+		// $this->accountdb->where('server_id', $serverId);
 		$query = $this->accountdb->get($this->accountTable);
 		if($query->num_rows() > 0) {
 			return false;
