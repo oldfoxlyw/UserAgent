@@ -270,6 +270,7 @@ class Overview extends CI_Controller
 				$this->fundsdb->where ( 'funds_flow_dir', 'CHECK_IN' );
 				$this->fundsdb->where ( 'server_id', $row->account_server_id );
 				$this->fundsdb->where ( 'partner_key', $partnerKey );
+				$this->fundsdb->where ( 'funds_time <=', $lastTimeEnd );
 				$this->fundsdb->where ( 'appstore_status', 0 );
 				$this->fundsdb->group_by ( 'account_guid' );
 				$query = $this->fundsdb->get ( 'funds_checkinout' );
