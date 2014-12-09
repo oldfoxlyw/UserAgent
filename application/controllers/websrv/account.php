@@ -462,14 +462,14 @@ class Account extends CI_Controller {
 			if($this->web_account->validate_duplicate($name, $pass, $server_id)) {
 				$jsonData = Array(
 					'success'	=>	1,
-					'error_code'=>	0,
+					// 'error_code'=>	0,
 					'message'	=>	'ACCOUNT_CHECK_SUCCESS'
 				);
 				echo $this->return_format->format($jsonData, $format);
 			} else {
 				$jsonData = Array(
 					'success'	=>	0,
-					'error_code'=>	ERROR_ACCOUNT_DUPLICATED,
+					// 'error_code'=>	ERROR_ACCOUNT_DUPLICATED,
 					'errors'	=>	'ACCOUNT_ERROR_DUPLICATE'
 				);
 				echo $this->return_format->format($jsonData, $format);
@@ -477,7 +477,7 @@ class Account extends CI_Controller {
 		} else {
 			$jsonData = Array(
 				'success'	=>	0,
-				'error_code'=>	ERROR_NO_PARAM,
+				// 'error_code'=>	ERROR_NO_PARAM,
 				'errors'	=>	'ACCOUNT_ERROR_NO_PARAM'
 			);
 			echo $this->return_format->format($jsonData, $format);
