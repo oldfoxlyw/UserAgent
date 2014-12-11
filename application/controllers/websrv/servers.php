@@ -90,8 +90,6 @@ class Servers extends CI_Controller {
 		//version
 		$version = $this->config->item('game_version');
 		$url = $this->config->item('game_download_url');
-		var_dump($version);
-		var_dump($ver);
 		if($ver < $version)
 		{
 			$jsonData = array_merge($jsonData, array(
