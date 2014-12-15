@@ -1,7 +1,7 @@
 <?php
 if (! defined ( 'BASEPATH' ))
 	exit ( 'No direct script access allowed' );
-class Overview extends CI_Controller
+class Overview1 extends CI_Controller
 {
 	private $accountdb = null;
 	private $logcachedb = null;
