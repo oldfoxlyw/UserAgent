@@ -106,6 +106,30 @@ class Market_life_time extends CI_Controller
 				$regNewCount = $this->accountdb->count_all_results ( 'web_account' );
 				log_message('custom', 'regNewCount = ' . $regNewCount);
 
+				//到当天为止付费总人数
+				$this->fundsdb->where ( 'funds_flow_dir', 'CHECK_IN' );
+				$this->fundsdb->where ( 'server_id', $row->account_server_id );
+				$this->fundsdb->where ( 'partner_key', $partnerKey );
+				$this->fundsdb->where ( 'funds_time <=', $lastTimeEnd );
+				$this->fundsdb->where ( 'appstore_status', 0 );
+				$this->fundsdb->group_by ( 'account_guid' );
+				$query = $this->fundsdb->get ( 'funds_checkinout' );
+				$rechargeAccountSum = $query->num_rows();
+				$query->free_result();
+				log_message('custom', 'rechargeAccountSum = ' . $rechargeAccountSum);
+
+				//到当天为止付费总金额
+				$this->fundsdb->select_sum ( 'funds_amount' );
+				$this->fundsdb->where ( 'funds_flow_dir', 'CHECK_IN' );
+				$this->fundsdb->where ( 'server_id', $row->account_server_id );
+				$this->fundsdb->where ( 'partner_key', $partnerKey );
+				$this->fundsdb->where ( 'appstore_status', 0 );
+				$query = $this->fundsdb->get ( 'funds_checkinout' );
+				$checkResult = $query->row ();
+				$ordersSum = intval ( $checkResult->funds_amount );
+				$query->free_result();
+				log_message('custom', 'ordersSum = ' . $ordersSum);
+
 				//当天付费人数
 				$sql = "select `account_guid` from `funds_checkinout` where `funds_flow_dir`='CHECK_IN' and `appstore_status`=0 and `funds_time` >= {$lastTimeStart} and `funds_time` <= {$lastTimeEnd} and `account_guid` in (select `GUID` from `agent1_account_db`.`web_account` where `server_id` = '{$row->account_server_id}' and `partner_key`='{$partnerKey}' and `account_regtime` >= {$lastTimeStart} and `account_regtime` <= {$lastTimeEnd}) group by `account_guid`";
 				$query = $this->fundsdb->query($sql);
@@ -130,7 +154,9 @@ class Market_life_time extends CI_Controller
 					'register_count'	=>	$regNewCount,
 					'paid_count_1'		=>	$paidCount1,
 					'paid_rate_1'		=>	$paidRate1,
-					'recharge_amount_1'	=>	$rechargeAmount1 ? $rechargeAmount1 : 0
+					'recharge_amount_1'	=>	$rechargeAmount1 ? $rechargeAmount1 : 0,
+					'recharge_amount_sum'=>	$rechargeAccountSum,
+					'order_sum'			=>	$ordersSum
 				);
 				$this->mlogmarketlifetime->create($parameter);
 				// var_dump($parameter);
