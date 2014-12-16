@@ -121,7 +121,6 @@ class Market_life_time1 extends CI_Controller
 				$result = $query->row();
 				$rechargeAmount1 = $result->amount;
 				$query->free_result();
-				exit($this->fundsdb->last_query());
 
 				//插入当天数据
 				$parameter = array(
@@ -159,6 +158,7 @@ class Market_life_time1 extends CI_Controller
 				$result = $query->row();
 				$rechargeAmount2 = $result->amount;
 				$query->free_result();
+				exit($this->fundsdb->last_query());
 
 				//更新两天前数据
 				$parameter = array(
