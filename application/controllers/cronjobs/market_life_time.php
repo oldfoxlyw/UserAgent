@@ -571,5 +571,15 @@ class Market_life_time extends CI_Controller
 		}
 		log_message('market_life_time end...');
 	}
+
+	public function rebuild_everyday()
+	{
+		set_time_limit(0);
+
+		log_message('rebuild_everyday start...');
+		$this->load->model('mlogmarketlifetime');
+		$result = $this->mlogmarketlifetime->read();
+		log_message('rebuild_everyday end...');
+	}
 }
 ?>
