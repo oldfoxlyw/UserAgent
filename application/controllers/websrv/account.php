@@ -843,7 +843,7 @@ class Account extends CI_Controller {
 		
 		$guid = $this->input->get_post('guid', TRUE);
 		$token = $this->input->get_post('token', TRUE);
-		
+		log_message('custom', 'token=' . $token . ', guid=' . $guid);
 		if(!empty($guid) && !empty($token))
 		{
 			$this->load->model('mtoken');
