@@ -88,8 +88,6 @@ class Servers1 extends CI_Controller {
 	
 	private function get_sdk_debug_list($id = '')
 	{
-		ini_set('display_error', 1);
-		error_reporting(E_ALL);
 		$serverIp	=	$this->input->server('SERVER_ADDR');
 		$ipFlag = 'ip';
 		$parameter = array();
@@ -109,6 +107,8 @@ class Servers1 extends CI_Controller {
 
 		$this->load->model('websrv/server', 'server');
 		$result = $this->server->getAllResult($parameter);
+		$productdb = $this->load->database('productdb', true);
+		exit($productdb->last_query());
 		
 		$lang = 'zh-cn';
 
