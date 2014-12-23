@@ -99,11 +99,11 @@ class Servers extends CI_Controller {
 		}
 		$parameter['order_by'] = 'server_recommend';
 
-		// $partner = $this->input->get_post('partner', TRUE);
-		// if(!empty($partner))
-		// {
-		// 	$parameter['partner'] = $partner;
-		// }
+		$partner = $this->input->get_post('partner', TRUE);
+		if(!empty($partner))
+		{
+			$parameter['partner'] = $partner;
+		}
 
 		$this->load->model('websrv/server', 'server');
 		$result = $this->server->getAllResult($parameter);
@@ -256,22 +256,31 @@ class Servers extends CI_Controller {
 			$result = array();
 		}
 		
-		if($partner == 'default' || $partner == 'default_full')
-		{
-			//$announcement = $this->config->item('game_announcement');
-		}
-		else
-		{
-			$announcement = array(
-				'announce' => array (
-					'id' => '1',
-					'summary' => '',
-					'content' => '',
-					'post_time' => '1394121601',
-					'partner_key' => 'default,default_full,91,17173,pp,Downjoy,zq,uc'
-				)
-			);
-		}
+		// if($partner == 'default' || $partner == 'default_full')
+		// {
+		// 	//$announcement = $this->config->item('game_announcement');
+		// }
+		// else
+		// {
+		// 	$announcement = array(
+		// 		'announce' => array (
+		// 			'id' => '1',
+		// 			'summary' => '',
+		// 			'content' => '',
+		// 			'post_time' => '1394121601',
+		// 			'partner_key' => 'default,default_full,91,17173,pp,Downjoy,zq,uc'
+		// 		)
+		// 	);
+		// }
+		$announcement = array(
+			'announce' => array (
+				'id' => '1',
+				'summary' => '',
+				'content' => '',
+				'post_time' => '1394121601',
+				'partner_key' => 'default,default_full,91,17173,pp,Downjoy,zq,uc'
+			)
+		);
 
 		$activate = 0;
 		
