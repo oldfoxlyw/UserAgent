@@ -94,7 +94,8 @@ class Servers extends CI_Controller {
 		if(!empty($id))
 		{
 			$parameter = array(
-					'account_server_id'		=>	$id
+					'account_server_id'		=>	$id,
+					'partner'				=>	$this->input->get_post('partner', TRUE)
 			);
 		}
 		$parameter['order_by'] = 'server_recommend';
