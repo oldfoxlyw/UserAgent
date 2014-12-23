@@ -104,7 +104,7 @@ class Servers1 extends CI_Controller {
 		$partner = $this->input->get_post('partner', TRUE);
 		if(!empty($partner))
 		{
-			$parameter['partner'] = $partner
+			$parameter['partner'] = $partner;
 		}
 
 		$this->load->model('websrv/server', 'server');
