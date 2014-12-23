@@ -94,11 +94,16 @@ class Servers extends CI_Controller {
 		if(!empty($id))
 		{
 			$parameter = array(
-					'account_server_id'		=>	$id,
-					'partner'				=>	$this->input->get_post('partner', TRUE)
+					'account_server_id'		=>	$id
 			);
 		}
 		$parameter['order_by'] = 'server_recommend';
+
+		$partner = $this->input->get_post('partner', TRUE);
+		if(!empty($partner))
+		{
+			$parameter['partner'] = $partner
+		}
 
 		$this->load->model('websrv/server', 'server');
 		$result = $this->server->getAllResult($parameter);
