@@ -108,7 +108,7 @@ class Servers1 extends CI_Controller {
 		$this->load->model('websrv/server', 'server');
 		$result = $this->server->getAllResult($parameter);
 		$productdb = $this->load->database('productdb', true);
-		exit($productdb->last_query());
+		// exit($productdb->last_query());
 		
 		$lang = 'zh-cn';
 
