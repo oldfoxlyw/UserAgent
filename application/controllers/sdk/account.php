@@ -285,6 +285,13 @@ class Account extends CI_Controller
 						'success'		=>	true,
 						'message'		=>	'SDK_DELETE_SUCCESS'
 				);
+				$logParameter = array(
+					'log_action'	=>	'SDK_DELETE_SUCCESS',
+					'account_guid'	=>	$guid,
+					'account_name'	=>	'',
+					'server_id'		=>	''
+				);
+				$this->logs->write($logParameter);
 			}
 			else
 			{
