@@ -36,7 +36,7 @@ $config ['game_server_list1'] = array (
 						'need_activate' => '0',
 						'server_starttime' => '0',
 						'server_game_port' => '9999' 
-				)，
+				),
 				array (
 						'id' => '3',
 						'game_id' => 'B',
