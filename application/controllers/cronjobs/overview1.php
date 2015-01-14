@@ -1,7 +1,7 @@
 <?php
 if (! defined ( 'BASEPATH' ))
 	exit ( 'No direct script access allowed' );
-class Overview_back extends CI_Controller
+class Overview1 extends CI_Controller
 {
 	private $accountdb = null;
 	private $logcachedb = null;
@@ -22,11 +22,11 @@ class Overview_back extends CI_Controller
 	public function statistics($server_id)
 	{
 		log_message('custom', 'overview start...');
-		// $this->load->model('mwebconfig');
-		// $this->mwebconfig->update(1, array(
-		// 	'config_close_scc'		=>	1,
-		// 	'config_close_reason'	=>	'缓存正在更新，请稍后……'
-		// ));
+		$this->load->model('mwebconfig');
+		$this->mwebconfig->update(1, array(
+			'config_close_scc'		=>	1,
+			'config_close_reason'	=>	'缓存正在更新，请稍后……'
+		));
 
 		ini_set("display_error", 1);
 		error_reporting(E_ALL);
@@ -190,12 +190,12 @@ class Overview_back extends CI_Controller
 				$flowoverCount = $this->accountdb->count_all_results ( 'web_account' );
 				log_message('custom', 'flowoverCount = ' . $flowoverCount);
 				// 流失玩家放入临时表
-				// $this->accountdb->where ( 'account_lastlogin <=', $weekAgoStart );
-				// $this->accountdb->where ( 'server_id', $row->account_server_id );
-				// $this->accountdb->where ( 'partner_key', $partnerKey );
-				// $query = $this->accountdb->get ( 'web_account' );
-				// $flowoverResult = $query->result ();
-				// log_message('custom', 'flowoverResult = ' . count($flowoverResult));
+				$this->accountdb->where ( 'account_lastlogin <=', $weekAgoStart );
+				$this->accountdb->where ( 'server_id', $row->account_server_id );
+				$this->accountdb->where ( 'partner_key', $partnerKey );
+				$query = $this->accountdb->get ( 'web_account' );
+				$flowoverResult = $query->result ();
+				log_message('custom', 'flowoverResult = ' . count($flowoverResult));
 				// if(!empty($flowoverResult))
 				// {
 				// 	$tmp = array();
@@ -251,7 +251,6 @@ class Overview_back extends CI_Controller
 				$checkResult = $query->row ();
 				$ordersSum = intval ( $checkResult->funds_amount );
 				$query->free_result();
-				log_message('custom', $this->fundsdb->last_query());
 				log_message('custom', 'ordersSum = ' . $ordersSum);
 				
 				// 当天充值人数
@@ -265,13 +264,13 @@ class Overview_back extends CI_Controller
 				$query = $this->fundsdb->get ( 'funds_checkinout' );
 				$rechargeAccount = $query->num_rows();
 				$query->free_result();
-				log_message('custom', $this->fundsdb->last_query());
 				log_message('custom', 'rechargeAccount = ' . $rechargeAccount);
 				
 				// 累计充值人数
 				$this->fundsdb->where ( 'funds_flow_dir', 'CHECK_IN' );
 				$this->fundsdb->where ( 'server_id', $row->account_server_id );
 				$this->fundsdb->where ( 'partner_key', $partnerKey );
+				$this->fundsdb->where ( 'funds_time <=', $lastTimeEnd );
 				$this->fundsdb->where ( 'appstore_status', 0 );
 				$this->fundsdb->group_by ( 'account_guid' );
 				$query = $this->fundsdb->get ( 'funds_checkinout' );
@@ -368,7 +367,7 @@ class Overview_back extends CI_Controller
 				);
 				var_dump($parameter);
 				// $this->logcachedb->insert ( 'log_daily_statistics', $parameter );
-				// log_message('custom', 'insert log_daily_statistics');
+				log_message('custom', 'insert log_daily_statistics');
 				
 				// $this->flowover_detail_statistics ( $date, $row->account_server_id, $partnerKey );
 				// $this->buy_equipment_statistics ( $date, $row->account_server_id, $partnerKey );
@@ -790,8 +789,8 @@ class Overview_back extends CI_Controller
                     'retention_180'              =>  $retention180,
                     'level1'					=>	$level1
 				);
-				var_dump($parameter);
-				// $this->logcachedb->insert('log_retention1', $parameter);
+				
+				$this->logcachedb->insert('log_retention1', $parameter);
 			}
 			
 
@@ -967,16 +966,15 @@ class Overview_back extends CI_Controller
 					'seven_retention_huge'		=>	$sevenRetentionHuge,
 					'level1'					=>	$level1
 			);
-			var_dump($parameter);
-			// $this->logcachedb->insert('log_retention1', $parameter);
+			$this->logcachedb->insert('log_retention1', $parameter);
 		}
 
-		// $this->load->model('mwebconfig');
-		// $this->mwebconfig->update(1, array(
-		// 	'config_close_scc'		=>	0,
-		// 	'config_close_reason'	=>	''
-		// ));
-		log_message('custom', 'overview end...');
+		$this->load->model('mwebconfig');
+		$this->mwebconfig->update(1, array(
+			'config_close_scc'		=>	0,
+			'config_close_reason'	=>	''
+		));
+		log_message('custom', 'retention end...');
 	}
 }
 ?>
