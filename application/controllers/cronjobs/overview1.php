@@ -28,8 +28,8 @@ class Overview1 extends CI_Controller
 			'config_close_reason'	=>	'缓存正在更新，请稍后……'
 		));
 
-		ini_set("display_error", 1);
-		error_reporting(E_ALL);
+		// ini_set("display_error", 1);
+		// error_reporting(E_ALL);
 		set_time_limit(3600);
 
 		$this->load->model ( 'websrv/server' );
