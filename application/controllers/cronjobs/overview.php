@@ -103,7 +103,7 @@ class Overview extends CI_Controller
 				
 				// 新有效帐号（建立角色的帐号）
 				$sql = "select `valid_account` from `log_daily_statistics` where `log_date`='{$preDate}' and `server_id`='" . $row->account_server_id . "' and `partner_key`='{$partnerKey}'";
-				$query = $this->logdb->query($sql);
+				$query = $this->logcachedb->query($sql);
 				$result = $query->result();
 				if(!empty($result))
 				{
