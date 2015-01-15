@@ -102,12 +102,15 @@ class Overview1 extends CI_Controller
 				log_message('custom', 'validCount = ' . $validCount);
 				
 				// 新有效帐号（建立角色的帐号）
-				$this->accountdb->where ( 'server_id', $row->account_server_id );
-				$this->accountdb->where ( 'partner_key', $partnerKey );
-				$this->accountdb->where ( 'account_regtime >=', $lastTimeStart );
-				$this->accountdb->where ( 'account_regtime <=', $lastTimeEnd );
-				$this->accountdb->where ( 'account_level >', 0 );
-				$validNewCount = $this->accountdb->count_all_results ( 'web_account' );
+				$sql = "select `valid_account` from `log_daily_statistics` where `log_date`='{$preDate}' and `server_id`='" . $row->account_server_id . "' and `partner_key`='{$partnerKey}'";
+				$query = $this->logdb->query($sql);
+				$result = $query->result();
+				if(!empty($result))
+				{
+					$validNewCount = $validCount - intval($result[0]->valid_account);
+				} else {
+					$validNewCount = $validCount;
+				}
 				log_message('custom', 'validNewCount = ' . $validNewCount);
 
 				// 等级大于1的帐号
