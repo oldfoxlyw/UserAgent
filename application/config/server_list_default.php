@@ -21,7 +21,7 @@ $config ['game_server_list1'] = array (
 						),
 						'server_game_ip' => '85.195.100.236',
 						'game_message_ip' => '10.11.12.15:8898',
-						'const_server_ip' => '85.195.100.234:6091',
+						'const_server_ip' => '85.195.100.234:445',
 						'voice_server_ip' => '85.195.100.236:6088',
 						'server_max_player' => '100000',
 						'account_count' => '0',
