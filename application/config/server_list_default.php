@@ -13,6 +13,7 @@ $config ['game_server_list1'] = array (
 						'section_id' => '302',
 						'account_server_id' => '302',
 						'server_name' => 'أسطورة الثلوج',
+						'use_ssl' => 1,
 						'server_ip' => array (
 								0 => array (
 										'ip' => '85.195.100.234:445' 
