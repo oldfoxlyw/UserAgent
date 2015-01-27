@@ -15,7 +15,7 @@ $config ['game_server_list1'] = array (
 						'server_name' => 'أسطورة الثلوج',
 						'server_ip' => array (
 								0 => array (
-										'ip' => '85.195.100.234:443' 
+										'ip' => '85.195.100.234:445' 
 								)
 						),
 						'server_game_ip' => '85.195.100.236',
