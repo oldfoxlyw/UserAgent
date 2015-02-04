@@ -73,14 +73,22 @@ $config ['game_server_list1'] = array (
 $config['game_announcement'] = array(
 		'announce' => array (
 				'id' => '1',
-				'summary' => "Notice:As it is impossible to know exactly how long our server maintenance will take, we’d like to forewarn all of you that the server may be down for slightly more or slightly less than 2 hours, this is just an estimated time.
+				'summary' => "Dear Player:
+We will be updating to a new version of Warthrone shortly in order to optimize our game servers performance. In order to update the game, our server will be shut down for an estimated two hours of maintenance on February 4th, from 21:00-23:00 (CST). While the server is down you will not be able to log into the game. Please help us to spread the message to all players, and we thank you for your cooperation and understanding.  
+
+Notice:
+As it is impossible to know exactly how long our server maintenance will take, we’d like to forewarn all of you that the server may be down for slightly more or slightly less than 2 hours, this is just an estimated time.
 
 Sincerely,
-The Warthrone Team",
-				'content' => "Notice:As it is impossible to know exactly how long our server maintenance will take, we’d like to forewarn all of you that the server may be down for slightly more or slightly less than 2 hours, this is just an estimated time.
+The Warthrone Team",
+				'content' => "Dear Player:
+We will be updating to a new version of Warthrone shortly in order to optimize our game servers performance. In order to update the game, our server will be shut down for an estimated two hours of maintenance on February 4th, from 21:00-23:00 (CST). While the server is down you will not be able to log into the game. Please help us to spread the message to all players, and we thank you for your cooperation and understanding.  
+
+Notice:
+As it is impossible to know exactly how long our server maintenance will take, we’d like to forewarn all of you that the server may be down for slightly more or slightly less than 2 hours, this is just an estimated time.
 
 Sincerely,
-The Warthrone Team"
+The Warthrone Team"
 		)
 );
 ?>
