@@ -43,16 +43,14 @@ $config ['game_server_list1'] = array (
 $config['game_announcement'] = array(
 		'announce' => array (
 				'id' => '1',
-				'summary' => "Welcome to the world of Warthrone! If you have any problems or suggestions for the game please contact customer support at: warthronesupport@fedeen.com. 
+				'summary' => "Notice:As it is impossible to know exactly how long our server maintenance will take, we’d like to forewarn all of you that the server may be down for slightly more or slightly less than 2 hours, this is just an estimated time.
 
-We've prepared plenty of events and gift packs, so don't forget to check out the events and package menus in the game. 
+Sincerely,
+The Warthrone Team",
+				'content' => "Notice:As it is impossible to know exactly how long our server maintenance will take, we’d like to forewarn all of you that the server may be down for slightly more or slightly less than 2 hours, this is just an estimated time.
 
-Good luck and enjoy your adventure.",
-				'content' => "Welcome to the world of Warthrone! If you have any problems or suggestions for the game please contact customer support at: warthronesupport@fedeen.com. 
-
-We've prepared plenty of events and gift packs, so don't forget to check out the events and package menus in the game. 
-
-Good luck and enjoy your adventure."
+Sincerely,
+The Warthrone Team"
 		)
 );
 ?>
