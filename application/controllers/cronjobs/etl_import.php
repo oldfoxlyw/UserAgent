@@ -12,7 +12,8 @@ class Etl_import extends CI_Controller
 		while(!feof($fp))
 		{
 			$sql = fgets($fp);
-			echo $database->query($sql) . "\n";
+			$result = $database->query($sql);
+			var_dump($result);
 		}
 		fclose($fp);
 	}
