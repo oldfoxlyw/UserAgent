@@ -8,9 +8,11 @@ class Etl_import extends CI_Controller
 		set_time_limit(0);
 
 		$fp = fopen('/var/dw/gold_log.log', 'r');
+		$database = $this->database->load('log_cachedb', TRUE);
 		while(!feof($fp))
 		{
-			echo fgets($fp) . "\n";
+			$sql = fgets($fp);
+			echo $database->query($sql) . "\n";
 		}
 		fclose($fp);
 	}
