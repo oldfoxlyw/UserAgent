@@ -13,15 +13,15 @@ $config ['game_server_list1'] = array (
 						'section_id' => '302',
 						'account_server_id' => '302',
 						'server_name' => 'أسطورة الثلوج',
-						'use_ssl' => 1,
+						'use_ssl' => 0,
 						'server_ip' => array (
 								0 => array (
-										'ip' => '85.195.100.234:445' 
+										'ip' => '85.195.100.234:6091' 
 								)
 						),
 						'server_game_ip' => '85.195.100.236',
 						'game_message_ip' => '10.11.12.15:8898',
-						'const_server_ip' => '85.195.100.234:445',
+						'const_server_ip' => '85.195.100.234:6091',
 						'voice_server_ip' => '85.195.100.236:6088',
 						'server_max_player' => '100000',
 						'account_count' => '0',
