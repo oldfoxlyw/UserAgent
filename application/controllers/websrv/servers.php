@@ -49,7 +49,7 @@ class Servers extends CI_Controller {
 
 			$type = 'sdk';
 		}
-		elseif($mode == 'pub' && $partner != 'default' && $partner != 'default_full' && $ver == '1.2')
+		elseif($mode == 'pub' && $partner != 'default' && $partner != 'default_full' && ($ver == '1.2' || $ver == '1.2.1'))
 		{
 			$this->load->config('server_list_sdk');
 			$jsonData = $this->config->item('game_server_list');
