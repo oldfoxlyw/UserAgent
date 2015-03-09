@@ -15,10 +15,15 @@ class Etl_import extends CI_Controller
 			$date = date('Ymd', $time);
 		}
 		log_message('custom', '------------------------------------------------------');
+		echo '------------------------------------------------------';
 		log_message('custom', 'Start to ETL progress...');
+		echo 'Start to ETL progress...';
 		log_message('custom', '------------------------------------------------------');
+		echo '------------------------------------------------------';
 		log_message('custom', 'Data: ' . $date);
+		echo 'Data: ' . $date;
 		log_message('custom', '------------------------------------------------------');
+		echo '------------------------------------------------------';
 
 		$list = array(
 			'arena_score_log',
@@ -34,6 +39,7 @@ class Etl_import extends CI_Controller
 		foreach($list as $item)
 		{
 			log_message('custom', 'Load ' . $item . '-' . $date);
+			echo 'Load ' . $item . '-' . $date;
 			$fp = popen("tar -xzvf /var/dw/{$item}-{$date}", 'r');
 			// $fp = fopen('/var/dw/gold_log.log', 'r');
 			$database = $this->load->database('log_cachedb', TRUE);
@@ -47,8 +53,11 @@ class Etl_import extends CI_Controller
 			pclose($fp);
 		}
 		log_message('custom', '------------------------------------------------------');
+		echo '------------------------------------------------------';
 		log_message('custom', 'ETL progress complete.');
+		echo 'ETL progress complete.';
 		log_message('custom', '------------------------------------------------------');
+		echo '------------------------------------------------------';
 	}
 }
 
