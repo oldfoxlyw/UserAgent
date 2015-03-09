@@ -15,15 +15,15 @@ class Etl_import extends CI_Controller
 			$date = date('Ymd', $time);
 		}
 		log_message('custom', '------------------------------------------------------');
-		echo '------------------------------------------------------';
+		echo "------------------------------------------------------\n";
 		log_message('custom', 'Start to ETL progress...');
-		echo 'Start to ETL progress...';
+		echo "Start to ETL progress...\n";
 		log_message('custom', '------------------------------------------------------');
-		echo '------------------------------------------------------';
+		echo "------------------------------------------------------\n";
 		log_message('custom', 'Data: ' . $date);
-		echo 'Data: ' . $date;
+		echo 'Data: ' . $date . "\n";
 		log_message('custom', '------------------------------------------------------');
-		echo '------------------------------------------------------';
+		echo "------------------------------------------------------\n";
 
 		$list = array(
 			'arena_score_log',
@@ -39,7 +39,7 @@ class Etl_import extends CI_Controller
 		foreach($list as $item)
 		{
 			log_message('custom', 'Load ' . $item . '-' . $date);
-			echo 'Load ' . $item . '-' . $date;
+			echo 'Load ' . $item . '-' . $date . "\n";
 			$fp = popen("tar -xzvf /var/dw/{$item}-{$date}", 'r');
 			// $fp = fopen('/var/dw/gold_log.log', 'r');
 			if(!empty($fp))
@@ -61,11 +61,11 @@ class Etl_import extends CI_Controller
 			}
 		}
 		log_message('custom', '------------------------------------------------------');
-		echo '------------------------------------------------------';
+		echo "------------------------------------------------------\n";
 		log_message('custom', 'ETL progress complete.');
-		echo 'ETL progress complete.';
+		echo "ETL progress complete.\n";
 		log_message('custom', '------------------------------------------------------');
-		echo '------------------------------------------------------';
+		echo "------------------------------------------------------\n";
 	}
 }
 
