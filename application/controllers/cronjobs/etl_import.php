@@ -22,8 +22,6 @@ class Etl_import extends CI_Controller
 		echo "------------------------------------------------------\n";
 		log_message('custom', 'Data: ' . $date);
 		echo 'Data: ' . $date . "\n";
-		log_message('custom', '------------------------------------------------------');
-		echo "------------------------------------------------------\n";
 
 		$list = array(
 			'arena_score_log',
@@ -38,6 +36,8 @@ class Etl_import extends CI_Controller
 		);
 		foreach($list as $item)
 		{
+			log_message('custom', '------------------------------------------------------');
+			echo "------------------------------------------------------\n";
 			log_message('custom', 'Load ' . $item . '-' . $date);
 			echo 'Load ' . $item . '-' . $date . "\n";
 			$fp = popen("tar -xzvf /var/dw/{$item}-{$date}", 'r');
