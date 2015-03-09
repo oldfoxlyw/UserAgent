@@ -9,6 +9,8 @@ class Etl_import extends CI_Controller
 		error_reporting(E_ALL);
 		set_time_limit(0);
 
+		echo 'down';
+
 		if(empty($date))
 		{
 			$time = time() - 2 * 86400;
