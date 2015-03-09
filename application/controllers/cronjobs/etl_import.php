@@ -3,10 +3,10 @@ if (! defined ( 'BASEPATH' )) exit ( 'No direct script access allowed' );
 
 class Etl_import extends CI_Controller
 {
-	public function import($date)
+	public function import($date = null)
 	{
-		error_reporting(E_ALL);
 		ini_set("display_errors", 1);
+		error_reporting(E_ALL);
 		set_time_limit(0);
 
 		if(empty($date))
