@@ -482,7 +482,7 @@ class Overview extends CI_Controller
 				
 				//昨日注册数
 				$prevTimeDate = date('Y-m-d', $prevTimeStart);
-				$sql = "SELECT `level_account` FROM `log_retention1` WHERE `log_date`='{$prevTimeDate}' AND `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}'";
+				$sql = "SELECT `level_account` FROM `log_retention` WHERE `log_date`='{$prevTimeDate}' AND `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}'";
 				$query = $this->logcachedb->query ( $sql );
 				$lastRegisterCount = $query->row();
 				if(empty($lastRegisterCount))
@@ -503,7 +503,7 @@ class Overview extends CI_Controller
 				
 				//三天前注册数
 				$thirdTimeDate = date('Y-m-d', $thirdTimeStart);
-				$sql = "SELECT `level_account` FROM `log_retention1` WHERE `log_date`='{$thirdTimeDate}' AND `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}'";
+				$sql = "SELECT `level_account` FROM `log_retention` WHERE `log_date`='{$thirdTimeDate}' AND `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}'";
 				$query = $this->logcachedb->query ( $sql );
 				$thirdRegisterCount = $query->row();
 				if(empty($thirdRegisterCount))
@@ -547,7 +547,7 @@ class Overview extends CI_Controller
 				
 				//七天前注册数
 				$sevenTimeDate = date('Y-m-d', $sevenTimeStart);
-				$sql = "SELECT `level_account` FROM `log_retention1` WHERE `log_date`='{$sevenTimeDate}' AND `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}'";
+				$sql = "SELECT `level_account` FROM `log_retention` WHERE `log_date`='{$sevenTimeDate}' AND `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}'";
 				$query = $this->logcachedb->query ( $sql );
 				$sevenRegisterCount = $query->row();
 				if(empty($sevenRegisterCount))
@@ -652,7 +652,7 @@ class Overview extends CI_Controller
 						'level1'					=>	$level1
 				);
 				
-				$this->logcachedb->insert('log_retention1', $parameter);
+				$this->logcachedb->insert('log_retention', $parameter);
 			}
 			
 
@@ -660,7 +660,7 @@ class Overview extends CI_Controller
 			
 			//昨日注册数
 			$prevTimeDate = date('Y-m-d', $prevTimeStart);
-			$sql = "SELECT `level_account` FROM `log_retention1` WHERE `log_date`='{$prevTimeDate}' AND `server_id`='{$row->account_server_id}' AND `partner_key`=''";
+			$sql = "SELECT `level_account` FROM `log_retention` WHERE `log_date`='{$prevTimeDate}' AND `server_id`='{$row->account_server_id}' AND `partner_key`=''";
 			$query = $this->logcachedb->query ( $sql );
 			$lastRegisterCount = $query->row();
 			if(empty($lastRegisterCount))
@@ -681,7 +681,7 @@ class Overview extends CI_Controller
 			
 			//三天前注册数
 			$thirdTimeDate = date('Y-m-d', $thirdTimeStart);
-			$sql = "SELECT `level_account` FROM `log_retention1` WHERE `log_date`='{$thirdTimeDate}' AND `server_id`='{$row->account_server_id}' AND `partner_key`=''";
+			$sql = "SELECT `level_account` FROM `log_retention` WHERE `log_date`='{$thirdTimeDate}' AND `server_id`='{$row->account_server_id}' AND `partner_key`=''";
 			$query = $this->logcachedb->query ( $sql );
 			$thirdRegisterCount = $query->row();
 			if(empty($thirdRegisterCount))
@@ -725,7 +725,7 @@ class Overview extends CI_Controller
 			
 			//七天前注册数
 			$sevenTimeDate = date('Y-m-d', $sevenTimeStart);
-			$sql = "SELECT `level_account` FROM `log_retention1` WHERE `log_date`='{$sevenTimeDate}' AND `server_id`='{$row->account_server_id}' AND `partner_key`=''";
+			$sql = "SELECT `level_account` FROM `log_retention` WHERE `log_date`='{$sevenTimeDate}' AND `server_id`='{$row->account_server_id}' AND `partner_key`=''";
 			$query = $this->logcachedb->query ( $sql );
 			$sevenRegisterCount = $query->row();
 			if(empty($sevenRegisterCount))
@@ -828,7 +828,7 @@ class Overview extends CI_Controller
 					'seven_retention_huge'		=>	$sevenRetentionHuge,
 					'level1'					=>	$level1
 			);
-			$this->logcachedb->insert('log_retention1', $parameter);
+			$this->logcachedb->insert('log_retention', $parameter);
 		}
 
 		$this->load->model('mwebconfig');
