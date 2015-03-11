@@ -45,7 +45,8 @@ class logs extends CI_Model {
 				'log_parameter'			=>	$relativeParameter,
 				'log_time'		=>	time(),
 				'log_ip'				=>	$requestIp,
-				'server_id'				=>	empty($parameter['server_id']) ? '' : $parameter['server_id']
+				'server_id'				=>	empty($parameter['server_id']) ? '' : $parameter['server_id'],
+				'partner_key'			=>	empty($parameter['partner_key']) ? '' : $parameter['partner_key']
 			);
 			$this->logdb->insert('log_api', $row);
 		}
