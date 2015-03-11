@@ -15,6 +15,9 @@ class Overview extends CI_Controller
 		$this->logcachedb = $this->load->database ( 'log_cachedb', true );
 		$this->logdb = $this->load->database ( 'logdb', true );
 		$this->fundsdb = $this->load->database ( 'fundsdb', true );
+		ini_set("display_error", 1);
+		error_reporting(E_ALL);
+		set_time_limit(0);
 	}
 
 	public function statistics($server_id)
@@ -25,10 +28,6 @@ class Overview extends CI_Controller
 			'config_close_scc'		=>	1,
 			'config_close_reason'	=>	'缓存正在更新，请稍后……'
 		));
-
-		ini_set("display_error", 1);
-		error_reporting(E_ALL);
-		set_time_limit(3600);
 		$this->load->model ( 'websrv/server' );
 		if(!empty($server_id))
 		{
