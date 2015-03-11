@@ -484,6 +484,7 @@ class Overview extends CI_Controller
 				$prevTimeDate = date('Y-m-d', $prevTimeStart);
 				$sql = "SELECT `level_account` FROM `log_retention` WHERE `log_date`='{$prevTimeDate}' AND `server_id`='{$row->account_server_id}' AND `partner_key`='{$partnerKey}'";
 				$query = $this->logcachedb->query ( $sql );
+				exit($this->logcachedb->last_query());
 				$lastRegisterCount = $query->row();
 				if(empty($lastRegisterCount))
 				{
